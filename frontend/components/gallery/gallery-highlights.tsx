@@ -3,19 +3,19 @@ import { Star } from "lucide-react"
 
 const highlights = [
   {
-    image: "/images/gallery-3.jpg",
-    title: "Annual Impact Awards 2025",
-    description: "Celebrating outstanding contributions by student leaders who made a real difference in their communities.",
+    image: "/ppes/sabha/IMG-20241014-WA0014.jpg",
+    title: "Community Disha Sabha",
+    description: "Engaging with students and addressing the community to foster an environment of growth.",
   },
   {
-    image: "/images/gallery-5.jpg",
-    title: "National Leadership Forum",
-    description: "A landmark event that brought together 300+ students and 20 speakers for two days of inspiration.",
+    image: "/ppes/events/ml_ai_workshop/m1.jpg",
+    title: "Disha Sabha Initiatives",
+    description: "A landmark event that brought together local leaders and students for inspiration.",
   },
   {
-    image: "/images/gallery-2.jpg",
-    title: "Hackathon for Good",
-    description: "120 students, 24 hours, and 15 projects aimed at solving real community challenges through technology.",
+    image: "/ppes/posters/IMG-20241202-WA0023.jpg",
+    title: "Educational Drives",
+    description: "Driving literacy campaigns and educational awareness throughout Savardhat.",
   },
 ]
 

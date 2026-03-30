@@ -2,6 +2,7 @@
 
 import { GraduationCap, Heart, Quote, ArrowRight, Star, Cpu, FlaskConical, BookOpen, Calculator, Globe } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 const mentors = [
     {
@@ -12,6 +13,7 @@ const mentors = [
     },
     {
         name: "Sir Omkar Kelkar",
+        image: "/ppes/gurujis/omkar.jpeg",
         role: "Guiding Mentor",
         contribution:
             "Providing strategic direction and mentorship to ensure the initiative stays true to its Gurukul roots.",
@@ -41,6 +43,7 @@ const faculties = [
     // ── Founding Members ───────────────────────────────────────────────────
     {
         name: "Chandrashekhar Laxuman Parab Gaonkar",
+        image: "/ppes/gurujis/chandra.jpeg",
         studies: "Second Year Bachelor of Science",
         role: "Founding Member",
         department: "Founding",
@@ -51,6 +54,7 @@ const faculties = [
     },
     {
         name: "Anish Bhiva Naik",
+        image: "/ppes/gurujis/anish.jpeg",
         studies: "Second Year Bachelor of Arts",
         role: "Founding Member",
         department: "Founding",
@@ -61,6 +65,7 @@ const faculties = [
     },
     {
         name: "Parth Karpe",
+        image: "/ppes/gurujis/parth.jpeg",
         studies: "Second Year, Computer Engineering",
         role: "Founding Member",
         department: "Founding",
@@ -71,6 +76,7 @@ const faculties = [
     },
     {
         name: "Samesh Parsekar",
+        image: "/ppes/gurujis/samesh.jpeg",
         studies: "Second Year Bachelor of Science",
         role: "Founding Member",
         department: "Founding",
@@ -83,6 +89,7 @@ const faculties = [
     // ── Administration ─────────────────────────────────────────────────────
     {
         name: "Prathamesh Shinde",
+        image: "/ppes/gurujis/prathamesh.jpeg",
         studies: "B.A.B.Ed. Graduate",
         role: "Administrator",
         department: "Administration",
@@ -93,6 +100,7 @@ const faculties = [
     },
     {
         name: "Adarsh Sajikumar Pillai",
+        image: "/ppes/gurujis/adarsh.jpeg",
         studies: "Second Year Bachelor of Commerce",
         role: "Finance Manager",
         department: "Administration",
@@ -105,6 +113,7 @@ const faculties = [
     // ── Science Department ─────────────────────────────────────────────────
     {
         name: "Saisha Naik",
+        image: "/ppes/gurujis/saisha.jpeg",
         studies: "Third Year Bachelor of Science, B.Ed",
         role: "Head of Science Department",
         department: "Science Department",
@@ -115,6 +124,7 @@ const faculties = [
     },
     {
         name: "Anisha Gad",
+        image: "/ppes/gurujis/anisha.jpeg",
         studies: "Third Year Bachelor of Science, B.Ed",
         role: "Teacher, Science Department",
         department: "Science Department",
@@ -125,6 +135,7 @@ const faculties = [
     },
     {
         name: "Mansi Mandrekar",
+        image: "/ppes/gurujis/mansi.jpeg",
         studies: "Second Year Bachelor of Arts",
         role: "Teacher, Science Department",
         department: "Science Department",
@@ -135,6 +146,7 @@ const faculties = [
     },
     {
         name: "Moheet Gaonkar",
+        image: "/ppes/gurujis/moheet.jpeg",
         studies: "Second Year Computer Engineering",
         role: "Teacher, Science Department & Digital Wing",
         department: "Science & Digital Wing",
@@ -145,6 +157,7 @@ const faculties = [
     },
     {
         name: "Chinmayee Kelkar",
+        image: "/ppes/gurujis/chinmayee.jpeg",
         studies: "Second Year Engineering",
         role: "Teacher, Science Department & Digital Wing",
         department: "Science & Digital Wing",
@@ -157,6 +170,7 @@ const faculties = [
     // ── Mathematics Department ─────────────────────────────────────────────
     {
         name: "Salil Parab",
+        image: "/ppes/gurujis/salil.jpeg",
         studies: "Second Year Bachelor of Commerce",
         role: "Teacher, Mathematics Department",
         department: "Mathematics Department",
@@ -169,6 +183,7 @@ const faculties = [
     // ── English & Social Science Department ───────────────────────────────
     {
         name: "Durva Govekar",
+        image: "/ppes/gurujis/durva.jpeg",
         studies: "B.A.B.Ed. Graduate",
         role: "Head of English and Social Science Department",
         department: "English & Social Science",
@@ -179,6 +194,7 @@ const faculties = [
     },
     {
         name: "Roush Fernandez",
+        image: "/ppes/gurujis/roush.jpeg",
         studies: "Second Year Bachelor of Commerce",
         role: "Teacher, English and Social Science Department",
         department: "English & Social Science",
@@ -247,8 +263,12 @@ export default function FacultiesPage() {
                                 key={mentor.name}
                                 className="flex flex-col items-center rounded-2xl border border-[#C9A227]/20 bg-[#C9A227]/5 p-8 text-center transition-all hover:bg-[#C9A227]/10"
                             >
-                                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#C9A227]/20 text-[#1F4E79]">
-                                    <Heart className="h-8 w-8 text-[#C9A227]" />
+                                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#C9A227]/20 text-[#1F4E79] overflow-hidden relative">
+                                    {mentor.image ? (
+                                        <Image src={mentor.image} alt={mentor.name} fill className="object-cover" />
+                                    ) : (
+                                        <Heart className="h-8 w-8 text-[#C9A227]" />
+                                    )}
                                 </div>
                                 <h3 className="mt-6 text-xl font-bold text-[#1F4E79]">
                                     {mentor.name}
@@ -307,8 +327,12 @@ export default function FacultiesPage() {
                                                 {/* Avatar */}
                                                 <div className="px-6 pb-8">
                                                     <div className="-mt-12 mb-4 flex justify-center">
-                                                        <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-white shadow-sm">
-                                                            <IconComp className="h-10 w-10 text-[#1F4E79]" />
+                                                        <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-white shadow-sm overflow-hidden relative">
+                                                            {faculty.image ? (
+                                                                <Image src={faculty.image} alt={faculty.name} fill className="object-cover" />
+                                                            ) : (
+                                                                <IconComp className="h-10 w-10 text-[#1F4E79]" />
+                                                            )}
                                                         </div>
                                                     </div>
 

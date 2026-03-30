@@ -8,7 +8,7 @@ const articles = [
     author: "Priya Nair",
     readTime: "5 min",
     category: "Workshops",
-    image: "/images/gallery-4.jpg",
+    image: "/ppes/events/my_health_my_growth/mhmg3.jpg",
     excerpt:
       "Organizing a workshop from scratch taught me more about leadership than any textbook ever could. Here are the key lessons.",
   },
@@ -17,7 +17,7 @@ const articles = [
     author: "Arjun Patel",
     readTime: "6 min",
     category: "Student Stories",
-    image: "/images/gallery-2.jpg",
+    image: "/ppes/events/ml_ai_workshop/m5.jpg",
     excerpt:
       "Our team came together with different skills and one shared goal. Here is how we built something meaningful in 24 hours.",
   },
@@ -26,7 +26,7 @@ const articles = [
     author: "Sneha Iyer",
     readTime: "4 min",
     category: "Personal Growth",
-    image: "/images/gallery-6.jpg",
+    image: "/ppes/sabha/IMG-20241201-WA0036.jpg",
     excerpt:
       "A good mentor can change the trajectory of your career. Here is how I found mine and why mentorship is worth seeking out.",
   },
@@ -35,7 +35,7 @@ const articles = [
     author: "Divya R.",
     readTime: "7 min",
     category: "Personal Growth",
-    image: "/images/gallery-1.jpg",
+    image: "/ppes/events/ml_ai_workshop/m6.jpg",
     excerpt:
       "My journey from dreading presentations to actively seeking speaking opportunities, and the one workshop that changed it all.",
   },
@@ -44,7 +44,7 @@ const articles = [
     author: "Rahul Sharma",
     readTime: "5 min",
     category: "Leadership",
-    image: "/images/gallery-3.jpg",
+    image: "/ppes/events/ml_ai_workshop/m7.jpg",
     excerpt:
       "College communities often dissolve after graduation. Here is how Prarambha Path is building connections that endure.",
   },
@@ -53,7 +53,7 @@ const articles = [
     author: "Prof. Karan Mehta",
     readTime: "6 min",
     category: "Workshops",
-    image: "/images/workshop-featured.jpg",
+    image: "/ppes/events/my_health_my_growth/mhmg4.jpg",
     excerpt:
       "Design thinking is a problem-solving framework that every student should learn, regardless of their field of study.",
   },

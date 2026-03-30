@@ -5,19 +5,19 @@ const pastWorkshops = [
     title: "Leadership Essentials Bootcamp",
     date: "October 2025",
     participants: "85",
-    image: "/images/gallery-5.jpg",
+    image: "/ppes/sabha/IMG-20241201-WA0014.jpg",
   },
   {
     title: "Creative Problem Solving",
     date: "August 2025",
     participants: "60",
-    image: "/images/gallery-4.jpg",
+    image: "/ppes/events/my_health_my_growth/mhmg2.jpg",
   },
   {
     title: "Public Speaking Intensive",
     date: "June 2025",
     participants: "45",
-    image: "/images/gallery-1.jpg",
+    image: "/ppes/events/ml_ai_workshop/m4.jpg",
   },
 ]
 

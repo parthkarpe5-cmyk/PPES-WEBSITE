@@ -9,7 +9,7 @@ export function FeaturedArticle() {
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
             <Image
-              src="/images/gallery-5.jpg"
+              src="/ppes/posters/IMG-20241202-WA0023.jpg"
               alt="Featured article about student leadership"
               fill
               className="object-cover"

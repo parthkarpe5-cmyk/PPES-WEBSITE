@@ -6,25 +6,25 @@ const pastEvents = [
     title: "Leadership Workshop 2025",
     date: "November 2025",
     attendees: "180+",
-    image: "/images/gallery-1.jpg",
+    image: "/ppes/events/ml_ai_workshop/m2.jpg",
   },
   {
     title: "Hackathon for Good",
     date: "September 2025",
     attendees: "120+",
-    image: "/images/gallery-2.jpg",
+    image: "/ppes/events/ml_ai_workshop/m3.jpg",
   },
   {
     title: "Annual Impact Award Ceremony",
     date: "July 2025",
     attendees: "250+",
-    image: "/images/gallery-3.jpg",
+    image: "/ppes/sabha/IMG-20241014-WA0016.jpg",
   },
   {
     title: "Design Sprint Workshop",
     date: "May 2025",
     attendees: "90+",
-    image: "/images/gallery-4.jpg",
+    image: "/ppes/events/my_health_my_growth/mhmg1.jpg",
   },
 ]
 

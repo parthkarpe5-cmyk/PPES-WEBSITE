@@ -5,14 +5,14 @@ import { useState } from "react"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 
 const images = [
-  { src: "/images/gallery-1.jpg", alt: "Community outreach event", event: "Impact Drive 2025" },
-  { src: "/images/gallery-2.jpg", alt: "Hackathon collaboration", event: "Hackathon for Good" },
-  { src: "/images/gallery-3.jpg", alt: "Award ceremony", event: "Annual Awards 2025" },
-  { src: "/images/gallery-4.jpg", alt: "Design thinking workshop", event: "Design Sprint" },
-  { src: "/images/gallery-5.jpg", alt: "Panel discussion", event: "Leadership Forum" },
-  { src: "/images/gallery-6.jpg", alt: "Campus group discussion", event: "Campus Connect" },
-  { src: "/images/hero-bg.jpg", alt: "Workshop session", event: "Workshop Day" },
-  { src: "/images/workshop-featured.jpg", alt: "Featured workshop presentation", event: "Public Speaking" },
+  { src: "/ppes/trips/panjim_trip/p1.jpg", alt: "Students exploring during Panjim Trip", event: "Panjim Trip" },
+  { src: "/ppes/trips/panjim_trip/p2.jpg", alt: "Group photo at Panjim", event: "Panjim Trip" },
+  { src: "/ppes/trips/panjim_trip/p3.jpg", alt: "Learning out of bounds", event: "Panjim Trip" },
+  { src: "/ppes/trips/panjim_trip/p4.jpg", alt: "Panjim street walk", event: "Panjim Trip" },
+  { src: "/ppes/trips/panjim_trip/p5.jpg", alt: "Panjim trip memories", event: "Panjim Trip" },
+  { src: "/ppes/trips/nature_hunt/n1.jpeg", alt: "Exploring nature", event: "Nature Hunt" },
+  { src: "/ppes/trips/nature_hunt/n2.jpeg", alt: "Botanical discovery", event: "Nature Hunt" },
+  { src: "/ppes/trips/nature_hunt/n3.jpeg", alt: "Nature trail walk", event: "Nature Hunt" },
 ]
 
 export function GalleryGrid() {
