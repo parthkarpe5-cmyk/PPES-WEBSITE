@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import {
     Calendar,
     MapPin,
@@ -18,12 +19,15 @@ import {
 function GalleryCard({ item }: { item: GalleryItem }) {
     return (
         <div className="group overflow-hidden rounded-2xl border border-border bg-white transition-all hover:shadow-xl hover:shadow-[#2FA8CC]/8">
-            {/* Thumbnail placeholder */}
-            <div
-                className={`relative flex h-52 items-center justify-center bg-gradient-to-br ${item.gradient}`}
-            >
-                <span className="text-5xl">{item.icon}</span>
-                <div className="absolute inset-0 bg-black/0 transition-all group-hover:bg-black/10" />
+            {/* Thumbnail Image */}
+            <div className="relative flex h-52 items-center justify-center overflow-hidden">
+                <Image
+                    src={item.thumbnail}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent transition-all group-hover:bg-black/20 z-10" />
                 {/* Category badge */}
                 <span className="absolute right-3 top-3 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
                     {categoryLabels[item.category]}

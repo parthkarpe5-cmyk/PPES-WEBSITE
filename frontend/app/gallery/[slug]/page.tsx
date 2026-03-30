@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import {
     ArrowLeft,
     Calendar,
@@ -53,14 +54,8 @@ function Lightbox({
 
             {/* Image container */}
             <div className="flex max-h-[80vh] max-w-[90vw] flex-col items-center">
-                <div className="flex h-[70vh] w-full items-center justify-center rounded-xl bg-gradient-to-br from-[#1F4E79] to-[#2FA8CC] p-16">
-                    <div className="text-center text-white">
-                        <p className="text-6xl mb-4">📸</p>
-                        <p className="text-lg font-medium">{image.alt}</p>
-                        <p className="mt-2 text-sm text-white/50">
-                            Image {currentIndex + 1} of {images.length}
-                        </p>
-                    </div>
+                <div className="relative flex h-[70vh] w-[80vw] items-center justify-center rounded-xl overflow-hidden bg-black/50">
+                    <Image src={image.src} alt={image.alt} fill className="object-contain" />
                 </div>
                 <p className="mt-3 text-sm text-white/60">{image.alt}</p>
             </div>
@@ -130,10 +125,9 @@ export default function GalleryDetailPage() {
             )}
 
             {/* Large header */}
-            <section
-                className={`relative flex h-72 items-end bg-gradient-to-br ${item.gradient} md:h-96`}
-            >
-                <div className="absolute inset-0 bg-black/20" />
+            <section className="relative flex h-72 items-end md:h-96 overflow-hidden">
+                <Image src={item.thumbnail} alt={item.title} fill className="object-cover" priority />
+                <div className="absolute inset-0 bg-black/60" />
                 <div className="relative mx-auto w-full max-w-7xl px-6 pb-10">
                     <Link
                         href="/gallery"
@@ -143,7 +137,7 @@ export default function GalleryDetailPage() {
                         Back to Gallery
                     </Link>
                     <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-                        {item.icon} {item.title}
+                        {item.title}
                     </h1>
                     <div className="mt-3 flex flex-wrap gap-4 text-sm text-white/75">
                         <span className="inline-flex items-center gap-1.5">
@@ -181,13 +175,11 @@ export default function GalleryDetailPage() {
                                 <button
                                     key={index}
                                     onClick={() => setLightboxIndex(index)}
-                                    className={`group relative flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br ${item.gradient} transition-all hover:shadow-lg`}
+                                    className="group relative flex items-center justify-center overflow-hidden rounded-xl bg-muted transition-all hover:shadow-lg"
                                     style={{ aspectRatio: index === 0 ? "16/12" : "4/3" }}
                                 >
-                                    <span className="text-4xl transition-transform group-hover:scale-110">
-                                        📸
-                                    </span>
-                                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all group-hover:bg-black/30">
+                                    <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                                    <div className="absolute inset-0 flex items-center justify-center bg-transparent transition-all group-hover:bg-black/30">
                                         <div className="scale-0 rounded-full bg-white/20 p-3 backdrop-blur-sm transition-transform group-hover:scale-100">
                                             <Play className="h-6 w-6 text-white" />
                                         </div>

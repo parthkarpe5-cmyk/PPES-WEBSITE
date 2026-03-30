@@ -18,7 +18,7 @@ const pastEvents = [
     title: "Annual Impact Award Ceremony",
     date: "July 2025",
     attendees: "250+",
-    image: "/ppes/sabha/IMG-20241014-WA0016.jpg",
+    image: "/ppes/sabha/IMG-20241014-WA0020.jpg",
   },
   {
     title: "Design Sprint Workshop",

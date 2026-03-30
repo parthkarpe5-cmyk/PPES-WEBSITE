@@ -3,7 +3,7 @@ import { Star } from "lucide-react"
 
 const highlights = [
   {
-    image: "/ppes/sabha/IMG-20241014-WA0014.jpg",
+    image: "/ppes/sabha/IMG-20241014-WA0020.jpg",
     title: "Community Disha Sabha",
     description: "Engaging with students and addressing the community to foster an environment of growth.",
   },

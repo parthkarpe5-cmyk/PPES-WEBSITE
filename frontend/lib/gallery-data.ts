@@ -38,12 +38,12 @@ export const galleryItems: GalleryItem[] = [
         shortDescription:
             "A day of sportsmanship and teamwork across village grounds.",
         participants: "50+ students",
-        thumbnail: "/gallery/sports-day.jpg",
+        thumbnail: "/ppes/sabha/IMG-20241014-WA0020.jpg",
         images: [
-            { src: "/gallery/sports-day-1.jpg", alt: "Students ready for the 100m race" },
-            { src: "/gallery/sports-day-2.jpg", alt: "Tug of war championship" },
-            { src: "/gallery/sports-day-3.jpg", alt: "Winners receiving medals" },
-            { src: "/gallery/sports-day-4.jpg", alt: "Group photo after the event" },
+            { src: "/ppes/sabha/IMG-20241201-WA0014.jpg", alt: "Students ready for the 100m race" },
+            { src: "/ppes/sabha/IMG-20241201-WA0028.jpg", alt: "Tug of war championship" },
+            { src: "/ppes/sabha/IMG-20241201-WA0033.jpg", alt: "Winners receiving medals" },
+            { src: "/ppes/sabha/IMG-20241201-WA0008.jpg", alt: "Group photo after the event" },
         ],
         studentQuote: {
             text: "I never knew running could feel so good when your friends are cheering for you.",
@@ -62,12 +62,12 @@ export const galleryItems: GalleryItem[] = [
             "An evening dedicated to celebrating our roots. Students performed traditional Goan folk dances, sang Konkani songs, enacted short plays about village life, and showcased their oratory skills. The stage was theirs — and they owned it with pride and grace.",
         shortDescription:
             "Celebrating roots through folk dance, music, and drama.",
-        thumbnail: "/gallery/cultural-event.jpg",
+        thumbnail: "/ppes/events/my_health_my_growth/mhmg10.jpg",
         images: [
-            { src: "/gallery/cultural-1.jpg", alt: "Traditional dance performance" },
-            { src: "/gallery/cultural-2.jpg", alt: "Students singing Konkani songs" },
-            { src: "/gallery/cultural-3.jpg", alt: "Drama skit about village life" },
-            { src: "/gallery/cultural-4.jpg", alt: "Audience enjoying the show" },
+            { src: "/ppes/events/my_health_my_growth/mhmg12.jpg", alt: "Traditional dance performance" },
+            { src: "/ppes/events/my_health_my_growth/mhmg13.jpg", alt: "Students singing Konkani songs" },
+            { src: "/ppes/events/my_health_my_growth/mhmg14.jpg", alt: "Drama skit about village life" },
+            { src: "/ppes/events/my_health_my_growth/mhmg15.jpg", alt: "Audience enjoying the show" },
         ],
         studentQuote: {
             text: "Performing in front of everyone made me realize I can do things I never imagined.",
@@ -86,11 +86,11 @@ export const galleryItems: GalleryItem[] = [
             "Dr. Amita Suryawanshi led a health awareness session covering hygiene, nutrition, and preventive care. Students learned about basic first aid, the importance of clean water, and how simple habits can transform health outcomes. Villagers were also invited, making it a community-wide event.",
         shortDescription:
             "Health awareness session led by Dr. Amita Suryawanshi.",
-        thumbnail: "/gallery/healthcare-camp.jpg",
+        thumbnail: "/ppes/events/my_health_my_growth/mhmg1.jpg",
         images: [
-            { src: "/gallery/healthcare-1.jpg", alt: "Dr. Amita addressing students" },
-            { src: "/gallery/healthcare-2.jpg", alt: "Hands-on first aid training" },
-            { src: "/gallery/healthcare-3.jpg", alt: "Health check-up station" },
+            { src: "/ppes/events/my_health_my_growth/mhmg2.jpg", alt: "Dr. Amita addressing students" },
+            { src: "/ppes/events/my_health_my_growth/mhmg3.jpg", alt: "Hands-on first aid training" },
+            { src: "/ppes/events/my_health_my_growth/mhmg4.jpg", alt: "Health check-up station" },
         ],
         studentQuote: {
             text: "We learned that staying healthy starts with small decisions every day.",
@@ -109,11 +109,11 @@ export const galleryItems: GalleryItem[] = [
             "A hands-on introductory workshop on Machine Learning concepts. Students explored how computers learn from data, built simple classification models, and understood AI's real-world applications. The workshop bridged the gap between rural education and cutting-edge technology.",
         shortDescription:
             "Introducing rural students to the world of AI and ML.",
-        thumbnail: "/gallery/ml-workshop.jpg",
+        thumbnail: "/ppes/events/ml_ai_workshop/m1.jpg",
         images: [
-            { src: "/gallery/ml-1.jpg", alt: "Students exploring ML concepts" },
-            { src: "/gallery/ml-2.jpg", alt: "Interactive coding session" },
-            { src: "/gallery/ml-3.jpg", alt: "Group discussion on AI applications" },
+            { src: "/ppes/events/ml_ai_workshop/m2.jpg", alt: "Students exploring ML concepts" },
+            { src: "/ppes/events/ml_ai_workshop/m3.jpg", alt: "Interactive coding session" },
+            { src: "/ppes/events/ml_ai_workshop/m4.jpg", alt: "Group discussion on AI applications" },
         ],
         gradient: "from-cyan-500 to-blue-700",
         icon: "🤖",
@@ -130,13 +130,13 @@ export const galleryItems: GalleryItem[] = [
             "Students visited Miramar Beach, the Goa Science Centre, Yog Path, and the State Museum in Panjim. For many, this was their first trip outside the village. They explored Goa's history, touched science exhibits, walked along the sea, and returned with stories that changed how they see their own world.",
         shortDescription:
             "Exploring Panjim — Miramar, Science Centre, Museum, and more.",
-        thumbnail: "/gallery/panjim-trip.jpg",
+        thumbnail: "/ppes/trips/panjim_trip/p1.jpg",
         images: [
-            { src: "/gallery/panjim-1.jpg", alt: "Students at Miramar Beach" },
-            { src: "/gallery/panjim-2.jpg", alt: "Inside the Science Centre" },
-            { src: "/gallery/panjim-3.jpg", alt: "Exploring the State Museum" },
-            { src: "/gallery/panjim-4.jpg", alt: "Group photo at Yog Path" },
-            { src: "/gallery/panjim-5.jpg", alt: "Students on the bus back home" },
+            { src: "/ppes/trips/panjim_trip/p2.jpg", alt: "Students at Miramar Beach" },
+            { src: "/ppes/trips/panjim_trip/p3.jpg", alt: "Inside the Science Centre" },
+            { src: "/ppes/trips/panjim_trip/p4.jpg", alt: "Exploring the State Museum" },
+            { src: "/ppes/trips/panjim_trip/p5.jpg", alt: "Group photo at Yog Path" },
+            { src: "/ppes/trips/panjim_trip/p6.jpg", alt: "Students on the bus back home" },
         ],
         studentQuote: {
             text: "There was so much to learn in our own area, but today it felt different and more beautiful.",
@@ -155,12 +155,12 @@ export const galleryItems: GalleryItem[] = [
             "An environmental awareness walk through the village's natural landscape. Students identified local plant species, learned about biodiversity, discussed deforestation impacts, and documented their findings. The trip reinforced the idea that education can happen anywhere — especially in nature.",
         shortDescription:
             "Discovering biodiversity and environmental awareness in our own backyard.",
-        thumbnail: "/gallery/nature-hunt.jpg",
+        thumbnail: "/ppes/trips/nature_hunt/n1.jpeg",
         images: [
-            { src: "/gallery/nature-1.jpg", alt: "Students on the forest trail" },
-            { src: "/gallery/nature-2.jpg", alt: "Identifying local plant species" },
-            { src: "/gallery/nature-3.jpg", alt: "Stream crossing adventure" },
-            { src: "/gallery/nature-4.jpg", alt: "Group reflection session outdoors" },
+            { src: "/ppes/trips/nature_hunt/n2.jpeg", alt: "Students on the forest trail" },
+            { src: "/ppes/trips/nature_hunt/n3.jpeg", alt: "Identifying local plant species" },
+            { src: "/ppes/trips/nature_hunt/n4.jpeg", alt: "Stream crossing adventure" },
+            { src: "/ppes/trips/nature_hunt/n5.jpeg", alt: "Group reflection session outdoors" },
         ],
         studentQuote: {
             text: "I walk past these trees every day, but today I actually saw them for the first time.",
@@ -182,11 +182,11 @@ export const galleryItems: GalleryItem[] = [
         shortDescription:
             "Creativity on canvas — students paint their dreams and roots.",
         participants: "35+ students",
-        thumbnail: "/gallery/painting.jpg",
+        thumbnail: "/ppes/shiksha_sarvarthi/IMG-20240615-WA0006.jpg",
         images: [
-            { src: "/gallery/painting-1.jpg", alt: "Student focused on painting" },
-            { src: "/gallery/painting-2.jpg", alt: "Colourful artworks on display" },
-            { src: "/gallery/painting-3.jpg", alt: "Winners with certificates" },
+            { src: "/ppes/shiksha_sarvarthi/IMG-20240615-WA0010.jpg", alt: "Student focused on painting" },
+            { src: "/ppes/shiksha_sarvarthi/IMG-20240615-WA0024.jpg", alt: "Colourful artworks on display" },
+            { src: "/ppes/shiksha_sarvarthi/IMG-20240615-WA0026.jpg", alt: "Winners with certificates" },
         ],
         gradient: "from-pink-500 to-fuchsia-700",
         icon: "🎨",
@@ -202,12 +202,12 @@ export const galleryItems: GalleryItem[] = [
         shortDescription:
             "Inter-class sports tournament building discipline and camaraderie.",
         participants: "40+ students",
-        thumbnail: "/gallery/sports-comp.jpg",
+        thumbnail: "/ppes/sabha/IMG-20240616-WA0000.jpg",
         images: [
-            { src: "/gallery/sports-comp-1.jpg", alt: "Cricket match in progress" },
-            { src: "/gallery/sports-comp-2.jpg", alt: "Kabaddi tournament" },
-            { src: "/gallery/sports-comp-3.jpg", alt: "Athletics events" },
-            { src: "/gallery/sports-comp-4.jpg", alt: "Prize distribution ceremony" },
+            { src: "/ppes/sabha/IMG-20240622-WA0029.jpg", alt: "Cricket match in progress" },
+            { src: "/ppes/sabha/IMG-20240625-WA0011.jpg", alt: "Kabaddi tournament" },
+            { src: "/ppes/sabha/IMG-20240626-WA0023.jpg", alt: "Athletics events" },
+            { src: "/ppes/sabha/IMG-20240626-WA0025.jpg", alt: "Prize distribution ceremony" },
         ],
         gradient: "from-blue-500 to-indigo-700",
         icon: "🏆",
