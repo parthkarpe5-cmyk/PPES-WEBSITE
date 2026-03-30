@@ -1,75 +1,127 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, MapPin } from "lucide-react"
+import { ArrowRight, MapPin, Sparkles } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export function HeroSection() {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#1F4E79] via-[#2FA8CC] to-[#1F4E79]">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute -left-20 -top-20 h-80 w-80 rounded-full bg-[#FF6B00] blur-3xl" />
-        <div className="absolute -bottom-20 -right-20 h-80 w-80 rounded-full bg-[#C9A227] blur-3xl" />
-        <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/20 blur-3xl" />
+    <section className="relative min-h-[92vh] overflow-hidden bg-[#0a192f] flex items-center">
+      {/* Animated gradient mesh */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-[#2FA8CC]/20 blur-[120px] animate-pulse-slow" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[#1F4E79]/40 blur-[100px]" style={{ animationDelay: '1s' }} />
+        <div className="absolute -bottom-32 -right-32 h-[600px] w-[600px] rounded-full bg-[#FF6B00]/15 blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+
+        {/* Subtle dot-grid texture */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+          }}
+        />
       </div>
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 py-28 text-center lg:py-40">
-        {/* Logo badge */}
-        <div className="mb-8 flex h-32 w-32 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 shadow-lg backdrop-blur-sm">
-          <Image
-            src="/logo.jpeg"
-            alt="P.P.E.S. Logo"
-            width={100}
-            height={100}
-            className="rounded-full"
-          />
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 py-32 text-center lg:py-44">
+        {/* Floating badge */}
+        <div
+          className={`mb-8 inline-flex items-center gap-2 rounded-full border border-[#C9A227]/30 bg-[#C9A227]/10 px-5 py-2 text-xs font-semibold uppercase tracking-widest text-[#C9A227] backdrop-blur-sm transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          style={{ transitionDelay: "100ms" }}
+        >
+          <Sparkles className="h-3.5 w-3.5" />
+          Since 2024 · Savardhat, Goa
         </div>
 
-        <span className="mb-6 inline-block rounded-full border border-[#C9A227]/40 bg-[#C9A227]/15 px-5 py-2 text-xs font-semibold uppercase tracking-widest text-[#C9A227]">
-          Since 2024 · Savardhat, Goa
-        </span>
+        {/* Logo with glow ring */}
+        <div
+          className={`mb-10 relative transition-all duration-700 ${mounted ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
+          style={{ transitionDelay: "200ms" }}
+        >
+          <div className="absolute inset-0 rounded-full bg-[#2FA8CC]/30 blur-2xl scale-150" />
+          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border border-white/15 bg-white/5 shadow-2xl backdrop-blur-sm ring-1 ring-[#C9A227]/20 animate-float">
+            <Image
+              src="/logo.jpeg"
+              alt="P.P.E.S. Logo"
+              width={96}
+              height={96}
+              className="rounded-full"
+            />
+          </div>
+        </div>
 
-        <h1 className="max-w-5xl text-balance font-sans text-4xl font-bold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
+        {/* Headline */}
+        <h1
+          className={`max-w-5xl font-display text-5xl font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          style={{ transitionDelay: "350ms", fontFamily: "'Space Grotesk', 'Inter', sans-serif" }}
+        >
           Prarambha Path{" "}
-          <span className="text-[#FF6B00]">Evening School</span>
+          <span className="relative inline-block">
+            <span className="text-[#FF6B00]">Evening School</span>
+            <span className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-gradient-to-r from-[#FF6B00] to-[#C9A227] opacity-70" />
+          </span>
         </h1>
 
-        <p className="mt-4 text-xl font-medium tracking-wide text-white/80 md:text-2xl">
+        {/* Tagline */}
+        <p
+          className={`mt-5 text-xl font-medium tracking-wide text-white/70 md:text-2xl transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          style={{ transitionDelay: "450ms" }}
+        >
           The Initial Path Towards Holistic Success
         </p>
 
-        <p className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-white/65">
-          A student-led evening school transforming education in Savardhat through
-          practical learning, values, and leadership.
+        {/* Description */}
+        <p
+          className={`mt-5 max-w-2xl text-pretty text-base leading-relaxed text-white/50 md:text-lg transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          style={{ transitionDelay: "550ms" }}
+        >
+          A student-led evening school transforming rural education in Savardhat
+          through practical learning, Gurukul values, and leadership.
         </p>
 
-        <div className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-white/70">
+        {/* Location pill */}
+        <div
+          className={`mt-5 inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm font-medium text-white/50 border border-white/10 transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          style={{ transitionDelay: "620ms" }}
+        >
           <MapPin className="h-4 w-4 text-[#FF6B00]" />
           Savardhat Village, Bicholim Taluka, Goa
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+        {/* CTAs */}
+        <div
+          className={`mt-12 flex flex-col gap-4 sm:flex-row transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          style={{ transitionDelay: "700ms" }}
+        >
           <Link
             href="#vision"
-            className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white/30 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:border-white/60 hover:bg-white/10"
+            className="group inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/10 hover:scale-[1.02]"
           >
             Explore Our Vision
           </Link>
           <Link
             href="#connect"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#FF6B00] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#FF6B00]/25 transition-all hover:bg-[#E55F00] hover:shadow-xl hover:shadow-[#FF6B00]/30"
+            className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#e05a00] px-8 py-4 text-sm font-semibold text-white shadow-xl shadow-[#FF6B00]/30 transition-all duration-300 hover:shadow-[#FF6B00]/50 hover:scale-[1.03] active:scale-[0.98]"
           >
             Join the Movement
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="mt-20 flex flex-col items-center gap-2 opacity-30 animate-bounce">
+          <div className="h-8 w-5 rounded-full border-2 border-white/50 flex items-start justify-center pt-1">
+            <div className="h-2 w-0.5 rounded-full bg-white" />
+          </div>
         </div>
       </div>
 
-      {/* Bottom wave */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path d="M0 60L60 52C120 44 240 28 360 24C480 20 600 28 720 32C840 36 960 36 1080 32C1200 28 1320 20 1380 16L1440 12V60H1380C1320 60 1200 60 1080 60C960 60 840 60 720 60C600 60 480 60 360 60C240 60 120 60 60 60H0Z" fill="white" />
-        </svg>
-      </div>
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
     </section>
   )
 }
