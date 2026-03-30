@@ -12,7 +12,7 @@ const highlights = [
         icon: Users,
         title: "Voluntary Faculty",
         description:
-            "16 dedicated mentors who teach not for pay, but for purpose and the joy of giving back.",
+            "14 dedicated mentors, founding members, and administrators who serve for purpose — not for pay.",
     },
     {
         icon: Award,
@@ -67,10 +67,10 @@ export function AcharyaSection() {
 
                 <div className="mt-12 text-center">
                     <Link
-                        href="#connect"
+                        href="/faculties"
                         className="inline-flex items-center gap-2 rounded-lg border-2 border-[#C9A227]/40 bg-[#C9A227]/10 px-7 py-3.5 text-sm font-semibold text-[#C9A227] transition-all hover:border-[#C9A227] hover:bg-[#C9A227]/20"
                     >
-                        Explore Acharya Mandal
+                        Meet the Acharya Mandal
                         <ArrowRight className="h-4 w-4" />
                     </Link>
                 </div>

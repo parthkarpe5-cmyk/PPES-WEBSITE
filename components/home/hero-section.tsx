@@ -14,12 +14,12 @@ export function HeroSection() {
 
       <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 py-28 text-center lg:py-40">
         {/* Logo badge */}
-        <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 shadow-lg backdrop-blur-sm">
+        <div className="mb-8 flex h-32 w-32 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 shadow-lg backdrop-blur-sm">
           <Image
             src="/logo.jpeg"
             alt="P.P.E.S. Logo"
-            width={64}
-            height={64}
+            width={100}
+            height={100}
             className="rounded-full"
           />
         </div>

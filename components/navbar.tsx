@@ -11,11 +11,12 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "#about", label: "About" },
   { href: "/faculties", label: "Faculties" },
+  { href: "/faculties-blocks", label: "Blocks" },
   { href: "#vision", label: "Vision" },
   { href: "#journey", label: "Journey" },
   { href: "#acharya", label: "Acharya Mandal" },
   { href: "/gallery", label: "Gallery" },
-  { href: "#connect", label: "Connect" },
+  { href: "/contact", label: "Contact" },
 ]
 
 export function Navbar() {
@@ -29,8 +30,8 @@ export function Navbar() {
           <Image
             src="/logo.jpeg"
             alt="P.P.E.S. Logo"
-            width={36}
-            height={36}
+            width={48}
+            height={48}
             className="rounded-lg"
           />
           <span className="text-lg font-bold tracking-tight text-[#1F4E79]">
@@ -56,10 +57,10 @@ export function Navbar() {
         </nav>
 
         <Link
-          href="#connect"
+          href="/join"
           className="hidden rounded-lg bg-[#FF6B00] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#E55F00] md:inline-flex"
         >
-          Join the Movement
+          Join Us
         </Link>
 
         <button
@@ -90,11 +91,11 @@ export function Navbar() {
               </Link>
             ))}
             <Link
-              href="#connect"
+              href="/join"
               onClick={() => setMobileOpen(false)}
               className="mt-3 rounded-lg bg-[#FF6B00] px-5 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-[#E55F00]"
             >
-              Join the Movement
+              Join Us
             </Link>
           </nav>
         </div>
