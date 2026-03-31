@@ -41,13 +41,13 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F9FAFB]">
+    <main className="min-h-screen bg-secondary">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1F4E79] via-[#1a4570] to-[#2FA8CC] px-6 py-24 text-center text-white">
-        <span className="inline-block rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[#C9A227]">
+      <section className="bg-gradient-to-br from-deep-blue via-[#1a4570] to-sky px-6 py-24 text-center text-white">
+        <span className="inline-block rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-gold font-display">
           Reach Out
         </span>
-        <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl">
+        <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl font-display">
           Contact Us
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-lg text-white/70">
@@ -60,7 +60,7 @@ export default function ContactPage() {
         <div className="grid gap-12 lg:grid-cols-5">
           {/* Info sidebar */}
           <aside className="lg:col-span-2">
-            <h2 className="text-xl font-bold text-[#1F4E79]">Get in Touch</h2>
+            <h2 className="text-xl font-bold text-deep-blue font-display">Get in Touch</h2>
             <p className="mt-2 text-sm leading-relaxed text-gray-500">
               Fill out the form and our team will get back to you within 24–48
               hours.
@@ -76,28 +76,28 @@ export default function ContactPage() {
                 {
                   icon: Mail,
                   label: "Email",
-                  value: "prarambhapath@gmail.com",
-                  href: "mailto:prarambhapath@gmail.com",
+                  value: "prarambhpath4444@gmail.com",
+                  href: "mailto:prarambhpath4444@gmail.com",
                 },
                 {
                   icon: Phone,
                   label: "Phone",
-                  value: "+91 98765 43210",
-                  href: "tel:+919876543210",
+                  value: "+91 9689858940",
+                  href: "tel:+919689858940",
                 },
               ].map(({ icon: Icon, label, value, href }) => (
                 <div key={label} className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#2FA8CC]/10">
-                    <Icon className="h-5 w-5 text-[#2FA8CC]" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky/10">
+                    <Icon className="h-5 w-5 text-sky" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-[#C9A227]">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-gold font-display">
                       {label}
                     </p>
                     {href ? (
                       <a
                         href={href}
-                        className="mt-0.5 text-sm text-gray-600 transition-colors hover:text-[#2FA8CC]"
+                        className="mt-0.5 text-sm text-gray-600 transition-colors hover:text-sky"
                       >
                         {value}
                       </a>
@@ -110,7 +110,7 @@ export default function ContactPage() {
             </div>
 
             {/* Decorative card */}
-            <div className="mt-10 rounded-2xl bg-gradient-to-br from-[#1F4E79] to-[#2FA8CC] p-6 text-white">
+            <div className="mt-10 rounded-2xl bg-gradient-to-br from-deep-blue to-sky p-6 text-white">
               <p className="text-sm font-medium">
                 &ldquo;Education must shape character before careers.&rdquo;
               </p>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                 <div className="flex h-32 w-32 items-center justify-center rounded-full bg-green-100">
                   <CheckCircle className="h-14 w-14 text-green-600" />
                 </div>
-                <h3 className="mt-6 text-2xl font-bold text-[#1F4E79]">
+                <h3 className="mt-6 text-2xl font-bold text-deep-blue font-display">
                   Message Sent!
                 </h3>
                 <p className="mt-2 max-w-sm text-gray-500">
@@ -139,7 +139,7 @@ export default function ContactPage() {
                     setSubmitted(false)
                     setForm({ name: "", email: "", phone: "", subject: "", message: "" })
                   }}
-                  className="mt-6 rounded-lg border border-[#2FA8CC] px-5 py-2.5 text-sm font-semibold text-[#2FA8CC] transition-colors hover:bg-[#2FA8CC] hover:text-white"
+                  className="mt-6 rounded-lg border border-sky px-5 py-2.5 text-sm font-semibold text-sky transition-colors hover:bg-sky hover:text-white"
                 >
                   Send Another Message
                 </button>
@@ -149,7 +149,7 @@ export default function ContactPage() {
                 onSubmit={handleSubmit}
                 className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm md:p-10"
               >
-                <h2 className="text-xl font-bold text-[#1F4E79]">
+                <h2 className="text-xl font-bold text-deep-blue font-display">
                   Send Us a Message
                 </h2>
                 <p className="mt-1 text-sm text-gray-500">
@@ -173,7 +173,7 @@ export default function ContactPage() {
                       value={form.name}
                       onChange={handleChange}
                       placeholder="Your full name"
-                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#2FA8CC] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#2FA8CC] transition-colors"
+                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-sky focus:bg-white focus:outline-none focus:ring-1 focus:ring-sky transition-colors"
                     />
                   </div>
 
@@ -192,7 +192,7 @@ export default function ContactPage() {
                       value={form.phone}
                       onChange={handleChange}
                       placeholder="+91 00000 00000"
-                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#2FA8CC] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#2FA8CC] transition-colors"
+                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-sky focus:bg-white focus:outline-none focus:ring-1 focus:ring-sky transition-colors"
                     />
                   </div>
 
@@ -229,7 +229,7 @@ export default function ContactPage() {
                       name="subject"
                       value={form.subject}
                       onChange={handleChange}
-                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 focus:border-[#2FA8CC] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#2FA8CC] transition-colors"
+                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 focus:border-sky focus:bg-white focus:outline-none focus:ring-1 focus:ring-sky transition-colors"
                     >
                       <option value="">Select a subject</option>
                       {[
@@ -263,7 +263,7 @@ export default function ContactPage() {
                       value={form.message}
                       onChange={handleChange}
                       placeholder="Tell us how we can help…"
-                      className="mt-1.5 w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#2FA8CC] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#2FA8CC] transition-colors"
+                      className="mt-1.5 w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-sky focus:bg-white focus:outline-none focus:ring-1 focus:ring-sky transition-colors"
                     />
                   </div>
                 </div>
@@ -271,7 +271,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-[#1F4E79] px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#2FA8CC] disabled:opacity-60"
+                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-deep-blue px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-sky disabled:opacity-60"
                 >
                   {loading ? "Sending…" : "Send Message"}
                   <Send className="h-4 w-4" />

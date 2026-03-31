@@ -228,12 +228,12 @@ export default function FacultiesPage() {
     return (
         <>
             {/* Header */}
-            <section className="bg-gradient-to-br from-[#1F4E79] to-[#2FA8CC] py-20 text-center">
+            <section className="bg-gradient-to-br from-deep-blue to-sky py-20 text-center">
                 <div className="mx-auto max-w-7xl px-6">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-[#C9A227]">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-gold font-display">
                         Our Team
                     </span>
-                    <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-white md:text-5xl">
+                    <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-white md:text-5xl font-display">
                         Acharya Mandal
                     </h1>
                     <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
@@ -248,10 +248,10 @@ export default function FacultiesPage() {
             <section className="bg-white py-20">
                 <div className="mx-auto max-w-5xl px-6">
                     <div className="text-center">
-                        <h2 className="text-2xl font-bold text-[#1F4E79]">
+                        <h2 className="text-2xl font-bold text-deep-blue font-display">
                             Guiding Lights
                         </h2>
-                        <div className="mx-auto mt-2 h-1 w-12 rounded-full bg-[#C9A227]" />
+                        <div className="mx-auto mt-2 h-1 w-12 rounded-full bg-gold" />
                         <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
                             Special acknowledgment to the mentors whose wisdom shapes our path.
                         </p>
@@ -259,21 +259,21 @@ export default function FacultiesPage() {
 
                     <div className="mt-12 grid gap-8 md:grid-cols-2">
                         {mentors.map((mentor) => (
-                            <div
+                             <div
                                 key={mentor.name}
-                                className="flex flex-col items-center rounded-2xl border border-[#C9A227]/20 bg-[#C9A227]/5 p-8 text-center transition-all hover:bg-[#C9A227]/10"
+                                className="flex flex-col items-center rounded-2xl border border-gold/20 bg-gold/5 p-8 text-center transition-all hover:bg-gold/10"
                             >
-                                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[#C9A227]/20 text-[#1F4E79] overflow-hidden relative">
+                                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gold/20 text-deep-blue overflow-hidden relative">
                                     {mentor.image ? (
                                         <Image src={mentor.image} alt={mentor.name} fill className="object-cover" />
                                     ) : (
-                                        <Heart className="h-12 w-12 text-[#C9A227]" />
+                                        <Heart className="h-12 w-12 text-gold" />
                                     )}
                                 </div>
-                                <h3 className="mt-6 text-xl font-bold text-[#1F4E79]">
+                                <h3 className="mt-6 text-xl font-bold text-deep-blue font-display">
                                     {mentor.name}
                                 </h3>
-                                <p className="text-sm font-medium text-[#FF6B00]">
+                                <p className="text-sm font-medium text-saffron">
                                     {mentor.role}
                                 </p>
                                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
@@ -286,13 +286,13 @@ export default function FacultiesPage() {
             </section>
 
             {/* Faculty Grid — grouped by department */}
-            <section className="bg-[#F5F8FA] py-20">
+            <section className="bg-secondary py-20">
                 <div className="mx-auto max-w-7xl px-6">
                     <div className="text-center">
-                        <h2 className="text-2xl font-bold text-[#1F4E79]">
+                        <h2 className="text-2xl font-bold text-deep-blue font-display">
                             Meet the Team
                         </h2>
-                        <div className="mx-auto mt-2 h-1 w-12 rounded-full bg-[#2FA8CC]" />
+                        <div className="mx-auto mt-2 h-1 w-12 rounded-full bg-sky" />
                         <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
                             Meet the young changemakers dedicating their time and skills to
                             empower the next generation.
@@ -302,10 +302,10 @@ export default function FacultiesPage() {
                     {departmentOrder.map((dept) => {
                         const members = faculties.filter((f) => f.department === dept)
                         if (members.length === 0) return null
-                        return (
+                         return (
                             <div key={dept} className="mt-16">
-                                <h3 className="mb-8 text-center text-lg font-bold text-[#1F4E79]">
-                                    <span className="inline-block rounded-full border border-[#2FA8CC]/30 bg-[#2FA8CC]/10 px-5 py-1.5 text-sm">
+                                <h3 className="mb-8 text-center text-lg font-bold text-deep-blue font-display">
+                                    <span className="inline-block rounded-full border border-sky/30 bg-sky/10 px-5 py-1.5 text-sm">
                                         {departmentLabels[dept]}
                                     </span>
                                 </h3>
@@ -317,7 +317,7 @@ export default function FacultiesPage() {
                                         return (
                                             <div
                                                 key={faculty.name}
-                                                className="group relative overflow-hidden rounded-2xl border border-border bg-white transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-[#2FA8CC]/10"
+                                                className="group relative overflow-hidden rounded-2xl border border-border bg-white transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-sky/10"
                                             >
                                                 {/* Gradient Header */}
                                                 <div
@@ -331,38 +331,38 @@ export default function FacultiesPage() {
                                                             {faculty.image ? (
                                                                 <Image src={faculty.image} alt={faculty.name} fill className="object-cover" />
                                                             ) : (
-                                                                <IconComp className="h-14 w-14 text-[#1F4E79]" />
+                                                                <IconComp className="h-14 w-14 text-deep-blue" />
                                                             )}
                                                         </div>
                                                     </div>
 
                                                     <div className="text-center">
-                                                        <h3 className="text-lg font-bold leading-tight text-[#1F4E79]">
+                                                        <h3 className="text-lg font-bold leading-tight text-deep-blue font-display">
                                                             {faculty.name}
                                                         </h3>
-                                                        <p className="mt-1 text-sm font-medium text-[#2FA8CC]">
+                                                        <p className="mt-1 text-sm font-medium text-sky">
                                                             {faculty.role}
                                                         </p>
-                                                        <span className="mt-2 inline-block rounded-full bg-[#F5F8FA] px-3 py-1 text-xs font-semibold text-muted-foreground">
+                                                        <span className="mt-2 inline-block rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-muted-foreground">
                                                             {faculty.studies}
                                                         </span>
                                                     </div>
 
                                                     <div className="mt-6 space-y-4">
-                                                        <div className="rounded-lg bg-[#F5F8FA] p-4 text-sm text-muted-foreground">
-                                                            <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#1F4E79]">
+                                                        <div className="rounded-lg bg-secondary p-4 text-sm text-muted-foreground">
+                                                            <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-deep-blue">
                                                                 Contribution
                                                             </span>
                                                             {faculty.contribution}
                                                         </div>
 
-                                                        <div className="flex items-start gap-3 rounded-lg border border-[#FF6B00]/20 bg-[#FF6B00]/5 p-4">
-                                                            <Quote className="mt-1 h-4 w-4 shrink-0 text-[#FF6B00]" />
+                                                         <div className="flex items-start gap-3 rounded-lg border border-saffron/20 bg-saffron/5 p-4">
+                                                            <Quote className="mt-1 h-4 w-4 shrink-0 text-saffron" />
                                                             <div>
-                                                                <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#FF6B00]">
+                                                                <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-saffron">
                                                                     Future Goal
                                                                 </span>
-                                                                <p className="text-sm italic text-[#1F4E79]">
+                                                                <p className="text-sm italic text-deep-blue">
                                                                     &quot;{faculty.goal}&quot;
                                                                 </p>
                                                             </div>
@@ -379,13 +379,13 @@ export default function FacultiesPage() {
 
                     {/* Closing */}
                     <div className="mt-20 text-center">
-                        <h3 className="text-2xl font-bold italic text-[#1F4E79]">
+                        <h3 className="text-2xl font-bold italic text-deep-blue font-display">
                             &quot;Acharya Mandal – Where Mentorship Meets Mission.&quot;
                         </h3>
                         <div className="mt-8">
                             <Link
                                 href="/join"
-                                className="inline-flex items-center gap-2 rounded-lg bg-[#FF6B00] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#FF6B00]/25 transition-all hover:bg-[#E55F00] hover:shadow-xl hover:shadow-[#FF6B00]/30"
+                                className="inline-flex items-center gap-2 rounded-lg bg-saffron px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-saffron/25 transition-all hover:bg-orange-600 hover:shadow-xl hover:shadow-saffron/30"
                             >
                                 Join Our Team
                                 <ArrowRight className="h-4 w-4" />

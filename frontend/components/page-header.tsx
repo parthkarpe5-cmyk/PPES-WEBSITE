@@ -11,7 +11,7 @@ export function PageHeader({ tag, title, description }: PageHeaderProps) {
         <span className="text-xs font-semibold uppercase tracking-wider text-primary">
           {tag}
         </span>
-        <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+        <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl font-display">
           {title}
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-pretty leading-relaxed text-muted-foreground">

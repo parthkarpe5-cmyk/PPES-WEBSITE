@@ -47,13 +47,13 @@ const quickLinks = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[#0d1f35] text-white">
+    <footer className="relative overflow-hidden bg-navy text-white">
       {/* Subtle top border glow */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#2FA8CC]/50 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky/50 to-transparent" />
 
       {/* Background orbs */}
-      <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-[#2FA8CC]/5 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-[#C9A227]/5 blur-3xl pointer-events-none" />
+      <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-sky/5 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-gold/5 blur-3xl pointer-events-none" />
 
       <div className="relative mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
@@ -64,7 +64,7 @@ export function Footer() {
                 <Image src="/logo.jpeg" alt="P.P.E.S. Logo" width={40} height={40} className="object-cover" />
               </div>
               <div>
-                <span className="text-base font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <span className="text-base font-bold tracking-tight font-display">
                   P.P.E.S.
                 </span>
                 <p className="text-[10px] text-white/40 font-medium tracking-wider">Since 2024</p>
@@ -77,7 +77,7 @@ export function Footer() {
 
             {/* Social Icons */}
             <div className="mt-6">
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-[#C9A227]">
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-gold">
                 Follow Us
               </p>
               <div className="flex items-center gap-2">
@@ -100,7 +100,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="mb-5 text-[10px] font-bold uppercase tracking-widest text-[#C9A227]">
+            <h3 className="mb-5 text-[10px] font-bold uppercase tracking-widest text-gold">
               Quick Links
             </h3>
             <ul className="flex flex-col gap-2.5">
@@ -108,9 +108,9 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="group flex items-center gap-1.5 text-sm text-white/50 transition-all duration-200 hover:text-[#C9A227]"
+                    className="group flex items-center gap-1.5 text-sm text-white/50 transition-all duration-200 hover:text-gold"
                   >
-                    <span className="h-px w-3 rounded-full bg-white/20 transition-all group-hover:w-5 group-hover:bg-[#C9A227]" />
+                    <span className="h-px w-3 rounded-full bg-white/20 transition-all group-hover:w-5 group-hover:bg-gold" />
                     {link.label}
                   </Link>
                 </li>
@@ -120,36 +120,36 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="mb-5 text-[10px] font-bold uppercase tracking-widest text-[#C9A227]">
+            <h3 className="mb-5 text-[10px] font-bold uppercase tracking-widest text-gold">
               Contact
             </h3>
             <ul className="flex flex-col gap-4">
               <li className="flex items-start gap-3">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#2FA8CC]/10 mt-0.5">
-                  <MapPin className="h-3.5 w-3.5 text-[#2FA8CC]" />
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sky/10 mt-0.5">
+                  <MapPin className="h-3.5 w-3.5 text-sky" />
                 </div>
                 <span className="text-sm text-white/55 leading-relaxed">
                   Savardhat Village, Bicholim Taluka, Goa
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#2FA8CC]/10 mt-0.5">
-                  <Mail className="h-3.5 w-3.5 text-[#2FA8CC]" />
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sky/10 mt-0.5">
+                  <Mail className="h-3.5 w-3.5 text-sky" />
                 </div>
                 <a
                   href="mailto:prarambhapath@gmail.com"
-                  className="text-sm text-white/55 transition-colors hover:text-[#C9A227] leading-relaxed"
+                  className="text-sm text-white/55 transition-colors hover:text-gold leading-relaxed"
                 >
                   prarambhapath@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#2FA8CC]/10 mt-0.5">
-                  <Phone className="h-3.5 w-3.5 text-[#2FA8CC]" />
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sky/10 mt-0.5">
+                  <Phone className="h-3.5 w-3.5 text-sky" />
                 </div>
                 <a
                   href="tel:+919876543210"
-                  className="text-sm text-white/55 transition-colors hover:text-[#C9A227]"
+                  className="text-sm text-white/55 transition-colors hover:text-gold"
                 >
                   +91 98765 43210
                 </a>
@@ -159,7 +159,7 @@ export function Footer() {
 
           {/* Listen & Watch */}
           <div>
-            <h3 className="mb-5 text-[10px] font-bold uppercase tracking-widest text-[#C9A227]">
+            <h3 className="mb-5 text-[10px] font-bold uppercase tracking-widest text-gold">
               Listen &amp; Watch
             </h3>
             <div className="flex flex-col gap-3">
@@ -174,7 +174,7 @@ export function Footer() {
                   <span className="text-white/50 transition-colors group-hover:text-white">
                     {s.icon}
                   </span>
-                  <span className="text-sm text-white/50 transition-colors group-hover:text-[#C9A227]">
+                  <span className="text-sm text-white/55 transition-colors group-hover:text-gold">
                     {s.label}
                   </span>
                 </a>

@@ -39,20 +39,20 @@ function HighlightCard({ item, index }: { item: (typeof highlights)[0]; index: n
     <div
       ref={ref}
       style={{ transitionDelay: `${index * 120}ms` }}
-      className={`group relative rounded-3xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm transition-all duration-700 hover:border-[#C9A227]/40 hover:bg-white/10 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#C9A227]/10 ${visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+      className={`group relative rounded-3xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm transition-all duration-700 hover:border-gold/40 hover:bg-white/10 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gold/10 ${visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
     >
       {/* Gold shimmer border on hover */}
       <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: 'linear-gradient(135deg, rgba(201,162,39,0.15) 0%, transparent 60%, rgba(201,162,39,0.08) 100%)' }}
+        style={{ background: 'linear-gradient(135deg, var(--gold-alpha-15) 0%, transparent 60%, var(--gold-alpha-08) 100%)' }}
       />
 
-      <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#C9A227]/15 ring-1 ring-[#C9A227]/20 transition-transform duration-300 group-hover:scale-110">
-        <item.icon className="h-7 w-7 text-[#C9A227]" />
+      <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gold/15 ring-1 ring-gold/20 transition-transform duration-300 group-hover:scale-110">
+        <item.icon className="h-7 w-7 text-gold" />
       </div>
-      <h3 className="relative mt-6 text-lg font-bold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+      <h3 className="relative mt-6 text-lg font-bold text-white font-display">
         {item.title}
       </h3>
-      <div className="mx-auto mt-3 h-px w-8 bg-[#C9A227]/30 rounded-full transition-all group-hover:w-16 group-hover:bg-[#C9A227]/60" />
+      <div className="mx-auto mt-3 h-px w-8 bg-gold/30 rounded-full transition-all group-hover:w-16 group-hover:bg-gold/60" />
       <p className="relative mt-4 text-sm leading-relaxed text-white/60 group-hover:text-white/75 transition-colors">
         {item.description}
       </p>
@@ -74,11 +74,11 @@ export function AcharyaSection() {
   }, [])
 
   return (
-    <section id="acharya" className="relative overflow-hidden bg-[#0d1f35] py-28">
+    <section id="acharya" className="relative overflow-hidden bg-navy py-24">
       {/* Floating orbs */}
-      <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#C9A227]/10 blur-3xl animate-pulse-slow pointer-events-none" />
-      <div className="absolute top-1/2 -left-24 h-64 w-64 rounded-full bg-[#2FA8CC]/8 blur-3xl animate-pulse-slow pointer-events-none" style={{ animationDelay: '1.5s' }} />
-      <div className="absolute -bottom-24 right-1/3 h-56 w-56 rounded-full bg-[#FF6B00]/8 blur-3xl animate-pulse-slow pointer-events-none" style={{ animationDelay: '3s' }} />
+      <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-gold/10 blur-3xl animate-pulse-slow pointer-events-none" />
+      <div className="absolute top-1/2 -left-24 h-64 w-64 rounded-full bg-sky/8 blur-3xl animate-pulse-slow pointer-events-none" style={{ animationDelay: '1.5s' }} />
+      <div className="absolute -bottom-24 right-1/3 h-56 w-56 rounded-full bg-saffron/8 blur-3xl animate-pulse-slow pointer-events-none" style={{ animationDelay: '3s' }} />
 
       {/* Dot grid */}
       <div
@@ -95,10 +95,9 @@ export function AcharyaSection() {
           ref={headerRef}
           className={`text-center transition-all duration-700 ${headerVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
         >
-          <span className="section-label text-[#C9A227]">Faculty</span>
+          <span className="section-label text-gold">Faculty</span>
           <h2
-            className="mt-3 text-balance text-4xl font-bold tracking-tight text-white md:text-5xl"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            className="mt-3 text-balance text-4xl font-bold tracking-tight text-white md:text-5xl font-display"
           >
             Acharya Mandal{" "}
             <span className="shimmer-text">— The Mentor Circle</span>
@@ -121,7 +120,7 @@ export function AcharyaSection() {
         <div className="mt-14 text-center">
           <Link
             href="/faculties"
-            className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#C9A227]/50 bg-[#C9A227]/10 px-8 py-4 text-sm font-bold text-[#C9A227] transition-all duration-300 hover:border-[#C9A227] hover:bg-[#C9A227]/20 hover:shadow-xl hover:shadow-[#C9A227]/20 hover:scale-[1.03]"
+            className="group inline-flex items-center gap-3 rounded-2xl border-2 border-gold/50 bg-gold/10 px-8 py-4 text-sm font-bold text-gold transition-all duration-300 hover:border-gold hover:bg-gold/20 hover:shadow-xl hover:shadow-gold/20 hover:scale-[1.03]"
           >
             Meet the Acharya Mandal
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

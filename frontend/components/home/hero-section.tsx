@@ -2,126 +2,126 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, MapPin, Sparkles } from "lucide-react"
+import { ArrowRight, Sparkles, MapPin } from "lucide-react"
 import { useEffect, useState } from "react"
+
+const stats = [
+  { value: "50+", label: "Students" },
+  { value: "16", label: "Volunteer Teachers" },
+  { value: "2024", label: "Founded" },
+  { value: "4", label: "Young Founders" },
+]
 
 export function HeroSection() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => { setMounted(true) }, [])
 
   return (
-    <section className="relative min-h-[92vh] overflow-hidden bg-[#0a192f] flex items-center">
-      {/* Animated gradient mesh */}
+    <section className="relative min-h-screen overflow-hidden bg-navy flex flex-col">
+      {/* === Background layer === */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-[#2FA8CC]/20 blur-[120px] animate-pulse-slow" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[#1F4E79]/40 blur-[100px]" style={{ animationDelay: '1s' }} />
-        <div className="absolute -bottom-32 -right-32 h-[600px] w-[600px] rounded-full bg-[#FF6B00]/15 blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
-
-        {/* Subtle dot-grid texture */}
+        {/* Radial glows */}
+        <div className="absolute top-0 left-1/4 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-sky/10 blur-[160px]" />
+        <div className="absolute bottom-0 right-1/4 h-[600px] w-[600px] translate-x-1/2 translate-y-1/3 rounded-full bg-saffron/8 blur-[140px]" />
+        {/* Dot grid */}
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-[0.035]"
           style={{
             backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
-            backgroundSize: '32px 32px',
+            backgroundSize: '36px 36px',
           }}
         />
       </div>
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 py-32 text-center lg:py-44">
-        {/* Floating badge */}
+      {/* === Main content === */}
+      <div className="relative flex flex-1 flex-col items-center justify-center px-6 pt-20 pb-12 text-center">
+
+        {/* Badge */}
         <div
-          className={`mb-8 inline-flex items-center gap-2 rounded-full border border-[#C9A227]/30 bg-[#C9A227]/10 px-5 py-2 text-xs font-semibold uppercase tracking-widest text-[#C9A227] backdrop-blur-sm transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
-          style={{ transitionDelay: "100ms" }}
+          className={`mb-6 inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gold/8 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-gold transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          style={{ transitionDelay: "80ms" }}
         >
-          <Sparkles className="h-3.5 w-3.5" />
+          <Sparkles className="h-3 w-3" />
           Since 2024 · Savardhat, Goa
         </div>
 
-        {/* Logo with glow ring */}
+        {/* Logo */}
         <div
-          className={`mb-10 relative transition-all duration-700 ${mounted ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
-          style={{ transitionDelay: "200ms" }}
+          className={`mb-7 relative transition-all duration-700 ${mounted ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
+          style={{ transitionDelay: "180ms" }}
         >
-          <div className="absolute inset-0 rounded-full bg-[#2FA8CC]/30 blur-2xl scale-150" />
-          <div className="relative flex h-36 w-36 items-center justify-center rounded-full border border-white/15 bg-white/5 shadow-2xl backdrop-blur-sm ring-1 ring-[#C9A227]/20 animate-float">
-            <Image
-              src="/logo.jpeg"
-              alt="P.P.E.S. Logo"
-              width={128}
-              height={128}
-              className="rounded-full"
-            />
+          <div className="absolute inset-0 rounded-full bg-sky/25 blur-2xl scale-[1.6]" />
+          <div className="relative flex h-[100px] w-[100px] items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-2xl backdrop-blur-sm ring-1 ring-gold/15 animate-float">
+            <Image src="/logo.jpeg" alt="P.P.E.S. Logo" width={88} height={88} className="rounded-full" priority />
           </div>
         </div>
 
         {/* Headline */}
         <h1
-          className={`max-w-5xl font-display text-5xl font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-          style={{ transitionDelay: "350ms", fontFamily: "'Space Grotesk', 'Inter', sans-serif" }}
+          className={`max-w-4xl font-display text-[2.6rem] font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          style={{ transitionDelay: "280ms" }}
         >
-          Prarambha Path{" "}
+          Prarambha Path
+          <br />
           <span className="relative inline-block">
-            <span className="text-[#FF6B00]">Evening School</span>
-            <span className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-gradient-to-r from-[#FF6B00] to-[#C9A227] opacity-70" />
+            <span className="bg-gradient-to-r from-saffron via-orange-400 to-saffron bg-clip-text text-transparent">
+              Evening School
+            </span>
           </span>
         </h1>
 
         {/* Tagline */}
         <p
-          className={`mt-5 text-xl font-medium tracking-wide text-white/70 md:text-2xl transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-          style={{ transitionDelay: "450ms" }}
+          className={`mt-4 text-base font-medium tracking-wide text-white/55 sm:text-lg md:text-xl transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          style={{ transitionDelay: "360ms" }}
         >
           The Initial Path Towards Holistic Success
         </p>
 
-        {/* Description */}
-        <p
-          className={`mt-5 max-w-2xl text-pretty text-base leading-relaxed text-white/50 md:text-lg transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-          style={{ transitionDelay: "550ms" }}
-        >
-          A student-led evening school transforming rural education in Savardhat
-          through practical learning, Gurukul values, and leadership.
-        </p>
-
         {/* Location pill */}
         <div
-          className={`mt-5 inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm font-medium text-white/50 border border-white/10 transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
-          style={{ transitionDelay: "620ms" }}
+          className={`mt-3 inline-flex items-center gap-1.5 text-xs text-white/35 transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          style={{ transitionDelay: "420ms" }}
         >
-          <MapPin className="h-4 w-4 text-[#FF6B00]" />
-          Savardhat Village, Bicholim Taluka, Goa
+          <MapPin className="h-3.5 w-3.5 text-saffron/60" />
+          Savardhat Village, Bicholim, Goa
         </div>
 
         {/* CTAs */}
         <div
-          className={`mt-12 flex flex-col gap-4 sm:flex-row transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-          style={{ transitionDelay: "700ms" }}
+          className={`mt-9 flex flex-wrap items-center justify-center gap-3 transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          style={{ transitionDelay: "500ms" }}
         >
           <Link
-            href="#vision"
-            className="group inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/10 hover:scale-[1.02]"
+            href="#about"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/6 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-white/12"
           >
-            Explore Our Vision
+            Our Story
           </Link>
           <Link
-            href="#connect"
-            className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#e05a00] px-8 py-4 text-sm font-semibold text-white shadow-xl shadow-[#FF6B00]/30 transition-all duration-300 hover:shadow-[#FF6B00]/50 hover:scale-[1.03] active:scale-[0.98]"
+            href="/join"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-saffron to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-saffron/20 transition-all duration-300 hover:shadow-saffron/35 hover:scale-[1.02]"
           >
             Join the Movement
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="mt-20 flex flex-col items-center gap-2 opacity-30 animate-bounce">
-          <div className="h-8 w-5 rounded-full border-2 border-white/50 flex items-start justify-center pt-1">
-            <div className="h-2 w-0.5 rounded-full bg-white" />
-          </div>
         </div>
       </div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+      {/* === Stats bar === */}
+      <div
+        className={`relative z-10 w-full border-t border-white/8 bg-white/4 backdrop-blur-sm transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+        style={{ transitionDelay: "640ms" }}
+      >
+        <div className="mx-auto grid max-w-4xl grid-cols-2 divide-x divide-white/8 sm:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.label} className="flex flex-col items-center py-5 px-4">
+              <span className="font-display text-xl font-bold text-white sm:text-2xl">{s.value}</span>
+              <span className="mt-0.5 text-[11px] font-medium uppercase tracking-wider text-white/35">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }

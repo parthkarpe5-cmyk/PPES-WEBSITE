@@ -53,30 +53,30 @@ export const galleryItems: GalleryItem[] = [
         gradient: "from-green-500 to-emerald-700",
         icon: "🏅",
     },
-    {
-        slug: "cultural-event",
-        title: "Cultural Event",
-        category: "events",
-        date: "September 2024",
-        location: "Savardhat Community Hall",
-        description:
-            "An evening dedicated to celebrating our roots. Students performed traditional Goan folk dances, sang Konkani songs, enacted short plays about village life, and showcased their oratory skills. The stage was theirs — and they owned it with pride and grace.",
-        shortDescription:
-            "Celebrating roots through folk dance, music, and drama.",
-        thumbnail: "/ppes/events/my_health_my_growth/mhmg10.jpg",
-        images: [
-            { src: "/ppes/events/my_health_my_growth/mhmg12.jpg", alt: "Traditional dance performance" },
-            { src: "/ppes/events/my_health_my_growth/mhmg13.jpg", alt: "Students singing Konkani songs" },
-            { src: "/ppes/events/my_health_my_growth/mhmg14.jpg", alt: "Drama skit about village life" },
-            { src: "/ppes/events/my_health_my_growth/mhmg15.jpg", alt: "Audience enjoying the show" },
-        ],
-        studentQuote: {
-            text: "Performing in front of everyone made me realize I can do things I never imagined.",
-            author: "Student, 9th Standard",
-        },
-        gradient: "from-purple-500 to-indigo-700",
-        icon: "🎭",
-    },
+    // {
+    //     slug: "cultural-event",
+    //     title: "Cultural Event",
+    //     category: "events",
+    //     date: "September 2024",
+    //     location: "Savardhat Community Hall",
+    //     description:
+    //         "An evening dedicated to celebrating our roots. Students performed traditional Goan folk dances, sang Konkani songs, enacted short plays about village life, and showcased their oratory skills. The stage was theirs — and they owned it with pride and grace.",
+    //     shortDescription:
+    //         "Celebrating roots through folk dance, music, and drama.",
+    //     thumbnail: "/ppes/events/my_health_my_growth/mhmg10.jpg",
+    //     images: [
+    //         { src: "/ppes/events/my_health_my_growth/mhmg12.jpg", alt: "Traditional dance performance" },
+    //         { src: "/ppes/events/my_health_my_growth/mhmg13.jpg", alt: "Students singing Konkani songs" },
+    //         { src: "/ppes/events/my_health_my_growth/mhmg14.jpg", alt: "Drama skit about village life" },
+    //         { src: "/ppes/events/my_health_my_growth/mhmg15.jpg", alt: "Audience enjoying the show" },
+    //     ],
+    //     studentQuote: {
+    //         text: "Performing in front of everyone made me realize I can do things I never imagined.",
+    //         author: "Student, 9th Standard",
+    //     },
+    //     gradient: "from-purple-500 to-indigo-700",
+    //     icon: "🎭",
+    // },
     {
         slug: "healthcare-camp",
         title: "Healthcare Camp",

@@ -61,10 +61,10 @@ export default function JoinPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F9FAFB]">
+    <main className="min-h-screen bg-secondary">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#FF6B00] via-[#e05a00] to-[#1F4E79] px-6 py-24 text-center text-white">
-        <span className="inline-block rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[#FFD580]">
+      <section className="bg-gradient-to-br from-saffron via-orange-600 to-deep-blue px-6 py-24 text-center text-white font-display">
+        <span className="inline-block rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-gold">
           Be Part of the Change
         </span>
         <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl">
@@ -80,18 +80,18 @@ export default function JoinPage() {
         <div className="grid gap-12 lg:grid-cols-5">
           {/* Sidebar */}
           <aside className="lg:col-span-2">
-            <h2 className="text-xl font-bold text-[#1F4E79]">Why Join Us?</h2>
+            <h2 className="text-xl font-bold text-deep-blue font-display">Why Join Us?</h2>
             <p className="mt-2 text-sm leading-relaxed text-gray-500">
               Prarambha Path Evening School is a student-led movement built on
               Gurukul values, experiential learning, and holistic growth. Every
               person who joins strengthens the mission.
             </p>
 
-            <div className="mt-8 flex flex-col gap-4">
+             <div className="mt-8 flex flex-col gap-4">
               {reasons.map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FF6B00]/10">
-                    <Icon className="h-5 w-5 text-[#FF6B00]" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-saffron/10">
+                    <Icon className="h-5 w-5 text-saffron" />
                   </div>
                   <p className="text-sm text-gray-700">{text}</p>
                 </div>
@@ -99,7 +99,7 @@ export default function JoinPage() {
             </div>
 
             {/* Decorative */}
-            <div className="mt-10 rounded-2xl bg-gradient-to-br from-[#FF6B00] to-[#1F4E79] p-6 text-white">
+            <div className="mt-10 rounded-2xl bg-gradient-to-br from-saffron to-deep-blue p-6 text-white">
               <p className="text-sm font-medium">
                 &ldquo;The best way to find yourself is to lose yourself in the
                 service of others.&rdquo;
@@ -113,9 +113,9 @@ export default function JoinPage() {
             {submitted ? (
               <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white p-16 text-center shadow-sm">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
-                  <CheckCircle className="h-8 w-8 text-[#FF6B00]" />
+                  <CheckCircle className="h-8 w-8 text-saffron" />
                 </div>
-                <h3 className="mt-6 text-2xl font-bold text-[#1F4E79]">
+                <h3 className="mt-6 text-2xl font-bold text-deep-blue font-display">
                   Welcome to the Family! 🎉
                 </h3>
                 <p className="mt-2 max-w-sm text-gray-500">
@@ -136,17 +136,17 @@ export default function JoinPage() {
                       availability: "",
                     })
                   }}
-                  className="mt-6 rounded-lg border border-[#FF6B00] px-5 py-2.5 text-sm font-semibold text-[#FF6B00] transition-colors hover:bg-[#FF6B00] hover:text-white"
-                >
-                  Submit Another Response
-                </button>
+                    className="mt-6 rounded-lg border border-saffron px-5 py-2.5 text-sm font-semibold text-saffron transition-colors hover:bg-saffron hover:text-white"
+                  >
+                    Submit Another Response
+                  </button>
               </div>
             ) : (
-              <form
+               <form
                 onSubmit={handleSubmit}
                 className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm md:p-10"
               >
-                <h2 className="text-xl font-bold text-[#1F4E79]">
+                <h2 className="text-xl font-bold text-deep-blue font-display">
                   Your Details
                 </h2>
                 <p className="mt-1 text-sm text-gray-500">
@@ -168,9 +168,9 @@ export default function JoinPage() {
                       type="text"
                       required
                       value={form.name}
-                      onChange={handleChange}
+                       onChange={handleChange}
                       placeholder="Your full name"
-                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#FF6B00] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#FF6B00] transition-colors"
+                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-saffron focus:bg-white focus:outline-none focus:ring-1 focus:ring-saffron transition-colors"
                     />
                   </div>
 
@@ -265,10 +265,10 @@ export default function JoinPage() {
                     <select
                       id="join-role"
                       name="role"
-                      required
+                       required
                       value={form.role}
                       onChange={handleChange}
-                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 focus:border-[#FF6B00] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#FF6B00] transition-colors"
+                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 focus:border-saffron focus:bg-white focus:outline-none focus:ring-1 focus:ring-saffron transition-colors"
                     >
                       <option value="">Select your role</option>
                       {roles.map((r) => (
@@ -289,10 +289,10 @@ export default function JoinPage() {
                     </label>
                     <select
                       id="join-availability"
-                      name="availability"
+                        name="availability"
                       value={form.availability}
                       onChange={handleChange}
-                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 focus:border-[#FF6B00] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#FF6B00] transition-colors"
+                      className="mt-1.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 focus:border-saffron focus:bg-white focus:outline-none focus:ring-1 focus:ring-saffron transition-colors"
                     >
                       <option value="">Select availability</option>
                       {[
@@ -322,17 +322,17 @@ export default function JoinPage() {
                       required
                       rows={4}
                       value={form.motivation}
-                      onChange={handleChange}
+                       onChange={handleChange}
                       placeholder="Tell us a little about yourself and why this matters to you…"
-                      className="mt-1.5 w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#FF6B00] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#FF6B00] transition-colors"
+                      className="mt-1.5 w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-saffron focus:bg-white focus:outline-none focus:ring-1 focus:ring-saffron transition-colors"
                     />
                   </div>
                 </div>
 
-                <button
+                 <button
                   type="submit"
                   disabled={loading}
-                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-[#FF6B00] px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#e05a00] disabled:opacity-60"
+                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-saffron px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-orange-600 disabled:opacity-60"
                 >
                   {loading ? "Submitting…" : "Join the Movement"}
                   <UserPlus className="h-4 w-4" />

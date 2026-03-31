@@ -90,12 +90,12 @@ export default function GalleryDetailPage() {
             <div className="flex min-h-[60vh] items-center justify-center">
                 <div className="text-center">
                     <p className="text-6xl">🔍</p>
-                    <h1 className="mt-4 text-2xl font-bold text-[#1F4E79]">
+                    <h1 className="mt-4 text-2xl font-bold text-deep-blue font-display">
                         Gallery Item Not Found
                     </h1>
                     <Link
                         href="/gallery"
-                        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#2FA8CC] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#2FA8CC]/90"
+                        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-sky px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky/90"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         Back to Gallery
@@ -151,7 +151,7 @@ export default function GalleryDetailPage() {
                         <ArrowLeft className="h-4 w-4" />
                         Back to Gallery
                     </Link>
-                    <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+                    <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl font-display">
                         {item.title}
                     </h1>
                     <div className="mt-3 flex flex-wrap gap-4 text-sm text-white/75">
@@ -174,8 +174,8 @@ export default function GalleryDetailPage() {
                 <div className="mx-auto max-w-7xl px-6">
                     {/* Description */}
                     <div className="mx-auto max-w-3xl">
-                        <h2 className="text-xl font-bold text-[#1F4E79]">About This Event</h2>
-                        <div className="mt-2 h-1 w-12 rounded-full bg-[#C9A227]" />
+                        <h2 className="text-xl font-bold text-deep-blue font-display">About This Event</h2>
+                        <div className="mt-2 h-1 w-12 rounded-full bg-gold" />
                         <p className="mt-6 text-pretty leading-relaxed text-muted-foreground">
                             {item.description}
                         </p>
@@ -183,8 +183,8 @@ export default function GalleryDetailPage() {
 
                     {/* Image grid */}
                     <div className="mt-16">
-                        <h2 className="text-xl font-bold text-[#1F4E79]">Photo Gallery</h2>
-                        <div className="mt-2 h-1 w-12 rounded-full bg-[#C9A227]" />
+                        <h2 className="text-xl font-bold text-deep-blue font-display">Photo Gallery</h2>
+                        <div className="mt-2 h-1 w-12 rounded-full bg-gold" />
                         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             {item.images.map((img, index) => (
                                 <button
@@ -208,22 +208,22 @@ export default function GalleryDetailPage() {
                     </div>
 
                     {/* Video embed placeholder */}
-                    {item.videoUrl && (
+                     {item.videoUrl && (
                         <div className="mt-16">
-                            <h2 className="text-xl font-bold text-[#1F4E79]">Video</h2>
-                            <div className="mt-2 h-1 w-12 rounded-full bg-[#C9A227]" />
-                            <div className="mt-8 flex aspect-video items-center justify-center rounded-xl bg-[#1F4E79]/5">
+                            <h2 className="text-xl font-bold text-deep-blue font-display">Video</h2>
+                            <div className="mt-2 h-1 w-12 rounded-full bg-gold" />
+                            <div className="mt-8 flex aspect-video items-center justify-center rounded-xl bg-deep-blue/5">
                                 <p className="text-muted-foreground">Video coming soon</p>
                             </div>
                         </div>
                     )}
 
                     {/* Student quote */}
-                    {item.studentQuote && (
+                     {item.studentQuote && (
                         <div className="mx-auto mt-16 max-w-2xl">
-                            <div className="flex flex-col items-center rounded-2xl border border-[#C9A227]/20 bg-[#C9A227]/5 px-8 py-10 text-center">
-                                <Quote className="h-8 w-8 text-[#C9A227]" />
-                                <blockquote className="mt-4 text-lg font-medium italic leading-relaxed text-[#1F4E79]">
+                            <div className="flex flex-col items-center rounded-2xl border border-gold/20 bg-gold/5 px-8 py-10 text-center font-display">
+                                <Quote className="h-8 w-8 text-gold" />
+                                <blockquote className="mt-4 text-lg font-medium italic leading-relaxed text-deep-blue">
                                     &ldquo;{item.studentQuote.text}&rdquo;
                                 </blockquote>
                                 <cite className="mt-4 text-sm font-semibold not-italic text-muted-foreground">
@@ -233,11 +233,11 @@ export default function GalleryDetailPage() {
                         </div>
                     )}
 
-                    {/* Back button */}
+                     {/* Back button */}
                     <div className="mt-16 text-center">
                         <Link
                             href="/gallery"
-                            className="inline-flex items-center gap-2 rounded-lg border-2 border-[#2FA8CC] px-7 py-3.5 text-sm font-semibold text-[#2FA8CC] transition-all hover:bg-[#2FA8CC] hover:text-white"
+                            className="inline-flex items-center gap-2 rounded-lg border-2 border-sky px-7 py-3.5 text-sm font-semibold text-sky transition-all hover:bg-sky hover:text-white"
                         >
                             <ArrowLeft className="h-4 w-4" />
                             Back to Gallery
