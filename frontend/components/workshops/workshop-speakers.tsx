@@ -40,8 +40,8 @@ export function WorkshopSpeakers() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {speakers.map((speaker) => (
             <div key={speaker.name} className="rounded-xl border border-border bg-card p-6 text-center">
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-accent">
-                <span className="text-xl font-bold text-accent-foreground">{speaker.initials}</span>
+              <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-accent">
+                <span className="text-3xl font-bold text-accent-foreground">{speaker.initials}</span>
               </div>
               <h3 className="mt-5 font-semibold text-foreground">{speaker.name}</h3>
               <p className="mt-1 text-sm font-medium text-primary">{speaker.expertise}</p>

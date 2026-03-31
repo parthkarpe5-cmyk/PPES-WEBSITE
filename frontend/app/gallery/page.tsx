@@ -21,12 +21,20 @@ function GalleryCard({ item }: { item: GalleryItem }) {
         <div className="group overflow-hidden rounded-2xl border border-border bg-white transition-all hover:shadow-xl hover:shadow-[#2FA8CC]/8">
             {/* Thumbnail Image */}
             <div className="relative flex h-52 items-center justify-center overflow-hidden">
-                <Image
-                    src={item.thumbnail}
-                    alt={item.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                {item.thumbnailHeaderStyle ? (
+                    <img
+                        src={item.thumbnail}
+                        alt={item.title}
+                        style={item.thumbnailHeaderStyle}
+                    />
+                ) : (
+                    <Image
+                        src={item.thumbnail}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent transition-all group-hover:bg-black/20 z-10" />
                 {/* Category badge */}
                 <span className="absolute right-3 top-3 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">

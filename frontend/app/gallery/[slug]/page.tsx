@@ -126,7 +126,22 @@ export default function GalleryDetailPage() {
 
             {/* Large header */}
             <section className="relative flex h-72 items-end md:h-96 overflow-hidden">
-                <Image src={item.thumbnail} alt={item.title} fill className="object-cover" priority />
+                {item.thumbnailHeaderStyle ? (
+                    <img
+                        src={item.thumbnail}
+                        alt={item.title}
+                        style={item.thumbnailHeaderStyle}
+                    />
+                ) : (
+                    <Image
+                        src={item.thumbnail}
+                        alt={item.title}
+                        fill
+                        className="object-cover object-center"
+                        style={item.thumbnailRotate ? { transform: `rotate(${item.thumbnailRotate}deg)`, transformOrigin: "center", scale: "1.5" } : undefined}
+                        priority
+                    />
+                )}
                 <div className="absolute inset-0 bg-black/60" />
                 <div className="relative mx-auto w-full max-w-7xl px-6 pb-10">
                     <Link
@@ -176,9 +191,9 @@ export default function GalleryDetailPage() {
                                     key={index}
                                     onClick={() => setLightboxIndex(index)}
                                     className="group relative flex items-center justify-center overflow-hidden rounded-xl bg-muted transition-all hover:shadow-lg"
-                                    style={{ aspectRatio: index === 0 ? "16/12" : "4/3" }}
+                                    style={{ aspectRatio: "4/3" }}
                                 >
-                                    <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                                    <Image src={img.src} alt={img.alt} fill className="object-cover object-center transition-transform duration-500 group-hover:scale-110" />
                                     <div className="absolute inset-0 flex items-center justify-center bg-transparent transition-all group-hover:bg-black/30">
                                         <div className="scale-0 rounded-full bg-white/20 p-3 backdrop-blur-sm transition-transform group-hover:scale-100">
                                             <Play className="h-6 w-6 text-white" />

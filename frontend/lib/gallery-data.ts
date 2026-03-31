@@ -15,6 +15,8 @@ export interface GalleryItem {
     shortDescription: string
     participants?: string
     thumbnail: string
+    thumbnailRotate?: number
+    thumbnailHeaderStyle?: any
     images: GalleryImage[]
     videoUrl?: string
     studentQuote?: {
@@ -37,13 +39,12 @@ export const galleryItems: GalleryItem[] = [
             "Our inaugural Sports Day brought the entire village together. Students competed in races, tug-of-war, kabaddi, and relay events. It was more than competition — it was about building teamwork, discipline, and sportsmanship. Teachers and parents cheered from the sidelines as young athletes discovered their strength.",
         shortDescription:
             "A day of sportsmanship and teamwork across village grounds.",
-        participants: "50+ students",
-        thumbnail: "/ppes/sabha/IMG-20241014-WA0020.jpg",
+        participants: "30+ students",
+        thumbnail: "/ppes/events/sports_day/s2.jpg",
         images: [
-            { src: "/ppes/sabha/IMG-20241201-WA0014.jpg", alt: "Students ready for the 100m race" },
-            { src: "/ppes/sabha/IMG-20241201-WA0028.jpg", alt: "Tug of war championship" },
-            { src: "/ppes/sabha/IMG-20241201-WA0033.jpg", alt: "Winners receiving medals" },
-            { src: "/ppes/sabha/IMG-20241201-WA0008.jpg", alt: "Group photo after the event" },
+
+            { src: "/ppes/events/sports_day/s2.jpg", alt: "Students competing on the field" },
+            { src: "/ppes/events/sports_day/s3.jpg", alt: "Group celebration at Sports Day" },
         ],
         studentQuote: {
             text: "I never knew running could feel so good when your friends are cheering for you.",
@@ -89,8 +90,21 @@ export const galleryItems: GalleryItem[] = [
         thumbnail: "/ppes/events/my_health_my_growth/mhmg1.jpg",
         images: [
             { src: "/ppes/events/my_health_my_growth/mhmg2.jpg", alt: "Dr. Amita addressing students" },
-            { src: "/ppes/events/my_health_my_growth/mhmg3.jpg", alt: "Hands-on first aid training" },
-            { src: "/ppes/events/my_health_my_growth/mhmg4.jpg", alt: "Health check-up station" },
+            { src: "/ppes/events/my_health_my_growth/mhmg3.jpg", alt: "Stdents and Parents" },
+            { src: "/ppes/events/my_health_my_growth/mhmg4.jpg", alt: "Event poster" },
+            { src: "/ppes/events/my_health_my_growth/mhmg5.jpg", alt: "The core team!!" },
+            { src: "/ppes/events/my_health_my_growth/mhmg6.jpg", alt: "A way of thank you to MAM" },
+            { src: "/ppes/events/my_health_my_growth/mhmg7.jpg", alt: "prize to student " },
+            { src: "/ppes/events/my_health_my_growth/mhmg8.jpg", alt: "prize to parent" },
+            { src: "/ppes/events/my_health_my_growth/mhmg9.jpg", alt: "THANK YOU Vasant Sir" },
+            { src: "/ppes/events/my_health_my_growth/mhmg10.jpg", alt: "PPES - One family " },
+            { src: "/ppes/events/my_health_my_growth/mhmg11.jpg", alt: "Closing ceremony" },
+            { src: "/ppes/events/my_health_my_growth/mhmg13.jpg", alt: "Health check-up station" },
+            { src: "/ppes/events/my_health_my_growth/mhmg14.jpg", alt: "Dr. Amita addressing students" },
+            { src: "/ppes/events/my_health_my_growth/mhmg15.jpg", alt: "Token of love to Dr Amita from Vasant sir , along with Priti Tr and Nitin Sir" },
+            { src: "/ppes/events/my_health_my_growth/mhmg16.jpg", alt: "prize to student" },
+            { src: "/ppes/events/my_health_my_growth/mhmg17.jpg", alt: "prize to student" },
+            { src: "/ppes/events/my_health_my_growth/mhmg18.jpg", alt: "Priti teacher's Margadarshan" }
         ],
         studentQuote: {
             text: "We learned that staying healthy starts with small decisions every day.",
@@ -110,10 +124,54 @@ export const galleryItems: GalleryItem[] = [
         shortDescription:
             "Introducing rural students to the world of AI and ML.",
         thumbnail: "/ppes/events/ml_ai_workshop/m1.jpg",
+        thumbnailRotate: 0,
+        thumbnailHeaderStyle: {
+            position: "absolute",
+            height: "200%",
+            width: "100%",
+            left: 0,
+            top: "-95px",
+            right: 0,
+            bottom: 0,
+            transform: "rotate(-90deg)",
+            rotate: "0deg",
+            transformOrigin: "center",
+            color: "transparent",
+        },
         images: [
             { src: "/ppes/events/ml_ai_workshop/m2.jpg", alt: "Students exploring ML concepts" },
             { src: "/ppes/events/ml_ai_workshop/m3.jpg", alt: "Interactive coding session" },
             { src: "/ppes/events/ml_ai_workshop/m4.jpg", alt: "Group discussion on AI applications" },
+            { src: "/ppes/events/ml_ai_workshop/m5.jpg", alt: "Hands-on ML activity" },
+            { src: "/ppes/events/ml_ai_workshop/m6.jpg", alt: "Students working on models" },
+            { src: "/ppes/events/ml_ai_workshop/m7.jpg", alt: "Workshop session in progress" },
+            { src: "/ppes/events/ml_ai_workshop/m9.jpg", alt: "AI concepts being explained" },
+            { src: "/ppes/events/ml_ai_workshop/m10.jpg", alt: "Students learning algorithms" },
+            { src: "/ppes/events/ml_ai_workshop/m11.jpg", alt: "Team problem-solving" },
+            { src: "/ppes/events/ml_ai_workshop/m12.jpg", alt: "Classification model building" },
+            { src: "/ppes/events/ml_ai_workshop/m13.jpg", alt: "Collaborative learning session" },
+            { src: "/ppes/events/ml_ai_workshop/m14.jpg", alt: "Guided practice on ML tools" },
+            { src: "/ppes/events/ml_ai_workshop/m15.jpg", alt: "Students presenting findings" },
+            { src: "/ppes/events/ml_ai_workshop/m16.jpg", alt: "Real-world AI applications" },
+            { src: "/ppes/events/ml_ai_workshop/m17.jpg", alt: "Instructor-led demonstration" },
+            { src: "/ppes/events/ml_ai_workshop/m18.jpg", alt: "Group learning activity" },
+            { src: "/ppes/events/ml_ai_workshop/m19.jpg", alt: "Students engaged in workshop" },
+            { src: "/ppes/events/ml_ai_workshop/m20.jpg", alt: "Coding and exploration" },
+            { src: "/ppes/events/ml_ai_workshop/m21.jpg", alt: "Workshop highlights" },
+            { src: "/ppes/events/ml_ai_workshop/m22.jpg", alt: "Technology exploration" },
+            { src: "/ppes/events/ml_ai_workshop/m23.jpg", alt: "Students at ML workshop" },
+            { src: "/ppes/events/ml_ai_workshop/m24.jpg", alt: "Learning AI fundamentals" },
+            { src: "/ppes/events/ml_ai_workshop/m25.jpg", alt: "Interactive session moment" },
+            { src: "/ppes/events/ml_ai_workshop/m26.jpg", alt: "Workshop discussion" },
+            { src: "/ppes/events/ml_ai_workshop/m27.jpg", alt: "Students experimenting with data" },
+            { src: "/ppes/events/ml_ai_workshop/m28.jpg", alt: "Collaborative AI activity" },
+            { src: "/ppes/events/ml_ai_workshop/m29.jpg", alt: "Group photo at workshop" },
+            { src: "/ppes/events/ml_ai_workshop/m30.jpg", alt: "Final workshop session" },
+            { src: "/ppes/events/ml_ai_workshop/m31.jpg", alt: "Students with instructor" },
+            { src: "/ppes/events/ml_ai_workshop/m32.jpg", alt: "ML workshop wrap-up" },
+            { src: "/ppes/events/ml_ai_workshop/m33.jpg", alt: "Technology and learning" },
+            { src: "/ppes/events/ml_ai_workshop/m34.jpg", alt: "Knowledge sharing session" },
+            { src: "/ppes/events/ml_ai_workshop/m35.jpg", alt: "Workshop closing moment" },
         ],
         gradient: "from-cyan-500 to-blue-700",
         icon: "🤖",
@@ -157,10 +215,16 @@ export const galleryItems: GalleryItem[] = [
             "Discovering biodiversity and environmental awareness in our own backyard.",
         thumbnail: "/ppes/trips/nature_hunt/n1.jpeg",
         images: [
+            { src: "/ppes/trips/nature_hunt/n1.jpeg", alt: "Nature Hunt beginning" },
             { src: "/ppes/trips/nature_hunt/n2.jpeg", alt: "Students on the forest trail" },
             { src: "/ppes/trips/nature_hunt/n3.jpeg", alt: "Identifying local plant species" },
             { src: "/ppes/trips/nature_hunt/n4.jpeg", alt: "Stream crossing adventure" },
             { src: "/ppes/trips/nature_hunt/n5.jpeg", alt: "Group reflection session outdoors" },
+            { src: "/ppes/trips/nature_hunt/n6.jpeg", alt: "Exploring forest biodiversity" },
+            { src: "/ppes/trips/nature_hunt/n7.jpeg", alt: "Documenting nature findings" },
+            { src: "/ppes/trips/nature_hunt/n8.jpeg", alt: "Students in the forest" },
+            { src: "/ppes/trips/nature_hunt/n9.jpeg", alt: "Nature observation activity" },
+            { src: "/ppes/trips/nature_hunt/n10.jpeg", alt: "Group photo at nature hunt" },
         ],
         studentQuote: {
             text: "I walk past these trees every day, but today I actually saw them for the first time.",
@@ -173,14 +237,14 @@ export const galleryItems: GalleryItem[] = [
     // ── Competitions ──────────────────────────────
     {
         slug: "painting-competition",
-        title: "Painting Competition",
+        title: "Prarambh — Path in Savardhat",
         category: "competitions",
         date: "October 2024",
         location: "Savardhat Village School",
         description:
-            "Students expressed their creativity through art, painting themes like 'My Dream Village', 'Future of Goa', and 'My Favourite Teacher'. The artwork revealed incredible imagination and pride in their surroundings. Winners were awarded handmade certificates and art supplies.",
+            "Prarambh marks the beginning — a celebration of creativity and expression at Savardhat. Students painted themes like 'My Dream Village', 'Future of Goa', and 'My Favourite Teacher'. The artwork revealed incredible imagination and pride in their surroundings. Winners were awarded handmade certificates and art supplies.",
         shortDescription:
-            "Creativity on canvas — students paint their dreams and roots.",
+            "Prarambh — the beginning of creativity and expression at Savardhat.",
         participants: "35+ students",
         thumbnail: "/ppes/shiksha_sarvarthi/IMG-20240615-WA0006.jpg",
         images: [
@@ -191,27 +255,7 @@ export const galleryItems: GalleryItem[] = [
         gradient: "from-pink-500 to-fuchsia-700",
         icon: "🎨",
     },
-    {
-        slug: "sports-competition",
-        title: "Sports Competition",
-        category: "competitions",
-        date: "December 2024",
-        location: "Savardhat Village Ground",
-        description:
-            "An inter-class sports tournament featuring cricket, kabaddi, kho-kho, and athletics. Students competed fiercely but fairly, learning the value of discipline, perseverance, and graceful defeat. The event strengthened bonds across different age groups.",
-        shortDescription:
-            "Inter-class sports tournament building discipline and camaraderie.",
-        participants: "40+ students",
-        thumbnail: "/ppes/sabha/IMG-20240616-WA0000.jpg",
-        images: [
-            { src: "/ppes/sabha/IMG-20240622-WA0029.jpg", alt: "Cricket match in progress" },
-            { src: "/ppes/sabha/IMG-20240625-WA0011.jpg", alt: "Kabaddi tournament" },
-            { src: "/ppes/sabha/IMG-20240626-WA0023.jpg", alt: "Athletics events" },
-            { src: "/ppes/sabha/IMG-20240626-WA0025.jpg", alt: "Prize distribution ceremony" },
-        ],
-        gradient: "from-blue-500 to-indigo-700",
-        icon: "🏆",
-    },
+
 ]
 
 export const categoryLabels: Record<GalleryCategory | "all", string> = {

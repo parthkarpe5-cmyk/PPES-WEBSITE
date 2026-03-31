@@ -263,11 +263,11 @@ export default function FacultiesPage() {
                                 key={mentor.name}
                                 className="flex flex-col items-center rounded-2xl border border-[#C9A227]/20 bg-[#C9A227]/5 p-8 text-center transition-all hover:bg-[#C9A227]/10"
                             >
-                                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#C9A227]/20 text-[#1F4E79] overflow-hidden relative">
+                                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[#C9A227]/20 text-[#1F4E79] overflow-hidden relative">
                                     {mentor.image ? (
                                         <Image src={mentor.image} alt={mentor.name} fill className="object-cover" />
                                     ) : (
-                                        <Heart className="h-8 w-8 text-[#C9A227]" />
+                                        <Heart className="h-12 w-12 text-[#C9A227]" />
                                     )}
                                 </div>
                                 <h3 className="mt-6 text-xl font-bold text-[#1F4E79]">
@@ -326,12 +326,12 @@ export default function FacultiesPage() {
 
                                                 {/* Avatar */}
                                                 <div className="px-6 pb-8">
-                                                    <div className="-mt-12 mb-4 flex justify-center">
-                                                        <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-white shadow-sm overflow-hidden relative">
+                                                    <div className="-mt-16 mb-4 flex justify-center">
+                                                        <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-white bg-white shadow-sm overflow-hidden relative">
                                                             {faculty.image ? (
                                                                 <Image src={faculty.image} alt={faculty.name} fill className="object-cover" />
                                                             ) : (
-                                                                <IconComp className="h-10 w-10 text-[#1F4E79]" />
+                                                                <IconComp className="h-14 w-14 text-[#1F4E79]" />
                                                             )}
                                                         </div>
                                                     </div>

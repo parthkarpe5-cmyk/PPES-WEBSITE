@@ -43,12 +43,12 @@ export function HeroSection() {
           style={{ transitionDelay: "200ms" }}
         >
           <div className="absolute inset-0 rounded-full bg-[#2FA8CC]/30 blur-2xl scale-150" />
-          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border border-white/15 bg-white/5 shadow-2xl backdrop-blur-sm ring-1 ring-[#C9A227]/20 animate-float">
+          <div className="relative flex h-36 w-36 items-center justify-center rounded-full border border-white/15 bg-white/5 shadow-2xl backdrop-blur-sm ring-1 ring-[#C9A227]/20 animate-float">
             <Image
               src="/logo.jpeg"
               alt="P.P.E.S. Logo"
-              width={96}
-              height={96}
+              width={128}
+              height={128}
               className="rounded-full"
             />
           </div>

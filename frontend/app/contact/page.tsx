@@ -124,8 +124,8 @@ export default function ContactPage() {
           <div className="lg:col-span-3">
             {submitted ? (
               <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white p-16 text-center shadow-sm">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                  <CheckCircle className="h-8 w-8 text-green-600" />
+                <div className="flex h-32 w-32 items-center justify-center rounded-full bg-green-100">
+                  <CheckCircle className="h-14 w-14 text-green-600" />
                 </div>
                 <h3 className="mt-6 text-2xl font-bold text-[#1F4E79]">
                   Message Sent!
