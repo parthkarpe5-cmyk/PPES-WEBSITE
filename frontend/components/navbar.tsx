@@ -32,14 +32,14 @@ export function Navbar() {
       className={cn(
         "sticky top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-white/10 bg-[#0d1f35]/90 backdrop-blur-xl shadow-lg shadow-black/20"
-          : "bg-[#0d1f35]/80 backdrop-blur-md"
+          ? "border-b border-white/10 bg-navy/90 backdrop-blur-xl shadow-lg shadow-black/20"
+          : "bg-navy/80 backdrop-blur-md"
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl overflow-hidden ring-2 ring-white/10 group-hover:ring-[#C9A227]/50 transition-all duration-300">
+          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl overflow-hidden ring-2 ring-white/10 group-hover:ring-gold/50 transition-all duration-300">
             <Image
               src="/logo.jpeg"
               alt="P.P.E.S. Logo"
@@ -71,7 +71,7 @@ export function Navbar() {
               >
                 {link.label}
                 {isActive && (
-                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-5 rounded-full bg-[#C9A227]" />
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-5 rounded-full bg-gold" />
                 )}
               </Link>
             )
@@ -81,7 +81,7 @@ export function Navbar() {
         {/* Join Us CTA */}
         <Link
           href="/join"
-          className="hidden md:inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#e55f00] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#FF6B00]/25 transition-all duration-200 hover:shadow-[#FF6B00]/40 hover:scale-[1.03] active:scale-[0.98]"
+          className="hidden md:inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-saffron to-[#e55f00] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-saffron/25 transition-all duration-200 hover:shadow-saffron/40 hover:scale-[1.03] active:scale-[0.98]"
         >
           Join Us
         </Link>
@@ -99,7 +99,7 @@ export function Navbar() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "border-t border-white/10 bg-[#0d1f35]/95 backdrop-blur-xl md:hidden overflow-hidden transition-all duration-300",
+          "border-t border-white/10 bg-navy/95 backdrop-blur-xl md:hidden overflow-hidden transition-all duration-300",
           mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         )}
       >
@@ -112,7 +112,7 @@ export function Navbar() {
               className={cn(
                 "rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
                 pathname === link.href
-                  ? "bg-white/10 text-white border-l-2 border-[#C9A227]"
+                  ? "bg-white/10 text-white border-l-2 border-gold"
                   : "text-white/60 hover:bg-white/8 hover:text-white"
               )}
             >
@@ -122,7 +122,7 @@ export function Navbar() {
           <Link
             href="/join"
             onClick={() => setMobileOpen(false)}
-            className="mt-3 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#e55f00] px-5 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-[#FF6B00]/20"
+            className="mt-3 rounded-xl bg-gradient-to-r from-saffron to-[#e55f00] px-5 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-saffron/20"
           >
             Join Us
           </Link>

@@ -47,6 +47,41 @@
   --sky: #2FA8CC;
 }
 
+.dark {
+  --background: #0d1a26; /* Darker navy background */
+  --foreground: #F5F8FA;
+  --card: #14283b;
+  --card-foreground: #F5F8FA;
+  --popover: #14283b;
+  --popover-foreground: #F5F8FA;
+  --primary: #2FA8CC;
+  --primary-foreground: #ffffff;
+  --secondary: #1F4E79;
+  --secondary-foreground: #F5F8FA;
+  --muted: #1F4E79;
+  --muted-foreground: #94a3b8;
+  --accent: #1F4E79;
+  --accent-foreground: #F5F8FA;
+  --destructive: #EF4444; /* Keep red */
+  --destructive-foreground: #ffffff;
+  --border: #1F4E79;
+  --input: #1F4E79;
+  --ring: #2FA8CC;
+  --chart-1: #2FA8CC;
+  --chart-2: #1F4E79;
+  --chart-3: #FF6B00;
+  --chart-4: #C9A227;
+  --chart-5: #34D399;
+  --sidebar: #0d1a26;
+  --sidebar-foreground: #F5F8FA;
+  --sidebar-primary: #2FA8CC;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1F4E79;
+  --sidebar-accent-foreground: #F5F8FA;
+  --sidebar-border: #1F4E79;
+  --sidebar-ring: #2FA8CC;
+}
+
 @theme inline {
   --font-sans: var(--font-inter), 'Inter', sans-serif;
   --font-display: var(--font-space-grotesk), 'Space Grotesk', 'Inter', sans-serif;
@@ -114,14 +149,14 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: var(--color-muted);
   }
   ::-webkit-scrollbar-thumb {
-    background: #2FA8CC;
+    background: var(--color-primary);
     border-radius: 99px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #1F4E79;
+    background: var(--color-deep-blue);
   }
 }
 
