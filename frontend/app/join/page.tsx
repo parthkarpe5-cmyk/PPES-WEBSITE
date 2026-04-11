@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { UserPlus, CheckCircle, Heart, Users, BookOpen, Lightbulb } from "lucide-react"
-
-// 👉 Replace with your actual Formspree form ID from https://formspree.io
-const FORMSPREE_JOIN_URL = "https://formspree.io/f/YOUR_JOIN_FORM_ID"
+import { UserPlus, CheckCircle, Heart, Users, BookOpen, Lightbulb, Loader2, AlertCircle } from "lucide-react"
+import { collection, addDoc, serverTimestamp } from "firebase/firestore"
+import { db } from "@/lib/firebase"
+import { toast } from "sonner"
 
 const roles = [
   "Student",
@@ -26,6 +26,7 @@ const reasons = [
 export default function JoinPage() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -46,15 +47,24 @@ export default function JoinPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError(null)
     try {
-      const res = await fetch(FORMSPREE_JOIN_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(form),
+      await addDoc(collection(db, "join_submissions"), {
+        ...form,
+        createdAt: serverTimestamp(),
       })
-      if (res.ok) {
-        setSubmitted(true)
-      }
+      setSubmitted(true)
+      toast.success("Welcome to the family! Application received.")
+    } catch (err) {
+      console.error("Firebase Firestore Error (Join):", err)
+      
+      // Provide more specific feedback if it's a permissions issue
+      const errorMsg = (err as any)?.code === 'permission-denied'
+        ? "Access denied. Please check your Firestore security rules."
+        : "Something went wrong. Please try again."
+        
+      setError(errorMsg)
+      toast.error(errorMsg)
     } finally {
       setLoading(false)
     }
@@ -152,6 +162,13 @@ export default function JoinPage() {
                 <p className="mt-1 text-sm text-gray-500">
                   Fill in your information and we&apos;ll get in touch soon.
                 </p>
+
+                {error && (
+                  <div className="mt-4 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                    <AlertCircle className="h-4 w-4 shrink-0" />
+                    {error}
+                  </div>
+                )}
 
                 <div className="mt-8 grid gap-5 sm:grid-cols-2">
                   {/* Name */}
@@ -334,8 +351,17 @@ export default function JoinPage() {
                   disabled={loading}
                   className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-saffron px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-orange-600 disabled:opacity-60"
                 >
-                  {loading ? "Submitting…" : "Join the Movement"}
-                  <UserPlus className="h-4 w-4" />
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Submitting…
+                    </>
+                  ) : (
+                    <>
+                      Join the Movement
+                      <UserPlus className="h-4 w-4" />
+                    </>
+                  )}
                 </button>
               </form>
             )}

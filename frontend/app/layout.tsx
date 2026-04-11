@@ -5,6 +5,7 @@ import "./globals.css"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "sonner"
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const _spaceGrotesk = Space_Grotesk({
@@ -42,6 +43,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
           <Analytics />
+          <Toaster richColors position="top-center" />
         </ThemeProvider>
       </body>
     </html>
