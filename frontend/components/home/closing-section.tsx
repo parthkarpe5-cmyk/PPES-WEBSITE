@@ -18,7 +18,7 @@ const socialLinks = [
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/prarambh_path_44?igsh=OXd5MzUyOHNmNDI3",
+    href: "https://www.instagram.com/prarambha_path",
     bg: "bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400",
     hoverGlow: "hover:shadow-pink-500/40",
     icon: (

@@ -15,7 +15,7 @@ const socialLinks = [
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/prarambh_path_44?igsh=OXd5MzUyOHNmNDI3",
+    href: "https://www.instagram.com/prarambha_path",
     hoverBg: "hover:bg-pink-600",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
