@@ -2,8 +2,6 @@ import type { Metadata } from "next"
 import { Inter, Space_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
@@ -22,6 +20,8 @@ export const viewport = {
   themeColor: "#2FA8CC",
 }
 
+import { Toaster } from "@/components/ui/sonner"
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,9 +38,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          {children}
+          <Toaster position="top-center" richColors />
           <Analytics />
         </ThemeProvider>
       </body>
