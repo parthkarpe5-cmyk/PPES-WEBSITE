@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  /* This is where we define your Premium Branding */
+  --color-sky: #2FA8CC;
+  --color-deepBlue: #1F4E79;
+  --color-saffron: #FF6B00;
+  --color-prestige: #C9A227;
+  --color-surface: #E8F6FA;
+
+  --font-space: var(--font-space);
+  --font-sans: var(--font-inter);
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-deepBlue min-h-screen antialiased;
+  }
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-xl border border-sky/10 shadow-2xl;
+}
