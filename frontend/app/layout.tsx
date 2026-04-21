@@ -3,11 +3,12 @@ import { Inter, Space_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const _spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-space",
 })
 
 export const metadata: Metadata = {
@@ -19,8 +20,6 @@ export const metadata: Metadata = {
 export const viewport = {
   themeColor: "#2FA8CC",
 }
-
-import { Toaster } from "@/components/ui/sonner"
 
 export default function RootLayout({
   children,

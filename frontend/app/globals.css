@@ -241,3 +241,7 @@
   border-radius: 99px;
   background: linear-gradient(90deg, var(--gold), #f0d074);
 }
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-xl border border-sky/10 shadow-2xl;
+}
