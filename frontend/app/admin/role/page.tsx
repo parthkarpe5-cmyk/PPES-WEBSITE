@@ -34,7 +34,7 @@ const RoleCard = ({
           <h3 className="text-2xl font-bold text-deep-blue mb-3 font-display tracking-tight">
             {title}
           </h3>
-          <p className="text-foreground/60 text-sm leading-relaxed mb-8 flex-grow">
+          <p className="text-secondary-foreground/60 text-sm leading-relaxed mb-8 flex-grow">
             {description}
           </p>
 
@@ -73,7 +73,7 @@ export default function RoleSelectionPage() {
           <h1 className="text-5xl md:text-7xl font-bold font-display text-deep-blue mb-4 tracking-tighter">
             Prarambha <span className="text-sky underline decoration-sky/20 underline-offset-8">Path</span>
           </h1>
-          <p className="text-foreground/60 text-lg md:text-xl max-w-lg mx-auto font-medium">
+          <p className="text-secondary-foreground/60 text-lg md:text-xl max-w-lg mx-auto font-medium">
             Your journey to excellence starts here. Select your academic role to continue.
           </p>
         </header>

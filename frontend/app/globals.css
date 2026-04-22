@@ -12,41 +12,30 @@
   --popover-foreground: #1A1A1A;
   --primary: #2FA8CC;
   --primary-foreground: #ffffff;
-  --secondary: #F5F8FA;
-  --secondary-foreground: #1F4E79;
+  --secondary: #1F4E79;
+  --secondary-foreground: #ffffff;
   --muted: #F5F8FA;
   --muted-foreground: #5A6B7B;
-  --accent: #E8F6FA;
-  --accent-foreground: #2FA8CC;
+  --accent: #FF6B00;
+  --accent-foreground: #ffffff;
   --destructive: #EF4444;
   --destructive-foreground: #ffffff;
   --border: #E2E8F0;
   --input: #E2E8F0;
   --ring: #2FA8CC;
-  --chart-1: #2FA8CC;
-  --chart-2: #1F4E79;
-  --chart-3: #FF6B00;
-  --chart-4: #C9A227;
-  --chart-5: #34D399;
   --radius: 0.625rem;
+
+  /* P.P.E.S. brand tokens - The Scholar's Focus */
+  --sky: #2FA8CC;
+  --deep-blue: #1F4E79;
+  --saffron: #FF6B00;
+  --gold: #C9A227;
+  --surface: #E8F6FA;
+  
   --sidebar: #FAFBFC;
   --sidebar-foreground: #1A1A1A;
   --sidebar-primary: #2FA8CC;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #E8F6FA;
-  --sidebar-accent-foreground: #2FA8CC;
   --sidebar-border: #E2E8F0;
-  --sidebar-ring: #2FA8CC;
-
-  /* P.P.E.S. brand tokens */
-  --sky: #2FA8CC;
-  --deep-blue: #1F4E79;
-  --navy: #0d1f35;
-  --saffron: #FF6B00;
-  --gold: #C9A227;
-  --gold-alpha-15: rgba(201, 162, 39, 0.15);
-  --gold-alpha-08: rgba(201, 162, 39, 0.08);
-  --light-blue: #E8F6FA;
 }
 
 .dark {
@@ -86,7 +75,7 @@
 
 @theme inline {
   --font-sans: var(--font-inter), 'Inter', sans-serif;
-  --font-display: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  --font-display: var(--font-space), 'Space Grotesk', sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
 
   --color-background: var(--background);
@@ -112,24 +101,10 @@
   /* Brand Colors */
   --color-sky: var(--sky);
   --color-deep-blue: var(--deep-blue);
-  --color-navy: var(--navy);
   --color-saffron: var(--saffron);
   --color-gold: var(--gold);
-  --color-light-blue: var(--light-blue);
-  
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-prestige: var(--gold);
+  --color-surface: var(--surface);
 }
 
 @layer base {
@@ -139,8 +114,11 @@
   html {
     scroll-behavior: smooth;
   }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-deep-blue tracking-tight;
+  }
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans selection:bg-sky/30;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

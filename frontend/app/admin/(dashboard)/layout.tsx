@@ -9,6 +9,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { ChevronRight } from "lucide-react"
 
 export default function AdminLayout({
   children,
@@ -18,27 +19,36 @@ export default function AdminLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+      <SidebarInset className="bg-navy bg-gradient-to-br from-navy via-navy to-deep-blue text-white overflow-hidden">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-b border-white/5 bg-navy/40 backdrop-blur-md sticky top-0 z-50">
           <div className="flex items-center gap-2">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
+            <SidebarTrigger className="-ml-1 text-sky h-8 w-8 hover:bg-white/10" />
+            <Separator orientation="vertical" className="mr-2 h-4 bg-white/10" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/admin">
+                  <BreadcrumbLink href="/admin" className="text-sky/60 hover:text-sky transition-colors font-medium">
                     Admin
                   </BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbSeparator className="hidden md:block">
+                   <ChevronRight className="size-3 text-white/20" />
+                </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Dashboard</BreadcrumbPage>
+                  <BreadcrumbPage className="text-white font-semibold">Dashboard</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
+
+          <div className="flex items-center gap-4">
+             <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky/10 border border-sky/20 text-sky text-[10px] font-bold uppercase tracking-widest">
+                <span className="w-2 h-2 rounded-full bg-sky animate-pulse" />
+                System Live
+             </div>
+          </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="flex flex-1 flex-col gap-6 p-6 overflow-y-auto">
           {children}
         </div>
       </SidebarInset>

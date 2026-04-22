@@ -1,134 +1,176 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+"use client";
+
+import React from "react";
 import { 
   Users, 
-  UserPlus, 
-  MessageSquare, 
+  BookOpen, 
+  Calendar, 
+  DollarSign, 
+  PlusCircle, 
+  CalendarPlus, 
+  UserPlus,
+  ArrowUpRight,
   TrendingUp,
-  Image as ImageIcon,
-  Calendar
-} from "lucide-react"
+  CircleCheck,
+  Clock,
+  ChevronRight
+} from "lucide-react";
+
+const StatCard = ({ title, value, subValue, icon: Icon, color, trend }: any) => (
+  <div className="relative group overflow-hidden rounded-[1.25rem] p-px bg-white/5 border border-white/10 hover:border-sky/30 transition-all duration-500 shadow-2xl">
+    <div className="glass-card relative h-full rounded-[1.25rem] p-6 flex flex-col bg-white/[0.03] backdrop-blur-3xl group-hover:bg-white/[0.07] transition-all">
+      <div className="flex items-center justify-between mb-4">
+        <div className={`p-3 rounded-xl bg-${color}/10 text-${color} shadow-lg shadow-${color}/5`}>
+          <Icon size={24} strokeWidth={1.5} />
+        </div>
+        <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full uppercase tracking-widest whitespace-nowrap">
+          <TrendingUp size={12} />
+          {trend}
+        </div>
+      </div>
+      <div>
+        <p className="text-white/40 text-xs font-bold uppercase tracking-[0.1em] mb-1">{title}</p>
+        <div className="flex items-baseline gap-2">
+          <h3 className="text-3xl font-black text-white">{value}</h3>
+          <span className="text-gold text-xs font-bold">{subValue}</span>
+        </div>
+      </div>
+      
+      {/* Decorative background glow */}
+      <div className={`absolute -right-4 -bottom-4 w-24 h-24 bg-${color}/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity`} />
+    </div>
+  </div>
+);
+
+const QuickAction = ({ title, icon: Icon, color }: any) => (
+  <button className="group relative flex items-center gap-4 bg-white/[0.03] border border-white/5 hover:border-sky/20 p-4 rounded-2xl transition-all hover:bg-white/[0.08] active:scale-95 text-left w-full h-full overflow-hidden">
+    <div className={`p-4 rounded-xl bg-${color}/10 text-${color} group-hover:scale-110 transition-transform`}>
+      <Icon size={24} />
+    </div>
+    <div className="flex-1">
+      <h4 className="text-white font-bold text-sm tracking-tight">{title}</h4>
+      <p className="text-white/40 text-[10px] font-medium uppercase tracking-[0.05em]">Quick Configuration</p>
+    </div>
+    <ArrowUpRight size={18} className="text-white/20 group-hover:text-sky transition-colors" />
+    
+    {/* Shine effect */}
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+  </button>
+);
 
 export default function AdminDashboard() {
   const stats = [
-    {
-      title: "Total Faculties",
-      value: "24",
-      description: "+2 from last month",
-      icon: Users,
-    },
-    {
-      title: "New Inquiries",
-      value: "145",
-      description: "+15% from last week",
-      icon: MessageSquare,
-    },
-    {
-      title: "Gallery Images",
-      value: "842",
-      description: "Across 12 albums",
-      icon: ImageIcon,
-    },
-    {
-      title: "Upcoming Events",
-      value: "5",
-      description: "Next: Annual Sports Day",
-      icon: Calendar,
-    },
-  ]
+    { title: "Total Students", value: "1,248", subValue: "+124", icon: Users, color: "sky", trend: "14.2%" },
+    { title: "Active Courses", value: "42", subValue: "Live Now", icon: BookOpen, color: "saffron", trend: "8.1%" },
+    { title: "Events Running", value: "05", subValue: "Today", icon: Calendar, color: "emerald-400", trend: "2 NEW" },
+    { title: "Revenue", value: "$4.8k", subValue: "This month", icon: DollarSign, color: "gold", trend: "22.5%" },
+  ];
+
+  const activities = [
+    { type: "registration", user: "Aryan Verma", content: "New student registration for 'Digital Arts'", time: "2m ago" },
+    { type: "event", user: "Aditi S.", content: "Created event 'Annual Sports Day 2026'", time: "15m ago" },
+    { type: "registration", user: "Rahul J.", content: "Joined 'Advanced Mathematics'", time: "1h ago" },
+    { type: "update", user: "Admin", content: "Updated system security protocols", time: "3h ago" },
+  ];
 
   return (
-    <div className="space-y-4 pt-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight font-display">Dashboard Overview</h2>
+    <div className="space-y-8 animate-fade-in pb-12">
+      {/* Title Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+           <h2 className="text-4xl font-black text-white tracking-tighter">
+             Dashboard <span className="text-sky/60 font-medium">Overview</span>
+           </h2>
+           <p className="text-white/40 text-sm font-medium mt-1">Status Report for Terminal PPES_PRIMARY_01</p>
+        </div>
+        
+        <div className="flex items-center gap-3">
+           <button className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-all active:scale-95">
+             Generate Report
+           </button>
+           <button className="px-5 py-2.5 rounded-xl bg-sky text-white text-xs font-black uppercase tracking-widest hover:bg-deep-blue shadow-lg shadow-sky/20 transition-all active:scale-95">
+             System Scan
+           </button>
+        </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <Card key={stat.title}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {stat.title}
-              </CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <p className="text-xs text-muted-foreground">
-                {stat.description}
-              </p>
-            </CardContent>
-          </Card>
+          <StatCard key={stat.title} {...stat} />
         ))}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>
-              Check what's happening in your school system.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-8">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="flex items-center">
-                  <div className="ml-4 space-y-1">
-                    <p className="text-sm font-medium leading-none">
-                      New faculty member added
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Anish G. was added to the Science department.
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium text-xs text-muted-foreground">
-                    {i}h ago
-                  </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Recent Activity Section */}
+        <div className="lg:col-span-2 group relative overflow-hidden rounded-[2rem] p-px bg-white/5 border border-white/10">
+          <div className="glass-card relative h-full rounded-[2rem] p-8 flex flex-col bg-white/[0.03] backdrop-blur-3xl">
+             <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-3">
+                   <div className="p-2.5 rounded-lg bg-sky/20 text-sky">
+                      <Clock size={20} />
+                   </div>
+                   <h3 className="text-xl font-bold text-white tracking-tight">Recent Activity Log</h3>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Upcoming Events</CardTitle>
-            <CardDescription>
-              Monitor your calendar.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-             <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded bg-primary/10 flex items-center justify-center text-primary font-bold">
-                    24
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-sm font-semibold">Annual Sports Day</div>
-                    <div className="text-xs text-muted-foreground">Starts at 9:00 AM</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded bg-primary/10 flex items-center justify-center text-primary font-bold">
-                    28
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-sm font-semibold">Science Exhibition</div>
-                    <div className="text-xs text-muted-foreground">Main Hall</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded bg-primary/10 flex items-center justify-center text-primary font-bold">
-                    02
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-sm font-semibold">Parent Teacher Meeting</div>
-                    <div className="text-xs text-muted-foreground">Virtual Session</div>
-                  </div>
-                </div>
+                <button className="text-[10px] font-black uppercase tracking-widest text-sky hover:text-white transition-colors">
+                   View Full Log →
+                </button>
              </div>
-          </CardContent>
-        </Card>
+             
+             <div className="space-y-6">
+                {activities.map((act, i) => (
+                  <div key={i} className="flex items-center gap-4 group/item">
+                    <div className="relative">
+                       <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                         act.type === 'registration' ? 'bg-sky/10 text-sky' : 'bg-saffron/10 text-saffron'
+                       }`}>
+                          {act.type === 'registration' ? <UserPlus size={18} /> : <CalendarPlus size={18} />}
+                       </div>
+                       {i !== activities.length - 1 && (
+                         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-px h-6 bg-white/5" />
+                       )}
+                    </div>
+                    <div className="flex-1">
+                       <div className="flex items-center justify-between">
+                          <p className="text-sm text-white font-bold">{act.user}</p>
+                          <span className="text-[10px] text-white/30 font-bold uppercase">{act.time}</span>
+                       </div>
+                       <p className="text-xs text-white/50">{act.content}</p>
+                    </div>
+                    <ChevronRight size={14} className="opacity-0 group-hover/item:opacity-100 transition-opacity text-sky" />
+                  </div>
+                ))}
+             </div>
+          </div>
+        </div>
+
+        {/* Quick Actions Section */}
+        <div className="flex flex-col gap-6">
+           <div className="relative overflow-hidden rounded-[2rem] p-px bg-white/5 border border-white/10 h-full">
+              <div className="glass-card relative h-full rounded-[2rem] p-8 flex flex-col bg-white/[0.03] backdrop-blur-3xl">
+                 <h3 className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-2">
+                    <PlusCircle size={20} className="text-sky" />
+                    Quick Actions
+                 </h3>
+                 <div className="grid grid-cols-1 gap-4">
+                    <QuickAction title="Add Course" icon={BookOpen} color="sky" />
+                    <QuickAction title="Create Event" icon={Calendar} color="saffron" />
+                    <QuickAction title="Add Faculty" icon={UserPlus} color="emerald-400" />
+                    
+                    <div className="mt-4 p-5 rounded-2xl bg-gold/5 border border-gold/10 relative group overflow-hidden">
+                       <h4 className="text-gold font-black text-xs uppercase tracking-widest mb-1 flex items-center gap-2">
+                          <TrendingUp size={14} /> Revenue Report
+                       </h4>
+                       <p className="text-white/40 text-[10px] leading-relaxed">System has processed 14,204 transactions today with 0.2% failure rate.</p>
+                       <div className="absolute -right-2 -bottom-2 text-gold/10 scale-150 rotate-[-15deg] group-hover:rotate-0 transition-transform duration-700">
+                          <DollarSign size={48} />
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }

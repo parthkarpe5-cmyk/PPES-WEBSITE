@@ -5,8 +5,17 @@ import { jwtVerify } from 'jose'; // Use jose for middleware as it's Edge compat
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
 
-  // 1. If trying to access dashboard but no token, go to login
-  if (req.nextUrl.pathname.startsWith('/dashboard') && !token) {
+  // 1. If trying to access role routes but no token, go to respective login
+  const protectedRoutes = ['/admin', '/faculty', '/student', '/dashboard'];
+  const isProtectedRoute = protectedRoutes.some(path => req.nextUrl.pathname.startsWith(path));
+
+  if (isProtectedRoute && !token) {
+    const role = protectedRoutes.find(path => req.nextUrl.pathname.startsWith(path))?.replace('/', '');
+    // If it's a generic dashboard or specific role, redirect to login
+    if (role && role !== 'dashboard') {
+      const loginPath = role === 'admin' ? 'admin_login' : role;
+      return NextResponse.redirect(new URL(`/login/${loginPath}`, req.url));
+    }
     return NextResponse.redirect(new URL('/', req.url));
   }
 
@@ -20,7 +29,7 @@ export async function middleware(req: NextRequest) {
       if (req.nextUrl.pathname.startsWith('/dashboard/admin') && role !== 'admin') {
         return NextResponse.redirect(new URL('/dashboard/student', req.url));
       }
-      
+
       if (req.nextUrl.pathname.startsWith('/dashboard/faculty') && role !== 'faculty') {
         return NextResponse.redirect(new URL('/dashboard/student', req.url));
       }
@@ -34,5 +43,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*'], // Secure all dashboard routes
+  matcher: ['/dashboard/:path*', '/admin/:path*', '/faculty/:path*', '/student/:path*'], // Secure all dashboard routes
 };
