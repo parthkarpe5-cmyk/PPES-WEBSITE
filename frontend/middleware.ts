@@ -1,5 +1,4 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/request';
+import { NextResponse, NextRequest } from 'next/server';
 import { jwtVerify } from 'jose'; // Use jose for middleware as it's Edge compatible
 
 export async function middleware(req: NextRequest) {
@@ -14,9 +13,9 @@ export async function middleware(req: NextRequest) {
     // If it's a generic dashboard or specific role, redirect to login
     if (role && role !== 'dashboard') {
       const loginPath = role === 'admin' ? 'admin_login' : role;
-      return NextResponse.redirect(new URL(`/login/${loginPath}`, req.url));
+      // return NextResponse.redirect(new URL(`/login/${loginPath}`, req.url));
     }
-    return NextResponse.redirect(new URL('/', req.url));
+    // return NextResponse.redirect(new URL('/', req.url));
   }
 
   if (token) {
