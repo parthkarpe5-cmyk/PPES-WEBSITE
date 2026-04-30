@@ -14,6 +14,7 @@ import {
   Search,
   MessageCircle
 } from "lucide-react"
+import { LiveSessionsList } from "@/components/LiveSessionsList"
 
 export default function StudentDashboard() {
   return (
@@ -86,27 +87,7 @@ export default function StudentDashboard() {
             </div>
             
             <div className="grid grid-cols-1 gap-4">
-              <div className="group relative bg-[#FF6B00]/5 border border-[#FF6B00]/20 rounded-2xl p-6 backdrop-blur-sm transition-all hover:bg-[#FF6B00]/10">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                  <div className="flex gap-5">
-                    <div className="h-14 w-14 rounded-2xl bg-[#FF6B00] flex items-center justify-center shadow-[0_0_20px_rgba(255,107,0,0.4)]">
-                      <Play className="h-7 w-7 text-white fill-current translate-x-0.5" />
-                    </div>
-                    <div>
-                      <Badge className="bg-[#FF6B00] text-white border-none text-[9px] uppercase font-bold mb-2">LIVE NOW</Badge>
-                      <h3 className="text-xl font-bold text-white mb-1 group-hover:text-[#FF6B00] transition-colors">Quantum Mechanics: Module 4</h3>
-                      <p className="text-slate-400 text-sm">Instructor: Dr. Parth Karpe • 45m remaining</p>
-                    </div>
-                  </div>
-                  <Button className="bg-[#FF6B00] hover:bg-[#FF6B00]/80 text-white rounded-xl px-8 h-12 font-bold shadow-[0_0_20px_rgba(255,107,0,0.2)] group-hover:scale-105 transition-all">
-                    Join Now
-                  </Button>
-                </div>
-                {/* Progress bar on the bottom for time elapsed */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/5 rounded-full overflow-hidden">
-                   <div className="h-full bg-[#FF6B00] w-1/3" />
-                </div>
-              </div>
+              <LiveSessionsList />
             </div>
           </section>
 

@@ -14,6 +14,7 @@ import {
   ArrowUpRight,
   HelpCircle
 } from "lucide-react"
+import { LiveSessionButton } from "@/components/LiveSessionButton"
 
 export default function FacultyDashboard() {
   return (
@@ -27,10 +28,10 @@ export default function FacultyDashboard() {
           <p className="text-slate-400 mt-1">Here is what's happening with your courses today.</p>
         </div>
         <div className="flex gap-3">
-          <Button className="bg-[#2FA8CC] hover:bg-[#2FA8CC]/80 rounded-xl text-white shadow-[0_0_15px_rgba(47,168,204,0.3)] transition-all">
-            <Video className="mr-2 h-4 w-4" />
-            Start Instant Class
-          </Button>
+          <LiveSessionButton 
+            facultyId="faculty_1" 
+            className="bg-[#2FA8CC] hover:bg-[#2FA8CC]/80 rounded-xl text-white shadow-[0_0_15px_rgba(47,168,204,0.3)] transition-all" 
+          />
         </div>
       </div>
 
@@ -144,7 +145,7 @@ export default function FacultyDashboard() {
                     <span className="text-3xl font-bold text-white">88%</span>
                     <span className="text-xs text-emerald-400 font-bold">+2.4% vs last week</span>
                   </div>
-                  <Progress value={88} className="h-2 bg-white/5" indicatorClassName="bg-gradient-to-r from-[#2FA8CC] to-[#1F4E79]" />
+                  <Progress value={88} className="h-2 bg-white/5" />
                   <div className="mt-4 grid grid-cols-2 gap-2">
                      <div className="text-[10px] text-slate-500 font-bold uppercase">Target: 95%</div>
                      <div className="text-[10px] text-right text-slate-500 font-bold uppercase">Average: 82%</div>
@@ -224,7 +225,7 @@ export default function FacultyDashboard() {
                       <span className="text-white/60">PROGRESS</span>
                       <span className="text-[#2FA8CC]">88/100</span>
                     </div>
-                    <Progress value={88} className="h-1 bg-white/10" indicatorClassName="bg-[#2FA8CC]" />
+                    <Progress value={88} className="h-1 bg-white/10" />
                   </div>
                   <Button className="w-full bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold h-9">
                     Details
