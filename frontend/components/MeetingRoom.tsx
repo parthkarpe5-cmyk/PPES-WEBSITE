@@ -97,6 +97,7 @@ const MeetingRoom = () => {
 
   const screenShareParticipant = participants.find((p) => p.screenShareStream);
   const isSharingScreen = !!screenShareParticipant;
+  const isLocalScreenSharing = screenShareParticipant?.isLocalParticipant;
 
   const { client: chatClient } = useChatContext();
 
@@ -236,8 +237,9 @@ const MeetingRoom = () => {
                     <div className="w-full h-full rounded-2xl md:rounded-[2.5rem] overflow-hidden bg-[#050810] border-2 border-sky/30 relative shadow-[0_0_50px_rgba(47,168,204,0.2)]">
                       {screenShareParticipant ? (
                         <ParticipantView
+                          key={`${screenShareParticipant.sessionId}-screen`}
                           participant={screenShareParticipant}
-                          trackType={"screenShare" as any}
+                          trackType="screenShareTrack"
                           className="w-full h-full"
                         />
                       ) : (
@@ -246,10 +248,33 @@ const MeetingRoom = () => {
                           <p className="text-sky font-bold tracking-widest text-[10px] uppercase">Connecting Screen Stream...</p>
                         </div>
                       )}
-                      <div className="absolute top-6 left-6 flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky text-[10px] font-bold uppercase tracking-widest text-white shadow-2xl z-20">
-                        <MonitorUp size={14} className="animate-pulse" />
-                        Live Classroom Presentation
-                      </div>
+                      {isLocalScreenSharing ? (
+                        <motion.div
+                          initial={{ y: -20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-white/10 backdrop-blur-2xl border border-white/20 shadow-2xl z-30"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="relative flex h-2 w-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-sky"></span>
+                            </div>
+                            <span className="text-[11px] font-bold text-white uppercase tracking-wider">You are presenting</span>
+                          </div>
+                          <div className="h-4 w-px bg-white/20" />
+                          <button
+                            onClick={toggleScreenShare}
+                            className="text-[10px] font-bold text-sky hover:text-white transition-colors uppercase tracking-widest px-3 py-1 rounded-lg hover:bg-sky/20 border border-sky/30"
+                          >
+                            Stop Sharing
+                          </button>
+                        </motion.div>
+                      ) : (
+                        <div className="absolute top-6 left-6 flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky text-[10px] font-bold uppercase tracking-widest text-white shadow-2xl z-20">
+                          <MonitorUp size={14} className="animate-pulse" />
+                          Live Classroom Presentation
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <Whiteboard call={call} />
@@ -261,6 +286,7 @@ const MeetingRoom = () => {
                   {/* Teacher View (Pinned or First) */}
                   <div className="aspect-video w-full relative bg-slate-900 border-b border-white/10 group">
                     <ParticipantView
+                      key={(participants.find(p => !!p.pin) || participants[0])?.sessionId}
                       participant={participants.find(p => !!p.pin) || participants[0]}
                       className="w-full h-full"
                     />

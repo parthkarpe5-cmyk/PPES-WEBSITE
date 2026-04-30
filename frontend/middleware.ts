@@ -13,9 +13,9 @@ export async function middleware(req: NextRequest) {
     // If it's a generic dashboard or specific role, redirect to login
     if (role && role !== 'dashboard') {
       const loginPath = role === 'admin' ? 'admin_login' : role;
-      // return NextResponse.redirect(new URL(`/login/${loginPath}`, req.url));
+      return NextResponse.redirect(new URL(`/login/${loginPath}`, req.url));
     }
-    // return NextResponse.redirect(new URL('/', req.url));
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   if (token) {
