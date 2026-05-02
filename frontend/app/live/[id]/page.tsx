@@ -25,9 +25,24 @@ const LiveSessionPage = () => {
   }
 
   if (!user) return (
-    <div className="flex h-screen w-full items-center justify-center bg-slate-900 text-white flex-col gap-4">
-      <p className="text-2xl font-bold">Authentication Required</p>
-      <p className="text-slate-400">Please login to join the live session.</p>
+    <div className="flex h-screen w-full flex-col items-center justify-center bg-[#050810] text-white p-6 relative overflow-hidden">
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-sky/20 rounded-full blur-[120px]" />
+      
+      <div className="relative z-10 text-center max-w-md w-full p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-2xl">
+        <div className="w-16 h-16 bg-sky/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-sky/20">
+          <Loader2 className="text-sky" size={32} />
+        </div>
+        <h2 className="text-3xl font-black tracking-tighter mb-4">Session Secure</h2>
+        <p className="text-white/40 font-medium mb-8">
+          You need to be logged in to access this classroom session.
+        </p>
+        <a 
+          href="/login/student" 
+          className="block w-full py-4 rounded-xl bg-sky text-white font-black uppercase tracking-widest text-sm hover:bg-sky-500 transition-all shadow-lg shadow-sky/20 active:scale-95"
+        >
+          Proceed to Login
+        </a>
+      </div>
     </div>
   );
 

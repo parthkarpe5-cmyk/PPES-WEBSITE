@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { cn } from '../lib/utils';
 
 interface Stroke {
+  id: string;
   path: { x: number, y: number }[];
   color: string;
   width: number;
@@ -45,20 +46,25 @@ export const Whiteboard = ({ call }: { call?: any }) => {
 
     if (call) {
       const unsubscribe = call.on('custom', (event: any) => {
+        // Ignore events from the local user to prevent duplicate keys/state
+        if (event.user_id === call.currentUserId) return;
+
         if (event.custom.type === 'whiteboard-draw') {
           const newStroke = event.custom.payload;
-          setHistory(prev => [...prev, newStroke]);
-          drawPath(newStroke.path, newStroke.color, newStroke.width, newStroke.tool);
+          setHistory(prev => {
+            if (prev.find(s => s.id === newStroke.id)) return prev;
+            return [...prev, newStroke];
+          });
         } else if (event.custom.type === 'whiteboard-clear') {
           clearLocalCanvas();
           setHistory([]);
         } else if (event.custom.type === 'whiteboard-undo') {
+          const { strokeId } = event.custom.payload;
           setHistory(prev => {
-            const next = prev.slice(0, -1);
-            clearLocalCanvas();
-            // We need to redraw from the new history
-            // Since setState is async, we'll use a timeout or a separate function
-            return next;
+            if (strokeId) {
+              return prev.filter(s => s.id !== strokeId);
+            }
+            return prev.slice(0, -1);
           });
         }
       });
@@ -86,14 +92,18 @@ export const Whiteboard = ({ call }: { call?: any }) => {
   const drawPath = (path: { x: number, y: number }[], pColor: string, pWidth: number, pTool: string) => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
-    if (!ctx || path.length < 2) return;
+    if (!canvas || !ctx || path.length < 2) return;
+
+    // Scale coordinates from relative (0-1) to absolute pixels
+    const scaleX = canvas.width;
+    const scaleY = canvas.height;
 
     ctx.beginPath();
     ctx.lineWidth = pTool === 'eraser' ? 20 : pWidth;
     ctx.strokeStyle = pTool === 'eraser' ? '#ffffff' : pColor;
-    ctx.moveTo(path[0].x, path[0].y);
+    ctx.moveTo(path[0].x * scaleX, path[0].y * scaleY);
     for (let i = 1; i < path.length; i++) {
-      ctx.lineTo(path[i].x, path[i].y);
+      ctx.lineTo(path[i].x * scaleX, path[i].y * scaleY);
     }
     ctx.stroke();
   };
@@ -106,7 +116,8 @@ export const Whiteboard = ({ call }: { call?: any }) => {
 
   const stopDrawing = () => {
     if (isDrawing && currentPath.current.length > 1) {
-      const newStroke: Stroke = {
+      const newStroke: Stroke & { id: string } = {
+        id: Math.random().toString(36).substr(2, 9),
         path: currentPath.current,
         color,
         width: lineWidth,
@@ -136,9 +147,6 @@ export const Whiteboard = ({ call }: { call?: any }) => {
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
 
-    ctx.lineWidth = tool === 'eraser' ? 20 : lineWidth;
-    ctx.strokeStyle = tool === 'eraser' ? '#ffffff' : color;
-
     const rect = canvas.getBoundingClientRect();
     let x, y;
 
@@ -150,8 +158,16 @@ export const Whiteboard = ({ call }: { call?: any }) => {
       y = e.clientY - rect.top;
     }
 
-    currentPath.current.push({ x, y });
+    // Convert to relative coordinates (0 to 1)
+    const relX = x / canvas.width;
+    const relY = y / canvas.height;
 
+    currentPath.current.push({ x: relX, y: relY });
+
+    ctx.lineWidth = tool === 'eraser' ? 20 : lineWidth;
+    ctx.strokeStyle = tool === 'eraser' ? '#ffffff' : color;
+    
+    // We draw in absolute pixels for immediate feedback
     ctx.lineTo(x, y);
     ctx.stroke();
     ctx.beginPath();
@@ -176,9 +192,13 @@ export const Whiteboard = ({ call }: { call?: any }) => {
 
   const handleUndo = () => {
     if (history.length === 0) return;
+    const lastStrokeId = history[history.length - 1].id;
     setHistory(prev => prev.slice(0, -1));
     if (call) {
-      call.sendCustomEvent({ type: 'whiteboard-undo', payload: {} });
+      call.sendCustomEvent({ 
+        type: 'whiteboard-undo', 
+        payload: { strokeId: lastStrokeId } 
+      });
     }
   };
 

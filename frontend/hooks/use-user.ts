@@ -17,7 +17,21 @@ export const useUser = () => {
 
   useEffect(() => {
     const token = Cookies.get('token');
-    if (token) {
+    const userData = Cookies.get('user-data');
+
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData);
+        setUser({
+          id: parsed.id,
+          name: parsed.name,
+          role: parsed.role,
+          image: parsed.image
+        });
+      } catch (e) {
+        console.error("Failed to parse user-data cookie");
+      }
+    } else if (token) {
       try {
         const payload = decodeJwt(token);
         setUser({
@@ -29,14 +43,6 @@ export const useUser = () => {
       } catch (error) {
         console.error('Failed to decode token:', error);
       }
-    } else {
-      // BYPASS: Provide a guest user for testing
-      setUser({
-        id: 'guest_test_user',
-        name: 'Guest Tester',
-        role: 'student',
-        image: 'https://getstream.io/random_svg/?id=guest&name=Guest'
-      });
     }
     setIsLoaded(true);
   }, []);

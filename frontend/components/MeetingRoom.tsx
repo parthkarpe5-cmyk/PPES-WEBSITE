@@ -41,7 +41,8 @@ import {
   Smile,
   ShieldAlert,
   Volume2,
-  VolumeX
+  VolumeX,
+  Settings
 } from 'lucide-react';
 import {
   Window,
@@ -53,7 +54,9 @@ import {
   useChatContext
 } from 'stream-chat-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useUser } from '../hooks/use-user';
 
+import { useToast } from '../hooks/use-toast';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -68,6 +71,7 @@ type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right' | 'speaker-botto
 const MeetingRoom = () => {
   const router = useRouter();
   const call = useCall();
+  const { user } = useUser();
   const { id } = useParams();
   const [layout, setLayout] = useState<CallLayoutType>('classroom');
   const [isHandRaised, setIsHandRaised] = useState(false);
@@ -77,7 +81,8 @@ const MeetingRoom = () => {
   const [showResources, setShowResources] = useState(false);
   const [chatChannel, setChatChannel] = useState<any>(null);
   const [isCopied, setIsCopied] = useState(false);
-  const [reactions, setReactions] = useState<{ id: number, emoji: string, x: number }[]>([]);
+  const { toast } = useToast();
+  const [reactions, setReactions] = useState<{ id: number, emoji: string, x: number, senderName: string }[]>([]);
 
   const {
     useCallCallingState,
@@ -102,13 +107,16 @@ const MeetingRoom = () => {
   const { client: chatClient } = useChatContext();
 
   useEffect(() => {
-    if (!chatClient || !id || chatChannel) return;
+    if (!chatClient || !id) return;
 
     let isMounted = true;
     const initChannel = async () => {
+      if (!user || !chatClient) return;
+
       try {
-        const channel = chatClient.channel('messaging', id as string, {
-          name: `Classroom: ${id}`,
+        const channel = chatClient.channel('livestream', id as string, {
+          name: `Classroom Chat - ${id}`,
+          members: [user.id],
         } as any);
 
         await channel.watch();
@@ -118,28 +126,80 @@ const MeetingRoom = () => {
       }
     };
 
-    initChannel();
-    return () => { isMounted = false; };
-  }, [chatClient, id, chatChannel]);
+    if (!chatChannel) {
+      initChannel();
+    }
 
-  if (callingState !== CallingState.JOINED) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center bg-[#050810]">
-        <div className="flex flex-col items-center gap-6">
-          <div className="relative">
-            <Loader2 className="animate-spin text-sky" size={56} strokeWidth={1.5} />
-            <div className="absolute inset-0 bg-sky/20 blur-xl rounded-full animate-pulse" />
-          </div>
-          <div className="text-center">
-            <p className="text-white font-bold tracking-[0.2em] uppercase text-[10px] mb-2">Establishing Connection</p>
-            <p className="text-slate-500 text-xs font-medium">Securing your classroom link...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    return () => {
+      isMounted = false;
+    };
+  }, [chatClient, id]); // Removed chatChannel from dependencies
 
+  // --- Attendance Logging Logic (Entry & Exit) ---
+  useEffect(() => {
+    if (callingState === CallingState.JOINED && user && id) {
+      const logEntry = async () => {
+        try {
+          await fetch('http://localhost:5000/api/attendance/log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId: user.id || 'anonymous',
+              userName: user.name || 'Anonymous',
+              classId: id,
+              role: user.role || 'student'
+            })
+          });
+        } catch (error) {
+          console.error('Failed to log entry:', error);
+        }
+      };
 
+      logEntry();
+
+      // Cleanup: Log Exit
+      return () => {
+        const exitBody = JSON.stringify({
+          userId: user.id || 'anonymous',
+          classId: id
+        });
+
+        // Use keepalive to ensure the request is sent even if the tab is closing
+        fetch('http://localhost:5000/api/attendance/exit', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: exitBody,
+          keepalive: true
+        }).catch(err => console.error('Failed to log exit on unmount:', err));
+      };
+    }
+  }, [callingState, user, id]);
+
+  // --- Auto-Recording Logic ---
+  useEffect(() => {
+    const autoStartRecording = async () => {
+      if (callingState === CallingState.JOINED && call && !isRecording) {
+        // Only Faculty/Admin should trigger the auto-recording
+        const isAdmin = user?.role === 'admin' || user?.role === 'faculty';
+
+        if (isAdmin) {
+          try {
+            await call.startRecording();
+            toast({
+              title: "Auto-Recording Started",
+              description: "This session is being recorded automatically for your records."
+            });
+          } catch (err) {
+            console.error('Failed to auto-start recording:', err);
+          }
+        }
+      }
+    };
+
+    autoStartRecording();
+  }, [callingState, call, isRecording, user?.role]);
+
+  // --- Logic Functions ---
 
   const toggleMic = async () => {
     await call?.microphone.toggle();
@@ -167,11 +227,18 @@ const MeetingRoom = () => {
     try {
       if (isRecording) {
         await call.stopRecording();
+        toast({ title: "Recording Stopped", description: "The session recording has been saved." });
       } else {
         await call.startRecording();
+        toast({ title: "Recording Started", description: "This session is now being recorded." });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Recording error:', err);
+      toast({
+        variant: "destructive",
+        title: "Recording Error",
+        description: err.message || "Failed to toggle recording. Check your permissions."
+      });
     }
   };
 
@@ -183,14 +250,19 @@ const MeetingRoom = () => {
   };
 
   const sendReaction = (emoji: string) => {
-    if (!call) return;
-    const reaction = { id: Date.now(), emoji, x: Math.random() * 80 + 10 };
+    if (!call || !user) return;
+    const reaction = {
+      id: Date.now() + Math.random(),
+      emoji,
+      x: Math.random() * 80 + 10,
+      senderName: user.name || 'You'
+    };
     setReactions(prev => [...prev, reaction]);
 
     // Broadcast to others
     call.sendCustomEvent({
       type: 'reaction',
-      payload: { emoji }
+      payload: { emoji, senderName: user.name || 'Anonymous' }
     });
 
     setTimeout(() => {
@@ -201,9 +273,17 @@ const MeetingRoom = () => {
   useEffect(() => {
     if (!call) return;
     const unsubscribe = call.on('custom', (event: any) => {
+      // Ignore local events
+      if (event.user_id === call.currentUserId) return;
+
       if (event.custom.type === 'reaction') {
-        const { emoji } = event.custom.payload;
-        const reaction = { id: Date.now(), emoji, x: Math.random() * 80 + 10 };
+        const { emoji, senderName } = event.custom.payload;
+        const reaction = {
+          id: Date.now() + Math.random(),
+          emoji,
+          x: Math.random() * 80 + 10,
+          senderName
+        };
         setReactions(prev => [...prev, reaction]);
         setTimeout(() => {
           setReactions(prev => prev.filter(r => r.id !== reaction.id));
@@ -212,6 +292,24 @@ const MeetingRoom = () => {
     });
     return () => unsubscribe();
   }, [call]);
+
+  // Loading State (Moved after all hooks to prevent React crash)
+  if (callingState !== CallingState.JOINED) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-[#050810]">
+        <div className="flex flex-col items-center gap-6">
+          <div className="relative">
+            <Loader2 className="animate-spin text-sky" size={56} strokeWidth={1.5} />
+            <div className="absolute inset-0 bg-sky/20 blur-xl rounded-full animate-pulse" />
+          </div>
+          <div className="text-center">
+            <p className="text-white font-bold tracking-[0.2em] uppercase text-[10px] mb-2">Establishing Connection</p>
+            <p className="text-slate-500 text-xs font-medium">Securing your classroom link...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-[#050810] text-white font-sans">
@@ -232,7 +330,7 @@ const MeetingRoom = () => {
             ) : layout === 'classroom' ? (
               <div className="flex flex-col lg:flex-row h-full w-full">
                 {/* Main Content Area: Screen Share or Whiteboard */}
-                <div className="flex-1 h-full min-h-[400px] p-2 lg:p-4 overflow-hidden relative text-white">
+                <div className="flex-1 h-full min-h-[300px] p-1.5 lg:p-4 overflow-hidden relative text-white">
                   {isSharingScreen ? (
                     <div className="w-full h-full rounded-2xl md:rounded-[2.5rem] overflow-hidden bg-[#050810] border-2 border-sky/30 relative shadow-[0_0_50px_rgba(47,168,204,0.2)]">
                       {screenShareParticipant ? (
@@ -270,42 +368,78 @@ const MeetingRoom = () => {
                           </button>
                         </motion.div>
                       ) : (
-                        <div className="absolute top-6 left-6 flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky text-[10px] font-bold uppercase tracking-widest text-white shadow-2xl z-20">
+                        <div className="absolute top-4 left-4 lg:top-6 lg:left-6 flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky text-[10px] font-bold uppercase tracking-widest text-white shadow-2xl z-20">
                           <MonitorUp size={14} className="animate-pulse" />
-                          Live Classroom Presentation
+                          Live Presentation
                         </div>
                       )}
                     </div>
                   ) : (
                     <Whiteboard call={call} />
                   )}
+
+                  {/* Mobile Floating Teacher View */}
+                  <div className="absolute bottom-24 right-4 w-32 aspect-video lg:hidden z-40 rounded-xl overflow-hidden border border-white/20 shadow-2xl bg-slate-900">
+                    {participants.length > 0 && (
+                      <ParticipantView
+                        key={(() => {
+                          const p = participants.find(p => !!p.pin) ||
+                            participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
+                            participants[0];
+                          return `pip-${p?.sessionId}`;
+                        })()}
+                        participant={
+                          participants.find(p => !!p.pin) ||
+                          participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
+                          participants[0]
+                        }
+                        className="w-full h-full"
+                      />
+                    )}
+                  </div>
                 </div>
 
-                {/* Fixed Classroom Sidebar */}
-                <div className="w-full lg:w-[300px] xl:w-[360px] flex flex-col bg-[#0D121F]/80 backdrop-blur-3xl border-l border-white/5 relative overflow-hidden">
-                  {/* Teacher View (Pinned or First) */}
+                {/* Fixed Classroom Sidebar (Hidden on Mobile, use Control Bar to open right sidebar instead) */}
+                <div className="hidden lg:flex w-[300px] xl:w-[360px] flex-col bg-[#0D121F]/80 backdrop-blur-3xl border-l border-white/5 relative overflow-hidden">
+                  {/* Teacher/Host View */}
                   <div className="aspect-video w-full relative bg-slate-900 border-b border-white/10 group">
-                    <ParticipantView
-                      key={(participants.find(p => !!p.pin) || participants[0])?.sessionId}
-                      participant={participants.find(p => !!p.pin) || participants[0]}
-                      className="w-full h-full"
-                    />
-                    <div className="absolute top-3 left-3 flex flex-col gap-2">
-                      <div className="px-2 py-1 rounded-lg bg-red-500 text-[8px] font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-xl border border-white/10">
-                        <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
-                        On Air
-                      </div>
-                      {isHandRaised && (
-                        <div className="px-2 py-1 rounded-lg bg-sky text-[8px] font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-xl border border-white/10 animate-bounce">
-                          <Hand size={10} className="fill-white" />
-                          Asking Question
+                    {participants.length > 0 ? (
+                      <>
+                        <ParticipantView
+                          key={(() => {
+                            const p = participants.find(p => !!p.pin) ||
+                              participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
+                              participants[0];
+                            return p?.sessionId;
+                          })()}
+                          participant={
+                            participants.find(p => !!p.pin) ||
+                            participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
+                            participants[0]
+                          }
+                          className="w-full h-full"
+                        />
+                        <div className="absolute top-3 left-3 flex flex-col gap-2">
+                          <div className="px-2 py-1 rounded-lg bg-red-500 text-[8px] font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-xl border border-white/10">
+                            <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
+                            On Air
+                          </div>
                         </div>
-                      )}
-                    </div>
 
-                    <div className="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-black/60 backdrop-blur-md text-[9px] font-bold text-white/80 opacity-0 group-hover:opacity-100 transition-opacity">
-                      Prof. {(participants.find(p => !!p.pin) || participants[0])?.name}
-                    </div>
+                        <div className="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-black/60 backdrop-blur-md text-[9px] font-bold text-white/80 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {(() => {
+                            const p = participants.find(p => !!p.pin) ||
+                              participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
+                              participants[0];
+                            return p?.name || 'User';
+                          })()}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="size-full flex items-center justify-center text-slate-500 text-[10px] uppercase tracking-widest font-bold">
+                        Waiting for host...
+                      </div>
+                    )}
                   </div>
 
                   {/* Sidebar Chat Area */}
@@ -371,11 +505,16 @@ const MeetingRoom = () => {
                     initial={{ y: '100%', opacity: 0, scale: 0.5 }}
                     animate={{ y: '-10%', opacity: 1, scale: 1.5 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 3, ease: "easeOut" }}
-                    className="absolute bottom-0 text-3xl"
+                    transition={{ duration: 4, ease: "easeOut" }}
+                    className="absolute bottom-20 flex flex-col items-center gap-1"
                     style={{ left: `${r.x}%` }}
                   >
-                    {r.emoji}
+                    <div className="bg-white/10 backdrop-blur-md border border-white/20 px-2 py-0.5 rounded-full text-[8px] font-bold text-white/80 whitespace-nowrap">
+                      {r.senderName}
+                    </div>
+                    <div className="text-4xl drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+                      {r.emoji}
+                    </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -413,8 +552,41 @@ const MeetingRoom = () => {
                         <X size={18} className="md:w-[20px]" />
                       </button>
                     </div>
-                    <div className="flex-1 overflow-y-auto custom-scrollbar p-2">
-                      <CallParticipantsList onClose={() => setShowParticipants(false)} />
+                    <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-2">
+                      {participants.map((p) => (
+                        <div key={p.sessionId} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 group hover:bg-white/10 transition-all">
+                          <div className="flex items-center gap-3">
+                            <div className="relative">
+                              <div className="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-bold text-sky">
+                                {p.name?.charAt(0) || 'U'}
+                              </div>
+                              {p.isSpeaking && <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-[#0D121F] rounded-full animate-pulse" />}
+                            </div>
+                            <div>
+                              <div className="text-sm font-bold flex items-center gap-2">
+                                {p.name}
+                                {p.isLocalParticipant && <span className="text-[8px] bg-sky/20 text-sky px-1.5 py-0.5 rounded-full uppercase">You</span>}
+                                {(p.roles?.includes('admin') || p.roles?.includes('host')) && (
+                                  <div className="p-1 rounded bg-amber-500/20 text-amber-500" title="Host">
+                                    <ShieldAlert size={10} />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="text-[10px] text-slate-500 font-medium uppercase tracking-tight">
+                                {p.roles?.includes('admin') ? 'Faculty' : 'Student'}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
+                            <div className={cn("p-1.5 rounded-lg", !!p.audioStream ? "text-emerald-500" : "text-red-500/60")}>
+                              {!!p.audioStream ? <Mic size={14} /> : <MicOff size={14} />}
+                            </div>
+                            <div className={cn("p-1.5 rounded-lg", !!p.videoStream ? "text-emerald-500" : "text-red-500/60")}>
+                              {!!p.videoStream ? <Video size={14} /> : <VideoOff size={14} />}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -446,19 +618,13 @@ const MeetingRoom = () => {
 
                 {showPolls && (
                   <div className="h-full relative">
-                    <button onClick={() => setShowPolls(false)} className="absolute top-6 right-6 z-10 p-2 hover:bg-white/5 rounded-full transition-colors text-slate-500 hover:text-white">
-                      <X size={18} />
-                    </button>
-                    <PollsPanel />
+                    <PollsPanel onClose={() => setShowPolls(false)} />
                   </div>
                 )}
 
                 {showResources && (
                   <div className="h-full relative">
-                    <button onClick={() => setShowResources(false)} className="absolute top-6 right-6 z-10 p-2 hover:bg-white/5 rounded-full transition-colors text-slate-500 hover:text-white">
-                      <X size={18} />
-                    </button>
-                    <ResourcesPanel />
+                    <ResourcesPanel onClose={() => setShowResources(false)} />
                   </div>
                 )}
               </div>
@@ -468,11 +634,11 @@ const MeetingRoom = () => {
       </div>
 
       {/* Modern Floating Control Bar */}
-      <div className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
+      <div className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-2 md:px-4">
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="flex items-center gap-1.5 md:gap-3 px-3 py-2 md:px-6 md:py-4 rounded-2xl md:rounded-[3rem] bg-[#0D121F]/80 backdrop-blur-2xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.6)] ring-1 ring-white/5"
+          className="flex items-center gap-1 md:gap-3 px-2 py-2 md:px-6 md:py-4 rounded-2xl md:rounded-[3rem] bg-[#0D121F]/90 backdrop-blur-3xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.6)] ring-1 ring-white/5 overflow-x-auto no-scrollbar"
         >
           {/* Main Controls */}
           <div className="flex items-center gap-1.5 md:gap-3">
@@ -490,7 +656,62 @@ const MeetingRoom = () => {
               label={isCamMuted ? 'Start' : 'Stop'}
               variant={isCamMuted ? 'danger' : 'secondary'}
             />
-            <div className="hidden sm:block">
+
+            {/* Mobile More Actions Menu */}
+            <div className="md:hidden">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 transition-all active:scale-95">
+                    <Settings size={20} className="text-slate-400" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="border-white/10 bg-[#0D121F]/95 backdrop-blur-xl text-white rounded-2xl p-2 min-w-[200px] shadow-2xl mb-4 mr-4">
+                  <div className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Classroom Tools</div>
+
+                  <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setIsHandRaised(!isHandRaised)}>
+                    <Hand size={18} className={cn("mr-3", isHandRaised ? "text-sky" : "text-slate-400")} />
+                    <span className="text-sm">Raise Hand</span>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={toggleScreenShare}>
+                    <MonitorUp size={18} className={cn("mr-3", isSharingScreen ? "text-sky" : "text-slate-400")} />
+                    <span className="text-sm">Share Screen</span>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setShowParticipants(true)}>
+                    <Users size={18} className="mr-3 text-slate-400" />
+                    <span className="text-sm">Participants</span>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setShowChat(true)}>
+                    <MessageSquare size={18} className="mr-3 text-slate-400" />
+                    <span className="text-sm">Class Chat</span>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setShowPolls(true)}>
+                    <BarChart2 size={18} className="mr-3 text-slate-400" />
+                    <span className="text-sm">Live Polls</span>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setShowResources(true)}>
+                    <FileText size={18} className="mr-3 text-slate-400" />
+                    <span className="text-sm">Session Files</span>
+                  </DropdownMenuItem>
+
+                  <div className="h-px bg-white/5 my-2" />
+
+                  <div className="grid grid-cols-4 gap-1 p-1">
+                    {['👏', '❤️', '🎉', '🔥'].map((emoji) => (
+                      <button key={emoji} onClick={() => sendReaction(emoji)} className="p-2 hover:bg-white/10 rounded-lg text-lg">
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            <div className="hidden md:flex items-center gap-3">
               <ControlButton
                 active={isHandRaised}
                 onClick={() => setIsHandRaised(!isHandRaised)}
@@ -498,8 +719,6 @@ const MeetingRoom = () => {
                 label="Hand"
                 variant={isHandRaised ? 'primary' : 'secondary'}
               />
-            </div>
-            <div className="hidden sm:block">
               <ControlButton
                 active={isSharingScreen}
                 onClick={toggleScreenShare}
@@ -507,8 +726,6 @@ const MeetingRoom = () => {
                 label="Share"
                 variant={isSharingScreen ? 'primary' : 'secondary'}
               />
-            </div>
-            <div className="hidden lg:block">
               <ControlButton
                 active={isRecording}
                 onClick={toggleRecording}
@@ -521,8 +738,8 @@ const MeetingRoom = () => {
 
           <div className="h-6 md:h-8 w-px bg-white/10 mx-1 md:mx-2" />
 
-          {/* Feature Controls */}
-          <div className="flex items-center gap-1.5 md:gap-3">
+          {/* Feature Controls (Desktop Only) */}
+          <div className="hidden md:flex items-center gap-1.5 md:gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-white/5 hover:bg-white/10 transition-all active:scale-95 group relative">
@@ -663,7 +880,7 @@ const ControlButton = ({ active, onClick, icon: Icon, label, variant }: any) => 
         <div className="absolute top-1.5 right-1.5 md:top-2 md:right-2 w-1 md:w-1.5 h-1 md:h-1.5 bg-sky rounded-full" />
       )}
     </button>
-    <span className="text-[8px] md:text-[10px] font-bold text-slate-500 group-hover:text-white transition-colors uppercase tracking-tight line-clamp-1">{label}</span>
+    <span className="hidden md:block text-[8px] md:text-[10px] font-bold text-slate-500 group-hover:text-white transition-colors uppercase tracking-tight line-clamp-1">{label}</span>
   </div>
 );
 
@@ -684,7 +901,7 @@ const FeatureButton = ({ active, onClick, icon: Icon, label }: any) => (
         />
       )}
     </button>
-    <span className="text-[8px] font-bold text-slate-500 group-hover:text-white transition-colors uppercase tracking-tight hidden sm:block">{label}</span>
+    <span className="hidden md:block text-[8px] font-bold text-slate-500 group-hover:text-white transition-colors uppercase tracking-tight">{label}</span>
   </div>
 );
 

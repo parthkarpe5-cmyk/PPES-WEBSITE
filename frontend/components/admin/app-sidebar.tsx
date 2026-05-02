@@ -74,6 +74,11 @@ const data = {
       ],
     },
     {
+      title: "Attendance",
+      url: "/admin/attendance",
+      icon: Calendar,
+    },
+    {
       title: "Payments",
       url: "/admin/payments",
       icon: CreditCard,
@@ -93,7 +98,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" className="border-r border-white/5 bg-[#1F4E79] text-white" {...props}>
+    <Sidebar collapsible="icon" className="border-r border-white/5 bg-[#0B0F1A] text-white" {...props}>
       <SidebarHeader className="border-b border-white/5 pb-4">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -111,7 +116,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="bg-[#1F4E79]">
+      <SidebarContent className="bg-[#0B0F1A]">
         <SidebarGroup>
           <SidebarGroupLabel className="text-white/40 text-[10px] uppercase tracking-widest px-4 font-bold">Main Navigation</SidebarGroupLabel>
           <SidebarMenu className="px-2 gap-1">
@@ -128,7 +133,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t border-white/5 p-4 bg-[#1F4E79]">
+      <SidebarFooter className="border-t border-white/5 p-4 bg-[#0B0F1A]">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>

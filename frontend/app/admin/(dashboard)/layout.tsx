@@ -19,8 +19,8 @@ export default function AdminLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-navy bg-gradient-to-br from-navy via-navy to-deep-blue text-white overflow-hidden">
-        <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-b border-white/5 bg-navy/40 backdrop-blur-md sticky top-0 z-50">
+      <SidebarInset className="bg-[#050810] text-white overflow-hidden relative">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6 border-b border-white/5 bg-[#050810]/60 backdrop-blur-xl sticky top-0 z-50">
           <div className="flex items-center gap-2">
             <SidebarTrigger className="-ml-1 text-sky h-8 w-8 hover:bg-white/10" />
             <Separator orientation="vertical" className="mr-2 h-4 bg-white/10" />

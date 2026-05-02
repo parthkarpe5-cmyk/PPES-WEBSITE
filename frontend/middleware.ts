@@ -5,14 +5,17 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
 
   // 1. If trying to access role routes but no token, go to respective login
-  const protectedRoutes = ['/admin', '/faculty', '/student', '/dashboard'];
+  const protectedRoutes = ['/student', '/admin', '/faculty', '/dashboard', '/live'];
   const isProtectedRoute = protectedRoutes.some(path => req.nextUrl.pathname.startsWith(path));
 
   if (isProtectedRoute && !token) {
     const role = protectedRoutes.find(path => req.nextUrl.pathname.startsWith(path))?.replace('/', '');
     // If it's a generic dashboard or specific role, redirect to login
     if (role && role !== 'dashboard') {
-      const loginPath = role === 'admin' ? 'admin_login' : role;
+      let loginPath = role;
+      if (role === 'admin') loginPath = 'admin_login';
+      if (role === 'live') loginPath = 'student'; // Redirect live session attempts to student login
+      
       return NextResponse.redirect(new URL(`/login/${loginPath}`, req.url));
     }
     return NextResponse.redirect(new URL('/', req.url));

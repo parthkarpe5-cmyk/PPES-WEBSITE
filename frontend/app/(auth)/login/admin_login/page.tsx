@@ -13,7 +13,7 @@ export default function AdminLoginPage() {
           </div>
         </div>
 
-        <LoginForm role="admin" idPlaceholder="Email" />
+        <LoginForm role="admin" idPlaceholder="Admin ID" />
         
         <p className="mt-8 text-center text-xs text-red-500/60 uppercase tracking-widest font-bold">
           Restricted Area

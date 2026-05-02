@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FileText, Link, Download, ExternalLink, Plus, Trash2, File, Globe } from 'lucide-react';
+import { FileText, Link, Download, ExternalLink, Plus, Trash2, File, Globe, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,7 +15,7 @@ interface Resource {
   timestamp: string;
 }
 
-export const ResourcesPanel = () => {
+export const ResourcesPanel = ({ onClose }: { onClose?: () => void }) => {
   const [resources, setResources] = useState<Resource[]>([
     {
       id: '1',
@@ -45,12 +45,19 @@ export const ResourcesPanel = () => {
           </div>
           Session Resources
         </h3>
-        <Button 
-          size="sm" 
-          className="bg-sky hover:bg-sky/80 text-white rounded-full px-4 h-8"
-        >
-          <Plus size={16} className="mr-1" /> Add
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button 
+            size="sm" 
+            className="bg-sky hover:bg-sky/80 text-white rounded-full px-4 h-8"
+          >
+            <Plus size={16} className="mr-1" /> Add
+          </Button>
+          {onClose && (
+            <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-full transition-colors text-slate-500 hover:text-white">
+              <X size={20} />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-3">

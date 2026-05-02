@@ -23,9 +23,15 @@ export const LiveSessionsList = () => {
     const fetchSessions = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/live/sessions`);
+        
+        if (!response.ok) throw new Error('Network response was not ok');
+        
         const data = await response.json();
-        // Only show live sessions
-        setSessions(data.filter((s: Session) => s.status === 'live'));
+        
+        if (Array.isArray(data)) {
+          // Only show live sessions
+          setSessions(data.filter((s: Session) => s.status === 'live' || s.status === 'scheduled'));
+        }
       } catch (error) {
         console.error('Error fetching sessions:', error);
       } finally {
