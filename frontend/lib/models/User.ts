@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 // This schema defines how a User is stored in MongoDB
 const UserSchema = new mongoose.Schema({
+  userId: { type: String },
   name: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String }, // Hashed password
