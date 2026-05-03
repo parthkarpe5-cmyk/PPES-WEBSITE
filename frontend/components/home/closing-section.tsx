@@ -18,7 +18,7 @@ const socialLinks = [
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/prarambh_path_44?igsh=OXd5MzUyOHNmNDI3",
+    href: "https://www.instagram.com/prarambha_path",
     bg: "bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400",
     hoverGlow: "hover:shadow-pink-500/40",
     icon: (
@@ -57,8 +57,8 @@ export function ClosingSection() {
   return (
     <section id="connect" className="relative bg-white py-28 overflow-hidden">
       {/* Background blobs */}
-      <div className="absolute top-0 right-0 h-80 w-80 rounded-full bg-[#E8F6FA]/60 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-[#C9A227]/5 blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 h-80 w-80 rounded-full bg-light-blue/60 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-gold/5 blur-3xl pointer-events-none" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         {/* Heading */}
@@ -66,15 +66,14 @@ export function ClosingSection() {
           ref={topRef}
           className={`text-center transition-all duration-700 ${topVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
         >
-          <span className="section-label text-[#2FA8CC]">Get In Touch</span>
+          <span className="section-label text-sky">Get In Touch</span>
           <h2
-            className="mt-3 text-balance text-4xl font-bold tracking-tight text-[#1F4E79] md:text-5xl"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            className="mt-3 text-balance text-4xl font-bold tracking-tight text-deep-blue md:text-5xl font-display"
           >
             Let&apos;s Build Something{" "}
             <span className="relative">
               Meaningful Together
-              <span className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-gradient-to-r from-[#C9A227] to-[#f0d074] opacity-70" />
+              <span className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-gradient-to-r from-gold to-[#f0d074] opacity-70" />
             </span>
           </h2>
           <div className="gold-divider mx-auto mt-5" />
@@ -85,13 +84,13 @@ export function ClosingSection() {
           className={`mt-14 transition-all duration-700 delay-100 ${topVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
         >
           {/* Location chip */}
-          <div className="mx-auto mb-10 flex max-w-xs items-center justify-center gap-3 rounded-2xl border border-[#E2E8F0] bg-[#E8F6FA]/50 px-6 py-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2FA8CC]/10 shrink-0">
-              <MapPin className="h-5 w-5 text-[#2FA8CC]" />
+          <div className="mx-auto mb-10 flex max-w-xs items-center justify-center gap-3 rounded-2xl border border-border bg-light-blue/50 px-6 py-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky/10 shrink-0">
+              <MapPin className="h-5 w-5 text-sky" />
             </div>
             <div>
-              <p className="text-xs font-semibold text-[#2FA8CC] uppercase tracking-wide">Location</p>
-              <p className="mt-0.5 text-sm text-[#1F4E79] font-medium">Savardhat Village, Bicholim, Goa</p>
+              <p className="text-xs font-semibold text-sky uppercase tracking-wide">Location</p>
+              <p className="mt-0.5 text-sm text-deep-blue font-medium">Savardhat Village, Bicholim, Goa</p>
             </div>
           </div>
 
@@ -99,10 +98,10 @@ export function ClosingSection() {
           <div className="mx-auto flex max-w-2xl flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="/contact"
-              className="group flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-[#2FA8CC] bg-white px-8 py-5 font-semibold text-[#1F4E79] transition-all duration-300 hover:bg-[#2FA8CC] hover:text-white hover:shadow-xl hover:shadow-[#2FA8CC]/25 hover:scale-[1.02] sm:w-auto sm:min-w-[220px]"
+              className="group flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-sky bg-white px-8 py-5 font-semibold text-deep-blue transition-all duration-300 hover:bg-sky hover:text-white hover:shadow-xl hover:shadow-sky/25 hover:scale-[1.02] sm:w-auto sm:min-w-[220px]"
             >
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2FA8CC]/10 group-hover:bg-white/20 transition-colors">
-                <MessageSquare className="h-5 w-5 text-[#2FA8CC] group-hover:text-white transition-colors" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky/10 group-hover:bg-white/20 transition-colors">
+                <MessageSquare className="h-5 w-5 text-sky group-hover:text-white transition-colors" />
               </div>
               <div className="text-left">
                 <p className="text-sm font-bold leading-none">Contact Us</p>
@@ -112,7 +111,7 @@ export function ClosingSection() {
 
             <Link
               href="/join"
-              className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#FF6B00] to-[#e05a00] px-8 py-5 font-semibold text-white shadow-xl shadow-[#FF6B00]/30 transition-all duration-300 hover:shadow-[#FF6B00]/50 hover:scale-[1.02] sm:w-auto sm:min-w-[220px]"
+              className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-saffron to-orange-600 px-8 py-5 font-semibold text-white shadow-xl shadow-saffron/30 transition-all duration-300 hover:shadow-saffron/50 hover:scale-[1.02] sm:w-auto sm:min-w-[220px]"
             >
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 group-hover:bg-white/25 transition-colors">
                 <UserPlus className="h-5 w-5 text-white" />
@@ -127,17 +126,17 @@ export function ClosingSection() {
           {/* Email chip */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <a
-              href="mailto:prarambhapath@gmail.com"
-              className="flex items-center gap-2 rounded-full border border-[#E2E8F0] bg-white px-5 py-2.5 text-sm font-medium text-[#5A6B7B] transition-all hover:border-[#2FA8CC]/40 hover:text-[#2FA8CC] hover:shadow-md hover:shadow-[#2FA8CC]/10 hover:scale-[1.02]"
+              href="mailto:prarambhpath4444@gmail.com"
+              className="flex items-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-muted-foreground transition-all hover:border-sky/40 hover:text-sky hover:shadow-md hover:shadow-sky/10 hover:scale-[1.02]"
             >
               <Mail className="h-4 w-4" />
-              prarambhapath@gmail.com
+              prarambhpath4444@gmail.com
             </a>
           </div>
 
           {/* Social Links */}
           <div className="mt-10 flex flex-col items-center gap-4">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#2FA8CC]">Follow Us</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-sky">Follow Us</p>
             <div className="flex items-center gap-3 flex-wrap justify-center">
               {socialLinks.map((s) => (
                 <a
@@ -159,7 +158,7 @@ export function ClosingSection() {
         {/* Final quote banner */}
         <div
           ref={quoteRef}
-          className={`mt-20 relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0d1f35] via-[#1F4E79] to-[#2FA8CC] px-8 py-16 text-center md:px-16 transition-all duration-700 ${quoteVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
+          className={`mt-20 relative overflow-hidden rounded-3xl bg-gradient-to-r from-navy via-deep-blue to-sky px-8 py-16 text-center md:px-16 transition-all duration-700 ${quoteVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
         >
           {/* Dot grid */}
           <div
@@ -170,14 +169,13 @@ export function ClosingSection() {
             }}
           />
           {/* Orbs */}
-          <div className="absolute -top-12 -left-12 h-40 w-40 rounded-full bg-[#C9A227]/15 blur-2xl" />
+          <div className="absolute -top-12 -left-12 h-40 w-40 rounded-full bg-gold/15 blur-2xl" />
           <div className="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-white/5 blur-2xl" />
 
           <div className="relative">
-            <Quote className="mx-auto h-10 w-10 text-[#C9A227]" />
+            <Quote className="mx-auto h-10 w-10 text-gold" />
             <blockquote
-              className="mx-auto mt-6 max-w-3xl text-2xl font-bold leading-relaxed text-white md:text-4xl"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              className="mx-auto mt-6 max-w-3xl text-2xl font-bold leading-relaxed text-white md:text-4xl font-display"
             >
               &ldquo;Education must shape character before careers.&rdquo;
             </blockquote>

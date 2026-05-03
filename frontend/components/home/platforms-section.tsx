@@ -11,7 +11,7 @@ const platforms = [
     handle: "@prarambhapath",
     description: "Daily updates, student stories, and behind-the-scenes moments.",
     gradient: "from-purple-600 via-pink-500 to-orange-400",
-    url: "https://www.instagram.com/prarambh_path_44?igsh=OXd5MzUyOHNmNDI3",
+    url: "https://www.instagram.com/prarambha_path",
     glow: "group-hover:shadow-pink-500/20",
   },
   {
@@ -46,9 +46,9 @@ const platforms = [
     name: "Curious Mind",
     handle: "Website",
     description: "Our dedicated platform for curious learners and explorers.",
-    gradient: "from-[#2FA8CC] to-[#1F4E79]",
+    gradient: "from-sky to-deep-blue",
     url: "#",
-    glow: "group-hover:shadow-[#2FA8CC]/20",
+    glow: "group-hover:shadow-sky/20",
   },
 ]
 
@@ -72,7 +72,7 @@ function PlatformCard({ platform, index }: { platform: (typeof platforms)[0]; in
       target="_blank"
       rel="noopener noreferrer"
       style={{ transitionDelay: `${index * 80}ms` }}
-      className={`group flex items-start gap-5 rounded-2xl border border-[#E2E8F0] bg-white p-6 transition-all duration-700 hover:shadow-xl ${platform.glow} hover:-translate-y-1 hover:border-transparent ${visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
+      className={`group flex items-start gap-5 rounded-2xl border border-border bg-white p-6 transition-all duration-700 hover:shadow-xl ${platform.glow} hover:-translate-y-1 hover:border-transparent ${visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
     >
       <div
         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${platform.gradient} shadow-md transition-transform duration-300 group-hover:scale-110`}
@@ -80,11 +80,11 @@ function PlatformCard({ platform, index }: { platform: (typeof platforms)[0]; in
         <platform.icon className="h-6 w-6 text-white" />
       </div>
       <div className="min-w-0">
-        <h3 className="font-bold text-[#1F4E79] transition-colors group-hover:text-[#FF6B00]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+        <h3 className="font-bold text-deep-blue transition-colors group-hover:text-saffron font-display">
           {platform.name}
         </h3>
-        <p className="text-xs font-semibold text-[#2FA8CC]">{platform.handle}</p>
-        <p className="mt-2 text-sm leading-relaxed text-[#5A6B7B]">{platform.description}</p>
+        <p className="text-xs font-semibold text-sky">{platform.handle}</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{platform.description}</p>
       </div>
     </a>
   )
@@ -104,12 +104,12 @@ export function PlatformsSection() {
   }, [])
 
   return (
-    <section className="relative bg-[#F5F8FA] py-28 overflow-hidden">
+    <section className="relative bg-secondary py-24 overflow-hidden">
       {/* Grid pattern */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
-          backgroundImage: 'linear-gradient(#1F4E79 1px, transparent 1px), linear-gradient(90deg, #1F4E79 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(var(--deep-blue) 1px, transparent 1px), linear-gradient(90deg, var(--deep-blue) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
         }}
       />
@@ -119,15 +119,14 @@ export function PlatformsSection() {
           ref={headerRef}
           className={`text-center transition-all duration-700 ${headerVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
         >
-          <span className="section-label text-[#FF6B00]">Our Presence</span>
+          <span className="section-label text-saffron">Our Presence</span>
           <h2
-            className="mt-3 text-balance text-4xl font-bold tracking-tight text-[#1F4E79] md:text-5xl"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            className="mt-3 text-balance text-4xl font-bold tracking-tight text-deep-blue md:text-5xl font-display"
           >
             Our Voice Beyond Classrooms
           </h2>
-          <div className="mx-auto mt-4 h-[3px] w-12 rounded-full bg-gradient-to-r from-[#FF6B00] to-[#C9A227]" />
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#5A6B7B]">
+          <div className="mx-auto mt-4 h-[3px] w-12 rounded-full bg-gradient-to-r from-saffron to-gold" />
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-[15px] leading-relaxed text-muted-foreground">
             We believe education extends beyond four walls. Follow our journey on the platforms
             where we share, inspire, and connect with the wider community.
           </p>

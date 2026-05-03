@@ -4,14 +4,14 @@ const contactDetails = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@prarambhapath.org",
-    href: "mailto:hello@prarambhapath.org",
+    value: "prarambhpath4444@gmail.com",
+    href: "mailto:prarambhpath4444@gmail.com",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+91 98765 43210",
-    href: "tel:+919876543210",
+    value: "+91 96898 58940",
+    href: "tel:+919689858940",
   },
   {
     icon: MapPin,

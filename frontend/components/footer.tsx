@@ -9,13 +9,13 @@ const socialLinks = [
     hoverBg: "hover:bg-red-600",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        <path d="Hi M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
       </svg>
     ),
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/prarambh_path_44?igsh=OXd5MzUyOHNmNDI3",
+    href: "https://www.instagram.com/prarambha_path",
     hoverBg: "hover:bg-pink-600",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
@@ -64,7 +64,7 @@ export function Footer() {
                 <Image src="/logo.jpeg" alt="P.P.E.S. Logo" width={40} height={40} className="object-cover" />
               </div>
               <div>
-                <span className="text-base font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <span className="text-base font-bold tracking-tight font-display">
                   P.P.E.S.
                 </span>
                 <p className="text-[10px] text-white/40 font-medium tracking-wider">Since 2024</p>
@@ -137,10 +137,10 @@ export function Footer() {
                   <Mail className="h-3.5 w-3.5 text-sky" />
                 </div>
                 <a
-                  href="mailto:prarambhapath@gmail.com"
+                  href="mailto:prarambhpath4444@gmail.com"
                   className="text-sm text-white/55 transition-colors hover:text-gold leading-relaxed"
                 >
-                  prarambhapath@gmail.com
+                  prarambhpath4444@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-3">
@@ -148,10 +148,10 @@ export function Footer() {
                   <Phone className="h-3.5 w-3.5 text-sky" />
                 </div>
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+919689858940"
                   className="text-sm text-white/55 transition-colors hover:text-gold"
                 >
-                  +91 98765 43210
+                  +91 96898 58940
                 </a>
               </li>
             </ul>
@@ -174,7 +174,7 @@ export function Footer() {
                   <span className="text-white/50 transition-colors group-hover:text-white">
                     {s.icon}
                   </span>
-                  <span className="text-sm text-white/50 transition-colors group-hover:text-gold">
+                  <span className="text-sm text-white/55 transition-colors group-hover:text-gold">
                     {s.label}
                   </span>
                 </a>

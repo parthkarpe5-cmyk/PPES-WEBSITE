@@ -36,7 +36,7 @@ export function Navbar() {
           : "bg-navy/80 backdrop-blur-md"
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative flex h-10 w-10 items-center justify-center rounded-xl overflow-hidden ring-2 ring-white/10 group-hover:ring-gold/50 transition-all duration-300">
@@ -49,8 +49,8 @@ export function Navbar() {
             />
           </div>
           <div className="flex flex-col leading-none">
-            <span className="text-base font-bold tracking-tight text-white">P.P.E.S.</span>
-            <span className="text-[10px] text-white/40 font-medium tracking-wider">Since 2024</span>
+            <span className="text-base font-bold tracking-tight text-white font-display">P.P.E.S.</span>
+            <span className="text-[10px] text-white/35 font-medium tracking-wider">Since 2024</span>
           </div>
         </Link>
 
@@ -81,7 +81,7 @@ export function Navbar() {
         {/* Join Us CTA */}
         <Link
           href="/join"
-          className="hidden md:inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-saffron to-[#e55f00] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-saffron/25 transition-all duration-200 hover:shadow-saffron/40 hover:scale-[1.03] active:scale-[0.98]"
+          className="hidden md:inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-saffron to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-saffron/20 transition-all duration-200 hover:shadow-saffron/35 hover:scale-[1.03] active:scale-[0.98]"
         >
           Join Us
         </Link>

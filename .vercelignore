@@ -1,0 +1,8 @@
+# Standard Vercel ignore
+.next
+node_modules
+out
+build
+
+# Ignore pnpm lockfiles to force npm build
+pnpm-lock.yaml

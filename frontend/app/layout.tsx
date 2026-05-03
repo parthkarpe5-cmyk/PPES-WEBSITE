@@ -4,6 +4,8 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "sonner"
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const _spaceGrotesk = Space_Grotesk({
@@ -27,14 +29,22 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${_inter.variable} ${_spaceGrotesk.variable} font-sans antialiased`}
       >
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <Analytics />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+          <Analytics />
+          <Toaster richColors position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   )
