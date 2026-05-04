@@ -27,6 +27,7 @@ dist/
 
 # check
 
+# payment api key 
 # payment keys
 *razorpay_test_api_keys_1776714915470.csv
 *rzp-key.csv
