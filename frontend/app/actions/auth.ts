@@ -30,18 +30,14 @@ export async function loginAction(formData: FormData, role: string) {
     );
 
     cookieStore.set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24, // 1 day
-      path: "/",
-    });
+    httpOnly: true,
+   secure: process.env.NODE_ENV === "production",
+   sameSite: "strict",
+   maxAge: 86400, // 1 day
+   path: "/", // CRUCIAL: Must be "/" so it works on all pages
+   });
 
-    // Set a client-readable cookie for the UI (not httpOnly)
-    cookieStore.set("user-data", JSON.stringify(data.user), {
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24,
-      path: "/",
-    });
+    
 
     return { success: true, user: data.user };
   } catch (error) {
