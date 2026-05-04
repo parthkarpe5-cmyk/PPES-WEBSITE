@@ -2,15 +2,14 @@ import type { Metadata } from "next"
 import { Inter, Space_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "sonner"
+import { Toaster } from "@/components/ui/sonner"
+import { StreamVideoProvider } from "@/components/StreamVideoProvider"
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const _spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-space",
 })
 
 export const metadata: Metadata = {
@@ -32,6 +31,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${_inter.variable} ${_spaceGrotesk.variable} font-sans antialiased`}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
@@ -39,9 +39,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <StreamVideoProvider>
+            {children}
+          </StreamVideoProvider>
+          <Toaster position="top-center" richColors />
           <Analytics />
           <Toaster richColors position="top-center" />
         </ThemeProvider>
