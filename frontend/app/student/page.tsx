@@ -19,10 +19,8 @@ import {
   Search,
   MessageCircle,
   ClipboardList,
-  History as HistoryIcon,
   ChevronRight,
-  CheckCircle2,
-  AlertCircle
+  CheckCircle2
 } from "lucide-react"
 import { LiveSessionsList } from "@/components/LiveSessionsList"
 import { cn } from "@/lib/utils"
