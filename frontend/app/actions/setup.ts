@@ -125,6 +125,7 @@ export async function registerStudentAction(formData: FormData) {
 
     // 3. Create the Record
     const newUser = new User({
+      userId: generatedUsn, // Use USN as the unique identifier
       name,
       email,
       role: "student",
