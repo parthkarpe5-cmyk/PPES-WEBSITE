@@ -3,7 +3,7 @@ import connectDB from "../../lib/db";
 import { ClassSession } from "../../lib/models/ClassSession";
 import { revalidatePath } from "next/cache";
 
-export async function assignClassAction(formData: FormData) {
+export async function assignClassAction(prevState: any, formData: FormData) {
   try {
     await connectDB();
 

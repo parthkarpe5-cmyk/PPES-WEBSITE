@@ -1,6 +1,20 @@
+"use client";
+
+import { useActionState, useEffect } from "react";
 import { assignClassAction } from "../../../actions/timetable";
+import { toast } from "sonner";
 
 export default function AdminTimetable() {
+  const [state, formAction, isPending] = useActionState(assignClassAction, null);
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success("Class allocated successfully!");
+    } else if (state?.error) {
+      toast.error(`Error: ${state.error}`);
+    }
+  }, [state]);
+
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#E8F6FA] p-6 relative overflow-hidden">
       
@@ -20,7 +34,7 @@ export default function AdminTimetable() {
         </div>
 
         {/* The Form - Ensure action is linked correctly */}
-        <form action={assignClassAction} className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+        <form action={formAction} className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
           
           {/* Faculty Name */}
           <div className="flex flex-col gap-2">
@@ -97,9 +111,10 @@ export default function AdminTimetable() {
           <div className="flex items-end">
             <button 
               type="submit" 
-              className="w-full h-14 bg-[#2FA8CC] hover:bg-[#1F4E79] text-white font-black rounded-2xl shadow-xl shadow-[#2FA8CC]/20 transition-all active:scale-95 text-xs uppercase tracking-widest"
+              disabled={isPending}
+              className="w-full h-14 bg-[#2FA8CC] hover:bg-[#1F4E79] text-white font-black rounded-2xl shadow-xl shadow-[#2FA8CC]/20 transition-all active:scale-95 text-xs uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Initiate Allocation
+              {isPending ? "Processing..." : "Initiate Allocation"}
             </button>
           </div>
 
@@ -112,4 +127,4 @@ export default function AdminTimetable() {
       </div>
     </div>
   );
-}
+}
