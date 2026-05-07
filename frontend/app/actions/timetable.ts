@@ -1,42 +1,109 @@
 "use server";
+
 import connectDB from "../../lib/db";
-import { ClassSession } from "../../lib/models/ClassSession";
+import { TimetableSession } from "../../lib/models/TimetableSession";
+import { User } from "../../lib/models/User";
 import { revalidatePath } from "next/cache";
 
-export async function assignClassAction(formData: FormData) {
+/**
+ * 1. Utility: Format date to dd/mm/yyyy
+ * Note: Must be async because it is in a "use server" file
+ */
+export async function formatDate(date: Date | string) {
+  const d = new Date(date);
+  const day = d.getDate().toString().padStart(2, '0');
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+/**
+ * 2. ADMIN: Get all faculty for the table rows
+ */
+export async function getFacultyList() {
+  await connectDB();
+  const faculty = await User.find({ role: "faculty" }).select("name _id").lean();
+  return JSON.parse(JSON.stringify(faculty));
+}
+
+/**
+ * 3. ADMIN/FACULTY: Get the full master schedule
+ */
+export async function getWeeklyTimetable() {
+  await connectDB();
+  const data = await TimetableSession.find({}).lean();
+  return JSON.parse(JSON.stringify(data));
+}
+
+/**
+ * 4. ADMIN: Create or Update a slot (Handles Proxy & Merging)
+ */
+export async function upsertSlotAction(formData: FormData) {
   try {
     await connectDB();
+    
+    const facultyId = formData.get("facultyId") as string;
+    const dateInput = formData.get("date") as string;
+    const slotIdx = parseInt(formData.get("slotIndex") as string);
+    
+    // Find faculty name to ensure data integrity
+    const faculty = await User.findById(facultyId);
+    if (!faculty) return { error: "Faculty not found" };
 
     const data = {
-      facultyName: formData.get("facultyName") as string,
-      studentClass: formData.get("studentClass") as string,
-      subject: formData.get("subject") as string,
-      topic: formData.get("topic") as string,
-      date: new Date(formData.get("date") as string),
-      startTime: formData.get("startTime") as string,
-      // Provide dummy data for non-form fields to satisfy Mongoose
-      endTime: "N/A",
-      facultyId: "standalone_user",
-      status: "accepted"
+      facultyName: faculty.name,
+      facultyId: facultyId,
+      date: new Date(dateInput),
+      slotIndex: slotIdx,
+      duration: parseInt(formData.get("duration") as string) || 1,
+      studentClass: formData.get("studentClass"),
+      subject: formData.get("subject"),
+      isProxy: formData.get("isProxy") === "true",
+      // Map slot index to human readable time
+      startTime: ["8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM"][slotIdx]
     };
 
-    console.log("💾 FINAL DATA FOR DB:", data);
+    // Upsert logic: find by Faculty, Date, and Slot
+    // This allows Admin to "Update" a teacher's slot easily (Proxy logic)
+    await TimetableSession.findOneAndUpdate(
+      { facultyId: facultyId, date: data.date, slotIndex: slotIdx },
+      data,
+      { upsert: true }
+    );
 
-    const newSession = new ClassSession(data);
-    await newSession.save();
-    
-    console.log("✅ SUCCESS: Document saved!");
-    
-    revalidatePath("/dashboard/student/timetable");
+    revalidatePath("/dashboard/admin/timetable");
     return { success: true };
   } catch (error: any) {
-    console.error("❌ SAVE ERROR:", error.message);
-    return { error: error.message };
+    console.error("Save Error:", error.message);
+    return { error: "Failed to save slot" };
   }
 }
 
+/**
+ * 5. FACULTY: Update Topic Name
+ */
+export async function updateTopicAction(formData: FormData) {
+  try {
+    await connectDB();
+    const id = formData.get("sessionId");
+    const topic = formData.get("topic") as string;
+
+    await TimetableSession.findByIdAndUpdate(id, { topic: topic });
+
+    revalidatePath("/dashboard/faculty");
+    return { success: true };
+  } catch (error) {
+    return { error: "Update failed" };
+  }
+}
+
+/**
+ * 6. STUDENT: Fetch schedule for a specific class (09 or 10)
+ */
 export async function getStudentTimetable(className: string) {
   await connectDB();
-  // Ensure we search by 'studentClass'
-  return await ClassSession.find({ studentClass: className }).sort({ date: 1 }).lean();
+  const data = await TimetableSession.find({ 
+    studentClass: className 
+  }).sort({ date: 1, slotIndex: 1 }).lean();
+  return JSON.parse(JSON.stringify(data));
 }

@@ -1,5 +1,4 @@
-import { getFacultySessions } from "../../actions/faculty";
-import AcceptForm from "../../../components/faculty/AcceptForm";
+import { getWeeklyTimetable, updateTopicAction } from "../../actions/timetable";
 
 export default async function FacultyDashboard({ 
   searchParams 
@@ -7,76 +6,75 @@ export default async function FacultyDashboard({
   searchParams: Promise<{ name?: string }> 
 }) {
   const resolvedParams = await searchParams;
-  const facultyName = resolvedParams.name || "Dr.John"; // Default for testing
-  const sessions = await getFacultySessions(facultyName);
+  const facultyName = resolvedParams.name || "Dr.John";
+  const allSessions = await getWeeklyTimetable();
+  const mySessions = allSessions.filter((s: any) => s.facultyName === facultyName);
+
+  // Helper for dd/mm/yyyy
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
+  };
 
   return (
     <div className="min-h-screen bg-[#E8F6FA] p-8">
-      <header className="max-w-5xl mx-auto mb-12 flex justify-between items-center">
-        <div>
-          <h1 className="text-4xl font-bold text-[#1F4E79]">Faculty Dashboard</h1>
-          <p className="text-[#2FA8CC] font-medium italic">Welcome, Prof. {facultyName}</p>
-        </div>
-        <div className="bg-white px-6 py-2 rounded-2xl shadow-sm border border-sky/10 text-[10px] font-black text-saffron uppercase tracking-widest animate-pulse">
-           Live Console
-        </div>
-      </header>
+      <div className="max-w-6xl mx-auto">
+        <header className="mb-10">
+          <h1 className="text-3xl font-bold text-[#1F4E79]">Weekly Teaching Schedule</h1>
+          <p className="text-sky italic">Faculty: Prof. {facultyName}</p>
+        </header>
 
-      <main className="max-w-5xl mx-auto grid grid-cols-1 gap-8">
-        {sessions.length > 0 ? (
-          sessions.map((session: any) => (
-            <div key={session._id.toString()} className="bg-white rounded-[3rem] p-10 shadow-xl border-l-[12px] border-l-sky flex flex-col md:flex-row gap-10">
-              
-              {/* Left Side: Session Details */}
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="bg-[#E8F6FA] text-[#2FA8CC] px-4 py-1 rounded-full text-[10px] font-black uppercase">Class {session.studentClass}th</span>
-                  <span className={`px-4 py-1 rounded-full text-[10px] font-black uppercase ${session.status === 'pending' ? 'bg-saffron/10 text-saffron' : 'bg-green-100 text-green-600'}`}>
-                    {session.status}
-                  </span>
-                </div>
-                <h2 className="text-3xl font-bold text-deepBlue mb-2">{session.subject}</h2>
-                <p className="text-sky font-semibold">Topic: {session.topic}</p>
-                
-                <div className="mt-6 flex gap-6">
-                   <div className="text-left">
-                      <p className="text-[9px] font-bold text-deepBlue/30 uppercase">Date</p>
-                      <p className="text-deepBlue font-bold">{new Date(session.date).toLocaleDateString()}</p>
-                   </div>
-                   <div className="text-left">
-                      <p className="text-[9px] font-bold text-deepBlue/30 uppercase">Time</p>
-                      <p className="text-deepBlue font-bold">{session.startTime}</p>
-                   </div>
-                </div>
-              </div>
-
-              {/* Right Side: Actions */}
-              <div className="flex-1 border-t md:border-t-0 md:border-l border-sky/10 md:pl-10">
-                {session.status === "pending" ? (
-                  <AcceptForm sessionId={session._id.toString()} />
-                ) : (
-                  <div className="h-full flex flex-col justify-center gap-4">
-                    <div className="bg-green-50 p-6 rounded-3xl border border-green-100 text-center">
-                       <p className="text-green-700 font-bold text-sm">✓ Session Confirmed</p>
-                       <p className="text-green-600/60 text-xs mt-2 italic">Students have been notified of your schedule.</p>
-                    </div>
-                    {session.scheduledMessage && (
-                      <div className="p-4 border-2 border-dashed border-sky/20 rounded-2xl">
-                         <p className="text-[9px] font-bold text-sky uppercase mb-1">Your Message:</p>
-                         <p className="text-deepBlue text-sm italic">"{session.scheduledMessage}"</p>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+        <div className="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-sky/10">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-[#1F4E79] text-white text-[11px] uppercase tracking-widest">
+                <th className="p-6">Date (DD/MM/YYYY)</th>
+                <th className="p-6">Class</th>
+                <th className="p-6">Subject</th>
+                <th className="p-6">Topic Name</th>
+                <th className="p-6 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-sky/5">
+              {mySessions.map((session: any) => (
+                <tr key={session._id.toString()} className="hover:bg-surface/50 transition-colors">
+                  <td className="p-6 font-mono text-sm text-[#1F4E79]">{formatDate(session.date)}</td>
+                  <td className="p-6">
+                    <span className="bg-[#E8F6FA] text-[#2FA8CC] px-3 py-1 rounded-full text-[10px] font-black uppercase">
+                      Std {session.studentClass}
+                    </span>
+                  </td>
+                  <td className="p-6 font-bold text-[#1F4E79]">{session.subject}</td>
+                  <td className="p-6">
+                    {/* Inline Form to Edit Topic */}
+                    <form action={updateTopicAction} className="flex gap-2">
+                      <input type="hidden" name="sessionId" value={session._id} />
+                      <input 
+                        name="topic" 
+                        defaultValue={session.topic} 
+                        className="bg-transparent border-b border-sky/20 text-deepBlue py-1 outline-none focus:border-sky text-sm w-full italic" 
+                        placeholder="Click to edit topic..."
+                      />
+                      <button type="submit" className="text-[10px] bg-sky/10 text-sky px-2 py-1 rounded hover:bg-sky hover:text-white transition-all">
+                        Update
+                      </button>
+                    </form>
+                  </td>
+                  <td className="p-6 text-center">
+                    {session.isProxy && <span className="text-[9px] font-bold text-red-500 uppercase">Proxy</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          
+          {mySessions.length === 0 && (
+            <div className="p-20 text-center text-[#1F4E79]/20 font-bold italic">
+              No classes assigned for this week.
             </div>
-          ))
-        ) : (
-          <div className="text-center p-20 glass-card rounded-[4rem]">
-            <p className="text-deepBlue/20 font-bold text-xl italic">No lecture invitations found for your name.</p>
-          </div>
-        )}
-      </main>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

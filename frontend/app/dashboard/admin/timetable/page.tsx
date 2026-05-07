@@ -1,114 +1,143 @@
-import { assignClassAction } from "../../../actions/timetable";
+import { getFacultyList, getWeeklyTimetable, upsertSlotAction } from "../../../actions/timetable";
 
-export default function AdminTimetable() {
+const TIME_SLOTS = [
+  "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", 
+  "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", 
+  "06:00 PM", "07:00 PM"
+];
+
+export default async function AdminTimetablePage() {
+  const faculty = await getFacultyList();
+  const allSessions = await getWeeklyTimetable();
+
+  const weekDates = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() + i);
+    return {
+      dayName: d.toLocaleDateString('en-US', { weekday: 'long' }),
+      formatted: `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`,
+      iso: d.toISOString().split('T')[0]
+    };
+  });
+
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#E8F6FA] p-6 relative overflow-hidden">
-      
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 right-0 w-[30rem] h-[30rem] bg-[#2FA8CC]/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-[#FF6B00]/5 rounded-full blur-[100px] pointer-events-none" />
+    <div className="min-h-screen bg-[#E8F6FA] p-4 md:p-8">
+      <header className="max-w-7xl mx-auto mb-10">
+        <h1 className="text-4xl font-black text-[#1F4E79] tracking-tight text-center">Master Timetable</h1>
+      </header>
 
-      {/* Main Admin Card */}
-      <div className="relative z-10 w-full max-w-2xl bg-white rounded-[3.5rem] p-10 md:p-14 shadow-[0_30px_70px_-15px_rgba(31,78,121,0.2)] border-t-8 border-t-[#2FA8CC]">
-        
-        <div className="text-center mb-10">
-          <div className="inline-block bg-[#1F4E79]/10 text-[#1F4E79] px-4 py-1 rounded-full text-[10px] font-black tracking-widest mb-4 border border-[#1F4E79]/10">
-            ADMINISTRATIVE PORTAL
+      <main className="max-w-7xl mx-auto space-y-16">
+        {weekDates.map((day) => (
+          <div key={day.iso} className="flex flex-col gap-4">
+            <div className="flex items-center gap-4 ml-4">
+              <span className="bg-[#1F4E79] text-white px-6 py-2 rounded-full font-bold shadow-lg">{day.dayName}</span>
+              <span className="text-[#1F4E79]/40 font-mono font-bold text-sm">{day.formatted}</span>
+            </div>
+
+            <div className="overflow-x-auto bg-white rounded-[2.5rem] shadow-2xl border border-sky/10">
+              <table className="w-full text-left border-collapse min-w-[1200px]">
+                <thead>
+                  <tr className="bg-[#E8F6FA] border-b border-sky/10">
+                    <th className="p-6 text-[#1F4E79] font-black uppercase text-[10px] w-48 border-r border-sky/10">Faculty</th>
+                    {TIME_SLOTS.map((time) => (
+                      <th key={time} className="p-4 text-[#2FA8CC] text-center font-bold text-[10px] border-r border-sky/10">{time}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {faculty.map((f: any) => (
+                    <tr key={f._id} className="border-b border-sky/5 group hover:bg-surface/30 transition-colors">
+                      <td className="p-6 font-bold text-[#1F4E79] border-r border-sky/10 bg-white sticky left-0 z-10">{f.name}</td>
+                      
+                      {TIME_SLOTS.map((_, sIdx) => {
+                        // --- SAFETY LOGIC START ---
+                        const session = allSessions.find((s: any) => {
+                          if (!s.date) return false;
+                          const d = new Date(s.date);
+                          // Check if date is valid before calling toISOString
+                          if (isNaN(d.getTime())) return false; 
+                          
+                          return s.facultyId === f._id.toString() && 
+                                 d.toISOString().split('T')[0] === day.iso &&
+                                 s.slotIndex === sIdx;
+                        });
+
+                        const prevSession = allSessions.find((s: any) => {
+                          if (!s.date) return false;
+                          const d = new Date(s.date);
+                          if (isNaN(d.getTime())) return false;
+
+                          return s.facultyId === f._id.toString() && 
+                                 d.toISOString().split('T')[0] === day.iso &&
+                                 s.slotIndex === sIdx - 1 &&
+                                 s.duration === 2;
+                        });
+                        // --- SAFETY LOGIC END ---
+
+                        if (prevSession) return null;
+
+                        if (session) {
+                          return (
+                            <td key={sIdx} colSpan={session.duration} className={`p-2 border-r border-sky/10 ${session.studentClass === '10' ? 'bg-[#2FA8CC]/10' : 'bg-[#FF6B00]/10'}`}>
+                              <div className="h-full min-h-[60px] rounded-2xl p-3 flex flex-col justify-center text-center border-2 border-white/50 shadow-sm">
+                                <p className={`text-[9px] font-black ${session.studentClass === '10' ? 'text-[#2FA8CC]' : 'text-[#FF6B00]'}`}>STD {session.studentClass}</p>
+                                <p className="text-xs font-bold text-[#1F4E79]">{session.subject}</p>
+                                {session.isProxy && <span className="text-[7px] bg-red-500 text-white px-2 py-0.5 rounded-full font-black mt-1 mx-auto">PROXY</span>}
+                              </div>
+                            </td>
+                          );
+                        }
+
+                        return (
+                          <td key={sIdx} className="p-4 border-r border-sky/10 text-center opacity-10">
+                            <span className="text-[10px] text-slate-400 italic">--</span>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-          <h1 className="text-4xl font-bold text-[#1F4E79] tracking-tight">Class Allocation</h1>
-          <p className="text-[#2FA8CC] text-sm font-medium italic mt-2">Manage faculty schedules and class slots</p>
+        ))}
+      </main>
+
+      {/* FLOATING QUICK ALLOCATION FORM */}
+      <div className="fixed bottom-8 right-8 z-50">
+        <div className="bg-white p-8 rounded-[3rem] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.3)] border-2 border-sky/20 w-[350px]">
+          <h3 className="text-xl font-bold text-[#1F4E79] mb-6 flex items-center gap-2"><span>⚡</span> Slot Manager</h3>
+          <form action={upsertSlotAction} className="flex flex-col gap-4">
+             <select name="facultyId" required className="w-full h-12 bg-surface border border-sky/10 rounded-xl px-4 text-sm font-bold">
+                <option value="">Select Faculty</option>
+                {faculty.map((f:any) => <option key={f._id} value={f._id}>{f.name}</option>)}
+             </select>
+             <div className="grid grid-cols-2 gap-3">
+               <input name="date" type="date" required className="h-12 bg-surface border border-sky/10 rounded-xl px-3 text-xs" />
+               <select name="slotIndex" className="h-12 bg-surface border border-sky/10 rounded-xl px-3 text-xs">
+                  {TIME_SLOTS.map((t, i) => <option key={i} value={i}>{t}</option>)}
+               </select>
+             </div>
+             <div className="grid grid-cols-2 gap-3">
+               <select name="studentClass" className="h-12 bg-surface border border-sky/10 rounded-xl px-3 text-xs font-bold">
+                  <option value="09">Class 9th</option>
+                  <option value="10">Class 10th</option>
+               </select>
+               <select name="duration" className="h-12 bg-surface border border-sky/10 rounded-xl px-3 text-xs font-bold">
+                  <option value="1">1 Hour</option>
+                  <option value="2">2 Hours</option>
+               </select>
+             </div>
+             <input name="subject" placeholder="Subject" required className="h-12 bg-surface border border-sky/10 rounded-xl px-4 text-sm" />
+             <label className="flex items-center gap-3 bg-red-50 p-3 rounded-xl cursor-pointer">
+                <input type="checkbox" name="isProxy" value="true" className="w-4 h-4 accent-red-500" />
+                <span className="text-[10px] font-bold text-red-600 uppercase">Mark as Proxy</span>
+             </label>
+             <button type="submit" className="w-full h-14 bg-[#2FA8CC] hover:bg-[#1F4E79] text-white font-black rounded-xl shadow-xl transition-all active:scale-95 text-xs">
+                UPDATE SCHEDULE
+             </button>
+          </form>
         </div>
-
-        {/* The Form - Ensure action is linked correctly */}
-        <form action={assignClassAction} className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-          
-          {/* Faculty Name */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Faculty Name</label>
-            <input 
-              name="facultyName" 
-              required 
-              type="text"
-              placeholder="e.g. Dr. Aris" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC] transition-all" 
-            />
-          </div>
-
-          {/* Student Class Selection */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Target Class</label>
-            <select 
-              name="studentClass" 
-              required 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] font-bold outline-none focus:border-[#2FA8CC] cursor-pointer"
-            >
-              <option value="09">Class 9th (Goa)</option>
-              <option value="10">Class 10th (Goa)</option>
-            </select>
-          </div>
-
-          {/* Subject */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Subject</label>
-            <input 
-              name="subject" 
-              required 
-              type="text"
-              placeholder="e.g. Mathematics" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC] transition-all" 
-            />
-          </div>
-
-          {/* Date */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Date</label>
-            <input 
-              name="date" 
-              required 
-              type="date" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC]" 
-            />
-          </div>
-
-          {/* Topic - Spans full width */}
-          <div className="md:col-span-2 flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Lecture Topic</label>
-            <input 
-              name="topic" 
-              required 
-              type="text"
-              placeholder="e.g. Introduction to Trigonometry" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC] transition-all" 
-            />
-          </div>
-
-          {/* Start Time */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Start Time</label>
-            <input 
-              name="startTime" 
-              required 
-              type="time" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC]" 
-            />
-          </div>
-
-          {/* Submit Button */}
-          <div className="flex items-end">
-            <button 
-              type="submit" 
-              className="w-full h-14 bg-[#2FA8CC] hover:bg-[#1F4E79] text-white font-black rounded-2xl shadow-xl shadow-[#2FA8CC]/20 transition-all active:scale-95 text-xs uppercase tracking-widest"
-            >
-              Initiate Allocation
-            </button>
-          </div>
-
-        </form>
-
-        <div className="mt-10 pt-6 border-t border-[#E8F6FA] w-full text-center">
-          <p className="text-[#1F4E79]/30 text-[9px] font-black uppercase tracking-[0.5em]">Prarambha Path • Timetable Module</p>
-        </div>
-
       </div>
     </div>
   );
