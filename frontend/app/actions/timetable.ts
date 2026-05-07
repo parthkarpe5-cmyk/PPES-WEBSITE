@@ -5,21 +5,8 @@ import { TimetableSession } from "../../lib/models/TimetableSession";
 import { User } from "../../lib/models/User";
 import { revalidatePath } from "next/cache";
 
-<<<<<<< HEAD
 /**
- * 1. Utility: Format date to dd/mm/yyyy
- * Note: Must be async because it is in a "use server" file
- */
-export async function formatDate(date: Date | string) {
-  const d = new Date(date);
-  const day = d.getDate().toString().padStart(2, '0');
-  const month = (d.getMonth() + 1).toString().padStart(2, '0');
-  const year = d.getFullYear();
-  return `${day}/${month}/${year}`;
-}
-
-/**
- * 2. ADMIN: Get all faculty for the table rows
+ * 1. ADMIN: Get all faculty for the table rows
  */
 export async function getFacultyList() {
   await connectDB();
@@ -28,7 +15,7 @@ export async function getFacultyList() {
 }
 
 /**
- * 3. ADMIN/FACULTY: Get the full master schedule
+ * 2. ADMIN/FACULTY: Get the full master schedule
  */
 export async function getWeeklyTimetable() {
   await connectDB();
@@ -37,12 +24,20 @@ export async function getWeeklyTimetable() {
 }
 
 /**
+ * 3. STUDENT: Fetch schedule for a specific class (09 or 10)
+ */
+export async function getStudentTimetable(className: string) {
+  await connectDB();
+  const data = await TimetableSession.find({ 
+    studentClass: className 
+  }).sort({ date: 1, slotIndex: 1 }).lean();
+  return JSON.parse(JSON.stringify(data));
+}
+
+/**
  * 4. ADMIN: Create or Update a slot (Handles Proxy & Merging)
  */
 export async function upsertSlotAction(formData: FormData) {
-=======
-export async function assignClassAction(prevState: any, formData: FormData) {
->>>>>>> 3440a26b69a912d6842c00f56659588e8d35846a
   try {
     await connectDB();
     
@@ -68,7 +63,6 @@ export async function assignClassAction(prevState: any, formData: FormData) {
     };
 
     // Upsert logic: find by Faculty, Date, and Slot
-    // This allows Admin to "Update" a teacher's slot easily (Proxy logic)
     await TimetableSession.findOneAndUpdate(
       { facultyId: facultyId, date: data.date, slotIndex: slotIdx },
       data,
@@ -76,6 +70,7 @@ export async function assignClassAction(prevState: any, formData: FormData) {
     );
 
     revalidatePath("/dashboard/admin/timetable");
+    revalidatePath("/dashboard/student/timetable");
     return { success: true };
   } catch (error: any) {
     console.error("Save Error:", error.message);
@@ -95,6 +90,7 @@ export async function updateTopicAction(formData: FormData) {
     await TimetableSession.findByIdAndUpdate(id, { topic: topic });
 
     revalidatePath("/dashboard/faculty");
+    revalidatePath("/dashboard/student/timetable");
     return { success: true };
   } catch (error) {
     return { error: "Update failed" };
@@ -102,12 +98,24 @@ export async function updateTopicAction(formData: FormData) {
 }
 
 /**
- * 6. STUDENT: Fetch schedule for a specific class (09 or 10)
+ * 6. FACULTY: Update Live Link
  */
-export async function getStudentTimetable(className: string) {
-  await connectDB();
-  const data = await TimetableSession.find({ 
-    studentClass: className 
-  }).sort({ date: 1, slotIndex: 1 }).lean();
-  return JSON.parse(JSON.stringify(data));
+export async function updateSessionAction(formData: FormData) {
+  try {
+    await connectDB();
+    const id = formData.get("sessionId");
+    const link = formData.get("liveLink") as string;
+    const topic = formData.get("topic") as string;
+
+    await TimetableSession.findByIdAndUpdate(id, { 
+      liveLink: link,
+      topic: topic 
+    });
+
+    revalidatePath("/dashboard/faculty");
+    revalidatePath("/dashboard/student/timetable");
+    return { success: true };
+  } catch (error) {
+    return { error: "Update failed" };
+  }
 }
