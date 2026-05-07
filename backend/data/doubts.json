@@ -1,0 +1,52 @@
+[
+  {
+    "id": "8b462d07-ae49-41d0-b759-6688a9eb211d",
+    "student_id": "student_123",
+    "subject_id": "science",
+    "title": "Doubt 1 ",
+    "created_at": "2026-05-03T10:49:22.100Z",
+    "status": "open",
+    "updated_at": "2026-05-03T11:14:29.239Z",
+    "assigned_teacher_id": "teacher_456"
+  },
+  {
+    "id": "5ce28000-56e6-4a3c-a18a-a5ef576cd313",
+    "student_id": "student_123",
+    "subject_id": "biology",
+    "title": "doubt 2",
+    "created_at": "2026-05-03T10:52:38.947Z",
+    "status": "open",
+    "updated_at": "2026-05-03T11:13:47.022Z",
+    "assigned_teacher_id": "teacher_456"
+  },
+  {
+    "id": "0acce8aa-cccb-4d68-8419-1c443281db01",
+    "student_id": "student_123",
+    "subject_id": "science",
+    "title": "doubt 3",
+    "created_at": "2026-05-03T11:12:12.806Z",
+    "updated_at": "2026-05-03T11:13:16.518Z",
+    "status": "open",
+    "assigned_teacher_id": "teacher_456"
+  },
+  {
+    "id": "35480df7-0c7a-4669-9b36-e57446169899",
+    "student_id": "student_12",
+    "subject_id": "biology",
+    "title": "doubt from user 2",
+    "created_at": "2026-05-03T11:16:02.698Z",
+    "updated_at": "2026-05-03T11:16:57.730Z",
+    "status": "open",
+    "assigned_teacher_id": "teacher_456"
+  },
+  {
+    "id": "3decc8a3-92ef-426c-a28e-64db59113e43",
+    "student_id": "student_12",
+    "subject_id": "literature",
+    "title": "Something",
+    "created_at": "2026-05-07T05:24:07.219Z",
+    "updated_at": "2026-05-07T05:25:31.220Z",
+    "status": "open",
+    "assigned_teacher_id": "teacher_101"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "science",
+    "name": "Science",
+    "description": "Physics, Chemistry, and general science",
+    "teachers": ["teacher_456"]
+  },
+  {
+    "id": "biology",
+    "name": "Biology",
+    "description": "Life sciences and biological concepts",
+    "teachers": ["teacher_456", "teacher_202"]
+  },
+  {
+    "id": "mathematics",
+    "name": "Mathematics",
+    "description": "Algebra, Geometry, and Calculus",
+    "teachers": ["teacher_789"]
+  },
+  {
+    "id": "algebra",
+    "name": "Algebra",
+    "description": "Algebraic equations and functions",
+    "teachers": ["teacher_789"]
+  },
+  {
+    "id": "english",
+    "name": "English",
+    "description": "English language and communication",
+    "teachers": ["teacher_101"]
+  },
+  {
+    "id": "literature",
+    "name": "Literature",
+    "description": "Literature and writing skills",
+    "teachers": ["teacher_101"]
+  },
+  {
+    "id": "history",
+    "name": "History",
+    "description": "World history and events",
+    "teachers": ["teacher_202"]
+  },
+  {
+    "id": "geography",
+    "name": "Geography",
+    "description": "Geography and map studies",
+    "teachers": ["teacher_202"]
+  }
+]

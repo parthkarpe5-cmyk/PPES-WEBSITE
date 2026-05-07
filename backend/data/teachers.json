@@ -1,0 +1,26 @@
+[
+  {
+    "id": "teacher_456",
+    "name": "Mr. Smith",
+    "email": "smith@ppes.edu",
+    "subjects": ["science", "biology"]
+  },
+  {
+    "id": "teacher_789",
+    "name": "Ms. Johnson",
+    "email": "johnson@ppes.edu",
+    "subjects": ["mathematics", "algebra"]
+  },
+  {
+    "id": "teacher_101",
+    "name": "Mr. Patel",
+    "email": "patel@ppes.edu",
+    "subjects": ["english", "literature"]
+  },
+  {
+    "id": "teacher_202",
+    "name": "Ms. Williams",
+    "email": "williams@ppes.edu",
+    "subjects": ["history", "geography"]
+  }
+]

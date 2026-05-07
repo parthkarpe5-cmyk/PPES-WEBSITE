@@ -1,0 +1,106 @@
+[
+  {
+    "id": "d13c6629-46a0-4ead-a5e7-7e944ad79949",
+    "doubt_id": "8b462d07-ae49-41d0-b759-6688a9eb211d",
+    "sender_id": "student_123",
+    "text": "Some problem",
+    "image_url": null,
+    "created_at": "2026-05-03T10:49:22.100Z"
+  },
+  {
+    "id": "96d0ab04-4c1a-4326-bd99-f7045f45ce7f",
+    "doubt_id": "5ce28000-56e6-4a3c-a18a-a5ef576cd313",
+    "sender_id": "student_123",
+    "text": "22",
+    "image_url": "http://localhost:5000/uploads/ac54b797-ce56-40db-9614-c095bed41107.jpg",
+    "created_at": "2026-05-03T10:52:38.947Z"
+  },
+  {
+    "id": "c1b53717-b2a0-45d4-aebe-cdc42cedad64",
+    "doubt_id": "5ce28000-56e6-4a3c-a18a-a5ef576cd313",
+    "sender_id": "student_123",
+    "text": "it's not a doubt",
+    "image_url": null,
+    "created_at": "2026-05-03T10:53:23.489Z"
+  },
+  {
+    "id": "928b9c8f-25a3-42b2-9e13-6092d22adfed",
+    "doubt_id": "0acce8aa-cccb-4d68-8419-1c443281db01",
+    "sender_id": "student_123",
+    "text": "Doubt hai solve karo ",
+    "image_url": null,
+    "created_at": "2026-05-03T11:12:12.806Z"
+  },
+  {
+    "id": "a16ed51c-be09-4e6b-b6ac-8b28ea3f4c6b",
+    "doubt_id": "0acce8aa-cccb-4d68-8419-1c443281db01",
+    "sender_id": "teacher_456",
+    "text": "nai karunga chal ",
+    "image_url": null,
+    "created_at": "2026-05-03T11:13:16.518Z"
+  },
+  {
+    "id": "0dab0de5-37f7-479d-9722-70f1ae6492a6",
+    "doubt_id": "5ce28000-56e6-4a3c-a18a-a5ef576cd313",
+    "sender_id": "teacher_456",
+    "text": "huu baat mat chal",
+    "image_url": null,
+    "created_at": "2026-05-03T11:13:41.918Z"
+  },
+  {
+    "id": "b027a581-f050-496e-b71b-5a0e9df5ce37",
+    "doubt_id": "5ce28000-56e6-4a3c-a18a-a5ef576cd313",
+    "sender_id": "teacher_456",
+    "text": "kon hai tu ",
+    "image_url": null,
+    "created_at": "2026-05-03T11:13:47.022Z"
+  },
+  {
+    "id": "bc443eaa-b8c0-4d35-acae-06df4fb43d00",
+    "doubt_id": "8b462d07-ae49-41d0-b759-6688a9eb211d",
+    "sender_id": "teacher_456",
+    "text": "",
+    "image_url": "http://localhost:5000/uploads/ab4da0e9-f3e7-4e4c-9d3a-85b27c03b884.png",
+    "created_at": "2026-05-03T11:14:29.239Z"
+  },
+  {
+    "id": "f403544d-8e1e-49b2-bddd-dfdeb37e7c58",
+    "doubt_id": "35480df7-0c7a-4669-9b36-e57446169899",
+    "sender_id": "student_12",
+    "text": "how are you sir",
+    "image_url": null,
+    "created_at": "2026-05-03T11:16:02.698Z"
+  },
+  {
+    "id": "6c95720f-2904-4443-9f24-611de034f273",
+    "doubt_id": "35480df7-0c7a-4669-9b36-e57446169899",
+    "sender_id": "teacher_456",
+    "text": "good",
+    "image_url": null,
+    "created_at": "2026-05-03T11:16:33.574Z"
+  },
+  {
+    "id": "3bd0ad40-4678-480b-8c9a-86f6347960f9",
+    "doubt_id": "35480df7-0c7a-4669-9b36-e57446169899",
+    "sender_id": "student_12",
+    "text": "ok sir ",
+    "image_url": null,
+    "created_at": "2026-05-03T11:16:57.730Z"
+  },
+  {
+    "id": "b730a913-3d83-41e7-bd76-307bc570feae",
+    "doubt_id": "3decc8a3-92ef-426c-a28e-64db59113e43",
+    "sender_id": "student_12",
+    "text": "Doubt ahe sir",
+    "image_url": null,
+    "created_at": "2026-05-07T05:24:07.219Z"
+  },
+  {
+    "id": "fe040e2c-e68e-4a9f-b7fb-a6f157674334",
+    "doubt_id": "3decc8a3-92ef-426c-a28e-64db59113e43",
+    "sender_id": "teacher_101",
+    "text": "ram ram",
+    "image_url": null,
+    "created_at": "2026-05-07T05:25:31.220Z"
+  }
+]
