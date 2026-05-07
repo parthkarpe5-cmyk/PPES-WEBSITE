@@ -14,47 +14,62 @@ const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
   const [videoClient, setVideoClient] = useState<StreamVideoClient>();
   const [chatClient, setChatClient] = useState<StreamChat>();
-  const { user, isLoaded } = useUser(); // You'll need to adapt this to your auth system
+  const { user, isLoaded } = useUser();
 
   useEffect(() => {
     if (!isLoaded || !user || !apiKey) return;
 
     let isMounted = true;
-    const vClient = new StreamVideoClient({
-      apiKey,
-      user: {
-        id: user.id,
-        name: user.name || user.id,
-        image: user.image,
-      },
-      tokenProvider,
-    });
+    let videoClientInstance: StreamVideoClient | null = null;
 
-    const chat = StreamChat.getInstance(apiKey);
-    const connectChat = async () => {
+    const initClients = async () => {
       try {
-        if (chat.userID !== user.id) {
-          await chat.connectUser({
+        // Initialize Video Client
+        const vClient = new StreamVideoClient({
+          apiKey,
+          user: {
+            id: user.id,
+            name: user.name || user.id,
+            image: user.image,
+          },
+          tokenProvider,
+          options: { timeout: 15000 }
+        });
+
+        // Initialize Chat Client (Singleton to avoid sync issues)
+        const cClient = StreamChat.getInstance(apiKey);
+        if (cClient.userID !== user.id) {
+          await cClient.connectUser({
             id: user.id,
             name: user.name || user.id,
             image: user.image,
           }, tokenProvider);
         }
+
         if (isMounted) {
+          videoClientInstance = vClient;
           setVideoClient(vClient);
-          setChatClient(chat);
+          setChatClient(cClient);
+        } else {
+          // Cleanup if unmounted during async connection
+          vClient.disconnectUser().catch(() => {});
         }
       } catch (err) {
-        console.error('Failed to connect chat:', err);
+        console.error('Stream initialization failed:', err);
       }
     };
 
-    connectChat();
+    initClients();
 
     return () => {
       isMounted = false;
-      if (vClient) vClient.disconnectUser();
-      // We don't disconnect chat singleton immediately in dev mode to avoid sync hangs
+      if (videoClientInstance) {
+        videoClientInstance.disconnectUser().catch(() => {});
+      }
+      // Note: We don't disconnect the chat singleton immediately in dev mode 
+      // to prevent the "Synchronizing chat..." hang caused by React Strict Mode.
+      setVideoClient(undefined);
+      setChatClient(undefined);
     };
   }, [user?.id, isLoaded]);
 
