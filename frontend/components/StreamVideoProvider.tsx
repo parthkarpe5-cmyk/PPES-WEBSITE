@@ -52,7 +52,7 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
           setChatClient(cClient);
         } else {
           // Cleanup if unmounted during async connection
-          vClient.disconnectUser().catch(() => {});
+          vClient.disconnectUser().catch(() => { });
         }
       } catch (err) {
         console.error('Stream initialization failed:', err);
@@ -64,7 +64,7 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       isMounted = false;
       if (videoClientInstance) {
-        videoClientInstance.disconnectUser().catch(() => {});
+        videoClientInstance.disconnectUser().catch(() => { });
       }
       // Note: We don't disconnect the chat singleton immediately in dev mode 
       // to prevent the "Synchronizing chat..." hang caused by React Strict Mode.

@@ -623,7 +623,7 @@ const MeetingRoom = () => {
                       </button>
                     </div>
                     <div className="flex-1 overflow-hidden stream-chat-custom">
-                      {chatChannel ? (
+                      {chatChannel && chatClient?.userID ? (
                         <Channel channel={chatChannel}>
                           <Window>
                             <MessageList />
@@ -640,8 +640,9 @@ const MeetingRoom = () => {
                           >Retry</button>
                         </div>
                       ) : (
-                        <div className="flex-1 flex items-center justify-center p-8">
+                        <div className="flex-1 flex items-center justify-center p-8 flex-col gap-3">
                           <Loader2 className="animate-spin text-sky/40" size={28} />
+                          <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest animate-pulse">Syncing classroom...</p>
                         </div>
                       )}
                     </div>

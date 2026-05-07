@@ -28,6 +28,7 @@ export async function assignClassAction(prevState: any, formData: FormData) {
     console.log("✅ SUCCESS: Document saved!");
     
     revalidatePath("/dashboard/student/timetable");
+    revalidatePath("/dashboard/faculty/timetable");
     return { success: true };
   } catch (error: any) {
     console.error("❌ SAVE ERROR:", error.message);
@@ -37,6 +38,12 @@ export async function assignClassAction(prevState: any, formData: FormData) {
 
 export async function getStudentTimetable(className: string) {
   await connectDB();
-  // Ensure we search by 'studentClass'
-  return await ClassSession.find({ studentClass: className }).sort({ date: 1 }).lean();
+  return await ClassSession.find({ studentClass: className }).sort({ date: 1, startTime: 1 }).lean();
+}
+
+export async function getFacultyTimetable(facultyName: string) {
+  await connectDB();
+  return await ClassSession.find({ 
+    facultyName: { $regex: new RegExp(facultyName, 'i') } 
+  }).sort({ date: 1, startTime: 1 }).lean();
 }

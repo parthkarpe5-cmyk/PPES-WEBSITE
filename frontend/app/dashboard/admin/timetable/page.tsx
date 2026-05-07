@@ -1,11 +1,26 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { assignClassAction } from "../../../actions/timetable";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  Calendar, 
+  Clock, 
+  User, 
+  BookOpen, 
+  ChevronRight, 
+  LayoutDashboard,
+  CheckCircle2,
+  Loader2,
+  Plus,
+  Target
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function AdminTimetable() {
   const [state, formAction, isPending] = useActionState(assignClassAction, null);
+  const [activeTab, setActiveTab] = useState('allocate');
 
   useEffect(() => {
     if (state?.success) {
@@ -16,114 +31,178 @@ export default function AdminTimetable() {
   }, [state]);
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#E8F6FA] p-6 relative overflow-hidden">
+    <div className="min-h-screen w-full bg-[#050810] text-slate-200 p-4 md:p-8 relative overflow-hidden flex flex-col items-center">
       
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 right-0 w-[30rem] h-[30rem] bg-[#2FA8CC]/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-[#FF6B00]/5 rounded-full blur-[100px] pointer-events-none" />
+      {/* Dynamic Background Glows */}
+      <div className="absolute top-[-10%] right-[-10%] w-[40rem] h-[40rem] bg-sky/10 rounded-full blur-[120px] pointer-events-none animate-pulse" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-saffron/5 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Main Admin Card */}
-      <div className="relative z-10 w-full max-w-2xl bg-white rounded-[3.5rem] p-10 md:p-14 shadow-[0_30px_70px_-15px_rgba(31,78,121,0.2)] border-t-8 border-t-[#2FA8CC]">
+      <div className="relative z-10 w-full max-w-4xl space-y-8">
         
-        <div className="text-center mb-10">
-          <div className="inline-block bg-[#1F4E79]/10 text-[#1F4E79] px-4 py-1 rounded-full text-[10px] font-black tracking-widest mb-4 border border-[#1F4E79]/10">
-            ADMINISTRATIVE PORTAL
-          </div>
-          <h1 className="text-4xl font-bold text-[#1F4E79] tracking-tight">Class Allocation</h1>
-          <p className="text-[#2FA8CC] text-sm font-medium italic mt-2">Manage faculty schedules and class slots</p>
-        </div>
-
-        {/* The Form - Ensure action is linked correctly */}
-        <form action={formAction} className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky/10 border border-sky/20 text-sky text-[10px] font-bold uppercase tracking-widest mb-3">
+              <LayoutDashboard size={12} />
+              Administrative Portal
+            </div>
+            <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter">
+              Timetable <span className="text-sky">Manager</span>
+            </h1>
+            <p className="text-slate-400 font-medium mt-2">Precision scheduling for the academic term.</p>
+          </motion.div>
           
-          {/* Faculty Name */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Faculty Name</label>
-            <input 
-              name="facultyName" 
-              required 
-              type="text"
-              placeholder="e.g. Dr. Aris" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC] transition-all" 
-            />
+          <div className="flex bg-white/5 border border-white/10 p-1.5 rounded-2xl backdrop-blur-xl">
+             <button 
+               onClick={() => setActiveTab('allocate')}
+               className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${activeTab === 'allocate' ? 'bg-sky text-white shadow-lg shadow-sky/20' : 'text-slate-400 hover:text-white'}`}
+             >
+               <Plus size={14} /> Allocate
+             </button>
+             <button 
+               onClick={() => setActiveTab('view')}
+               className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${activeTab === 'view' ? 'bg-sky text-white shadow-lg shadow-sky/20' : 'text-slate-400 hover:text-white'}`}
+             >
+               <BookOpen size={14} /> View Weekly
+             </button>
           </div>
-
-          {/* Student Class Selection */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Target Class</label>
-            <select 
-              name="studentClass" 
-              required 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] font-bold outline-none focus:border-[#2FA8CC] cursor-pointer"
-            >
-              <option value="09">Class 9th (Goa)</option>
-              <option value="10">Class 10th (Goa)</option>
-            </select>
-          </div>
-
-          {/* Subject */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Subject</label>
-            <input 
-              name="subject" 
-              required 
-              type="text"
-              placeholder="e.g. Mathematics" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC] transition-all" 
-            />
-          </div>
-
-          {/* Date */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Date</label>
-            <input 
-              name="date" 
-              required 
-              type="date" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC]" 
-            />
-          </div>
-
-          {/* Topic - Spans full width */}
-          <div className="md:col-span-2 flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Lecture Topic</label>
-            <input 
-              name="topic" 
-              required 
-              type="text"
-              placeholder="e.g. Introduction to Trigonometry" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC] transition-all" 
-            />
-          </div>
-
-          {/* Start Time */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-[#1F4E79]/50 uppercase tracking-widest ml-2">Start Time</label>
-            <input 
-              name="startTime" 
-              required 
-              type="time" 
-              className="w-full h-14 bg-[#E8F6FA]/30 border-2 border-[#2FA8CC]/10 rounded-2xl px-5 text-[#1F4E79] outline-none focus:border-[#2FA8CC]" 
-            />
-          </div>
-
-          {/* Submit Button */}
-          <div className="flex items-end">
-            <button 
-              type="submit" 
-              disabled={isPending}
-              className="w-full h-14 bg-[#2FA8CC] hover:bg-[#1F4E79] text-white font-black rounded-2xl shadow-xl shadow-[#2FA8CC]/20 transition-all active:scale-95 text-xs uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isPending ? "Processing..." : "Initiate Allocation"}
-            </button>
-          </div>
-
-        </form>
-
-        <div className="mt-10 pt-6 border-t border-[#E8F6FA] w-full text-center">
-          <p className="text-[#1F4E79]/30 text-[9px] font-black uppercase tracking-[0.5em]">Prarambha Path • Timetable Module</p>
         </div>
 
+        {/* Main Content Card */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative overflow-hidden rounded-[2.5rem] p-px bg-gradient-to-br from-white/10 to-transparent"
+        >
+          <div className="glass-card relative bg-[#0D121F]/80 backdrop-blur-3xl rounded-[2.5rem] p-8 md:p-12 overflow-hidden">
+            
+            {/* Form Background Accent */}
+            <div className="absolute top-0 right-0 p-8 opacity-5">
+              <Calendar size={200} className="text-sky" />
+            </div>
+
+            <form action={formAction} className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+              
+              <div className="space-y-6">
+                {/* Faculty Input */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Assigned Faculty</label>
+                  <div className="relative group">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-sky transition-colors" size={18} />
+                    <input 
+                      name="facultyName" 
+                      required 
+                      placeholder="e.g. Dr. Aris" 
+                      className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 text-white outline-none focus:border-sky focus:ring-4 focus:ring-sky/10 transition-all placeholder:text-slate-600" 
+                    />
+                  </div>
+                </div>
+
+                {/* Target Class Selection */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Target Academic Class</label>
+                  <div className="relative group">
+                    <Target className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-sky transition-colors" size={18} />
+                    <select 
+                      name="studentClass" 
+                      required 
+                      className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 text-white font-bold outline-none focus:border-sky focus:ring-4 focus:ring-sky/10 cursor-pointer appearance-none"
+                    >
+                      <option value="09" className="bg-[#0D121F]">Class 9th (Goa)</option>
+                      <option value="10" className="bg-[#0D121F]">Class 10th (Goa)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Subject */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Subject Area</label>
+                  <div className="relative group">
+                    <BookOpen className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-sky transition-colors" size={18} />
+                    <input 
+                      name="subject" 
+                      required 
+                      placeholder="e.g. Mathematics" 
+                      className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 text-white outline-none focus:border-sky focus:ring-4 focus:ring-sky/10 transition-all placeholder:text-slate-600" 
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                {/* Date */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Session Date</label>
+                  <div className="relative group">
+                    <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-sky transition-colors" size={18} />
+                    <input 
+                      name="date" 
+                      required 
+                      type="date" 
+                      className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 text-white outline-none focus:border-sky focus:ring-4 focus:ring-sky/10 transition-all [color-scheme:dark]" 
+                    />
+                  </div>
+                </div>
+
+                {/* Topic */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Lecture Topic / Unit</label>
+                  <div className="relative group">
+                    <ChevronRight className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-sky transition-colors" size={18} />
+                    <input 
+                      name="topic" 
+                      required 
+                      placeholder="e.g. Trigonometry" 
+                      className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 text-white outline-none focus:border-sky focus:ring-4 focus:ring-sky/10 transition-all placeholder:text-slate-600" 
+                    />
+                  </div>
+                </div>
+
+                {/* Start Time */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Commencement Time</label>
+                  <div className="relative group">
+                    <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-sky transition-colors" size={18} />
+                    <input 
+                      name="startTime" 
+                      required 
+                      type="time" 
+                      className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 text-white outline-none focus:border-sky focus:ring-4 focus:ring-sky/10 transition-all [color-scheme:dark]" 
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="md:col-span-2 pt-4">
+                <Button 
+                  type="submit" 
+                  disabled={isPending}
+                  className="w-full h-16 bg-sky hover:bg-sky/90 text-white font-black rounded-2xl shadow-xl shadow-sky/20 transition-all active:scale-[0.98] text-sm uppercase tracking-widest disabled:opacity-50 group"
+                >
+                  {isPending ? (
+                    <Loader2 className="animate-spin" size={20} />
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <CheckCircle2 size={18} />
+                      Commit Allocation
+                    </span>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </motion.div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-center gap-6 py-4 opacity-30">
+          <div className="h-px w-20 bg-gradient-to-r from-transparent to-white" />
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white">Prarambha Path • Core Engine</p>
+          <div className="h-px w-20 bg-gradient-to-l from-transparent to-white" />
+        </div>
       </div>
     </div>
   );
