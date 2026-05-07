@@ -13,7 +13,6 @@ import {
   ChevronRight,
   School,
   Settings,
-  Clock,
 } from 'lucide-react'
 
 import {
@@ -76,11 +75,6 @@ const data = {
       title: "Schedule",
       url: "/faculty/schedule",
       icon: Calendar,
-    },
-    {
-      title: "Timetable",
-      url: "/dashboard/faculty/timetable",
-      icon: Clock,
     },
   ],
 }

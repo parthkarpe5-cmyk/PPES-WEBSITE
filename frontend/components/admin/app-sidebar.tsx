@@ -97,11 +97,6 @@ const data = {
       icon: BarChart3,
     },
     {
-      title: "Timetable",
-      url: "/dashboard/admin/timetable",
-      icon: Clock,
-    },
-    {
       title: "Settings",
       url: "/admin/settings",
       icon: Settings,

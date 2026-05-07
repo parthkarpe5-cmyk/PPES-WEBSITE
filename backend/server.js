@@ -14,6 +14,9 @@ const messageRoutes = require('./routes/messageRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const Subject = require('./models/Subject');
 const nodemailer = require('nodemailer');
+const courseRoutes = require('./routes/courseRoutes');
+const subjectRoutes = require('./routes/subjectRoutes');
+const materialRoutes = require('./routes/materialRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -474,6 +477,10 @@ app.use('/api/v1/upload', uploadRoutes);
 
 // Serve uploaded files
 app.use('/uploads', express.static('uploads'));
+
+app.use('/api/courses', courseRoutes);
+app.use('/api/subjects', subjectRoutes);
+app.use('/api/materials', materialRoutes);
 
 // Basic route
 app.get('/api', (req, res) => {

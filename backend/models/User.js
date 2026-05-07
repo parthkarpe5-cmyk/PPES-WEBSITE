@@ -21,9 +21,10 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'faculty', 'student'],
+        enum: ['admin', 'faculty', 'student', 'ADMIN', 'TEACHER', 'STUDENT'],
         default: 'student'
     },
+    unlockedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
     password: {
         type: String,
         default: 'password123' // Default for seeded users

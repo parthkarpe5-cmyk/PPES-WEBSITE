@@ -65,11 +65,6 @@ const data = {
       icon: MessageCircle,
     },
     {
-      title: "Timetable",
-      url: "/dashboard/student/timetable",
-      icon: Calendar,
-    },
-    {
       title: "Profile",
       url: "/student/profile",
       icon: User,
