@@ -20,6 +20,7 @@ export const tokenProvider = async () => {
     
     const userId = payload.userId as string;
     const userRole = payload.role as string;
+    const userName = payload.name as string;
 
     if (!userId) throw new Error('User ID not found');
 
@@ -30,6 +31,7 @@ export const tokenProvider = async () => {
     await client.upsertUsers([
       {
         id: userId,
+        name: userName || userId,
         role: userRole === 'admin' || userRole === 'faculty' ? 'admin' : 'user',
       }
     ]);

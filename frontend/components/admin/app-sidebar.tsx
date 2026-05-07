@@ -14,6 +14,7 @@ import {
   Clock,
   CreditCard,
   BarChart3,
+  UserPlus,
 } from 'lucide-react'
 
 import {
@@ -39,6 +40,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { logoutAction } from '@/app/actions/auth'
 
 const data = {
   navMain: [
@@ -57,6 +60,11 @@ const data = {
       title: "Events",
       url: "/admin/events",
       icon: Calendar,
+    },
+    {
+      title: "Faculty Management",
+      url: "/admin/faculty",
+      icon: UserPlus,
     },
     {
       title: "Users",
@@ -97,6 +105,12 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    await logoutAction();
+    router.push('/');
+  };
   return (
     <Sidebar collapsible="icon" className="border-r border-white/5 bg-[#0B0F1A] text-white" {...props}>
       <SidebarHeader className="border-b border-white/5 pb-4">
@@ -159,7 +173,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 align="end"
                 sideOffset={4}
               >
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                   <LogOut className="mr-2 size-4" />
                   Log out
                 </DropdownMenuItem>

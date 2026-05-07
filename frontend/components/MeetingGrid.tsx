@@ -55,7 +55,7 @@ export const MeetingGrid = ({ participants }: MeetingGridProps) => {
                   participant.isSpeaking ? "bg-green-500 animate-pulse" : "bg-slate-400"
                 )} />
                 <span className="text-[10px] md:text-xs font-medium text-white">
-                  {participant.name || participant.userId}
+                  {participant.name || participant.userId} ({participant.userId})
                   {participant.isLocalParticipant && " (You)"}
                 </span>
               </div>

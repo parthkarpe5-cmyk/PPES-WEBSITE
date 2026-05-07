@@ -16,7 +16,7 @@ const MeetingSetup = ({
 }: {
   setIsSetupComplete: (value: boolean) => void;
 }) => {
-  const [isMicCamToggled, setIsMicCamToggled] = useState(false);
+
   const [activeMode, setActiveMode] = useState<'video' | 'voice' | 'chat'>('video');
   const call = useCall();
 

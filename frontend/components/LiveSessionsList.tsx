@@ -96,10 +96,16 @@ export const LiveSessionsList = () => {
                 
                 <div className="space-y-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <Badge className="bg-[#FF6B00] hover:bg-[#FF6B00] text-white border-none text-[9px] uppercase font-bold px-2 py-0.5 tracking-widest rounded-full flex items-center gap-1">
-                      <Radio size={10} className="animate-pulse" />
-                      Live Now
-                    </Badge>
+                    {session.status === 'live' ? (
+                      <Badge className="bg-[#FF6B00] hover:bg-[#FF6B00] text-white border-none text-[9px] uppercase font-bold px-2 py-0.5 tracking-widest rounded-full flex items-center gap-1">
+                        <Radio size={10} className="animate-pulse" />
+                        Live Now
+                      </Badge>
+                    ) : (
+                      <Badge className="bg-sky/20 hover:bg-sky/20 text-sky border-none text-[9px] uppercase font-bold px-2 py-0.5 tracking-widest rounded-full">
+                        Scheduled
+                      </Badge>
+                    )}
                     <div className="h-1 w-1 rounded-full bg-slate-700" />
                     <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Public Session</span>
                   </div>

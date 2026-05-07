@@ -66,12 +66,28 @@ export const Whiteboard = ({ call }: { call?: any }) => {
             }
             return prev.slice(0, -1);
           });
+        } else if (event.custom.type === 'whiteboard-request-sync') {
+          // If we have history, send it to the new joiner
+          if (history.length > 0) {
+            call.sendCustomEvent({
+              type: 'whiteboard-sync-data',
+              payload: history
+            });
+          }
+        } else if (event.custom.type === 'whiteboard-sync-data') {
+          const syncHistory = event.custom.payload;
+          setHistory(syncHistory);
         }
       });
       return () => {
         window.removeEventListener('resize', resizeCanvas);
         unsubscribe();
       };
+    }
+
+    if (call) {
+      // Request initial history from other participants
+      call.sendCustomEvent({ type: 'whiteboard-request-sync', payload: {} });
     }
 
     return () => window.removeEventListener('resize', resizeCanvas);

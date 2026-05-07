@@ -56,10 +56,12 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
 
     return () => {
       isMounted = false;
-      client.disconnectUser();
-      chat.disconnectUser();
-      setVideoClient(undefined);
-      setChatClient(undefined);
+      client.disconnectUser().catch(() => {}).finally(() => {
+        if (!isMounted) setVideoClient(undefined);
+      });
+      chat.disconnectUser().catch(() => {}).finally(() => {
+        if (!isMounted) setChatClient(undefined);
+      });
     };
   }, [user?.id, isLoaded]);
 

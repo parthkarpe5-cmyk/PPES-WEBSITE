@@ -34,7 +34,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { logoutAction } from '@/app/actions/auth'
 
 const data = {
   navMain: [
@@ -73,6 +74,12 @@ const data = {
 
 export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    await logoutAction();
+    router.push('/');
+  };
 
   return (
     <Sidebar collapsible="icon" className="border-r border-white/5 bg-[#1F4E79] text-white" {...props}>
@@ -150,7 +157,10 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                   <Settings className="mr-2 size-4 text-[#2FA8CC]" />
                   My Settings
                 </DropdownMenuItem>
-                <DropdownMenuItem className="hover:bg-red-500/10 text-red-400 cursor-pointer rounded-lg m-1">
+                <DropdownMenuItem 
+                  className="hover:bg-red-500/10 text-red-400 cursor-pointer rounded-lg m-1"
+                  onClick={handleLogout}
+                >
                   <LogOut className="mr-2 size-4" />
                   Sign Out
                 </DropdownMenuItem>
