@@ -5,6 +5,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { StreamVideoProvider } from "@/components/StreamVideoProvider"
+import { RoleProvider } from "@/components/RoleContext"
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const _spaceGrotesk = Space_Grotesk({
@@ -40,7 +41,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <StreamVideoProvider>
-            {children}
+            <RoleProvider>
+              {children}
+            </RoleProvider>
           </StreamVideoProvider>
           <Toaster position="top-center" richColors />
           <Analytics />
