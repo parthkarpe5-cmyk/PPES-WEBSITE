@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 
 const STATS = [
   { label: 'Total Tests', value: '12', icon: FileText, color: 'text-sky', bg: 'bg-sky/10' },

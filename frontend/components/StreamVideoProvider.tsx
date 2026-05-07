@@ -20,7 +20,7 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
     if (!isLoaded || !user || !apiKey) return;
 
     let isMounted = true;
-    const client = new StreamVideoClient({
+    const vClient = new StreamVideoClient({
       apiKey,
       user: {
         id: user.id,
@@ -28,9 +28,6 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
         image: user.image,
       },
       tokenProvider,
-      options: {
-        timeout: 15000,
-      },
     });
 
     const chat = StreamChat.getInstance(apiKey);
@@ -44,7 +41,7 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
           }, tokenProvider);
         }
         if (isMounted) {
-          setVideoClient(client);
+          setVideoClient(vClient);
           setChatClient(chat);
         }
       } catch (err) {
@@ -56,12 +53,8 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
 
     return () => {
       isMounted = false;
-      client.disconnectUser().catch(() => {}).finally(() => {
-        if (!isMounted) setVideoClient(undefined);
-      });
-      chat.disconnectUser().catch(() => {}).finally(() => {
-        if (!isMounted) setChatClient(undefined);
-      });
+      if (vClient) vClient.disconnectUser();
+      // We don't disconnect chat singleton immediately in dev mode to avoid sync hangs
     };
   }, [user?.id, isLoaded]);
 

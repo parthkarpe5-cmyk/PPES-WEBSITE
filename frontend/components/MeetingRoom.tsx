@@ -119,10 +119,15 @@ const MeetingRoom = () => {
   }, [participants]);
 
   const initChatChannel = async () => {
-    if (!user || !chatClient || !id) return;
+    if (!user || !chatClient?.userID || !id) return;
+    
     setChatError(false);
     try {
       const channel = chatClient.channel('messaging', id as string);
+      
+      // Await a small delay to ensure connection state is synced
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
       await channel.watch();
       setChatChannel(channel);
     } catch (err) {
@@ -132,7 +137,7 @@ const MeetingRoom = () => {
   };
 
   useEffect(() => {
-    if (!chatClient || !id || chatChannel) return;
+    if (!chatClient?.userID || !id || chatChannel) return;
     let isMounted = true;
     const run = async () => {
       if (!isMounted) return;
@@ -140,7 +145,7 @@ const MeetingRoom = () => {
     };
     run();
     return () => { isMounted = false; };
-  }, [chatClient, id]); // chatChannel intentionally excluded — initChatChannel handles it
+  }, [chatClient?.userID, id]); // chatChannel intentionally excluded — initChatChannel handles it
 
   // --- Attendance Logging Logic (Entry & Exit) ---
   useEffect(() => {
