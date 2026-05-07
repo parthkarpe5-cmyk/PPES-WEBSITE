@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema({
     isEmailSent: {
         type: Boolean,
         default: false
+    },
+    grade: {
+        type: String,
+        default: '' // e.g., 'Class 9', 'Class 10'
     }
 });
 

@@ -7,6 +7,12 @@ const { StreamClient } = require('@stream-io/node-sdk');
 const Session = require('./models/Session');
 const User = require('./models/User');
 const Attendance = require('./models/Attendance');
+const Doubt = require('./models/Doubt');
+const Message = require('./models/Message');
+const doubtRoutes = require('./routes/doubtRoutes');
+const messageRoutes = require('./routes/messageRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
+const Subject = require('./models/Subject');
 const nodemailer = require('nodemailer');
 
 const app = express();
@@ -63,8 +69,9 @@ const seedUsers = async () => {
         const testUsers = [
             { userId: 'admin_01', usn: 'ADMIN-001', name: 'Parth Karpe', email: 'admin@ppes.edu', role: 'admin', password: hashedPassword },
             { userId: 'faculty_01', usn: 'FAC-102', name: 'Dr. Smith', email: 'smith@ppes.edu', role: 'faculty', password: hashedPassword },
-            { userId: 'student_01', usn: '1PP23CS045', name: 'Aryan Verma', email: 'aryan@student.edu', role: 'student', password: hashedPassword },
-            { userId: 'student_02', usn: '1PP23IS012', name: 'Aditi Sharma', email: 'aditi@student.edu', role: 'student', password: hashedPassword },
+            { userId: 'faculty_02', usn: 'FAC-103', name: 'Dr. Brown', email: 'brown@ppes.edu', role: 'faculty', password: hashedPassword },
+            { userId: 'student_01', usn: '1PP23CS045', name: 'Aryan Verma', email: 'aryan@student.edu', role: 'student', password: hashedPassword, grade: 'Class 10' },
+            { userId: 'student_02', usn: '1PP23IS012', name: 'Aditi Sharma', email: 'aditi@student.edu', role: 'student', password: hashedPassword, grade: 'Class 9' },
             { userId: 'dev_admin_user', usn: 'DEV-999', name: 'Development Admin', email: 'dev@ppes.edu', role: 'admin', password: hashedPassword }
         ];
 
@@ -78,6 +85,31 @@ const seedUsers = async () => {
         console.log('Seeded/Updated initial users in MongoDB.');
     } catch (err) {
         console.error('Seeding error:', err);
+    }
+};
+
+const seedSubjects = async () => {
+    try {
+        const subjects = [
+            { name: 'Physics', code: 'PHY101', description: 'Classical and Modern Physics', facultyIds: ['faculty_01'] },
+            { name: 'Mathematics', code: 'MAT101', description: 'Calculus and Linear Algebra', facultyIds: ['faculty_01', 'faculty_02'] },
+            { name: 'Chemistry', code: 'CHE101', description: 'Organic and Inorganic Chemistry', facultyIds: ['faculty_02'] },
+            { name: 'Computer Science', code: 'CS101', description: 'Data Structures and Algorithms', facultyIds: ['faculty_01'] },
+            { name: 'Biology', code: 'BIO101', description: 'Study of Living Organisms', facultyIds: ['faculty_02'] },
+            { name: 'English', code: 'ENG101', description: 'Literature and Communication', facultyIds: ['faculty_02'] },
+            { name: 'Economics', code: 'ECO101', description: 'Principles of Economics', facultyIds: ['faculty_01'] }
+        ];
+
+        for (const sub of subjects) {
+            await Subject.findOneAndUpdate(
+                { code: sub.code },
+                sub,
+                { upsert: true, new: true }
+            );
+        }
+        console.log('Seeded/Updated subjects in MongoDB.');
+    } catch (err) {
+        console.error('Subject seeding error:', err);
     }
 };
 
@@ -293,13 +325,41 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
+// Doubts & Payment System Routes
+app.use('/api/v1/doubts', doubtRoutes);
+app.use('/api/v1/messages', messageRoutes);
+app.use('/api/v1/upload', uploadRoutes);
+
+// Serve uploaded files
+app.use('/uploads', express.static('uploads'));
+
 // Basic route
 app.get('/api', (req, res) => {
     res.json({ message: 'Welcome to the API' });
 });
 
+// Doubts Supplemental APIs
+app.get('/api/v1/subjects', async (req, res) => {
+    try {
+        const subjects = await Subject.find();
+        res.json({ success: true, data: subjects });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+app.get('/api/v1/teachers', async (req, res) => {
+    try {
+        const teachers = await User.find({ role: 'faculty' });
+        res.json({ success: true, data: teachers });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
 // Start server
 app.listen(PORT, () => {
     seedUsers();
+    seedSubjects();
     console.log(`Server running on port ${PORT}`);
 });

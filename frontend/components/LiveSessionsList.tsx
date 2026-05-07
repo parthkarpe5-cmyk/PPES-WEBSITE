@@ -24,7 +24,10 @@ export const LiveSessionsList = () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/live/sessions`);
         
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Failed to fetch sessions: ${response.status} ${errorText}`);
+        }
         
         const data = await response.json();
         
