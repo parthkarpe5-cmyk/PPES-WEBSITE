@@ -56,6 +56,42 @@ const sendUSNMail = async (userEmail, userName, usn) => {
     }
 };
 
+const sendFacultyWelcomeMail = async (userEmail, userName, userId, password) => {
+    try {
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: userEmail,
+            subject: 'Welcome to PPES - Faculty Account Details',
+            html: `
+                <div style="font-family: sans-serif; padding: 30px; border: 1px solid #e2e8f0; border-radius: 16px; max-width: 600px; margin: auto;">
+                    <h2 style="color: #0ea5e9; margin-bottom: 20px;">Welcome to the Faculty Team!</h2>
+                    <p>Dear ${userName},</p>
+                    <p>An administrator has created your faculty account on the PPES Classroom portal. Below are your official login credentials:</p>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #cbd5e1;">
+                        <p style="margin: 0 0 10px 0;"><strong>UserID:</strong> <span style="color: #0ea5e9;">${userId}</span></p>
+                        <p style="margin: 0;"><strong>Default Password:</strong> <span style="color: #0ea5e9;">${password}</span></p>
+                    </div>
+                    
+                    <p>Please use these details to log in to the faculty portal. We recommend changing your password after your first login.</p>
+                    
+                    <a href="${process.env.ALLOWED_ORIGIN || 'http://localhost:3000'}/login/faculty" 
+                       style="display: inline-block; background: #0ea5e9; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">
+                       Go to Faculty Login
+                    </a>
+                    
+                    <p style="margin-top: 30px; color: #64748b; font-size: 12px; border-top: 1px solid #e2e8f0; pt-20px;">
+                        This is an automated message from PPES Administration.
+                    </p>
+                </div>
+            `
+        };
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+        console.error('Failed to send Faculty Welcome email:', error);
+    }
+};
+
 // --- SEED DATA LOGIC (Internal) ---
 const seedUsers = async () => {
     try {
@@ -93,7 +129,11 @@ if (apiKey && apiSecret) {
 }
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: process.env.ALLOWED_ORIGIN || 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+    credentials: true,
+}));
 app.use(express.json());
 
 // MongoDB Connection
@@ -236,6 +276,83 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+// 0.3 Admin: Create Faculty
+app.post('/api/admin/faculty', async (req, res) => {
+    try {
+        const { name, email, userId, usn, password } = req.body;
+
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'User with this email already exists' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password || 'password123', 12);
+        
+        const newFaculty = new User({
+            userId: userId || email,
+            usn: usn || userId,
+            name,
+            email,
+            role: 'faculty',
+            password: hashedPassword
+        });
+
+        await newFaculty.save();
+        await sendFacultyWelcomeMail(email, name, userId, password || 'password123');
+
+        res.status(201).json({ success: true, message: 'Faculty created and email sent' });
+    } catch (error) {
+        console.error('Create faculty error:', error);
+        res.status(500).json({ error: 'Failed to create faculty member' });
+    }
+});
+
+// 0.4 Admin: Get All Faculty
+app.get('/api/admin/faculty', async (req, res) => {
+    try {
+        const faculty = await User.find({ role: 'faculty' }).sort({ createdAt: -1 });
+        res.json(faculty);
+    } catch (error) {
+        console.error('Fetch faculty error:', error);
+        res.status(500).json({ error: 'Failed to fetch faculty list' });
+    }
+});
+
+// 0.5 Admin: Delete Faculty
+app.delete('/api/admin/faculty/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await User.findByIdAndDelete(id);
+        res.json({ success: true, message: 'Faculty member removed' });
+    } catch (error) {
+        console.error('Delete faculty error:', error);
+        res.status(500).json({ error: 'Failed to delete faculty member' });
+    }
+});
+
+// 0.6 Admin: Update Faculty
+app.patch('/api/admin/faculty/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, email, userId } = req.body;
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { name, email, userId },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'Faculty member not found' });
+        }
+
+        res.json({ success: true, message: 'Faculty member updated', user: updatedUser });
+    } catch (error) {
+        console.error('Update faculty error:', error);
+        res.status(500).json({ error: 'Failed to update faculty member' });
+    }
+});
+
 // 1. Generate Token for Video Call
 app.post('/api/live/token', (req, res) => {
     const { userId } = req.body;
@@ -248,6 +365,7 @@ app.post('/api/live/token', (req, res) => {
         res.json({ token });
     } catch (error) {
         console.error('Error generating token:', error);
+        res.status(500).json({ error: 'Failed to generate stream token' });
     }
 });
 
@@ -264,20 +382,44 @@ app.get('/api/live/sessions', async (req, res) => {
 
 // 2. Create a Live Session (Faculty only - simplified)
 app.post('/api/live/sessions', async (req, res) => {
-    const { title, description, facultyId, meetingId } = req.body;
+    const { title, description, facultyId, meetingId, status } = req.body;
 
     try {
+        const allowedStatuses = ['scheduled', 'live', 'ended'];
         const newSession = new Session({
             title,
             description,
             facultyId,
             meetingId,
-            status: 'scheduled'
+            status: allowedStatuses.includes(status) ? status : 'scheduled'
         });
         await newSession.save();
         res.status(201).json(newSession);
     } catch (error) {
         res.status(500).json({ error: 'Error creating session', details: error.message });
+    }
+});
+
+// 5. Update Session Status (e.g., mark as ended)
+app.patch('/api/live/sessions/:meetingId/status', async (req, res) => {
+    const { meetingId } = req.params;
+    const { status } = req.body;
+    const allowedStatuses = ['scheduled', 'live', 'ended'];
+
+    if (!allowedStatuses.includes(status)) {
+        return res.status(400).json({ error: 'Invalid status value' });
+    }
+
+    try {
+        const session = await Session.findOneAndUpdate(
+            { meetingId },
+            { status },
+            { new: true }
+        );
+        if (!session) return res.status(404).json({ error: 'Session not found' });
+        res.json(session);
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating session status', details: error.message });
     }
 });
 
