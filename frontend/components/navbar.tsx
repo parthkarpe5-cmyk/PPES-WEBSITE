@@ -13,6 +13,7 @@ const navLinks = [
   { href: "/faculties", label: "Acharya Mandal" },
   { href: "#journey", label: "Journey" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/tests", label: "Examination" },
   { href: "/contact", label: "Contact" },
 ]
 

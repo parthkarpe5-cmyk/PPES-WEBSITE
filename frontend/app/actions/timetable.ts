@@ -5,6 +5,7 @@ import { TimetableSession } from "../../lib/models/TimetableSession";
 import { User } from "../../lib/models/User";
 import { revalidatePath } from "next/cache";
 
+<<<<<<< HEAD
 /**
  * 1. Utility: Format date to dd/mm/yyyy
  * Note: Must be async because it is in a "use server" file
@@ -39,6 +40,9 @@ export async function getWeeklyTimetable() {
  * 4. ADMIN: Create or Update a slot (Handles Proxy & Merging)
  */
 export async function upsertSlotAction(formData: FormData) {
+=======
+export async function assignClassAction(prevState: any, formData: FormData) {
+>>>>>>> 3440a26b69a912d6842c00f56659588e8d35846a
   try {
     await connectDB();
     

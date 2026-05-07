@@ -1,7 +1,12 @@
+"use client"
+
+import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   Play, 
   BookOpen, 
@@ -12,13 +17,48 @@ import {
   TrendingUp,
   Sparkles,
   Search,
-  MessageCircle
+  MessageCircle,
+  ClipboardList,
+  ChevronRight,
+  CheckCircle2
 } from "lucide-react"
 import { LiveSessionsList } from "@/components/LiveSessionsList"
+import { cn } from "@/lib/utils"
+
+// Mock Data for Test Module
+const MOCK_TESTS = [
+  {
+    id: '1',
+    title: 'Science Quiz: Photosynthesis',
+    description: 'A basic quiz covering the essentials of photosynthesis and plant biology.',
+    durationMinutes: 30,
+    questionCount: 15,
+  },
+  {
+    id: '2',
+    title: 'Mathematics: Algebra Basics',
+    description: 'Test your understanding of linear equations and basic algebraic functions.',
+    durationMinutes: 45,
+    questionCount: 20,
+  }
+]
+
+const MOCK_STUDENT_ATTEMPTS = [
+  {
+    testId: '1',
+    testTitle: 'Science Quiz: Photosynthesis',
+    timestamp: '2026-05-02 14:30',
+    score: '12/15',
+    status: 'Completed'
+  }
+]
 
 export default function StudentDashboard() {
+  const router = useRouter()
+  const [activeTestTab, setActiveTestTab] = useState('available')
+
   return (
-    <div className="p-6 lg:p-8 space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-700">
+    <div className="p-6 lg:p-8 space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-700 bg-slate-950 min-h-screen">
       
       {/* 1. Welcome Section */}
       <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-white/5">
@@ -74,9 +114,9 @@ export default function StudentDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         
         {/* Left Column (8 units) */}
-        <div className="lg:col-span-8 space-y-10">
+        <div className="lg:col-span-8 space-y-12">
           
-          {/* 2. Today's Classes */}
+          {/* 2. Live Classes */}
           <section>
             <div className="flex items-center justify-between mb-6 px-1">
               <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
@@ -91,7 +131,100 @@ export default function StudentDashboard() {
             </div>
           </section>
 
-          {/* 3. My Courses */}
+          {/* 3. Test Module Integration */}
+          <section className="space-y-6">
+            <div className="flex items-center justify-between px-1">
+              <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+                Assessments & Tests
+                <ClipboardList className="h-5 w-5 text-[#2FA8CC]" />
+              </h2>
+            </div>
+
+            <Tabs defaultValue="available" className="w-full" onValueChange={setActiveTestTab}>
+              <TabsList className="bg-white/5 border border-white/10 p-1 mb-6">
+                <TabsTrigger value="available" className="data-[state=active]:bg-[#2FA8CC] data-[state=active]:text-white">
+                  Available Tests
+                </TabsTrigger>
+                <TabsTrigger value="history" className="data-[state=active]:bg-[#2FA8CC] data-[state=active]:text-white">
+                  My History
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="available" className="mt-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {MOCK_TESTS.map((test) => {
+                    const isCompleted = MOCK_STUDENT_ATTEMPTS.some(att => att.testId === test.id)
+                    return (
+                      <Card key={test.id} className="bg-white/[0.03] border-white/5 hover:border-[#2FA8CC]/30 transition-all overflow-hidden group">
+                        <div className="h-1 bg-[#2FA8CC]/20 group-hover:bg-[#2FA8CC] transition-all" />
+                        <CardHeader>
+                          <div className="flex justify-between items-start mb-2">
+                            <Badge className="bg-[#2FA8CC]/10 text-[#2FA8CC] border-none text-[10px]">
+                              {test.durationMinutes} MINS
+                            </Badge>
+                            {isCompleted && <CheckCircle2 className="h-5 w-5 text-emerald-500" />}
+                          </div>
+                          <CardTitle className="text-lg font-bold text-white">{test.title}</CardTitle>
+                          <CardDescription className="text-slate-400 text-xs line-clamp-2">{test.description}</CardDescription>
+                        </CardHeader>
+                        <CardFooter className="flex justify-between items-center pt-2">
+                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{test.questionCount} Questions</span>
+                          {isCompleted ? (
+                            <Button disabled variant="ghost" className="text-slate-500 text-xs font-bold">
+                              Completed
+                            </Button>
+                          ) : (
+                            <Button 
+                              onClick={() => router.push(`/student/tests/${test.id}`)}
+                              className="bg-[#2FA8CC] hover:bg-[#1F4E79] text-white text-xs h-8 px-4"
+                            >
+                              Start Test
+                            </Button>
+                          )}
+                        </CardFooter>
+                      </Card>
+                    )
+                  })}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="history" className="mt-0">
+                <div className="bg-white/[0.02] rounded-2xl border border-white/5 overflow-hidden">
+                  <table className="w-full text-left">
+                    <thead className="bg-white/5 border-b border-white/5">
+                      <tr>
+                        <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Test</th>
+                        <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Score</th>
+                        <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Details</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {MOCK_STUDENT_ATTEMPTS.map((attempt, index) => (
+                        <tr key={index} className="hover:bg-white/[0.02] transition-colors">
+                          <td className="px-6 py-4">
+                            <span className="text-sm font-bold text-white block">{attempt.testTitle}</span>
+                            <span className="text-[10px] text-slate-500">{attempt.timestamp}</span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-bold">
+                              {attempt.score}
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <Button variant="ghost" size="sm" className="text-[#2FA8CC] hover:text-white font-bold text-xs">
+                              View
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </section>
+
+          {/* 4. My Courses */}
           <section>
             <div className="flex items-center justify-between mb-6 px-1">
               <h2 className="text-2xl font-bold text-white tracking-tight">Active Courses</h2>
@@ -117,7 +250,7 @@ export default function StudentDashboard() {
                           <span className="text-slate-500">Progress</span>
                           <span className="text-[#2FA8CC]">{course.progress}%</span>
                         </div>
-                        <Progress value={course.progress} className="h-1.5 bg-white/5" indicatorClassName="bg-[#2FA8CC]" />
+                        <Progress value={course.progress} className="h-1.5 bg-white/5" />
                       </div>
                       <Button variant="ghost" className="w-full text-xs font-bold py-2 border border-white/5 hover:bg-white/5 text-slate-300 rounded-xl group">
                         Continue Learning
@@ -135,7 +268,7 @@ export default function StudentDashboard() {
         {/* Right Column (4 units) */}
         <div className="lg:col-span-4 space-y-10">
           
-          {/* 4. Events Section */}
+          {/* 5. Events Section */}
           <section>
             <h2 className="text-xl font-bold text-white mb-6 px-1">Upcoming Events</h2>
             <div className="space-y-4">
@@ -162,7 +295,7 @@ export default function StudentDashboard() {
             </div>
           </section>
 
-          {/* 5. Achievements */}
+          {/* 6. Achievements */}
           <section>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-white tracking-tight">Achievements</h2>

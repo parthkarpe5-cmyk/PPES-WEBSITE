@@ -30,18 +30,32 @@ export async function loginAction(formData: FormData, role: string) {
     );
 
     cookieStore.set("token", token, {
-    httpOnly: true,
-   secure: process.env.NODE_ENV === "production",
-   sameSite: "strict",
-   maxAge: 86400, // 1 day
-   path: "/", // CRUCIAL: Must be "/" so it works on all pages
-   });
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 86400,
+      path: "/",
+    });
 
-    
+    // Set a non-httpOnly cookie for the frontend to identify the user
+    cookieStore.set("user-data", JSON.stringify(data.user), {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 86400,
+      path: "/",
+    });
 
     return { success: true, user: data.user };
   } catch (error) {
     console.error("Login action error:", error);
     return { success: false, error: "Connection to server failed" };
   }
+}
+
+export async function logoutAction() {
+  const cookieStore = await cookies();
+  cookieStore.delete("token");
+  cookieStore.delete("user-data");
+  return { success: true };
 }

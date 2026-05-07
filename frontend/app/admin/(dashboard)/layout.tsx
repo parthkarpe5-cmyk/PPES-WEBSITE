@@ -19,11 +19,11 @@ export default function AdminLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-[#050810] text-white overflow-hidden relative">
-        <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6 border-b border-white/5 bg-[#050810]/60 backdrop-blur-xl sticky top-0 z-50">
+      <SidebarInset className="bg-[#050810] text-slate-200 overflow-hidden relative">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6 border-b border-slate-200/5 bg-[#050810]/60 backdrop-blur-xl sticky top-0 z-50">
           <div className="flex items-center gap-2">
-            <SidebarTrigger className="-ml-1 text-sky h-8 w-8 hover:bg-white/10" />
-            <Separator orientation="vertical" className="mr-2 h-4 bg-white/10" />
+            <SidebarTrigger className="-ml-1 text-sky h-8 w-8 hover:bg-slate-200/10" />
+            <Separator orientation="vertical" className="mr-2 h-4 bg-slate-200/10" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
@@ -32,10 +32,10 @@ export default function AdminLayout({
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block">
-                   <ChevronRight className="size-3 text-white/20" />
+                   <ChevronRight className="size-3 text-slate-200/20" />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="text-white font-semibold">Dashboard</BreadcrumbPage>
+                  <BreadcrumbPage className="text-slate-200 font-semibold">Dashboard</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

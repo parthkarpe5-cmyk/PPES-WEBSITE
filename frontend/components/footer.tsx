@@ -15,7 +15,7 @@ const socialLinks = [
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/prarambh_path_44?igsh=OXd5MzUyOHNmNDI3",
+    href: "https://www.instagram.com/prarambha_path",
     hoverBg: "hover:bg-pink-600",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
@@ -137,10 +137,10 @@ export function Footer() {
                   <Mail className="h-3.5 w-3.5 text-sky" />
                 </div>
                 <a
-                  href="mailto:prarambhapath@gmail.com"
+                  href="mailto:prarambhpath4444@gmail.com"
                   className="text-sm text-white/55 transition-colors hover:text-gold leading-relaxed"
                 >
-                  prarambhapath@gmail.com
+                  prarambhpath4444@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-3">
@@ -148,10 +148,10 @@ export function Footer() {
                   <Phone className="h-3.5 w-3.5 text-sky" />
                 </div>
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+919689858940"
                   className="text-sm text-white/55 transition-colors hover:text-gold"
                 >
-                  +91 98765 43210
+                  +91 96898 58940
                 </a>
               </li>
             </ul>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import {
   CallParticipantsList,
   CallingState,
@@ -11,6 +11,7 @@ import {
   useCallStateHooks,
   VideoTrackType,
 } from '@stream-io/video-react-sdk';
+import { SfuModels } from '@stream-io/video-client';
 import { MeetingGrid } from './MeetingGrid';
 import { SpeakerView } from './SpeakerView';
 import { Whiteboard } from './Whiteboard';
@@ -80,6 +81,7 @@ const MeetingRoom = () => {
   const [showPolls, setShowPolls] = useState(false);
   const [showResources, setShowResources] = useState(false);
   const [chatChannel, setChatChannel] = useState<any>(null);
+  const [chatError, setChatError] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const { toast } = useToast();
   const [reactions, setReactions] = useState<{ id: number, emoji: string, x: number, senderName: string }[]>([]);
@@ -100,40 +102,45 @@ const MeetingRoom = () => {
   const participants = useParticipants();
   const session = useCallSession();
 
-  const screenShareParticipant = participants.find((p) => p.screenShareStream);
+  const screenShareParticipant = participants.find((p) =>
+    p.publishedTracks.includes(SfuModels.TrackType.SCREEN_SHARE)
+  );
   const isSharingScreen = !!screenShareParticipant;
   const isLocalScreenSharing = screenShareParticipant?.isLocalParticipant;
 
   const { client: chatClient } = useChatContext();
+  const recordingLock = useRef(false);
+
+  const teacherParticipant = useMemo(() => {
+    if (participants.length === 0) return null;
+    return participants.find(p => !!p.pin) ||
+      participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
+      participants[0];
+  }, [participants]);
+
+  const initChatChannel = async () => {
+    if (!user || !chatClient || !id) return;
+    setChatError(false);
+    try {
+      const channel = chatClient.channel('messaging', id as string);
+      await channel.watch();
+      setChatChannel(channel);
+    } catch (err) {
+      console.error('Failed to init chat channel:', err);
+      setChatError(true);
+    }
+  };
 
   useEffect(() => {
-    if (!chatClient || !id) return;
-
+    if (!chatClient || !id || chatChannel) return;
     let isMounted = true;
-    const initChannel = async () => {
-      if (!user || !chatClient) return;
-
-      try {
-        const channel = chatClient.channel('livestream', id as string, {
-          name: `Classroom Chat - ${id}`,
-          members: [user.id],
-        } as any);
-
-        await channel.watch();
-        if (isMounted) setChatChannel(channel);
-      } catch (err) {
-        console.error('Failed to init chat channel:', err);
-      }
+    const run = async () => {
+      if (!isMounted) return;
+      await initChatChannel();
     };
-
-    if (!chatChannel) {
-      initChannel();
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [chatClient, id]); // Removed chatChannel from dependencies
+    run();
+    return () => { isMounted = false; };
+  }, [chatClient, id]); // chatChannel intentionally excluded — initChatChannel handles it
 
   // --- Attendance Logging Logic (Entry & Exit) ---
   useEffect(() => {
@@ -178,12 +185,13 @@ const MeetingRoom = () => {
   // --- Auto-Recording Logic ---
   useEffect(() => {
     const autoStartRecording = async () => {
-      if (callingState === CallingState.JOINED && call && !isRecording) {
+      if (callingState === CallingState.JOINED && call && !isRecording && !recordingLock.current) {
         // Only Faculty/Admin should trigger the auto-recording
         const isAdmin = user?.role === 'admin' || user?.role === 'faculty';
 
         if (isAdmin) {
           try {
+            recordingLock.current = true;
             await call.startRecording();
             toast({
               title: "Auto-Recording Started",
@@ -191,6 +199,7 @@ const MeetingRoom = () => {
             });
           } catch (err) {
             console.error('Failed to auto-start recording:', err);
+            recordingLock.current = false;
           }
         }
       }
@@ -218,8 +227,25 @@ const MeetingRoom = () => {
   };
 
   const endCall = async () => {
-    await call?.leave();
-    router.push('/student');
+    try {
+      // Mark session as ended in the backend
+      if (id) {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/live/sessions/${id}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'ended' }),
+          keepalive: true,
+        }).catch(() => { });
+      }
+    } finally {
+      await call?.leave();
+      const role = user?.role;
+      if (role === 'admin' || role === 'faculty') {
+        router.push('/teacher');
+      } else {
+        router.push('/student');
+      }
+    }
   };
 
   const toggleRecording = async () => {
@@ -380,19 +406,10 @@ const MeetingRoom = () => {
 
                   {/* Mobile Floating Teacher View */}
                   <div className="absolute bottom-24 right-4 w-32 aspect-video lg:hidden z-40 rounded-xl overflow-hidden border border-white/20 shadow-2xl bg-slate-900">
-                    {participants.length > 0 && (
+                    {teacherParticipant && (
                       <ParticipantView
-                        key={(() => {
-                          const p = participants.find(p => !!p.pin) ||
-                            participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
-                            participants[0];
-                          return `pip-${p?.sessionId}`;
-                        })()}
-                        participant={
-                          participants.find(p => !!p.pin) ||
-                          participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
-                          participants[0]
-                        }
+                        key={`pip-${teacherParticipant.sessionId}`}
+                        participant={teacherParticipant}
                         className="w-full h-full"
                       />
                     )}
@@ -403,20 +420,11 @@ const MeetingRoom = () => {
                 <div className="hidden lg:flex w-[300px] xl:w-[360px] flex-col bg-[#0D121F]/80 backdrop-blur-3xl border-l border-white/5 relative overflow-hidden">
                   {/* Teacher/Host View */}
                   <div className="aspect-video w-full relative bg-slate-900 border-b border-white/10 group">
-                    {participants.length > 0 ? (
+                    {teacherParticipant ? (
                       <>
                         <ParticipantView
-                          key={(() => {
-                            const p = participants.find(p => !!p.pin) ||
-                              participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
-                              participants[0];
-                            return p?.sessionId;
-                          })()}
-                          participant={
-                            participants.find(p => !!p.pin) ||
-                            participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
-                            participants[0]
-                          }
+                          key={teacherParticipant.sessionId}
+                          participant={teacherParticipant}
                           className="w-full h-full"
                         />
                         <div className="absolute top-3 left-3 flex flex-col gap-2">
@@ -427,12 +435,7 @@ const MeetingRoom = () => {
                         </div>
 
                         <div className="absolute bottom-2 right-2 px-2 py-1 rounded-lg bg-black/60 backdrop-blur-md text-[9px] font-bold text-white/80 opacity-0 group-hover:opacity-100 transition-opacity">
-                          {(() => {
-                            const p = participants.find(p => !!p.pin) ||
-                              participants.find(p => p.roles?.includes('admin') || p.roles?.includes('host')) ||
-                              participants[0];
-                            return p?.name || 'User';
-                          })()}
+                          {teacherParticipant.name || 'User'}
                         </div>
                       </>
                     ) : (
@@ -462,6 +465,16 @@ const MeetingRoom = () => {
                             <MessageComposer />
                           </Window>
                         </Channel>
+                      ) : chatError ? (
+                        <div className="h-full flex flex-col items-center justify-center p-8 text-center bg-[#0D121F] gap-3">
+                          <p className="text-slate-400 text-xs">Chat failed to connect.</p>
+                          <button
+                            onClick={initChatChannel}
+                            className="text-[10px] font-bold text-sky hover:text-white uppercase tracking-widest px-3 py-1.5 rounded-lg bg-sky/10 hover:bg-sky/20 border border-sky/20 transition-colors"
+                          >
+                            Retry
+                          </button>
+                        </div>
                       ) : (
                         <div className="h-full flex items-center justify-center p-8 text-center bg-[#0D121F]">
                           <div className="text-slate-500 text-xs">
@@ -591,7 +604,7 @@ const MeetingRoom = () => {
                   </div>
                 )}
 
-                {showChat && chatChannel && (
+                {showChat && (
                   <div className="flex flex-col h-full bg-white">
                     <div className="p-4 md:p-5 border-b border-slate-100 flex items-center justify-between bg-white">
                       <h3 className="font-bold text-sm md:text-base text-slate-800 flex items-center gap-2 md:gap-3">
@@ -605,13 +618,27 @@ const MeetingRoom = () => {
                       </button>
                     </div>
                     <div className="flex-1 overflow-hidden stream-chat-custom">
-                      <Channel channel={chatChannel}>
-                        <Window>
-                          <MessageList />
-                          <MessageComposer />
-                        </Window>
-                        <Thread />
-                      </Channel>
+                      {chatChannel ? (
+                        <Channel channel={chatChannel}>
+                          <Window>
+                            <MessageList />
+                            <MessageComposer />
+                          </Window>
+                          <Thread />
+                        </Channel>
+                      ) : chatError ? (
+                        <div className="flex-1 flex flex-col items-center justify-center p-8 gap-3">
+                          <p className="text-slate-400 text-xs">Chat failed to connect.</p>
+                          <button
+                            onClick={initChatChannel}
+                            className="text-[10px] font-bold text-sky hover:underline uppercase tracking-widest"
+                          >Retry</button>
+                        </div>
+                      ) : (
+                        <div className="flex-1 flex items-center justify-center p-8">
+                          <Loader2 className="animate-spin text-sky/40" size={28} />
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

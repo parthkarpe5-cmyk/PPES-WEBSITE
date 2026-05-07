@@ -18,7 +18,7 @@ const socialLinks = [
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/prarambh_path_44?igsh=OXd5MzUyOHNmNDI3",
+    href: "https://www.instagram.com/prarambha_path",
     bg: "bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400",
     hoverGlow: "hover:shadow-pink-500/40",
     icon: (
@@ -126,11 +126,11 @@ export function ClosingSection() {
           {/* Email chip */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <a
-              href="mailto:prarambhapath@gmail.com"
+              href="mailto:prarambhpath4444@gmail.com"
               className="flex items-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-muted-foreground transition-all hover:border-sky/40 hover:text-sky hover:shadow-md hover:shadow-sky/10 hover:scale-[1.02]"
             >
               <Mail className="h-4 w-4" />
-              prarambhapath@gmail.com
+              prarambhpath4444@gmail.com
             </a>
           </div>
 

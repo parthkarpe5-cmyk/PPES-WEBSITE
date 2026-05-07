@@ -44,6 +44,7 @@ export default function RootLayout({
           </StreamVideoProvider>
           <Toaster position="top-center" richColors />
           <Analytics />
+          <Toaster richColors position="top-center" />
         </ThemeProvider>
       </body>
     </html>

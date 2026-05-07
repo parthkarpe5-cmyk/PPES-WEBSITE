@@ -20,44 +20,61 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
     if (!isLoaded || !user || !apiKey) return;
 
     let isMounted = true;
-    const client = new StreamVideoClient({
-      apiKey,
-      user: {
-        id: user.id,
-        name: user.name || user.id,
-        image: user.image,
-      },
-      tokenProvider,
-      options: {
-        timeout: 15000,
-      },
-    });
+    let videoClientInstance: StreamVideoClient | null = null;
+    let chatClientInstance: StreamChat | null = null;
 
-    const chat = StreamChat.getInstance(apiKey);
-    const connectChat = async () => {
+    const initClients = async () => {
       try {
-        if (chat.userID !== user.id) {
-          await chat.connectUser({
+        // Initialize Video Client
+        const vClient = new StreamVideoClient({
+          apiKey,
+          user: {
+            id: user.id,
+            name: user.name || user.id,
+            image: user.image,
+          },
+          tokenProvider,
+          options: { timeout: 15000 }
+        });
+
+        // Initialize Chat Client
+        const cClient = StreamChat.getInstance(apiKey);
+        if (cClient.userID !== user.id) {
+          await cClient.connectUser({
             id: user.id,
             name: user.name || user.id,
             image: user.image,
           }, tokenProvider);
         }
+
         if (isMounted) {
-          setVideoClient(client);
-          setChatClient(chat);
+          videoClientInstance = vClient;
+          chatClientInstance = cClient;
+          setVideoClient(vClient);
+          setChatClient(cClient);
+        } else {
+          // If unmounted during async connection, cleanup immediately
+          vClient.disconnectUser().catch(() => {});
+          cClient.disconnectUser().catch(() => {});
         }
       } catch (err) {
-        console.error('Failed to connect chat:', err);
+        console.error('Stream initialization failed:', err);
       }
     };
 
-    connectChat();
+    initClients();
 
     return () => {
       isMounted = false;
-      client.disconnectUser();
-      chat.disconnectUser();
+      // We only disconnect if we have the instances. 
+      // Note: In development/Strict Mode, this will run twice.
+      // Stream handles multiple instances fairly well, but premature disconnect is bad.
+      if (videoClientInstance) {
+        videoClientInstance.disconnectUser().catch(() => {});
+      }
+      if (chatClientInstance) {
+        chatClientInstance.disconnectUser().catch(() => {});
+      }
       setVideoClient(undefined);
       setChatClient(undefined);
     };

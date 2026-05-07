@@ -11,7 +11,7 @@ const platforms = [
     handle: "@prarambhapath",
     description: "Daily updates, student stories, and behind-the-scenes moments.",
     gradient: "from-purple-600 via-pink-500 to-orange-400",
-    url: "https://www.instagram.com/prarambh_path_44?igsh=OXd5MzUyOHNmNDI3",
+    url: "https://www.instagram.com/prarambha_path",
     glow: "group-hover:shadow-pink-500/20",
   },
   {
