@@ -85,13 +85,19 @@ const getDoubtsList = async (req, res, next) => {
 
     let doubts = await Doubt.find(query).sort({ updated_at: -1 }).lean().exec();
 
-    // Enrich with student details (name, grade)
+    // Optimize: Batch fetch all students involved in these doubts
+    const studentIds = [...new Set(doubts.map(d => d.student_id))];
+    const students = await User.find({ userId: { $in: studentIds } }, 'userId name grade image').lean();
+    const studentMap = students.reduce((acc, s) => {
+      acc[s.userId] = s;
+      return acc;
+    }, {});
+
+    // Enrich with student details and unread counts
     const enrichedDoubts = await Promise.all(doubts.map(async (doubt) => {
-      // Use case-insensitive find just in case, though they should be consistent
-      const student = await User.findOne({ userId: doubt.student_id }, 'name grade image');
+      const student = studentMap[doubt.student_id];
       
       // Check for unread messages (sent by the OTHER person)
-      // We treat is_read: false OR is_read: undefined as unread
       const unreadCount = await Message.countDocuments({
         doubt_id: doubt._id,
         sender_id: { $ne: req.user.id },
@@ -107,13 +113,7 @@ const getDoubtsList = async (req, res, next) => {
       };
     }));
 
-    // Apply grade filter if provided (filtering in memory since grade is on User model)
-    let finalDoubts = enrichedDoubts;
-    if (grade) {
-      finalDoubts = enrichedDoubts.filter(d => d.student_grade === grade);
-    }
-
-    res.status(200).json({ success: true, data: finalDoubts });
+    res.status(200).json({ success: true, data: enrichedDoubts });
   } catch (error) {
     next(error);
   }

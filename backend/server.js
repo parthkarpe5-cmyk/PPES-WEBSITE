@@ -136,11 +136,36 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
     console.error('CRITICAL: MONGODB_URI is not defined in .env');
+    process.exit(1);
 }
 
-mongoose.connect(MONGODB_URI || 'mongodb://localhost:27017/my_database')
-    .then(() => console.log('Connected to MongoDB Atlas'))
-    .catch((err) => console.error('MongoDB connection error:', err));
+const startServer = async () => {
+    try {
+        console.log('Connecting to MongoDB...');
+        await mongoose.connect(MONGODB_URI || 'mongodb://localhost:27017/my_database', {
+            serverSelectionTimeoutMS: 15000, // Wait 15s for server selection
+        });
+        console.log('Connected to MongoDB Atlas');
+
+        const server = app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+            // Run seeders after connection is established
+            seedUsers();
+            seedSubjects();
+        });
+
+        server.on('error', (err) => {
+            console.error('Server failed to start:', err);
+        });
+
+    } catch (err) {
+        console.error('MongoDB connection failed:', err.message);
+        console.log('Retrying connection in 5 seconds...');
+        setTimeout(startServer, 5000);
+    }
+};
+
+startServer();
 
 // --- API Routes ---
 
@@ -229,6 +254,11 @@ app.patch('/api/attendance/exit', async (req, res) => {
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password, role } = req.body;
+        console.log(`[Auth] Login attempt: ${email} (${role})`);
+
+        if (!email) {
+            return res.status(400).json({ error: 'Email or USN is required' });
+        }
 
         // Find user by Email OR UserID and check Role
         const user = await User.findOne({
@@ -241,21 +271,27 @@ app.post('/api/auth/login', async (req, res) => {
         });
 
         // Strict validation: User must exist AND password must match
-        const isMatch = user ? await bcrypt.compare(password || 'password123', user.password) : false;
+        const isMatch = user ? await bcrypt.compare(password || 'password123', user.password || '') : false;
 
         if (!user || !isMatch) {
+            console.log(`[Auth] Login failed for: ${email}`);
             return res.status(401).json({ error: 'Invalid credentials or role' });
         }
 
         // Trigger the USN Email (Confirmation) for students ONLY ONCE
         if (user.role === 'student' && user.email && !user.isEmailSent) {
-            await sendUSNMail(user.email, user.name, user.usn);
-            // Mark as sent so they don't get it again on next login
-            user.isEmailSent = true;
-            await user.save();
-            console.log(`USN Email sent and marked for user: ${user.userId}`);
+            try {
+                await sendUSNMail(user.email, user.name, user.usn);
+                user.isEmailSent = true;
+                await user.save();
+                console.log(`[Auth] USN Email sent to: ${user.email}`);
+            } catch (mailError) {
+                console.error('[Auth] Failed to send USN email:', mailError.message);
+                // We don't block login if email fails
+            }
         }
 
+        console.log(`[Auth] Login successful: ${user.userId}`);
         res.json({
             success: true,
             user: {
@@ -266,8 +302,8 @@ app.post('/api/auth/login', async (req, res) => {
             }
         });
     } catch (error) {
-        console.error('Login error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('[Auth] Login CRASH:', error);
+        res.status(500).json({ error: 'Internal server error', message: error.message });
     }
 });
 
@@ -364,9 +400,4 @@ app.get('/api/v1/teachers', async (req, res) => {
     }
 });
 
-// Start server
-app.listen(PORT, () => {
-    seedUsers();
-    seedSubjects();
-    console.log(`Server running on port ${PORT}`);
-});
+// startServer is called at line 168

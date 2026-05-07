@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { getDoubtDetails, addMessage, updateDoubtStatus, uploadImage, getAuthHeaders } from '@/lib/api';
+import { getDoubtDetails, addMessage, uploadImage, getAuthHeaders } from '@/lib/api';
 import { 
   Send, 
   Upload, 
@@ -121,14 +121,7 @@ export default function FacultyChatPage() {
     }
   };
 
-  const handleStatusChange = async (newStatus: 'resolved' | 'closed') => {
-    try {
-      await updateDoubtStatus(doubtId, newStatus);
-      setDoubt((prev) => prev ? { ...prev, status: newStatus } : null);
-    } catch (err: any) {
-      setError('Failed to update status');
-    }
-  };
+
 
   const handleWheel = (e: React.WheelEvent) => {
     if (selectedImage) {
@@ -190,19 +183,8 @@ export default function FacultyChatPage() {
         </div>
         
         <div className="flex items-center gap-4">
-          <div className="hidden md:flex gap-2">
-            {doubt.status === 'open' && (
-              <>
-                <button onClick={() => handleStatusChange('resolved')} className="px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-500/20 transition-all">
-                  Resolve
-                </button>
-              </>
-            )}
-          </div>
-          <span className={`px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest border ${
-            doubt.status === 'open' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
-          }`}>
-            {doubt.status}
+          <span className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border bg-saffron/10 text-saffron border-saffron/20 shadow-lg shadow-saffron/10">
+            Active Chat
           </span>
           <button className="p-2 text-slate-500 hover:text-white transition-colors">
             <MoreVertical size={20} />

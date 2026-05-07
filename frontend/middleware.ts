@@ -4,6 +4,7 @@ import { jwtVerify } from 'jose';
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
   const { pathname } = req.nextUrl;
+  console.log(`[Middleware] Path: ${pathname}`);
 
   // 1. Define Protected Routes
   const protectedPaths = ['/student', '/admin', '/faculty', '/live'];

@@ -17,7 +17,6 @@ import {
   User, 
   ChevronRight, 
   Clock, 
-  CheckCircle2,
   Filter,
   MessageCircle
 } from 'lucide-react';
@@ -119,13 +118,7 @@ export default function StudentDoubtsDashboard() {
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'open': return <Clock className="w-4 h-4 text-amber-500" />;
-      case 'resolved': return <CheckCircle2 className="w-4 h-4 text-emerald-500" />;
-      default: return <MessageSquare className="w-4 h-4 text-slate-400" />;
-    }
-  };
+
 
   if (loading) {
     return (
@@ -229,7 +222,10 @@ export default function StudentDoubtsDashboard() {
                             <span className="absolute -top-1 -right-1 w-3 h-3 bg-sky rounded-full border-2 border-[#0A0F1C] animate-pulse" />
                           )}
                         </div>
-                        {getStatusIcon(doubt.status)}
+                        <div className="flex items-center gap-1.5 text-slate-500">
+                          <MessageCircle size={14} className="opacity-50" />
+                          <span className="text-[10px] font-bold uppercase tracking-widest">Chat Open</span>
+                        </div>
                       </div>
                       <h3 className="text-lg font-bold text-white group-hover:text-sky transition-colors line-clamp-1 mb-2">
                         {doubt.title}
