@@ -7,7 +7,6 @@ import {
   MessageSquare, 
   Search, 
   Clock, 
-  CheckCircle2,
   Filter,
   MessageCircle,
   ChevronRight,
@@ -52,13 +51,7 @@ export default function FacultyDoubtsDashboard() {
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'open': return <Clock className="w-4 h-4 text-amber-500" />;
-      case 'resolved': return <CheckCircle2 className="w-4 h-4 text-emerald-500" />;
-      default: return <MessageSquare className="w-4 h-4 text-slate-400" />;
-    }
-  };
+
 
   const filteredDoubts = doubts.filter((doubt) => {
     const matchesSearch = 
@@ -172,12 +165,15 @@ export default function FacultyDoubtsDashboard() {
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col items-end gap-2">
-                      {getStatusIcon(doubt.status)}
-                      {doubt.has_unread && (
-                        <span className="text-[8px] font-black text-saffron uppercase tracking-widest animate-pulse">New Message</span>
-                      )}
-                    </div>
+                      <div className="flex flex-col items-end gap-2">
+                        <div className="flex items-center gap-1.5 text-slate-500">
+                          <MessageCircle size={14} className="opacity-50" />
+                          <span className="text-[9px] font-black uppercase tracking-widest">Active</span>
+                        </div>
+                        {doubt.has_unread && (
+                          <span className="text-[8px] font-black text-saffron uppercase tracking-widest animate-pulse">New Message</span>
+                        )}
+                      </div>
                   </div>
                   
                   <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 mt-6 pt-4 border-t border-white/5">
