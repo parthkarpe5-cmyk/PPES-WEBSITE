@@ -73,7 +73,7 @@ const data = {
     },
     {
       title: "Schedule",
-      url: "/faculty/schedule",
+      url: "/dashboard/faculty",
       icon: Calendar,
     },
   ],

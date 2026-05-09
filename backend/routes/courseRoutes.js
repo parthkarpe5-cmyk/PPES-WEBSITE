@@ -33,8 +33,26 @@ router.get('/:id', async (req, res) => {
 // Create a course
 router.post('/', async (req, res) => {
   try {
-    const { title, description, price, isPublished } = req.body;
-    const course = await Course.create({ title, description, price, isPublished });
+    const { 
+      course_name, 
+      course_id, 
+      course_start_date, 
+      course_description, 
+      price, 
+      isPublished 
+    } = req.body;
+
+    // Mapping new fields to old ones for compatibility
+    const course = await Course.create({ 
+      course_name, 
+      course_id, 
+      course_start_date, 
+      course_description, 
+      title: course_name, // fallback
+      description: course_description, // fallback
+      price, 
+      isPublished 
+    });
     res.json(course);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -44,7 +62,28 @@ router.post('/', async (req, res) => {
 // Update a course
 router.put('/:id', async (req, res) => {
   try {
-    const course = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const { 
+      course_name, 
+      course_id, 
+      course_start_date, 
+      course_description, 
+      price, 
+      isPublished 
+    } = req.body;
+
+    const updateData = {
+      course_name, 
+      course_id, 
+      course_start_date, 
+      course_description, 
+      price, 
+      isPublished 
+    };
+
+    if (course_name) updateData.title = course_name;
+    if (course_description) updateData.description = course_description;
+
+    const course = await Course.findByIdAndUpdate(req.params.id, updateData, { new: true });
     res.json(course);
   } catch (error) {
     res.status(500).json({ error: error.message });

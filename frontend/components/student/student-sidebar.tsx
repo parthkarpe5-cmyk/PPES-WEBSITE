@@ -46,7 +46,7 @@ const data = {
     },
     {
       title: "My Courses",
-      url: "/student/courses",
+      url: "/dashboard/student/courses",
       icon: BookOpen,
     },
     {
@@ -68,6 +68,11 @@ const data = {
       title: "Profile",
       url: "/student/profile",
       icon: User,
+    },
+    {
+      title: "Timetable",
+      url: "/dashboard/student/timetable",
+      icon: Calendar,
     },
   ],
 }
@@ -106,14 +111,14 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
           <SidebarMenu className="px-2 gap-1">
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton 
-                  tooltip={item.title} 
-                  asChild 
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  asChild
                   isActive={pathname === item.url}
                   className={`
                     transition-all duration-300 rounded-xl px-3 py-2 h-11
-                    ${pathname === item.url 
-                      ? 'bg-white/10 text-white border-l-2 border-[#2FA8CC]' 
+                    ${pathname === item.url
+                      ? 'bg-white/10 text-white border-l-2 border-[#2FA8CC]'
                       : 'text-white/60 hover:text-white hover:bg-white/5'}
                   `}
                 >
@@ -157,7 +162,7 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                   <Settings className="mr-2 size-4 text-[#2FA8CC]" />
                   My Settings
                 </DropdownMenuItem>
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   className="hover:bg-red-500/10 text-red-400 cursor-pointer rounded-lg m-1"
                   onClick={handleLogout}
                 >

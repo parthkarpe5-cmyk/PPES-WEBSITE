@@ -3,15 +3,57 @@ const router = express.Router();
 const Subject = require('../models/Subject');
 const Course = require('../models/Course');
 
+// Get all subjects
+router.get('/', async (req, res) => {
+  try {
+    const subjects = await Subject.find().populate('teacherId courseId');
+    res.json(subjects);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Create a subject
 router.post('/', async (req, res) => {
   try {
-    const { name, courseId, teacherId } = req.body;
-    const subject = await Subject.create({ name, courseId, teacherId });
+    const { subject_name, subject_id, teacher_id, course_id, courseId } = req.body;
     
-    // Add to course
-    await Course.findByIdAndUpdate(courseId, { $push: { subjects: subject._id } });
+    // Create the subject
+    const subject = await Subject.create({ 
+      subject_name, 
+      subject_id, 
+      name: subject_name, // fallback
+      teacherId: teacher_id, 
+      course_id, // Custom string
+      courseId // MongoDB ID
+    });
     
+    // Add to course's subjects array if courseId is provided
+    if (courseId) {
+      await Course.findByIdAndUpdate(courseId, { $push: { subjects: subject._id } });
+    }
+    
+    res.json(subject);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Update a subject
+router.put('/:id', async (req, res) => {
+  try {
+    const { subject_name, subject_id, teacher_id, course_id, courseId } = req.body;
+    
+    const updateData = {
+      subject_name,
+      subject_id,
+      name: subject_name,
+      teacherId: teacher_id,
+      course_id,
+      courseId
+    };
+
+    const subject = await Subject.findByIdAndUpdate(req.params.id, updateData, { new: true });
     res.json(subject);
   } catch (error) {
     res.status(500).json({ error: error.message });

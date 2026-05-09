@@ -1,4 +1,5 @@
-import { getWeeklyTimetable, updateTopicAction } from "../../actions/timetable";
+import { getWeeklyTimetable } from "../../actions/timetable";
+import TopicEditForm from "@/components/faculty/TopicEditForm";
 
 export default async function FacultyDashboard({ 
   searchParams 
@@ -46,19 +47,7 @@ export default async function FacultyDashboard({
                   </td>
                   <td className="p-6 font-bold text-[#1F4E79]">{session.subject}</td>
                   <td className="p-6">
-                    {/* Inline Form to Edit Topic */}
-                    <form action={updateTopicAction} className="flex gap-2">
-                      <input type="hidden" name="sessionId" value={session._id} />
-                      <input 
-                        name="topic" 
-                        defaultValue={session.topic} 
-                        className="bg-transparent border-b border-sky/20 text-deepBlue py-1 outline-none focus:border-sky text-sm w-full italic" 
-                        placeholder="Click to edit topic..."
-                      />
-                      <button type="submit" className="text-[10px] bg-sky/10 text-sky px-2 py-1 rounded hover:bg-sky hover:text-white transition-all">
-                        Update
-                      </button>
-                    </form>
+                    <TopicEditForm sessionId={session._id} initialTopic={session.topic} />
                   </td>
                   <td className="p-6 text-center">
                     {session.isProxy && <span className="text-[9px] font-bold text-red-500 uppercase">Proxy</span>}

@@ -53,7 +53,7 @@ const data = {
     },
     {
       title: "Courses",
-      url: "/admin/courses",
+      url: "/dashboard/admin/courses/",
       icon: School,
     },
     {
@@ -65,6 +65,11 @@ const data = {
       title: "Faculty Management",
       url: "/admin/faculty",
       icon: UserPlus,
+    },
+    {
+      title: "Master Timetable",
+      url: "/dashboard/admin/timetable",
+      icon: Clock,
     },
     {
       title: "Users",

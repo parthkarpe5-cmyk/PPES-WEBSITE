@@ -4,6 +4,12 @@ import { TimetableSession } from "../../lib/models/TimetableSession";
 import { User } from "../../lib/models/User";
 import { revalidatePath } from "next/cache";
 
+const TIME_SLOTS = [
+  "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", 
+  "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", 
+  "06:00 PM", "07:00 PM"
+];
+
 /**
  * 1. ADMIN: Get all faculty for the table rows
  */
@@ -30,13 +36,19 @@ export async function getStudentTimetable(className: string) {
   const data = await TimetableSession.find({ 
     studentClass: className 
   }).sort({ date: 1, slotIndex: 1 }).lean();
-  return JSON.parse(JSON.stringify(data));
+  
+  const mappedData = data.map((item: any) => ({
+    ...item,
+    startTime: TIME_SLOTS[item.slotIndex] || "N/A"
+  }));
+
+  return JSON.parse(JSON.stringify(mappedData));
 }
 
 /**
  * 4. ADMIN: Create or Update a slot (Handles Proxy & Merging)
  */
-export async function upsertSlotAction(formData: FormData) {
+export async function upsertSlotAction(prevState: any, formData: FormData) {
   try {
     await connectDB();
 
@@ -83,7 +95,7 @@ export async function upsertSlotAction(formData: FormData) {
 /**
  * 5. FACULTY: Update Topic Name
  */
-export async function updateTopicAction(formData: FormData) {
+export async function updateTopicAction(prevState: any, formData: FormData) {
   try {
     await connectDB();
     const id = formData.get("sessionId");
@@ -102,7 +114,7 @@ export async function updateTopicAction(formData: FormData) {
 /**
  * 6. FACULTY: Update Live Link
  */
-export async function updateSessionAction(formData: FormData) {
+export async function updateSessionAction(prevState: any, formData: FormData) {
   try {
     await connectDB();
     const id = formData.get("sessionId");

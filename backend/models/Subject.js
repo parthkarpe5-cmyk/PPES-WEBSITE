@@ -1,15 +1,21 @@
 const mongoose = require('mongoose');
 
 const subjectSchema = new mongoose.Schema({
-    name: {
+    subject_name: {
+        type: String,
+        required: true
+    },
+    subject_id: {
         type: String,
         required: true,
         unique: true
     },
+    // Existing fields for compatibility
+    name: {
+        type: String
+    },
     code: {
-        type: String,
-        required: true,
-        unique: true
+        type: String
     },
     description: {
         type: String
@@ -18,6 +24,7 @@ const subjectSchema = new mongoose.Schema({
         type: String // Mapping to User.userId
     }],
     courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+    course_id: { type: String }, // Custom string link
     teacherId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     materials: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Material' }]
 }, { timestamps: true });
