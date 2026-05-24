@@ -159,7 +159,7 @@ export function ProfileEditor() {
             <CardContent className="space-y-6 pt-6">
               <div className="flex items-center gap-4 rounded-3xl border border-white/10 bg-black/20 p-4">
                 <Avatar className="h-20 w-20 border border-white/10 bg-[#1F4E79]">
-                  <AvatarImage src={avatarPreview || '/avatars/student.png'} alt={profile.name} />
+                  <AvatarImage src={avatarPreview || ''} alt={profile.name} />
                   <AvatarFallback className="bg-[#2FA8CC]/20 text-xl text-white">
                     <UserCircle2 className="h-8 w-8" />
                   </AvatarFallback>

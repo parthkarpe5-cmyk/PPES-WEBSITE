@@ -24,6 +24,7 @@ import {
 } from "lucide-react"
 import { LiveSessionsList } from "@/components/LiveSessionsList"
 import { cn } from "@/lib/utils"
+import { getMyProfile, getStoredUserData } from '@/lib/api'
 
 // Mock Data for Test Module
 const MOCK_TESTS = [
@@ -56,6 +57,33 @@ const MOCK_STUDENT_ATTEMPTS = [
 export default function StudentDashboard() {
   const router = useRouter()
   const [activeTestTab, setActiveTestTab] = useState('available')
+  const [student, setStudent] = useState(getStoredUserData())
+
+  React.useEffect(() => {
+    const refreshStudent = async () => {
+      const stored = getStoredUserData()
+
+      if (stored?.id && !stored.grade) {
+        try {
+          const latest = await getMyProfile()
+          setStudent({ ...stored, ...latest })
+          return
+        } catch {
+          // Keep stored value if the profile endpoint is temporarily unavailable.
+        }
+      }
+
+      setStudent(stored)
+    }
+
+    refreshStudent()
+    window.addEventListener('user-data-updated', refreshStudent)
+    return () => window.removeEventListener('user-data-updated', refreshStudent)
+  }, [])
+
+  const displayName = student?.name || 'Student'
+  const displayGrade = student?.grade || 'Student Profile'
+  const displayUsn = student?.usn || student?.id || 'USN unavailable'
 
   return (
     <div className="p-6 lg:p-8 space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-700 bg-slate-950 min-h-screen">
@@ -65,14 +93,17 @@ export default function StudentDashboard() {
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="space-y-4">
             <Badge variant="outline" className="bg-white/10 text-[#2FA8CC] border-white/10 px-3 py-1 text-[10px] uppercase font-bold tracking-widest">
-              Daily Progress: 75%
+              {displayGrade}
             </Badge>
             <div>
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-2 font-display">
-                Welcome, <span className="text-[#2FA8CC] inline-block animate-shimmer bg-gradient-to-r from-[#2FA8CC] via-white to-[#2FA8CC] bg-[length:200%_auto] bg-clip-text text-transparent">Aryan Sharma</span>
+                Welcome, <span className="text-[#2FA8CC] inline-block animate-shimmer bg-gradient-to-r from-[#2FA8CC] via-white to-[#2FA8CC] bg-[length:200%_auto] bg-clip-text text-transparent">{displayName}</span>
               </h1>
               <p className="text-slate-300 text-lg max-w-md italic">
                 "The beautiful thing about learning is that no one can take it away from you."
+              </p>
+              <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.24em] text-white/50">
+                {displayUsn}
               </p>
             </div>
           </div>

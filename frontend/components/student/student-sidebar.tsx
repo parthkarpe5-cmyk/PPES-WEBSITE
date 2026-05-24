@@ -165,7 +165,7 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                   className="w-full hover:bg-white/5 transition-colors rounded-xl p-2"
                 >
                   <Avatar className="h-8 w-8 border border-white/10">
-                    <AvatarImage src={getMediaUrl(user?.image) || '/avatars/student.png'} alt={user?.name || 'Student'} />
+                    <AvatarImage src={getMediaUrl(user?.image) || ''} alt={user?.name || 'Student'} />
                     <AvatarFallback className="bg-[#2FA8CC] text-white">
                       {(user?.name || 'Student')
                         .split(' ')

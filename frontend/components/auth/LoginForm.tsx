@@ -1,15 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loginAction } from "../../app/actions/auth";
 import { useRouter } from "next/navigation";
 import { Loader2, MailCheck } from "lucide-react";
+import Cookies from "js-cookie";
 
 export default function LoginForm({ role, idPlaceholder }: { role: string, idPlaceholder: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (Cookies.get("token")) {
+      const dashboard = role === "admin" ? "/admin" : role === "faculty" ? "/faculty" : "/student";
+      router.replace(dashboard);
+    }
+  }, [role, router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,9 +30,9 @@ export default function LoginForm({ role, idPlaceholder }: { role: string, idPla
     if (result.success) {
       if (role === 'student') {
         setEmailSent(true);
-        setTimeout(() => router.push("/student"), 3000);
+        setTimeout(() => router.replace("/student"), 3000);
       } else {
-        router.push(role === 'admin' ? "/admin" : "/faculty");
+        router.replace(role === 'admin' ? "/admin" : "/faculty");
       }
     } else {
       setError(result.error || "Login failed");

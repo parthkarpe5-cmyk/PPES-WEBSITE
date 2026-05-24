@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Loader2, ArrowRight, ShieldCheck, GraduationCap } from 'lucide-react';
@@ -8,12 +8,20 @@ import Cookies from 'js-cookie';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (Cookies.get('token')) {
+      router.replace('/student');
+    }
+  }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +31,7 @@ export default function LoginPage() {
     // In a real app, this would be an API call to /api/auth/login
     setTimeout(() => {
       Cookies.set('token', 'mock_token_for_demo', { expires: 7 });
-      router.push('/student');
+      router.replace('/student');
       setIsLoading(false);
     }, 1500);
   };
