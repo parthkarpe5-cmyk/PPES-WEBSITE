@@ -128,30 +128,7 @@ const seedUsers = async () => {
     }
 };
 
-const seedSubjects = async () => {
-    try {
-        const subjects = [
-            { name: 'Physics', code: 'PHY101', description: 'Classical and Modern Physics', facultyIds: ['faculty_01'] },
-            { name: 'Mathematics', code: 'MAT101', description: 'Calculus and Linear Algebra', facultyIds: ['faculty_01', 'faculty_02'] },
-            { name: 'Chemistry', code: 'CHE101', description: 'Organic and Inorganic Chemistry', facultyIds: ['faculty_02'] },
-            { name: 'Computer Science', code: 'CS101', description: 'Data Structures and Algorithms', facultyIds: ['faculty_01'] },
-            { name: 'Biology', code: 'BIO101', description: 'Study of Living Organisms', facultyIds: ['faculty_02'] },
-            { name: 'English', code: 'ENG101', description: 'Literature and Communication', facultyIds: ['faculty_02'] },
-            { name: 'Economics', code: 'ECO101', description: 'Principles of Economics', facultyIds: ['faculty_01'] }
-        ];
 
-        for (const sub of subjects) {
-            await Subject.findOneAndUpdate(
-                { code: sub.code },
-                sub,
-                { upsert: true, new: true }
-            );
-        }
-        console.log('Seeded/Updated subjects in MongoDB.');
-    } catch (err) {
-        console.error('Subject seeding error:', err);
-    }
-};
 
 // Stream Client Setup
 const apiKey = process.env.STREAM_API_KEY;
@@ -192,7 +169,6 @@ const startServer = async () => {
             console.log(`Server running on port ${PORT}`);
             // Run seeders after connection is established
             seedUsers();
-            seedSubjects();
         });
 
         server.on('error', (err) => {
@@ -508,6 +484,7 @@ app.get('/api/users', async (req, res) => {
 });
 
 const formatProfileUser = (user) => ({
+    _id: user._id,
     id: user.userId,
     userId: user.userId,
     usn: user.usn,
@@ -605,6 +582,8 @@ app.get('/api/v1/subjects', async (req, res) => {
         res.status(500).json({ success: false, error: err.message });
     }
 });
+
+
 
 app.get('/api/v1/teachers', async (req, res) => {
     try {

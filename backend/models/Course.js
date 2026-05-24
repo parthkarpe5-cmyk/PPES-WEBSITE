@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
 const CourseSchema = new mongoose.Schema({
-    // New requested fields
     course_name: { type: String, required: true },
     course_id: { type: String, required: true, unique: true },
     course_start_date: { type: Date },
     course_description: { type: String },
-
-    // Existing fields for compatibility
+    
+    // Compatibility fields
     title: { type: String },
     description: { type: String },
     price: { type: Number, required: true },

@@ -1,56 +1,286 @@
-import { getAllCourses } from "../../actions/courseActions";
+'use client';
 
-export default async function StudentCourses() {
-  const courses = await getAllCourses();
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { 
+  BookOpen, 
+  IndianRupee, 
+  CheckCircle, 
+  Lock, 
+  Loader2, 
+  HelpCircle,
+  CreditCard,
+  ChevronDown,
+  ChevronUp
+} from 'lucide-react';
+import { getMyProfile, getTeachers } from '@/lib/api';
+
+export default function StudentCoursesCatalog() {
+  const [courses, setCourses] = useState<any[]>([]);
+  const [teachers, setTeachers] = useState<any[]>([]);
+  const [student, setStudent] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [buyingId, setBuyingId] = useState<string | null>(null);
+
+  // Accordion state to show subjects/teachers inline
+  const [expandedCourses, setExpandedCourses] = useState<Record<string, boolean>>({});
+
+  const BACKEND_URL = 'http://localhost:5000/api';
+
+  useEffect(() => {
+    fetchProfileAndCourses();
+  }, []);
+
+  const fetchProfileAndCourses = async () => {
+    setLoading(true);
+    try {
+      const [profileData, coursesRes, teachersData] = await Promise.all([
+        getMyProfile().catch(() => null),
+        fetch(`${BACKEND_URL}/courses`),
+        getTeachers().catch(() => [])
+      ]);
+      
+      const coursesData = await coursesRes.json();
+      setStudent(profileData);
+      
+      // Filter out draft courses so students only see published (Live) syllabi
+      const publishedCourses = (Array.isArray(coursesData) ? coursesData : [])
+        .filter((c: any) => c.isPublished);
+      setCourses(publishedCourses);
+      setTeachers(Array.isArray(teachersData) ? teachersData : []);
+    } catch (err) {
+      console.error('Error fetching student courses catalog:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Simulate payment / direct enrollment for ease of local testing
+  const handlePurchase = async (courseId: string) => {
+    setBuyingId(courseId);
+    try {
+      const res = await fetch(`${BACKEND_URL}/courses/purchase`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-user-id': student?.id || student?.userId || ''
+        },
+        body: JSON.stringify({ courseId })
+      });
+
+      if (res.ok) {
+        // Reload data to reflect purchase instantly
+        await fetchProfileAndCourses();
+      }
+    } catch (err) {
+      console.error('Error enrolling in course:', err);
+    } finally {
+      setBuyingId(null);
+    }
+  };
+
+  const isCourseUnlocked = (courseId: string) => {
+    if (!student || !student.unlockedCourses) return false;
+    return student.unlockedCourses.includes(courseId);
+  };
+
+  const toggleSyllabus = (courseId: string) => {
+    setExpandedCourses(prev => ({
+      ...prev,
+      [courseId]: !prev[courseId]
+    }));
+  };
 
   return (
-    <div className="min-h-screen bg-[#E8F6FA] p-6 md:p-12">
-      <header className="max-w-7xl mx-auto mb-16 text-center">
-        <h1 className="text-5xl font-black text-[#1F4E79] tracking-tight">Academic Catalog</h1>
-        <p className="text-[#2FA8CC] font-medium italic mt-2">Explore courses designed for your academic excellence</p>
-      </header>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
-        {courses.map((course: any) => (
-          <div key={course._id} className="bg-white rounded-[3.5rem] p-10 shadow-2xl flex flex-col border-b-[12px] border-b-[#2FA8CC] relative group hover:-translate-y-2 transition-all duration-300">
-            
-            {/* Target Class Badge */}
-            <div className="absolute top-8 right-8 bg-[#1F4E79] text-white text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">
-              Std {course.targetClass}
-            </div>
-
-            <div className="text-4xl mb-6">📚</div>
-            <h2 className="text-3xl font-bold text-[#1F4E79] mb-3 leading-tight">{course.title}</h2>
-            <p className="text-[#2FA8CC] text-sm italic mb-8 line-clamp-2">{course.description || "Comprehensive curriculum designed for scholar growth."}</p>
-            
-            <div className="space-y-3 flex-grow">
-               <p className="text-[10px] font-black text-[#1F4E79]/30 uppercase tracking-[0.2em] mb-4">Curriculum Path:</p>
-               {course.subjects?.map((sub: any) => (
-                 <div key={sub._id} className="flex items-center justify-between bg-[#E8F6FA]/50 p-4 rounded-2xl border border-[#2FA8CC]/5">
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold text-[#1F4E79]">{sub.title}</span>
-                      <span className="text-[10px] text-[#2FA8CC] italic">{sub.courseName}</span>
-                    </div>
-                    <div className="text-right">
-                       <p className="text-[8px] font-black text-[#1F4E79]/40 uppercase tracking-widest">Faculty</p>
-                       <p className="text-[10px] font-bold text-[#1F4E79]">{sub.facultyName || 'Awaiting Allocation'}</p>
-                    </div>
-                 </div>
-               ))}
-            </div>
-
-            <button className="w-full mt-10 h-16 bg-[#E8F6FA] text-[#1F4E79] font-black rounded-2xl border-2 border-[#2FA8CC]/10 group-hover:bg-[#1F4E79] group-hover:text-white group-hover:border-transparent transition-all uppercase text-xs tracking-widest shadow-sm">
-               View Course Modules
-            </button>
+    <div className="p-6 lg:p-8 space-y-10 bg-[#050B14] min-h-screen text-slate-200 animate-in fade-in duration-500">
+      
+      {/* 1. Welcoming Header */}
+      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-white/5">
+        <div className="relative z-10 space-y-4">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
+            Student Portal
+          </span>
+          <div>
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-2 font-display">
+              Academic <span className="text-[#2FA8CC]">Catalog</span>
+            </h1>
+            <p className="text-slate-400 text-sm max-w-lg">
+              Unlock study resources, inspect lesson paths, and excel in your standard exams.
+            </p>
           </div>
-        ))}
+        </div>
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#2FA8CC]/5 blur-[120px] rounded-full" />
+      </section>
+
+      {/* 2. Course Catalog Grid */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          Available Syllabi
+          <span className="px-2 py-0.5 rounded-lg bg-white/5 text-xs text-slate-400 font-bold">{courses.length}</span>
+        </h2>
+
+        {loading ? (
+          <div className="flex flex-col items-center justify-center p-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl space-y-4">
+            <Loader2 className="h-8 w-8 text-[#2FA8CC] animate-spin" />
+            <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Loading Catalog...</p>
+          </div>
+        ) : courses.length === 0 ? (
+          <div className="text-center py-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl max-w-xl mx-auto">
+            <HelpCircle className="h-12 w-12 text-slate-600 mx-auto mb-4" />
+            <p className="text-slate-300 font-bold text-lg">Catalog Empty</p>
+            <p className="text-slate-500 text-xs mt-1">No courses have been published by the administrators yet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {courses.map((course) => {
+              const unlocked = isCourseUnlocked(course._id);
+              const isExpanded = !!expandedCourses[course._id];
+              return (
+                <div 
+                  key={course._id} 
+                  className="bg-white/[0.02] border border-white/5 rounded-[2rem] p-6 hover:border-[#2FA8CC]/20 hover:bg-white/[0.04] transition-all duration-300 flex flex-col justify-between group shadow-lg relative overflow-hidden"
+                >
+                  <div>
+                    <div className="flex justify-between items-start mb-4">
+                      <span className="px-2.5 py-0.5 rounded-lg bg-white/5 text-slate-500 text-[9px] font-black uppercase tracking-wider border border-white/5">
+                        {course.course_id}
+                      </span>
+                      {unlocked ? (
+                        <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] font-black uppercase tracking-widest">
+                          <CheckCircle className="h-3 w-3" />
+                          Purchased
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-500/10 text-slate-400 border border-white/5 text-[9px] font-black uppercase tracking-widest">
+                          <Lock className="h-3 w-3" />
+                          Locked
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#2FA8CC] transition-colors leading-tight">
+                      {course.course_name}
+                    </h3>
+                    <p className="text-slate-400 text-xs line-clamp-3 mb-6 font-medium">
+                      {course.course_description || "Comprehensive syllabus configured for active student engagement."}
+                    </p>
+                  </div>
+
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="flex items-center gap-1 text-slate-500 font-bold uppercase tracking-wider">
+                        <BookOpen className="h-3.5 w-3.5 text-[#2FA8CC]" />
+                        {course.subjects?.length || 0} Subjects
+                      </span>
+                      <span className="flex items-center text-white font-black text-base">
+                        <IndianRupee className="h-4 w-4 text-[#2FA8CC]" />
+                        {course.price}
+                      </span>
+                    </div>
+
+                    {/* Inline Syllabus Details Accordion */}
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => toggleSyllabus(course._id)}
+                        className="w-full h-9 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-[10px] font-bold uppercase tracking-widest border border-white/5 transition-all flex items-center justify-center gap-1"
+                      >
+                        {isExpanded ? (
+                          <>
+                            <ChevronUp className="h-3.5 w-3.5 text-[#2FA8CC]" />
+                            Hide Syllabus
+                          </>
+                        ) : (
+                          <>
+                            <ChevronDown className="h-3.5 w-3.5 text-[#2FA8CC]" />
+                            View Syllabus
+                          </>
+                        )}
+                      </button>
+
+                      {isExpanded && (
+                        <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1 py-1 custom-scrollbar animate-in slide-in-from-top-2 duration-300">
+                          {(!course.subjects || course.subjects.length === 0) ? (
+                            <p className="text-slate-500 text-[10px] italic py-2 text-center">No subjects configured yet.</p>
+                          ) : (
+                            course.subjects.map((sub: any) => {
+                              const facultyObj = teachers.find(t => 
+                                t._id === sub.teacherId || 
+                                (sub.teacherId && typeof sub.teacherId === 'object' && t._id === sub.teacherId._id) ||
+                                (sub.facultyIds && Array.isArray(sub.facultyIds) && sub.facultyIds.includes(t.userId))
+                              );
+                              return (
+                                <div 
+                                  key={sub._id} 
+                                  className="p-2.5 bg-white/[0.01] border border-white/5 rounded-xl flex items-center justify-between gap-2"
+                                >
+                                  <div className="min-w-0">
+                                    <span className="text-[11px] font-bold text-slate-200 block truncate">{sub.subject_name}</span>
+                                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">{sub.subject_id}</span>
+                                  </div>
+                                  <div className="text-right shrink-0">
+                                    <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest block leading-none">Mentor</span>
+                                    <span className="text-[10px] text-[#2FA8CC] font-bold block mt-0.5">{facultyObj ? facultyObj.name : 'Awaiting Allocation'}</span>
+                                  </div>
+                                </div>
+                              );
+                            })
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-2">
+                      {unlocked ? (
+                        <Link 
+                          href={`/courses/${course._id}`}
+                          className="w-full h-11 bg-white/5 hover:bg-[#2FA8CC]/10 text-slate-200 hover:text-[#2FA8CC] text-xs font-bold uppercase tracking-widest rounded-xl border border-white/5 transition-all flex items-center justify-center gap-1.5"
+                        >
+                          View Study Hub
+                        </Link>
+                      ) : (
+                        <button 
+                          onClick={() => handlePurchase(course._id)}
+                          disabled={buyingId === course._id}
+                          className="w-full h-11 bg-[#2FA8CC] hover:bg-[#2FA8CC]/90 disabled:opacity-50 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-[#2FA8CC]/10 flex items-center justify-center gap-1.5"
+                        >
+                          {buyingId === course._id ? (
+                            <>
+                              <Loader2 className="h-4.5 w-4.5 animate-spin" />
+                              Enrolling...
+                            </>
+                          ) : (
+                            <>
+                              <CreditCard className="h-4 w-4" />
+                              Buy Now
+                            </>
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
-      {courses.length === 0 && (
-        <div className="max-w-md mx-auto text-center p-20 glass-card rounded-[4rem]">
-          <p className="text-[#1F4E79]/20 font-black text-xl italic uppercase">No Courses Available</p>
-        </div>
-      )}
+      {/* Custom scrollbar styling */}
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.01);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(47, 168, 204, 0.15);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(47, 168, 204, 0.3);
+        }
+      `}</style>
     </div>
   );
 }
