@@ -17,6 +17,7 @@ const nodemailer = require('nodemailer');
 const courseRoutes = require('./routes/courseRoutes');
 const subjectRoutes = require('./routes/subjectRoutes');
 const materialRoutes = require('./routes/materialRoutes');
+const authMiddleware = require('./middleware/auth');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -503,6 +504,78 @@ app.get('/api/users', async (req, res) => {
     } catch (error) {
         console.error('Error fetching users from MongoDB:', error);
         res.json([]);
+    }
+});
+
+const formatProfileUser = (user) => ({
+    id: user.userId,
+    userId: user.userId,
+    usn: user.usn,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    image: user.image,
+    status: user.status,
+    grade: user.grade,
+    createdAt: user.createdAt
+});
+
+app.get('/api/v1/profile/me', authMiddleware, async (req, res) => {
+    try {
+        const user = await User.findOne({ userId: req.user.id });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        res.json({ success: true, user: formatProfileUser(user) });
+    } catch (error) {
+        console.error('Error fetching profile:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch profile' });
+    }
+});
+
+app.patch('/api/v1/profile/me', authMiddleware, async (req, res) => {
+    try {
+        const { name, email, image, grade, status } = req.body;
+
+        const user = await User.findOne({ userId: req.user.id });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const trimmedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+        if (trimmedEmail && trimmedEmail !== user.email.toLowerCase()) {
+            const emailExists = await User.findOne({ email: trimmedEmail, _id: { $ne: user._id } });
+            if (emailExists) {
+                return res.status(400).json({ success: false, message: 'Email already in use' });
+            }
+            user.email = trimmedEmail;
+        }
+
+        if (typeof name === 'string' && name.trim()) {
+            user.name = name.trim();
+        }
+
+        if (typeof image === 'string') {
+            user.image = image.trim();
+        }
+
+        if (typeof grade === 'string') {
+            user.grade = grade.trim();
+        }
+
+        if (typeof status === 'string' && status.trim()) {
+            user.status = status.trim();
+        }
+
+        await user.save();
+
+        res.json({ success: true, user: formatProfileUser(user) });
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).json({ success: false, message: 'Failed to update profile' });
     }
 });
 

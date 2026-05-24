@@ -3,6 +3,23 @@ type HeadersInit = Record<string, string>;
 
 const BASE_URL =
   (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/v1';
+const APP_ORIGIN = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+export const getMediaUrl = (value?: string) => {
+  if (!value) {
+    return '';
+  }
+
+  if (value.startsWith('http://') || value.startsWith('https://') || value.startsWith('data:')) {
+    return value;
+  }
+
+  if (value.startsWith('/')) {
+    return `${APP_ORIGIN}${value}`;
+  }
+
+  return `${APP_ORIGIN}/${value}`;
+};
 
 // Helper function to get auth headers from Cookies (set by login) or Storage
 export const getAuthHeaders = (): Record<string, string> => {
@@ -17,7 +34,7 @@ export const getAuthHeaders = (): Record<string, string> => {
   const userDataCookie = Cookies.get('user-data');
   if (userDataCookie) {
     try {
-      const user = JSON.parse(decodeURIComponent(userDataCookie));
+      const user = JSON.parse(userDataCookie);
       if (user && user.id) {
         return {
           'x-user-id': user.id,
@@ -29,22 +46,149 @@ export const getAuthHeaders = (): Record<string, string> => {
     }
   }
 
-  // 2. Fallback to localStorage or defaults for development
-  const userId = 
-    localStorage.getItem('userId') || 
-    sessionStorage.getItem('userId') || 
-    'student_01'; 
+  // 2. Fallback to browser storage only when it contains an explicit session
+  const userId =
+    localStorage.getItem('userId') ||
+    sessionStorage.getItem('userId') ||
+    '';
 
-  const userRole = 
-    localStorage.getItem('userRole') || 
-    sessionStorage.getItem('userRole') || 
+  const userRole =
+    localStorage.getItem('userRole') ||
+    sessionStorage.getItem('userRole') ||
     'student';
+
+  if (!userId) {
+    return {
+      'x-user-id': '',
+      'x-user-role': userRole
+    };
+  }
 
   return {
     'x-user-id': userId,
     'x-user-role': userRole
   };
 };
+
+export const setStoredUserData = (user: {
+  id: string;
+  name?: string;
+  role?: string;
+  usn?: string;
+  image?: string;
+  grade?: string;
+}) => {
+  if (typeof window !== 'undefined') {
+    Cookies.set('user-data', JSON.stringify(user), {
+      expires: 1,
+      sameSite: 'strict',
+      path: '/'
+    });
+
+    window.dispatchEvent(new CustomEvent('user-data-updated', { detail: user }));
+  }
+};
+
+export const getStoredUserData = () => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const userDataCookie = Cookies.get('user-data');
+  if (!userDataCookie) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(userDataCookie) as {
+      id: string;
+      name?: string;
+      role?: string;
+      usn?: string;
+      image?: string;
+      grade?: string;
+    };
+
+    return {
+      ...parsed,
+      image: getMediaUrl(parsed.image)
+    };
+  } catch (error) {
+    console.error('[API] Error parsing stored user data:', error);
+    return null;
+  }
+};
+
+export async function getMyProfile() {
+  try {
+    const headers = getAuthHeaders();
+
+    if (!headers['x-user-id']) {
+      throw new Error('No active session found. Please log in again.');
+    }
+
+    const response = await fetch(`${BASE_URL}/profile/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers
+      } as HeadersInit
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || 'Failed to fetch profile');
+    }
+
+    const data = await response.json();
+    return {
+      ...data.user,
+      image: getMediaUrl(data.user?.image)
+    };
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    throw error;
+  }
+}
+
+export async function updateMyProfile(payload: {
+  name?: string;
+  email?: string;
+  image?: string;
+  grade?: string;
+  status?: string;
+}) {
+  try {
+    const headers = getAuthHeaders();
+
+    if (!headers['x-user-id']) {
+      throw new Error('No active session found. Please log in again.');
+    }
+
+    const response = await fetch(`${BASE_URL}/profile/me`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers
+      } as HeadersInit,
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || 'Failed to update profile');
+    }
+
+    const data = await response.json();
+    return {
+      ...data.user,
+      image: getMediaUrl(data.user?.image)
+    };
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    throw error;
+  }
+}
 
 // Doubts API
 export async function getDoubts() {

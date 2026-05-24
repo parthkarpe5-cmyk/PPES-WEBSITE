@@ -10,7 +10,6 @@ import {
   User,
   LogOut,
   School,
-  Settings,
   ChevronRight,
 } from 'lucide-react'
 
@@ -36,6 +35,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { logoutAction } from '@/app/actions/auth'
+import { getMediaUrl, getMyProfile, getStoredUserData } from '@/lib/api'
 
 const data = {
   navMain: [
@@ -46,7 +46,7 @@ const data = {
     },
     {
       title: "My Courses",
-      url: "/dashboard/student/courses",
+      url: "/student/courses",
       icon: BookOpen,
     },
     {
@@ -65,13 +65,8 @@ const data = {
       icon: MessageCircle,
     },
     {
-      title: "Profile",
-      url: "/student/profile",
-      icon: User,
-    },
-    {
       title: "Timetable",
-      url: "/dashboard/student/timetable",
+      url: "/student/timetable",
       icon: Calendar,
     },
   ],
@@ -80,10 +75,38 @@ const data = {
 export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
   const router = useRouter()
+  const [user, setUser] = React.useState(getStoredUserData())
+
+  React.useEffect(() => {
+    const refreshUser = async () => {
+      const storedUser = getStoredUserData()
+
+      if (storedUser?.id && !storedUser.image) {
+        try {
+          const latestProfile = await getMyProfile()
+          setUser({
+            ...storedUser,
+            ...latestProfile,
+            image: getMediaUrl(latestProfile?.image || storedUser.image)
+          })
+          return
+        } catch {
+          // Fall back to the stored cookie data if the profile fetch fails.
+        }
+      }
+
+      setUser(storedUser)
+    }
+
+    refreshUser()
+    window.addEventListener('user-data-updated', refreshUser)
+
+    return () => window.removeEventListener('user-data-updated', refreshUser)
+  }, [])
 
   const handleLogout = async () => {
     await logoutAction();
-    router.push('/');
+    router.push('/login/student');
   };
 
   return (
@@ -92,7 +115,7 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="hover:bg-white/5 transition-colors">
-              <Link href="/">
+              <Link href="/student">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#2FA8CC] to-[#1F4E79] text-white shadow-lg">
                   <School className="size-4" />
                 </div>
@@ -142,12 +165,19 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                   className="w-full hover:bg-white/5 transition-colors rounded-xl p-2"
                 >
                   <Avatar className="h-8 w-8 border border-white/10">
-                    <AvatarImage src="/avatars/student.png" alt="Student" />
-                    <AvatarFallback className="bg-[#2FA8CC] text-white">AS</AvatarFallback>
+                    <AvatarImage src={getMediaUrl(user?.image) || '/avatars/student.png'} alt={user?.name || 'Student'} />
+                    <AvatarFallback className="bg-[#2FA8CC] text-white">
+                      {(user?.name || 'Student')
+                        .split(' ')
+                        .filter(Boolean)
+                        .slice(0, 2)
+                        .map((part) => part[0]?.toUpperCase())
+                        .join('') || 'ST'}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight ml-2">
-                    <span className="truncate font-semibold text-white">Aryan Sharma</span>
-                    <span className="truncate text-xs text-white/40">Grade 12, Science</span>
+                    <span className="truncate font-semibold text-white">{user?.name || 'Student'}</span>
+                    <span className="truncate text-xs text-white/40">{user?.grade || 'Student Profile'}</span>
                   </div>
                   <ChevronRight className="ml-auto size-4 text-white/20" />
                 </SidebarMenuButton>
@@ -158,9 +188,11 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                 align="end"
                 sideOffset={12}
               >
-                <DropdownMenuItem className="hover:bg-white/10 cursor-pointer rounded-lg m-1">
-                  <Settings className="mr-2 size-4 text-[#2FA8CC]" />
-                  My Settings
+                <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer rounded-lg m-1">
+                  <Link href="/student/profile" className="flex items-center">
+                    <User className="mr-2 size-4 text-[#2FA8CC]" />
+                    Profile
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="hover:bg-red-500/10 text-red-400 cursor-pointer rounded-lg m-1"
