@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Calendar, MapPin, Users, Video, Clock, Tag, Sparkles, Plus, Search, Filter, BookOpen, AlertCircle, User, ShieldAlert } from "lucide-react"
+import { toast } from "sonner"
 
 // Define interface for custom events
 interface EventItem {
@@ -99,7 +100,9 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
   const handleCreateEvent = (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.title || !formData.date || !formData.time || !formData.platformOrLocation) {
-      alert("Please fill in all required fields!")
+      toast.error("Required Fields Missing", {
+        description: "Please fill in the Event Title, Date, Time, and Platform/Location.",
+      })
       return
     }
 
@@ -132,7 +135,9 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
       category: "Motivation", mentor: "", limitSeats: ""
     })
     
-    alert("✨ Success! New Event Published Successfully.")
+    toast.success("Event Published Successfully! ✨", {
+      description: `"${newEvent.title}" is now live in the student catalog.`,
+    })
     setView("student") // Switch back to see it
   }
 
