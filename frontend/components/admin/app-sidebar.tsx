@@ -15,6 +15,7 @@ import {
   CreditCard,
   BarChart3,
   UserPlus,
+  FileText,
 } from 'lucide-react'
 
 import {
@@ -70,6 +71,11 @@ const data = {
       title: "Master Timetable",
       url: "/dashboard/admin/timetable",
       icon: Clock,
+    },
+    {
+      title: "Tests & Assessments",
+      url: "/teacher/tests/create",
+      icon: FileText,
     },
     {
       title: "Users",
