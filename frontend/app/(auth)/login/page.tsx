@@ -17,11 +17,23 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Directly compute token presence to handle BFCache/Router cache restores
+  const isAuth = typeof window !== 'undefined' ? !!Cookies.get("token") : false;
+
   useEffect(() => {
-    if (Cookies.get('token')) {
+    if (isAuth) {
       router.replace('/student');
     }
-  }, [router]);
+  }, [isAuth, router]);
+
+  if (isAuth) {
+    return (
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#050810] p-4 text-center">
+        <Loader2 className="animate-spin text-sky mb-4 mx-auto" size={48} />
+        <p className="text-sky font-bold uppercase tracking-widest text-xs">Redirecting to Portal...</p>
+      </div>
+    );
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

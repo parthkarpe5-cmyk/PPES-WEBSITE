@@ -36,8 +36,8 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL('/student', req.url));
       }
 
-      // If they are on a login page but already have a valid token, send them to their dashboard
-      if (pathname.startsWith('/login')) {
+      // If they are on a login page or the root page, send them to their dashboard
+      if (pathname.startsWith('/login') || pathname === '/') {
         const dashboard = userRole === 'admin' ? '/admin' : userRole === 'faculty' ? '/faculty' : '/student';
         return NextResponse.redirect(new URL(dashboard, req.url));
       }
@@ -55,6 +55,7 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
+    '/',
     '/student/:path*', 
     '/admin/:path*', 
     '/faculty/:path*', 

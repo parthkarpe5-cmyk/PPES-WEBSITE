@@ -24,6 +24,9 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
 
     const initClients = async () => {
       try {
+        // Fetch token once from the Server Action
+        const tokenString = await tokenProvider();
+
         // Initialize Video Client
         const vClient = new StreamVideoClient({
           apiKey,
@@ -32,7 +35,7 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
             name: user.name || user.id,
             image: user.image,
           },
-          tokenProvider,
+          tokenProvider: async () => tokenString,
           options: { timeout: 15000 }
         });
 
@@ -43,14 +46,14 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
             id: user.id,
             name: user.name || user.id,
             image: user.image,
-          }, tokenProvider);
+          }, tokenString);
         } else if (cClient.userID !== user.id) {
           await cClient.disconnectUser();
           await cClient.connectUser({
             id: user.id,
             name: user.name || user.id,
             image: user.image,
-          }, tokenProvider);
+          }, tokenString);
         }
 
         if (isMounted) {
