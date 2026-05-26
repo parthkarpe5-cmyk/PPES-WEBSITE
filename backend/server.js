@@ -17,6 +17,7 @@ const nodemailer = require('nodemailer');
 const courseRoutes = require('./routes/courseRoutes');
 const subjectRoutes = require('./routes/subjectRoutes');
 const materialRoutes = require('./routes/materialRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 const authMiddleware = require('./middleware/auth');
 
 const app = express();
@@ -567,6 +568,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api/courses', courseRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/materials', materialRoutes);
+app.use('/api/events', eventRoutes);
 
 // Basic route
 app.get('/api', (req, res) => {

@@ -37,7 +37,8 @@ export default function AdminCourseManager() {
   const [courseName, setCourseName] = useState('');
   const [courseId, setCourseId] = useState('');
   const [courseDesc, setCourseDesc] = useState('');
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<string>('0');
+  const [priceError, setPriceError] = useState<string | null>(null);
   const [isPublished, setIsPublished] = useState(false);
   const [startDate, setStartDate] = useState('');
 
@@ -47,6 +48,14 @@ export default function AdminCourseManager() {
   const [teacherId, setTeacherId] = useState('');
 
   const BACKEND_URL = 'http://localhost:5000/api';
+
+  const todayStr = (() => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  })();
 
   useEffect(() => {
     fetchData();
@@ -75,7 +84,8 @@ export default function AdminCourseManager() {
     setCourseName('');
     setCourseId('');
     setCourseDesc('');
-    setPrice(0);
+    setPrice('0');
+    setPriceError(null);
     setIsPublished(false);
     setStartDate('');
     setShowCourseModal(true);
@@ -87,7 +97,8 @@ export default function AdminCourseManager() {
     setCourseName(course.course_name || '');
     setCourseId(course.course_id || '');
     setCourseDesc(course.course_description || '');
-    setPrice(course.price || 0);
+    setPrice(String(course.price ?? 0));
+    setPriceError(null);
     setIsPublished(course.isPublished || false);
     setStartDate(course.course_start_date ? new Date(course.course_start_date).toISOString().split('T')[0] : '');
     setShowCourseModal(true);
@@ -96,6 +107,15 @@ export default function AdminCourseManager() {
   // Save/Update Course
   const handleCourseSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (price === '' || String(price).trim() === '') {
+      setPriceError('This field is empty');
+      return;
+    }
+    if (Number(price) < 0) {
+      setPriceError('Price cannot be negative');
+      return;
+    }
+    setPriceError(null);
     const payload = {
       course_name: courseName,
       course_id: courseId,
@@ -364,8 +384,10 @@ export default function AdminCourseManager() {
                   <input 
                     type="date"
                     value={startDate}
+                    min={editingCourse ? undefined : todayStr}
                     onChange={e => setStartDate(e.target.value)}
                     className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                    style={{ colorScheme: 'dark' }}
                   />
                 </div>
                 <div className="space-y-1">
@@ -373,14 +395,21 @@ export default function AdminCourseManager() {
                   <div className="relative">
                     <IndianRupee className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
                     <input 
-                      required 
                       type="number"
                       value={price}
-                      onChange={e => setPrice(Number(e.target.value))}
+                      min="0"
+                      onChange={e => {
+                        const val = e.target.value;
+                        setPrice(val);
+                        if (val.trim() !== '') {
+                          setPriceError(null);
+                        }
+                      }}
                       placeholder="999"
-                      className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                      className={`w-full h-12 bg-white/5 border ${priceError ? 'border-red-500' : 'border-white/10'} rounded-xl pl-10 pr-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all`}
                     />
                   </div>
+                  {priceError && <p className="text-red-500 text-[10px] font-bold uppercase tracking-wide mt-1 ml-1">{priceError}</p>}
                 </div>
               </div>
 

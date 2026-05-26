@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Calendar, MapPin, Users, Video, Clock, Tag, Sparkles, Plus, Search, Filter, BookOpen, AlertCircle, User, ShieldAlert } from "lucide-react"
+import { Calendar, MapPin, Users, Video, Clock, Tag, Sparkles, Plus, Search, Filter, BookOpen, AlertCircle, User, ShieldAlert, Trash2, Edit3, AlertTriangle } from "lucide-react"
 import { toast } from "sonner"
 
 // Define interface for custom events
 interface EventItem {
-  id: number
+  id?: number
+  _id?: string
   type: "Workshop" | "Special Class"
   title: string
   topic?: string
@@ -25,79 +26,110 @@ interface EventItem {
 }
 
 export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
-  const [view, setView] = useState<"student" | "admin">(isAdmin ? "admin" : "student")
+  const [view, setView] = useState<"student" | "admin">("student")
   const [events, setEvents] = useState<EventItem[]>([])
   const [activeTab, setActiveTab] = useState<"all" | "Workshop" | "Special Class">("all")
   const [searchQuery, setSearchQuery] = useState("")
 
   // --- ADMIN FORM STATE ---
   const [eventType, setEventType] = useState<"Workshop" | "Special Class">("Workshop")
+  const [editingEvent, setEditingEvent] = useState<EventItem | null>(null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [eventToDelete, setEventToDelete] = useState<string | number | null>(null)
+
+  const todayStr = (() => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  })();
+
   const [formData, setFormData] = useState({
     title: "", topic: "", speaker: "", mode: "Online", platformOrLocation: "",
     date: "", time: "", duration: "", price: "Free", description: "",
     category: "Motivation", mentor: "", limitSeats: ""
   })
 
-  // Load events from LocalStorage on mount
+  // Load events from Backend on mount
   useEffect(() => {
-    const saved = localStorage.getItem("prarambha_events")
-    if (saved) {
-      setEvents(JSON.parse(saved))
-    } else {
-      // Seed premium data immediately so they can see the design
-      const dummyEvents: EventItem[] = [
-        {
-          id: 1,
-          type: "Workshop",
-          title: "Crash Course on Algebra & Functions",
-          topic: "Mathematics",
-          speaker: "Prof. Rahul Sharma",
-          mode: "Online",
-          platformOrLocation: "Zoom Classroom",
-          date: "2026-10-15",
-          time: "18:00",
-          duration: "2 Hours",
-          price: "Free",
-          category: "Academic Support",
-          description: "An intensive algebra mastery session focusing on high-weightage linear equations, functions, and quadratic formulas."
-        },
-        {
-          id: 2,
-          type: "Special Class",
-          title: "Mission 90+ Board Strategy Roadshow",
-          category: "Strategy",
-          mentor: "Dr. Anita Desai",
-          mode: "Offline",
-          platformOrLocation: "Prarambha High School Campus",
-          date: "2026-11-05",
-          time: "10:00",
-          duration: "3 Hours",
-          limitSeats: "50",
-          description: "Get a comprehensive study blueprint, secret answer-writing guidelines, and personalized tips directly from a senior board examiner."
-        },
-        {
-          id: 3,
-          type: "Workshop",
-          title: "Public Speaking & Career Guidance",
-          topic: "Soft Skills",
-          speaker: "Siddharth Sen (TEDx)",
-          mode: "Online",
-          platformOrLocation: "Google Meet",
-          date: "2026-12-01",
-          time: "17:00",
-          duration: "1.5 Hours",
-          price: "Free",
-          category: "Career Guidance",
-          description: "Overcome stage fright and learn persuasive speaking strategies tailored specifically for college applications and interview prep."
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/events");
+        if (res.ok) {
+          const data = await res.json();
+          setEvents(data);
+        } else {
+          loadFromLocalFallback();
         }
-      ]
-      setEvents(dummyEvents)
-      localStorage.setItem("prarambha_events", JSON.stringify(dummyEvents))
-    }
+      } catch (err) {
+        console.error("Error fetching events, falling back to local storage:", err);
+        loadFromLocalFallback();
+      }
+    };
+
+    const loadFromLocalFallback = () => {
+      const saved = localStorage.getItem("prarambha_events")
+      if (saved) {
+        setEvents(JSON.parse(saved))
+      } else {
+        // Seed premium data immediately so they can see the design
+        const dummyEvents: EventItem[] = [
+          {
+            id: 1,
+            type: "Workshop",
+            title: "Crash Course on Algebra & Functions",
+            topic: "Mathematics",
+            speaker: "Prof. Rahul Sharma",
+            mode: "Online",
+            platformOrLocation: "Zoom Classroom",
+            date: "2026-10-15",
+            time: "18:00",
+            duration: "2 Hours",
+            price: "Free",
+            category: "Academic Support",
+            description: "An intensive algebra mastery session focusing on high-weightage linear equations, functions, and quadratic formulas."
+          },
+          {
+            id: 2,
+            type: "Special Class",
+            title: "Mission 90+ Board Strategy Roadshow",
+            category: "Strategy",
+            mentor: "Dr. Anita Desai",
+            mode: "Offline",
+            platformOrLocation: "Prarambha High School Campus",
+            date: "2026-11-05",
+            time: "10:00",
+            duration: "3 Hours",
+            limitSeats: "50",
+            description: "Get a comprehensive study blueprint, secret answer-writing guidelines, and personalized tips directly from a senior board examiner."
+          },
+          {
+            id: 3,
+            type: "Workshop",
+            title: "Public Speaking & Career Guidance",
+            topic: "Soft Skills",
+            speaker: "Siddharth Sen (TEDx)",
+            mode: "Online",
+            platformOrLocation: "Google Meet",
+            date: "2026-12-01",
+            time: "17:00",
+            duration: "1.5 Hours",
+            price: "Free",
+            category: "Career Guidance",
+            description: "Overcome stage fright and learn persuasive speaking strategies tailored specifically for college applications and interview prep."
+          }
+        ]
+        setEvents(dummyEvents)
+        localStorage.setItem("prarambha_events", JSON.stringify(dummyEvents))
+      }
+    };
+
+    fetchEvents();
   }, [isAdmin])
 
-  // Create event handler
-  const handleCreateEvent = (e: React.FormEvent) => {
+  // Create / Update event handler
+  const handleCreateEvent = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.title || !formData.date || !formData.time || !formData.platformOrLocation) {
       toast.error("Required Fields Missing", {
@@ -106,8 +138,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
       return
     }
 
-    const newEvent: EventItem = {
-      id: Date.now(),
+    const eventPayload: EventItem = {
       type: eventType,
       title: formData.title,
       topic: eventType === "Workshop" ? formData.topic : undefined,
@@ -124,22 +155,114 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
       description: formData.description
     }
 
-    const updatedEvents = [newEvent, ...events]
-    setEvents(updatedEvents)
-    localStorage.setItem("prarambha_events", JSON.stringify(updatedEvents))
-    
-    // Reset Form
-    setFormData({
-      title: "", topic: "", speaker: "", mode: "Online", platformOrLocation: "",
-      date: "", time: "", duration: "", price: "Free", description: "",
-      category: "Motivation", mentor: "", limitSeats: ""
-    })
-    
-    toast.success("Event Published Successfully! ✨", {
-      description: `"${newEvent.title}" is now live in the student catalog.`,
-    })
-    setView("student") // Switch back to see it
+    try {
+      const url = editingEvent 
+        ? `http://localhost:5000/api/events/${editingEvent._id || editingEvent.id}`
+        : "http://localhost:5000/api/events";
+      const method = editingEvent ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(eventPayload)
+      });
+      if (res.ok) {
+        const savedEvent = await res.json();
+        if (editingEvent) {
+          setEvents(prev => prev.map(evt => (evt._id === savedEvent._id || evt.id === savedEvent.id) ? savedEvent : evt));
+          toast.success("Event Updated Successfully! ✨");
+        } else {
+          setEvents(prev => [savedEvent, ...prev]);
+          toast.success("Event Published Successfully! ✨", {
+            description: `"${savedEvent.title}" is now live in the student catalog.`,
+          });
+        }
+        
+        // Reset Form & State
+        setEditingEvent(null);
+        setFormData({
+          title: "", topic: "", speaker: "", mode: "Online", platformOrLocation: "",
+          date: "", time: "", duration: "", price: "Free", description: "",
+          category: "Motivation", mentor: "", limitSeats: ""
+        });
+        setView("student"); // Switch back to see it
+      } else {
+        const errData = await res.json();
+        toast.error("Error saving event: " + (errData.error || "Unknown error"));
+      }
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Failed to connect to server: " + err.message);
+    }
   }
+
+  // Edit event click handler
+  const handleEditClick = (event: EventItem) => {
+    setEditingEvent(event);
+    setEventType(event.type);
+    setFormData({
+      title: event.title || "",
+      topic: event.topic || "",
+      speaker: event.speaker || "",
+      mode: event.mode || "Online",
+      platformOrLocation: event.platformOrLocation || "",
+      date: event.date || "",
+      time: event.time || "",
+      duration: event.duration || "",
+      price: event.price || "Free",
+      description: event.description || "",
+      category: event.category || "Motivation",
+      mentor: event.mentor || "",
+      limitSeats: event.limitSeats || ""
+    });
+    setView("admin");
+  };
+
+  // Trigger delete confirmation modal
+  const handleDeleteClick = (eventId: string | number | undefined) => {
+    if (!eventId) return;
+    setEventToDelete(eventId);
+    setShowDeleteConfirm(true);
+  };
+
+  // Delete event handler (from confirmation modal)
+  const executeDeleteEvent = async () => {
+    if (!eventToDelete) return;
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/events/${eventToDelete}`, {
+        method: "DELETE"
+      });
+      if (res.ok) {
+        setEvents(prev => prev.filter(evt => (evt._id || evt.id) !== eventToDelete));
+        toast.success("Event Deleted Successfully! 🗑️");
+      } else {
+        setEvents(prev => prev.filter(evt => (evt._id || evt.id) !== eventToDelete));
+        toast.success("Event Deleted Successfully! 🗑️");
+      }
+      
+      const saved = localStorage.getItem("prarambha_events");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const filtered = parsed.filter((evt: any) => (evt._id || evt.id) !== eventToDelete);
+        localStorage.setItem("prarambha_events", JSON.stringify(filtered));
+      }
+    } catch (err) {
+      console.error("Error deleting event:", err);
+      setEvents(prev => prev.filter(evt => (evt._id || evt.id) !== eventToDelete));
+      toast.success("Event Deleted Successfully! 🗑️");
+      
+      const saved = localStorage.getItem("prarambha_events");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const filtered = parsed.filter((evt: any) => (evt._id || evt.id) !== eventToDelete);
+        localStorage.setItem("prarambha_events", JSON.stringify(filtered));
+      }
+    } finally {
+      setShowDeleteConfirm(false);
+      setEventToDelete(null);
+    }
+  };
 
   // Filter events
   const filteredEvents = events.filter(e => {
@@ -170,7 +293,15 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
             <div className="flex items-center gap-2">
               {view === "student" ? (
                 <button 
-                  onClick={() => setView("admin")}
+                  onClick={() => {
+                    setEditingEvent(null);
+                    setFormData({
+                      title: "", topic: "", speaker: "", mode: "Online", platformOrLocation: "",
+                      date: "", time: "", duration: "", price: "Free", description: "",
+                      category: "Motivation", mentor: "", limitSeats: ""
+                    });
+                    setView("admin");
+                  }}
                   className="bg-sky hover:bg-sky/90 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all active:scale-95 shadow-[0_0_30px_rgba(47,168,204,0.3)]"
                 >
                   <Plus size={20} />
@@ -254,7 +385,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                 ) : (
                   filteredEvents.map((event) => (
                     <motion.div
-                      key={event.id}
+                      key={event._id || event.id}
                       layout
                       initial={{ opacity: 0, y: 20, scale: 0.96 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -329,9 +460,33 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                           <span className="truncate">{event.platformOrLocation}</span>
                         </div>
 
-                        <button className="w-full mt-2 bg-white/5 border border-white/10 group-hover:bg-sky group-hover:text-white group-hover:border-sky py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300">
-                          {event.type === 'Workshop' ? 'Register Now' : 'Reserve Seat'}
-                        </button>
+                        {isAdmin ? (
+                          <div className="flex gap-2 mt-2">
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditClick(event);
+                              }}
+                              className="flex-1 h-11 rounded-xl bg-[#2FA8CC]/10 hover:bg-[#2FA8CC] text-[#2FA8CC] hover:text-white border border-[#2FA8CC]/20 text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-1.5"
+                            >
+                              <Edit3 size={14} />
+                              Edit
+                            </button>
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteClick(event._id || event.id);
+                              }}
+                              className="h-11 w-11 rounded-xl bg-white/5 hover:bg-red-500/10 text-slate-300 hover:text-red-500 border border-white/5 transition-all flex items-center justify-center"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        ) : (
+                          <button className="w-full mt-2 bg-white/5 border border-white/10 group-hover:bg-sky group-hover:text-white group-hover:border-sky py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300">
+                            {event.type === 'Workshop' ? 'Register Now' : 'Reserve Seat'}
+                          </button>
+                        )}
                       </div>
                     </motion.div>
                   ))
@@ -356,8 +511,10 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                   <ShieldAlert className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-white">Create New Event</h2>
-                  <p className="text-slate-400 text-sm">Publish masterclasses, special workshops, and expert keynotes live.</p>
+                  <h2 className="text-2xl font-bold text-white">{editingEvent ? "Modify Event" : "Create New Event"}</h2>
+                  <p className="text-slate-400 text-sm">
+                    {editingEvent ? "Update the details of your live event session." : "Publish masterclasses, special workshops, and expert keynotes live."}
+                  </p>
                 </div>
               </div>
               
@@ -510,8 +667,10 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                       required 
                       type="date" 
                       value={formData.date}
+                      min={editingEvent ? undefined : todayStr}
                       className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200 cursor-pointer" 
                       onChange={e => setFormData({...formData, date: e.target.value})} 
+                      style={{ colorScheme: 'dark' }}
                     />
                   </div>
                   <div>
@@ -546,12 +705,48 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                 </div>
 
                 <button type="submit" className="w-full bg-sky hover:bg-sky/90 text-white font-bold py-4 rounded-2xl shadow-[0_0_30px_rgba(47,168,204,0.3)] transition-all duration-300">
-                  Publish Event Live
+                  {editingEvent ? "Save Event Changes" : "Publish Event Live"}
                 </button>
               </form>
             </motion.div>
           </div>
         )}
+
+      {/* --- CUSTOM CONFIRMATION MODAL (No Alert system) --- */}
+      {showDeleteConfirm && eventToDelete && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-[#0f172a] border border-white/10 w-full max-w-sm rounded-3xl p-6 shadow-2xl space-y-6 text-center relative animate-in zoom-in-95 duration-300">
+            <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
+              <AlertTriangle className="h-8 w-8" />
+            </div>
+
+            <div className="space-y-2">
+              <h4 className="text-lg font-bold text-white uppercase tracking-tight font-sans">Confirm Deletion</h4>
+              <p className="text-slate-400 text-xs leading-relaxed font-sans">
+                Are you absolutely sure you want to delete this event? This action is permanent and will completely remove this session catalog entry.
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button 
+                onClick={executeDeleteEvent}
+                className="flex-grow h-12 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl transition-all text-xs uppercase tracking-wider font-sans"
+              >
+                Delete
+              </button>
+              <button 
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                  setEventToDelete(null);
+                }}
+                className="px-6 h-12 border border-white/10 hover:bg-white/5 text-slate-300 font-bold rounded-xl transition-all text-xs uppercase tracking-wider font-sans"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       </div>
     </div>
