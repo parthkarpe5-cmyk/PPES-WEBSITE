@@ -113,4 +113,17 @@ router.post('/purchase', async (req, res) => {
     }
 });
 
+// Get students enrolled in a course
+router.get('/:id/students', async (req, res) => {
+    try {
+        const courseId = req.params.id;
+        // Find users whose unlockedCourses array contains this courseId
+        const students = await User.find({ unlockedCourses: courseId })
+            .select('name email userId role');
+        res.json(students);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;

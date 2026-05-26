@@ -23,10 +23,14 @@ export default function AdminCourseManager() {
   const [teachers, setTeachers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Modal control
   const [showCourseModal, setShowCourseModal] = useState(false);
   const [showSubjectModal, setShowSubjectModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showStudentsModal, setShowStudentsModal] = useState(false);
+
+  // State for students
+  const [courseStudents, setCourseStudents] = useState<any[]>([]);
+  const [loadingStudents, setLoadingStudents] = useState(false);
 
   // State for forms
   const [editingCourse, setEditingCourse] = useState<any | null>(null);
@@ -37,7 +41,8 @@ export default function AdminCourseManager() {
   const [courseName, setCourseName] = useState('');
   const [courseId, setCourseId] = useState('');
   const [courseDesc, setCourseDesc] = useState('');
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<string>('0');
+  const [priceError, setPriceError] = useState<string | null>(null);
   const [isPublished, setIsPublished] = useState(false);
   const [startDate, setStartDate] = useState('');
 
@@ -47,6 +52,14 @@ export default function AdminCourseManager() {
   const [teacherId, setTeacherId] = useState('');
 
   const BACKEND_URL = 'http://localhost:5000/api';
+
+  const todayStr = (() => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  })();
 
   useEffect(() => {
     fetchData();
@@ -75,7 +88,8 @@ export default function AdminCourseManager() {
     setCourseName('');
     setCourseId('');
     setCourseDesc('');
-    setPrice(0);
+    setPrice('0');
+    setPriceError(null);
     setIsPublished(false);
     setStartDate('');
     setShowCourseModal(true);
@@ -87,7 +101,8 @@ export default function AdminCourseManager() {
     setCourseName(course.course_name || '');
     setCourseId(course.course_id || '');
     setCourseDesc(course.course_description || '');
-    setPrice(course.price || 0);
+    setPrice(String(course.price ?? 0));
+    setPriceError(null);
     setIsPublished(course.isPublished || false);
     setStartDate(course.course_start_date ? new Date(course.course_start_date).toISOString().split('T')[0] : '');
     setShowCourseModal(true);
@@ -96,6 +111,15 @@ export default function AdminCourseManager() {
   // Save/Update Course
   const handleCourseSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (price === '' || String(price).trim() === '') {
+      setPriceError('This field is empty');
+      return;
+    }
+    if (Number(price) < 0) {
+      setPriceError('Price cannot be negative');
+      return;
+    }
+    setPriceError(null);
     const payload = {
       course_name: courseName,
       course_id: courseId,
@@ -133,6 +157,23 @@ export default function AdminCourseManager() {
     setSubjectId('');
     setTeacherId('');
     setShowSubjectModal(true);
+  };
+
+  // Open modal to view Enrolled Students
+  const openViewStudents = async (course: any) => {
+    setActiveCourse(course);
+    setShowStudentsModal(true);
+    setLoadingStudents(true);
+    try {
+      const res = await fetch(`${BACKEND_URL}/courses/${course._id}/students`);
+      const data = await res.json();
+      setCourseStudents(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error(err);
+      setCourseStudents([]);
+    } finally {
+      setLoadingStudents(false);
+    }
   };
 
   // Add Subject inline
@@ -299,14 +340,23 @@ export default function AdminCourseManager() {
                       Subjects
                     </button>
                     <button 
+                      onClick={() => openViewStudents(course)}
+                      className="flex-1 h-10 rounded-xl bg-white/5 hover:bg-emerald-500/10 hover:text-emerald-400 text-slate-300 text-[11px] font-bold uppercase tracking-widest border border-white/5 transition-all flex items-center justify-center gap-1.5"
+                    >
+                      <Users className="h-3.5 w-3.5" />
+                      Students
+                    </button>
+                  </div>
+                  <div className="flex gap-2 pt-2">
+                    <button 
                       onClick={() => openEditCourse(course)}
-                      className="h-10 w-10 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 transition-all flex items-center justify-center"
+                      className="flex-1 h-10 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 transition-all flex items-center justify-center"
                     >
                       <Edit3 className="h-3.5 w-3.5" />
                     </button>
                     <button 
                       onClick={() => triggerDelete('course', course._id)}
-                      className="h-10 w-10 rounded-xl bg-white/5 hover:bg-red-500/10 text-slate-300 hover:text-red-500 border border-white/5 transition-all flex items-center justify-center"
+                      className="flex-1 h-10 rounded-xl bg-white/5 hover:bg-red-500/10 text-slate-300 hover:text-red-500 border border-white/5 transition-all flex items-center justify-center"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -364,8 +414,10 @@ export default function AdminCourseManager() {
                   <input 
                     type="date"
                     value={startDate}
+                    min={editingCourse ? undefined : todayStr}
                     onChange={e => setStartDate(e.target.value)}
                     className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                    style={{ colorScheme: 'dark' }}
                   />
                 </div>
                 <div className="space-y-1">
@@ -373,14 +425,21 @@ export default function AdminCourseManager() {
                   <div className="relative">
                     <IndianRupee className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
                     <input 
-                      required 
                       type="number"
                       value={price}
-                      onChange={e => setPrice(Number(e.target.value))}
+                      min="0"
+                      onChange={e => {
+                        const val = e.target.value;
+                        setPrice(val);
+                        if (val.trim() !== '') {
+                          setPriceError(null);
+                        }
+                      }}
                       placeholder="999"
-                      className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                      className={`w-full h-12 bg-white/5 border ${priceError ? 'border-red-500' : 'border-white/10'} rounded-xl pl-10 pr-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all`}
                     />
                   </div>
+                  {priceError && <p className="text-red-500 text-[10px] font-bold uppercase tracking-wide mt-1 ml-1">{priceError}</p>}
                 </div>
               </div>
 
@@ -526,6 +585,83 @@ export default function AdminCourseManager() {
                   );
                 })
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- MODAL: VIEW ENROLLED STUDENTS --- */}
+      {showStudentsModal && activeCourse && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-slate-900 border border-white/10 w-full max-w-4xl rounded-[2.5rem] shadow-2xl p-6 md:p-8 space-y-6 relative flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-300">
+            <button 
+              onClick={() => setShowStudentsModal(false)}
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div>
+              <h3 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
+                <Users className="text-[#2FA8CC]" />
+                Enrolled Students
+              </h3>
+              <p className="text-slate-400 text-xs mt-1 font-bold">Course: <span className="text-[#2FA8CC]">{activeCourse.course_name}</span></p>
+            </div>
+
+            <div className="flex-grow overflow-y-auto custom-scrollbar border border-white/10 rounded-2xl bg-black/20 relative">
+              {loadingStudents ? (
+                <div className="flex flex-col items-center justify-center h-48 space-y-4">
+                  <Loader2 className="h-8 w-8 text-[#2FA8CC] animate-spin" />
+                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Fetching Students...</p>
+                </div>
+              ) : courseStudents.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-48">
+                  <p className="text-slate-500 text-sm font-bold">No students have enrolled in this course yet.</p>
+                </div>
+              ) : (
+                <table className="w-full text-left border-collapse">
+                  <thead className="bg-white/5 sticky top-0 backdrop-blur-md">
+                    <tr>
+                      <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-white/10">Student Name</th>
+                      <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-white/10">Email</th>
+                      <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-white/10">USN / ID</th>
+                      <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-white/10 text-right">Role</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {courseStudents.map((student, index) => (
+                      <tr key={index} className="hover:bg-white/[0.02] transition-colors">
+                        <td className="px-6 py-4">
+                          <span className="text-sm font-bold text-white block">{student.name}</span>
+                        </td>
+                        <td className="px-6 py-4 text-xs text-slate-400">
+                          {student.email}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="px-2 py-1 rounded bg-white/5 text-slate-300 text-[10px] font-bold tracking-widest border border-white/10">
+                            {student.userId || 'N/A'}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <span className="px-2.5 py-0.5 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[9px] font-black uppercase tracking-widest">
+                            {student.role}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+            
+            <div className="flex justify-end pt-2">
+              <button 
+                onClick={() => setShowStudentsModal(false)}
+                className="px-6 h-11 bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>

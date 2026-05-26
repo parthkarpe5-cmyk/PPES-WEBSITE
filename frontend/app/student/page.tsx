@@ -62,6 +62,8 @@ export default function StudentDashboard() {
     fetchTestsData();
   }, []);
   const [student, setStudent] = useState(getStoredUserData())
+  const [purchasedCourses, setPurchasedCourses] = useState<any[]>([])
+  const [loadingCourses, setLoadingCourses] = useState(true)
 
   React.useEffect(() => {
     const refreshStudent = async () => {
@@ -84,6 +86,29 @@ export default function StudentDashboard() {
     window.addEventListener('user-data-updated', refreshStudent)
     return () => window.removeEventListener('user-data-updated', refreshStudent)
   }, [])
+
+  React.useEffect(() => {
+    const fetchPurchasedCourses = async () => {
+      if (!student?.unlockedCourses) {
+        setLoadingCourses(false);
+        return;
+      }
+      try {
+        const res = await fetch('http://localhost:5000/api/courses');
+        const allCourses = await res.json();
+        
+        if (Array.isArray(allCourses)) {
+          const unlocked = allCourses.filter(c => student.unlockedCourses.includes(c._id));
+          setPurchasedCourses(unlocked);
+        }
+      } catch (err) {
+        console.error('Failed to fetch courses', err);
+      } finally {
+        setLoadingCourses(false);
+      }
+    };
+    fetchPurchasedCourses();
+  }, [student?.unlockedCourses])
 
   const displayName = student?.name || 'Student'
   const displayGrade = student?.grade || 'Student Profile'
@@ -270,39 +295,87 @@ export default function StudentDashboard() {
           {/* 4. My Courses */}
           <section>
             <div className="flex items-center justify-between mb-6 px-1">
-              <h2 className="text-2xl font-bold text-white tracking-tight">Active Courses</h2>
-              <Button variant="link" className="text-[#2FA8CC] text-xs font-bold hover:no-underline font-display">Show All</Button>
+              <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                <BookOpen className="h-6 w-6 text-[#2FA8CC]" />
+                Purchased Courses
+              </h2>
+              <Button 
+                onClick={() => router.push('/student/courses')}
+                variant="link" 
+                className="text-[#2FA8CC] text-xs font-bold hover:no-underline font-display"
+              >
+                Browse All
+              </Button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { title: "Advanced Physics", progress: 65, color: "#2FA8CC" },
-                { title: "Pure Mathematics", progress: 42, color: "#1F4E79" },
-              ].map((course, i) => (
-                <Card key={i} className="bg-white/[0.03] border-white/5 rounded-2xl overflow-hidden group hover:border-white/10 transition-all hover:translate-y-[-2px]">
-                  <CardContent className="p-0">
-                    <div className="h-32 bg-gradient-to-br from-white/10 to-transparent relative p-6 flex flex-col justify-end">
-                      <div className="absolute top-4 left-4 h-8 w-8 rounded-lg bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10">
-                        <BookOpen className="h-4 w-4 text-white" />
-                      </div>
-                      <h4 className="text-lg font-bold text-white relative z-10">{course.title}</h4>
-                    </div>
-                    <div className="p-6 space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
-                          <span className="text-deep-blue/60">Progress</span>
-                          <span className="text-[#2FA8CC]">{course.progress}%</span>
-                        </div>
-                        <Progress value={course.progress} className="h-1.5 bg-white/5" />
-                      </div>
-                      <Button variant="ghost" className="w-full text-xs font-bold py-2 border border-white/5 hover:bg-white/5 text-slate-300 rounded-xl group">
-                        Continue Learning
-                        <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="bg-white/[0.02] rounded-3xl border border-white/5 overflow-hidden">
+              {loadingCourses ? (
+                <div className="flex justify-center p-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2FA8CC]"></div>
+                </div>
+              ) : purchasedCourses.length === 0 ? (
+                <div className="text-center py-16">
+                  <BookOpen className="h-12 w-12 text-slate-600 mx-auto mb-4 opacity-50" />
+                  <p className="text-slate-400 font-bold text-lg mb-2">No Courses Enrolled</p>
+                  <p className="text-slate-500 text-xs mb-6 max-w-sm mx-auto">
+                    You haven't purchased any courses yet. Browse our catalog to start learning.
+                  </p>
+                  <Button 
+                    onClick={() => router.push('/student/courses')}
+                    className="bg-white/10 hover:bg-white/20 text-white font-bold"
+                  >
+                    View Catalog
+                  </Button>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead className="bg-black/20 border-b border-white/5">
+                      <tr>
+                        <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Course Name</th>
+                        <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Subjects</th>
+                        <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Status</th>
+                        <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right whitespace-nowrap">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {purchasedCourses.map((course) => (
+                        <tr key={course._id} className="hover:bg-white/[0.02] transition-colors group">
+                          <td className="px-6 py-5">
+                            <div className="flex items-center gap-3">
+                              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#2FA8CC]/20 to-transparent border border-[#2FA8CC]/20 flex items-center justify-center shrink-0">
+                                <BookOpen className="h-4 w-4 text-[#2FA8CC]" />
+                              </div>
+                              <div>
+                                <span className="text-sm font-bold text-white block group-hover:text-[#2FA8CC] transition-colors">{course.course_name}</span>
+                                <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">{course.course_id}</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-5">
+                            <Badge className="bg-white/5 text-slate-300 border-white/10 font-bold">
+                              {course.subjects?.length || 0} Modules
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-5">
+                            <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 font-black tracking-wider uppercase text-[9px]">
+                              Active
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-5 text-right">
+                            <Button 
+                              onClick={() => router.push(`/student/courses`)}
+                              className="bg-white/5 hover:bg-[#2FA8CC] text-white border border-white/10 hover:border-[#2FA8CC] transition-all h-9 text-xs font-bold"
+                            >
+                              Study Hub <ChevronRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </section>
 

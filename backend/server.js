@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const { StreamClient } = require('@stream-io/node-sdk');
 const Session = require('./models/Session');
@@ -18,6 +19,8 @@ const courseRoutes = require('./routes/courseRoutes');
 const subjectRoutes = require('./routes/subjectRoutes');
 const materialRoutes = require('./routes/materialRoutes');
 const testRoutes = require('./routes/testRoutes');
+const eventRoutes = require('./routes/eventRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 const authMiddleware = require('./middleware/auth');
 
 const app = express();
@@ -149,6 +152,7 @@ app.use(cors({
     credentials: true,
 }));
 app.use(express.json());
+app.use(cookieParser()); // Parse cookies so JWT auth can read the 'token' cookie
 
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -557,10 +561,14 @@ app.patch('/api/v1/profile/me', authMiddleware, async (req, res) => {
     }
 });
 
-// Doubts & Payment System Routes
+// Doubts & Messages (JWT protected)
 app.use('/api/v1/doubts', doubtRoutes);
 app.use('/api/v1/messages', messageRoutes);
 app.use('/api/v1/upload', uploadRoutes);
+
+// Payment routes (create-order is public, verify + record routes are JWT protected)
+app.use('/api/v1/payment', paymentRoutes);
+app.use('/api/v1/payments', paymentRoutes);
 
 // Serve uploaded files
 app.use('/uploads', express.static('uploads'));
@@ -569,6 +577,7 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/tests', testRoutes);
+app.use('/api/events', eventRoutes);
 
 // Basic route
 app.get('/api', (req, res) => {
