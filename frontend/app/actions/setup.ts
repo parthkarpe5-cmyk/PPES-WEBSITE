@@ -170,3 +170,33 @@ export async function completeSetupAction(formData: FormData) {
     return { error: "Database error occurred." };
   }
 }
+
+export async function registerFacultyAction(formData: FormData) {
+  await connectDB();
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  
+  const prefix = "PPGF26-"; // F for Faculty
+
+  // 1. Check if exists
+  const existing = await User.findOne({ email });
+  if (existing) return { error: "Email already exists" };
+
+  // 2. Generate Faculty ID (e.g., PPGF26-001)
+  const count = await User.countDocuments({ role: "faculty" });
+  const facultyId = `${prefix}${(count + 1).toString().padStart(3, '0')}`;
+
+  // 3. Save to DB (Verified is false until they set password)
+  const newFaculty = new User({
+    name,
+    email,
+    role: "faculty",
+    facultyId: facultyId,
+    isVerified: false
+  });
+
+  await newFaculty.save();
+
+  // 4. Send Email with their new Faculty ID and a Setup Link
+  return await sendOtpAction(email, facultyId); 
+}
