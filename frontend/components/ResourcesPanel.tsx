@@ -18,63 +18,27 @@ interface Resource {
   timestamp: string;
 }
 
-export const ResourcesPanel = ({ onClose }: { onClose?: () => void }) => {
+export const ResourcesPanel = ({ 
+  onClose,
+  resources = [],
+  setResources
+}: { 
+  onClose?: () => void,
+  resources?: Resource[],
+  setResources?: any
+}) => {
   const { user } = useUser();
   const call = useCall();
-  const [resources, setResources] = useState<Resource[]>([
-    {
-      id: '1',
-      type: 'file',
-      title: 'Chapter 04 - Advanced Physics.pdf',
-      size: '2.4 MB',
-      url: '#',
-      addedBy: 'Prof. Sarah',
-      timestamp: '10 mins ago'
-    }
-  ]);
-
   const [isAdding, setIsAdding] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newUrl, setNewUrl] = useState('');
   const [newType, setNewType] = useState<'file' | 'link'>('file');
 
   useEffect(() => {
-    if (!call) return;
-
-    const unsubscribe = call.on('custom', (event: any) => {
-      if (event.user_id === call.currentUserId) return;
-
-      if (event.custom.type === 'resource-added') {
-        const newResource = event.custom.payload;
-        setResources(prev => {
-          if (prev.find(r => r.id === newResource.id)) return prev;
-          return [newResource, ...prev];
-        });
-      }
-
-      if (event.custom.type === 'resource-deleted') {
-        const { resourceId } = event.custom.payload;
-        setResources(prev => prev.filter(r => r.id !== resourceId));
-      }
-
-      if (event.custom.type === 'resource-request-sync') {
-        if (resources.length > 0) {
-          call.sendCustomEvent({
-            type: 'resource-sync-data',
-            payload: resources
-          });
-        }
-      }
-
-      if (event.custom.type === 'resource-sync-data') {
-        setResources(event.custom.payload);
-      }
-    });
-
-    call.sendCustomEvent({ type: 'resource-request-sync', payload: {} });
-
-    return () => unsubscribe();
-  }, [call]);
+    if (resources.length === 0 && call) {
+      call.sendCustomEvent({ type: 'resource-request-sync', payload: {} });
+    }
+  }, [call, resources.length]);
 
   const handleAdd = () => {
     if (!newTitle || !newUrl) return;

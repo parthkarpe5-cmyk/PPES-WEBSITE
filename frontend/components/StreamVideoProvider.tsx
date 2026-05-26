@@ -38,7 +38,14 @@ export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
 
         // Initialize Chat Client (Singleton to avoid sync issues)
         const cClient = StreamChat.getInstance(apiKey);
-        if (cClient.userID !== user.id) {
+        if (!cClient.userID) {
+          await cClient.connectUser({
+            id: user.id,
+            name: user.name || user.id,
+            image: user.image,
+          }, tokenProvider);
+        } else if (cClient.userID !== user.id) {
+          await cClient.disconnectUser();
           await cClient.connectUser({
             id: user.id,
             name: user.name || user.id,

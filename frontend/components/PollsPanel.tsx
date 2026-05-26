@@ -16,12 +16,22 @@ interface Poll {
   totalVotes: number;
 }
 
-export const PollsPanel = ({ onClose }: { onClose?: () => void }) => {
-  const [polls, setPolls] = useState<Poll[]>([]);
+export const PollsPanel = ({ 
+  onClose,
+  polls = [],
+  setPolls,
+  myVotes = {},
+  setMyVotes
+}: { 
+  onClose?: () => void,
+  polls?: Poll[],
+  setPolls?: any,
+  myVotes?: Record<string, number>,
+  setMyVotes?: any
+}) => {
   const [isCreating, setIsCreating] = useState(false);
   const [newQuestion, setNewQuestion] = useState('');
   const [newOptions, setNewOptions] = useState(['', '']);
-  const [myVotes, setMyVotes] = useState<Record<string, number>>({});
   const call = useCall();
 
   const addOption = () => setNewOptions([...newOptions, '']);
@@ -56,9 +66,9 @@ export const PollsPanel = ({ onClose }: { onClose?: () => void }) => {
   const handleVote = (pollId: string, optionIndex: number) => {
     if (myVotes[pollId] !== undefined) return; // Already voted
 
-    setMyVotes(prev => ({ ...prev, [pollId]: optionIndex }));
+    setMyVotes((prev: any) => ({ ...prev, [pollId]: optionIndex }));
 
-    setPolls(prev => prev.map(p => {
+    setPolls((prev: Poll[]) => prev.map(p => {
       if (p.id === pollId) {
         const nextVotes = [...p.votes];
         nextVotes[optionIndex]++;
@@ -74,37 +84,6 @@ export const PollsPanel = ({ onClose }: { onClose?: () => void }) => {
       });
     }
   };
-
-  useEffect(() => {
-    if (!call) return;
-
-    const unsubscribe = call.on('custom', (event: any) => {
-      // Ignore local events
-      if (event.user_id === call.currentUserId) return;
-
-      if (event.custom.type === 'poll-created') {
-        const newPoll = event.custom.payload;
-        setPolls(prev => {
-          if (prev.find(p => p.id === newPoll.id)) return prev;
-          return [newPoll, ...prev];
-        });
-      }
-
-      if (event.custom.type === 'poll-vote') {
-        const { pollId, optionIndex } = event.custom.payload;
-        setPolls(prev => prev.map(p => {
-          if (p.id === pollId) {
-            const nextVotes = [...p.votes];
-            nextVotes[optionIndex]++;
-            return { ...p, votes: nextVotes, totalVotes: p.totalVotes + 1 };
-          }
-          return p;
-        }));
-      }
-    });
-
-    return () => unsubscribe();
-  }, [call]);
 
   return (
     <div className="flex flex-col h-full bg-[#0D121F]/95 backdrop-blur-3xl text-white">

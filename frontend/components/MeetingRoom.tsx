@@ -85,6 +85,12 @@ const MeetingRoom = () => {
   const [isCopied, setIsCopied] = useState(false);
   const { toast } = useToast();
   const [reactions, setReactions] = useState<{ id: number, emoji: string, x: number, senderName: string }[]>([]);
+  
+  // Hoisted state
+  const [raisedHands, setRaisedHands] = useState<string[]>([]);
+  const [polls, setPolls] = useState<any[]>([]);
+  const [myVotes, setMyVotes] = useState<Record<string, number>>({});
+  const [resources, setResources] = useState<any[]>([]);
 
   const {
     useCallCallingState,
@@ -125,10 +131,11 @@ const MeetingRoom = () => {
     try {
       const channel = chatClient.channel('messaging', id as string);
       
-      // Await a small delay to ensure connection state is synced
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Add a timeout to prevent hanging forever if offline
+      const watchPromise = channel.watch();
+      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000));
       
-      await channel.watch();
+      await Promise.race([watchPromise, timeoutPromise]);
       setChatChannel(channel);
     } catch (err) {
       console.error('Failed to init chat channel:', err);
@@ -231,6 +238,22 @@ const MeetingRoom = () => {
     }
   };
 
+  const toggleHandRaise = () => {
+    const newState = !isHandRaised;
+    setIsHandRaised(newState);
+    
+    if (newState && user?.id) {
+      setRaisedHands(prev => Array.from(new Set([...prev, user.id])));
+    } else if (user?.id) {
+      setRaisedHands(prev => prev.filter(id => id !== user.id));
+    }
+
+    call?.sendCustomEvent({
+      type: newState ? 'hand-raised' : 'hand-lowered',
+      payload: { userId: user?.id }
+    });
+  };
+
   const endCall = async () => {
     try {
       // Mark session as ended in the backend
@@ -319,6 +342,46 @@ const MeetingRoom = () => {
         setTimeout(() => {
           setReactions(prev => prev.filter(r => r.id !== reaction.id));
         }, 4000);
+      } else if (event.custom.type === 'hand-raised') {
+        setRaisedHands(prev => Array.from(new Set([...prev, event.custom.payload.userId])));
+      } else if (event.custom.type === 'hand-lowered') {
+        setRaisedHands(prev => prev.filter(id => id !== event.custom.payload.userId));
+      } else if (event.custom.type === 'poll-created') {
+        setPolls(prev => {
+          if (prev.find(p => p.id === event.custom.payload.id)) return prev;
+          return [event.custom.payload, ...prev];
+        });
+      } else if (event.custom.type === 'poll-vote') {
+        const { pollId, optionIndex } = event.custom.payload;
+        setPolls(prev => prev.map(p => {
+          if (p.id === pollId) {
+            const nextVotes = [...p.votes];
+            nextVotes[optionIndex]++;
+            return { ...p, votes: nextVotes, totalVotes: p.totalVotes + 1 };
+          }
+          return p;
+        }));
+      } else if (event.custom.type === 'resource-added') {
+        const newResource = event.custom.payload;
+        setResources(prev => {
+          if (prev.find(r => r.id === newResource.id)) return prev;
+          return [newResource, ...prev];
+        });
+      } else if (event.custom.type === 'resource-deleted') {
+        const { resourceId } = event.custom.payload;
+        setResources(prev => prev.filter(r => r.id !== resourceId));
+      } else if (event.custom.type === 'resource-request-sync') {
+        setResources(prev => {
+          if (prev.length > 0) {
+            call.sendCustomEvent({
+              type: 'resource-sync-data',
+              payload: prev
+            });
+          }
+          return prev;
+        });
+      } else if (event.custom.type === 'resource-sync-data') {
+        setResources(event.custom.payload);
       }
     });
     return () => unsubscribe();
@@ -521,7 +584,7 @@ const MeetingRoom = () => {
                   <motion.div
                     key={r.id}
                     initial={{ y: '100%', opacity: 0, scale: 0.5 }}
-                    animate={{ y: '-10%', opacity: 1, scale: 1.5 }}
+                    animate={{ y: '-80vh', opacity: 1, scale: 1.5 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 4, ease: "easeOut" }}
                     className="absolute bottom-20 flex flex-col items-center gap-1"
@@ -578,6 +641,11 @@ const MeetingRoom = () => {
                               <div className="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-bold text-sky">
                                 {p.name?.charAt(0) || 'U'}
                               </div>
+                              {raisedHands.includes(p.userId) && (
+                                <div className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 border border-[#0D121F] rounded-full flex items-center justify-center animate-bounce shadow-lg">
+                                  <Hand size={10} className="text-white" />
+                                </div>
+                              )}
                               {p.isSpeaking && <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-[#0D121F] rounded-full animate-pulse" />}
                             </div>
                             <div>
@@ -651,13 +719,23 @@ const MeetingRoom = () => {
 
                 {showPolls && (
                   <div className="h-full relative">
-                    <PollsPanel onClose={() => setShowPolls(false)} />
+                    <PollsPanel 
+                      onClose={() => setShowPolls(false)} 
+                      polls={polls}
+                      setPolls={setPolls}
+                      myVotes={myVotes}
+                      setMyVotes={setMyVotes}
+                    />
                   </div>
                 )}
 
                 {showResources && (
                   <div className="h-full relative">
-                    <ResourcesPanel onClose={() => setShowResources(false)} />
+                    <ResourcesPanel 
+                      onClose={() => setShowResources(false)}
+                      resources={resources}
+                      setResources={setResources}
+                    />
                   </div>
                 )}
               </div>
@@ -701,7 +779,7 @@ const MeetingRoom = () => {
                 <DropdownMenuContent className="border-white/10 bg-[#0D121F]/95 backdrop-blur-xl text-white rounded-2xl p-2 min-w-[200px] shadow-2xl mb-4 mr-4">
                   <div className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Classroom Tools</div>
 
-                  <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setIsHandRaised(!isHandRaised)}>
+                  <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={toggleHandRaise}>
                     <Hand size={18} className={cn("mr-3", isHandRaised ? "text-sky" : "text-slate-400")} />
                     <span className="text-sm">Raise Hand</span>
                   </DropdownMenuItem>
@@ -747,7 +825,7 @@ const MeetingRoom = () => {
             <div className="hidden md:flex items-center gap-3">
               <ControlButton
                 active={isHandRaised}
-                onClick={() => setIsHandRaised(!isHandRaised)}
+                onClick={toggleHandRaise}
                 icon={Hand}
                 label="Hand"
                 variant={isHandRaised ? 'primary' : 'secondary'}

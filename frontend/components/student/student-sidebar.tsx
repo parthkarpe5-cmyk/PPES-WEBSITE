@@ -56,7 +56,7 @@ const data = {
     },
     {
       title: "Tests",
-      url: "/student/tests",
+      url: "/student",
       icon: FileText,
     },
     {
