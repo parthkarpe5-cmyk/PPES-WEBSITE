@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -26,37 +26,41 @@ import { LiveSessionsList } from "@/components/LiveSessionsList"
 import { cn } from "@/lib/utils"
 import { getMyProfile, getStoredUserData } from '@/lib/api'
 
-// Mock Data for Test Module
-const MOCK_TESTS = [
-  {
-    id: '1',
-    title: 'Science Quiz: Photosynthesis',
-    description: 'A basic quiz covering the essentials of photosynthesis and plant biology.',
-    durationMinutes: 30,
-    questionCount: 15,
-  },
-  {
-    id: '2',
-    title: 'Mathematics: Algebra Basics',
-    description: 'Test your understanding of linear equations and basic algebraic functions.',
-    durationMinutes: 45,
-    questionCount: 20,
-  }
-]
-
-const MOCK_STUDENT_ATTEMPTS = [
-  {
-    testId: '1',
-    testTitle: 'Science Quiz: Photosynthesis',
-    timestamp: '2026-05-02 14:30',
-    score: '12/15',
-    status: 'Completed'
-  }
-]
-
 export default function StudentDashboard() {
   const router = useRouter()
   const [activeTestTab, setActiveTestTab] = useState('available')
+  
+  // State for API data
+  const [tests, setTests] = useState<any[]>([])
+  const [attempts, setAttempts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchTestsData = async () => {
+      try {
+        const [testsRes, attemptsRes] = await Promise.all([
+          fetch('http://localhost:5000/api/tests'),
+          fetch('http://localhost:5000/api/tests/attempts/me')
+        ]);
+        
+        if (testsRes.ok) {
+          const testsData = await testsRes.json();
+          setTests(testsData);
+        }
+        
+        if (attemptsRes.ok) {
+          const attemptsData = await attemptsRes.json();
+          setAttempts(attemptsData);
+        }
+      } catch (error) {
+        console.error("Failed to fetch tests data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchTestsData();
+  }, []);
   const [student, setStudent] = useState(getStoredUserData())
 
   React.useEffect(() => {
@@ -183,30 +187,34 @@ export default function StudentDashboard() {
 
               <TabsContent value="available" className="mt-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {MOCK_TESTS.map((test) => {
-                    const isCompleted = MOCK_STUDENT_ATTEMPTS.some(att => att.testId === test.id)
+                  {loading ? (
+                    <div className="text-white text-sm">Loading tests...</div>
+                  ) : tests.length === 0 ? (
+                    <div className="text-white text-sm">No tests available at the moment.</div>
+                  ) : tests.map((test) => {
+                    const isCompleted = attempts.some(att => att.testId?._id === test._id)
                     return (
-                      <Card key={test.id} className="bg-white/[0.03] border-white/5 hover:border-[#2FA8CC]/30 transition-all overflow-hidden group">
+                      <Card key={test._id} className="bg-white/[0.03] border-white/5 hover:border-[#2FA8CC]/30 transition-all overflow-hidden group">
                         <div className="h-1 bg-[#2FA8CC]/20 group-hover:bg-[#2FA8CC] transition-all" />
                         <CardHeader>
                           <div className="flex justify-between items-start mb-2">
                             <Badge className="bg-[#2FA8CC]/10 text-[#2FA8CC] border-none text-[10px]">
                               {test.durationMinutes} MINS
                             </Badge>
-                            {isCompleted && <CheckCircle2 className="h-5 w-5 text-emerald-500" />}
+                            {isCompleted && <CheckCircle2 className="h-5 w-5 text-saffron" />}
                           </div>
                           <CardTitle className="text-lg font-bold text-white">{test.title}</CardTitle>
-                          <CardDescription className="text-slate-400 text-xs line-clamp-2">{test.description}</CardDescription>
+                          <CardDescription className="text-sky/70 text-xs line-clamp-2">{test.description}</CardDescription>
                         </CardHeader>
                         <CardFooter className="flex justify-between items-center pt-2">
-                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{test.questionCount} Questions</span>
+                          <span className="text-[10px] font-bold text-deep-blue/60 uppercase tracking-widest">{test.questions?.length || 0} Questions</span>
                           {isCompleted ? (
-                            <Button disabled variant="ghost" className="text-slate-500 text-xs font-bold">
+                            <Button disabled variant="ghost" className="text-deep-blue/60 text-xs font-bold">
                               Completed
                             </Button>
                           ) : (
                             <Button 
-                              onClick={() => router.push(`/student/tests/${test.id}`)}
+                              onClick={() => router.push(`/student/tests/${test._id}`)}
                               className="bg-[#2FA8CC] hover:bg-[#1F4E79] text-white text-xs h-8 px-4"
                             >
                               Start Test
@@ -224,21 +232,25 @@ export default function StudentDashboard() {
                   <table className="w-full text-left">
                     <thead className="bg-white/5 border-b border-white/5">
                       <tr>
-                        <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Test</th>
-                        <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Score</th>
-                        <th className="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Details</th>
+                        <th className="px-6 py-4 text-[10px] font-bold text-deep-blue/60 uppercase tracking-widest">Test</th>
+                        <th className="px-6 py-4 text-[10px] font-bold text-deep-blue/60 uppercase tracking-widest">Score</th>
+                        <th className="px-6 py-4 text-[10px] font-bold text-deep-blue/60 uppercase tracking-widest text-right">Details</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
-                      {MOCK_STUDENT_ATTEMPTS.map((attempt, index) => (
+                      {loading ? (
+                        <tr><td colSpan={3} className="px-6 py-4 text-center text-sm text-deep-blue/60">Loading attempts...</td></tr>
+                      ) : attempts.length === 0 ? (
+                        <tr><td colSpan={3} className="px-6 py-4 text-center text-sm text-deep-blue/60">No tests completed yet.</td></tr>
+                      ) : attempts.map((attempt, index) => (
                         <tr key={index} className="hover:bg-white/[0.02] transition-colors">
                           <td className="px-6 py-4">
-                            <span className="text-sm font-bold text-white block">{attempt.testTitle}</span>
-                            <span className="text-[10px] text-slate-500">{attempt.timestamp}</span>
+                            <span className="text-sm font-bold text-white block">{attempt.testId?.title || 'Unknown Test'}</span>
+                            <span className="text-[10px] text-deep-blue/60">{new Date(attempt.createdAt).toLocaleString()}</span>
                           </td>
                           <td className="px-6 py-4">
-                            <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-bold">
-                              {attempt.score}
+                            <Badge className="bg-saffron/100/10 text-saffron border-none font-bold">
+                              {attempt.status === 'pending_review' ? 'Pending Review' : `${attempt.score}/${attempt.maxScore}`}
                             </Badge>
                           </td>
                           <td className="px-6 py-4 text-right">
@@ -278,7 +290,7 @@ export default function StudentDashboard() {
                     <div className="p-6 space-y-4">
                       <div className="space-y-2">
                         <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
-                          <span className="text-slate-500">Progress</span>
+                          <span className="text-deep-blue/60">Progress</span>
                           <span className="text-[#2FA8CC]">{course.progress}%</span>
                         </div>
                         <Progress value={course.progress} className="h-1.5 bg-white/5" />
@@ -315,7 +327,7 @@ export default function StudentDashboard() {
                   <div className="flex-1 min-w-0">
                     <h5 className="font-bold text-white group-hover:text-[#2FA8CC] transition-colors truncate">{event.title}</h5>
                     <div className="flex items-center gap-3 mt-1">
-                      <span className="text-[10px] font-bold text-slate-500 flex items-center gap-1">
+                      <span className="text-[10px] font-bold text-deep-blue/60 flex items-center gap-1">
                         <Clock className="h-3 w-3" /> {event.time}
                       </span>
                       <Badge className="bg-white/5 hover:bg-white/5 text-[9px] text-[#2FA8CC] border-white/10 uppercase py-0 px-1.5 h-4">{event.type}</Badge>
@@ -345,10 +357,10 @@ export default function StudentDashboard() {
                  <div className="space-y-3 achievement-card transition-all duration-300 opacity-40 grayscale">
                     <div className="h-16 w-16 mx-auto rounded-full bg-gradient-to-b from-slate-400 to-slate-600 p-[2px]">
                       <div className="h-full w-full rounded-full bg-slate-900 flex items-center justify-center">
-                         <BookOpen className="h-8 w-8 text-slate-400" />
+                         <BookOpen className="h-8 w-8 text-sky/70" />
                       </div>
                     </div>
-                    <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Course Master</span>
+                    <span className="block text-[10px] font-bold text-sky/70 uppercase tracking-widest">Course Master</span>
                  </div>
                </div>
                <div className="mt-8 text-center space-y-4">
@@ -369,7 +381,7 @@ export default function StudentDashboard() {
             </div>
             <div>
               <h4 className="text-sm font-bold text-white">Ask your Mentor</h4>
-              <p className="text-[10px] text-slate-500 font-bold uppercase">Average response: 15m</p>
+              <p className="text-[10px] text-deep-blue/60 font-bold uppercase">Average response: 15m</p>
             </div>
           </section>
 

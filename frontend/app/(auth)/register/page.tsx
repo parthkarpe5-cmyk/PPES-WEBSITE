@@ -17,7 +17,7 @@ export default function RegisterPage() {
     setEmail(formData.get("email") as string);
     const result = await registerStudentAction(formData);
     setLoading(false);
-    if (result?.success) setStep(2);
+    if (result && 'success' in result && result.success) setStep(2);
     else setError(result?.error || "Registration failed.");
   }
 
@@ -27,7 +27,7 @@ export default function RegisterPage() {
     formData.append("email", email);
     const result = await completeSetupAction(formData);
     setLoading(false);
-    if (result?.success) setStep(3);
+    if (result && 'success' in result && result.success) setStep(3);
     else setError(result?.error || "Activation failed.");
   }
 
