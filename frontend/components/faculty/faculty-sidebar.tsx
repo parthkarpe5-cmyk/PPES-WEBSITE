@@ -9,10 +9,10 @@ import {
   FileText,
   MessageCircle,
   Calendar,
+  User,
   LogOut,
   ChevronRight,
   School,
-  Settings,
 } from 'lucide-react'
 
 import {
@@ -37,6 +37,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { logoutAction } from '@/app/actions/auth'
+import { getMediaUrl, getMyProfile, getStoredUserData } from '@/lib/api'
 
 const data = {
   navMain: [
@@ -82,10 +83,38 @@ const data = {
 export function FacultySidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
   const router = useRouter()
+  const [user, setUser] = React.useState(getStoredUserData())
+
+  React.useEffect(() => {
+    const refreshUser = async () => {
+      const storedUser = getStoredUserData()
+
+      if (storedUser?.id && !storedUser.image) {
+        try {
+          const latestProfile = await getMyProfile()
+          setUser({
+            ...storedUser,
+            ...latestProfile,
+            image: getMediaUrl(latestProfile?.image || storedUser.image)
+          })
+          return
+        } catch {
+          // Fall back to the stored cookie data if the profile fetch fails.
+        }
+      }
+
+      setUser(storedUser)
+    }
+
+    refreshUser()
+    window.addEventListener('user-data-updated', refreshUser)
+
+    return () => window.removeEventListener('user-data-updated', refreshUser)
+  }, [])
 
   const handleLogout = async () => {
     await logoutAction();
-    router.push('/');
+    router.push('/login/faculty');
   };
 
   return (
@@ -94,7 +123,7 @@ export function FacultySidebar({ ...props }: React.ComponentProps<typeof Sidebar
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="hover:bg-white/5 transition-colors">
-              <Link href="/">
+              <Link href="/faculty">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-[#2FA8CC] text-white shadow-lg">
                   <School className="size-4" />
                 </div>
@@ -147,12 +176,19 @@ export function FacultySidebar({ ...props }: React.ComponentProps<typeof Sidebar
                   className="w-full hover:bg-white/5 transition-colors rounded-xl p-2"
                 >
                   <Avatar className="h-8 w-8 border border-white/10 shadow-lg">
-                    <AvatarImage src="/avatars/faculty.png" alt="Faculty" />
-                    <AvatarFallback className="bg-[#1F4E79] text-white">PK</AvatarFallback>
+                    <AvatarImage src={getMediaUrl(user?.image) || '/avatars/faculty.png'} alt={user?.name || 'Faculty'} />
+                    <AvatarFallback className="bg-[#1F4E79] text-white">
+                      {(user?.name || 'Faculty')
+                        .split(' ')
+                        .filter(Boolean)
+                        .slice(0, 2)
+                        .map((part) => part[0]?.toUpperCase())
+                        .join('') || 'FC'}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight ml-2">
-                    <span className="truncate font-semibold text-white">Dr. Parth Karpe</span>
-                    <span className="truncate text-xs text-white/40">Sr. Faculty</span>
+                    <span className="truncate font-semibold text-white">{user?.name || 'Faculty'}</span>
+                    <span className="truncate text-xs text-white/40">{user?.grade || 'Faculty Profile'}</span>
                   </div>
                   <ChevronRight className="ml-auto size-4 text-white/20" />
                 </SidebarMenuButton>
@@ -163,9 +199,11 @@ export function FacultySidebar({ ...props }: React.ComponentProps<typeof Sidebar
                 align="end"
                 sideOffset={12}
               >
-                <DropdownMenuItem className="hover:bg-white/10 cursor-pointer rounded-lg m-1 transition-colors">
-                  <Settings className="mr-2 size-4 text-[#2FA8CC]" />
-                  Settings
+                <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer rounded-lg m-1 transition-colors">
+                  <Link href="/faculty/profile" className="flex items-center">
+                    <User className="mr-2 size-4 text-[#2FA8CC]" />
+                    Profile
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   className="hover:bg-red-500/10 text-red-400 cursor-pointer rounded-lg m-1 transition-colors"

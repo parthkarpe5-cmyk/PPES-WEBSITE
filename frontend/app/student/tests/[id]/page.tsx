@@ -19,6 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
+import { cn } from '@/lib/utils'
 
 // Mock Data fetching (would be from API in real app)
 const MOCK_TESTS = [

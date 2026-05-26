@@ -17,6 +17,7 @@ const nodemailer = require('nodemailer');
 const courseRoutes = require('./routes/courseRoutes');
 const subjectRoutes = require('./routes/subjectRoutes');
 const materialRoutes = require('./routes/materialRoutes');
+const authMiddleware = require('./middleware/auth');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -127,30 +128,7 @@ const seedUsers = async () => {
     }
 };
 
-const seedSubjects = async () => {
-    try {
-        const subjects = [
-            { name: 'Physics', code: 'PHY101', description: 'Classical and Modern Physics', facultyIds: ['faculty_01'] },
-            { name: 'Mathematics', code: 'MAT101', description: 'Calculus and Linear Algebra', facultyIds: ['faculty_01', 'faculty_02'] },
-            { name: 'Chemistry', code: 'CHE101', description: 'Organic and Inorganic Chemistry', facultyIds: ['faculty_02'] },
-            { name: 'Computer Science', code: 'CS101', description: 'Data Structures and Algorithms', facultyIds: ['faculty_01'] },
-            { name: 'Biology', code: 'BIO101', description: 'Study of Living Organisms', facultyIds: ['faculty_02'] },
-            { name: 'English', code: 'ENG101', description: 'Literature and Communication', facultyIds: ['faculty_02'] },
-            { name: 'Economics', code: 'ECO101', description: 'Principles of Economics', facultyIds: ['faculty_01'] }
-        ];
 
-        for (const sub of subjects) {
-            await Subject.findOneAndUpdate(
-                { code: sub.code },
-                sub,
-                { upsert: true, new: true }
-            );
-        }
-        console.log('Seeded/Updated subjects in MongoDB.');
-    } catch (err) {
-        console.error('Subject seeding error:', err);
-    }
-};
 
 // Stream Client Setup
 const apiKey = process.env.STREAM_API_KEY;
@@ -191,7 +169,6 @@ const startServer = async () => {
             console.log(`Server running on port ${PORT}`);
             // Run seeders after connection is established
             seedUsers();
-            seedSubjects();
         });
 
         server.on('error', (err) => {
@@ -506,6 +483,79 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
+const formatProfileUser = (user) => ({
+    _id: user._id,
+    id: user.userId,
+    userId: user.userId,
+    usn: user.usn,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    image: user.image,
+    status: user.status,
+    grade: user.grade,
+    createdAt: user.createdAt
+});
+
+app.get('/api/v1/profile/me', authMiddleware, async (req, res) => {
+    try {
+        const user = await User.findOne({ userId: req.user.id });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        res.json({ success: true, user: formatProfileUser(user) });
+    } catch (error) {
+        console.error('Error fetching profile:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch profile' });
+    }
+});
+
+app.patch('/api/v1/profile/me', authMiddleware, async (req, res) => {
+    try {
+        const { name, email, image, grade, status } = req.body;
+
+        const user = await User.findOne({ userId: req.user.id });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const trimmedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+        if (trimmedEmail && trimmedEmail !== user.email.toLowerCase()) {
+            const emailExists = await User.findOne({ email: trimmedEmail, _id: { $ne: user._id } });
+            if (emailExists) {
+                return res.status(400).json({ success: false, message: 'Email already in use' });
+            }
+            user.email = trimmedEmail;
+        }
+
+        if (typeof name === 'string' && name.trim()) {
+            user.name = name.trim();
+        }
+
+        if (typeof image === 'string') {
+            user.image = image.trim();
+        }
+
+        if (typeof grade === 'string') {
+            user.grade = grade.trim();
+        }
+
+        if (typeof status === 'string' && status.trim()) {
+            user.status = status.trim();
+        }
+
+        await user.save();
+
+        res.json({ success: true, user: formatProfileUser(user) });
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).json({ success: false, message: 'Failed to update profile' });
+    }
+});
+
 // Doubts & Payment System Routes
 app.use('/api/v1/doubts', doubtRoutes);
 app.use('/api/v1/messages', messageRoutes);
@@ -532,6 +582,8 @@ app.get('/api/v1/subjects', async (req, res) => {
         res.status(500).json({ success: false, error: err.message });
     }
 });
+
+
 
 app.get('/api/v1/teachers', async (req, res) => {
     try {

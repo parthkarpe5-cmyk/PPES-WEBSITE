@@ -1,6 +1,13 @@
 import LoginForm from "../../../../components/auth/LoginForm";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function AdminLoginPage() {
+export default async function AdminLoginPage() {
+  const cookieStore = await cookies();
+  if (cookieStore.get("token")?.value) {
+    redirect("/admin");
+  }
+
   return (
     <div className="relative min-h-screen w-full bg-obsidian flex items-center justify-center p-4 overflow-hidden">
       {/* Reddish/Indigo Glow for Admin to signify high priority */}

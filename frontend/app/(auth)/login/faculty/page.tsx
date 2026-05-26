@@ -1,6 +1,13 @@
 import LoginForm from "../../../../components/auth/LoginForm";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function FacultyLoginPage() {
+export default async function FacultyLoginPage() {
+  const cookieStore = await cookies();
+  if (cookieStore.get("token")?.value) {
+    redirect("/faculty");
+  }
+
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#E8F6FA] p-6">
       

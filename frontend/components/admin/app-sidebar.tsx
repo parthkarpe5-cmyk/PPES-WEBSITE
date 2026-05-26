@@ -54,7 +54,7 @@ const data = {
     },
     {
       title: "Courses",
-      url: "/dashboard/admin/courses/",
+      url: "/admin/courses",
       icon: School,
     },
     {

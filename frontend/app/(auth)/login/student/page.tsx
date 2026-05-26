@@ -1,6 +1,13 @@
 import LoginForm from "@/components/auth/LoginForm";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function StudentLoginPage() {
+export default async function StudentLoginPage() {
+  const cookieStore = await cookies();
+  if (cookieStore.get("token")?.value) {
+    redirect("/student");
+  }
+
   return (
     <div className="min-h-screen w-full bg-[#E8F6FA] flex items-center justify-center p-6 relative overflow-hidden">
       
