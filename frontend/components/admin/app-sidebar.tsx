@@ -74,7 +74,7 @@ const data = {
     },
     {
       title: "Tests & Assessments",
-      url: "/teacher/tests/create",
+      url: "/admin/tests",
       icon: FileText,
     },
     {

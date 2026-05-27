@@ -5,9 +5,9 @@ import { ContactForm } from "@/components/contact/contact-form"
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-secondary">
+    <main className="min-h-screen bg-background text-foreground transition-colors duration-500">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-deep-blue via-[#1a4570] to-sky px-6 py-24 text-center text-white">
+      <section className="bg-gradient-to-br from-[#1F4E79] via-[#1a4570] to-[#2FA8CC] px-6 py-24 text-center text-white">
         <span className="inline-block rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-gold font-display">
           Reach Out
         </span>
@@ -24,8 +24,8 @@ export default function ContactPage() {
         <div className="grid gap-12 lg:grid-cols-5">
           {/* Info sidebar */}
           <aside className="lg:col-span-2">
-            <h2 className="text-xl font-bold text-deep-blue font-display">Get in Touch</h2>
-            <p className="mt-2 text-sm leading-relaxed text-gray-500">
+            <h2 className="text-xl font-bold text-slate-800 dark:text-white font-display">Get in Touch</h2>
+            <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
               Fill out the form and our team will get back to you within 24–48
               hours.
             </p>
@@ -55,18 +55,18 @@ export default function ContactPage() {
                     <Icon className="h-5 w-5 text-sky" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-gold font-display">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-[#C9A227] font-display">
                       {label}
                     </p>
                     {href ? (
                       <a
                         href={href}
-                        className="mt-0.5 text-sm text-gray-600 transition-colors hover:text-sky"
+                        className="mt-0.5 text-sm text-slate-600 dark:text-slate-300 transition-colors hover:text-sky"
                       >
                         {value}
                       </a>
                     ) : (
-                      <p className="mt-0.5 text-sm text-gray-600">{value}</p>
+                      <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-300">{value}</p>
                     )}
                   </div>
                 </div>
@@ -74,7 +74,7 @@ export default function ContactPage() {
             </div>
 
             {/* Decorative card */}
-            <div className="mt-10 rounded-2xl bg-gradient-to-br from-deep-blue to-sky p-6 text-white">
+            <div className="mt-10 rounded-2xl bg-gradient-to-br from-[#1F4E79] to-[#2FA8CC] p-6 text-white shadow-xl">
               <p className="text-sm font-medium">
                 &ldquo;Education must shape character before careers.&rdquo;
               </p>
@@ -86,7 +86,9 @@ export default function ContactPage() {
 
           {/* Form */}
           <div className="lg:col-span-3">
-            <ContactForm />
+            <div className="bg-card border border-border p-8 rounded-2xl shadow-xl">
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>

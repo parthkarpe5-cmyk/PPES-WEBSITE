@@ -12,7 +12,9 @@ import {
   CheckSquare,
   Code,
   AlertCircle,
-  Loader2
+  Loader2,
+  Settings,
+  ListPlus
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -30,11 +32,11 @@ interface Question {
   correctAnswer?: string | string[];
 }
 
-function FacultyTestBuilderForm() {
+function AdminTestBuilderForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get('edit');
-  
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [duration, setDuration] = useState('30');
@@ -157,7 +159,7 @@ function FacultyTestBuilderForm() {
       toast.error("Please fill in the title, description, and add at least one question.");
       return;
     }
-
+    
     // Check if MCQ and Multiple Select questions have at least one correct answer
     for (let i = 0; i < questions.length; i++) {
       const q = questions[i];
@@ -173,7 +175,7 @@ function FacultyTestBuilderForm() {
         }
       }
     }
-    
+
     try {
       const payload = {
         title,
@@ -214,7 +216,7 @@ function FacultyTestBuilderForm() {
       }
 
       toast.success(editId ? "Test updated successfully!" : "Test published successfully!");
-      router.push('/faculty/tests');
+      router.push('/admin/tests');
     } catch (error: any) {
       console.error(error);
       toast.error(error.message || "Failed to save test. Please try again.");
@@ -223,22 +225,22 @@ function FacultyTestBuilderForm() {
 
   if (fetchingTest) {
     return (
-      <div className="flex flex-col items-center justify-center p-20 bg-[#050B14] min-h-screen text-slate-200 space-y-4">
-        <Loader2 className="h-8 w-8 text-[#FF6B00] animate-spin" />
+      <div className="flex flex-col items-center justify-center p-20 bg-slate-950 min-h-screen text-slate-200 space-y-4">
+        <Loader2 className="h-8 w-8 text-[#2FA8CC] animate-spin" />
         <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Loading Test Schema...</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-10 bg-[#050B14] min-h-screen text-slate-200 animate-in fade-in duration-500">
+    <div className="p-6 lg:p-8 space-y-10 bg-slate-950 min-h-screen text-slate-200 animate-in fade-in duration-500">
       
       {/* Header Banner */}
       <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-6 md:p-8 shadow-2xl border border-white/5">
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
-              Curriculum Management
+              {editId ? 'Admin Desk (Edit Mode)' : 'Admin Desk'}
             </span>
             <h1 className="text-3xl font-black tracking-tight text-white mt-2 font-display">
               {editId ? 'Edit' : 'Create'} <span className="text-[#2FA8CC]">Assessment</span>
@@ -247,7 +249,7 @@ function FacultyTestBuilderForm() {
           </div>
           <div className="flex gap-3">
             <Button 
-              onClick={() => router.push('/faculty/tests')}
+              onClick={() => router.push('/admin/tests')}
               variant="outline" 
               className="border-white/10 hover:bg-white/5 text-slate-300 rounded-xl h-11"
             >
@@ -256,7 +258,7 @@ function FacultyTestBuilderForm() {
             </Button>
             <Button 
               onClick={handleSave}
-              className="bg-[#FF6B00] hover:bg-[#FF6B00]/80 text-white font-bold uppercase tracking-widest rounded-xl h-11 px-6 shadow-lg shadow-[#FF6B00]/20"
+              className="bg-[#2FA8CC] hover:bg-[#2FA8CC]/80 text-white font-bold uppercase tracking-widest rounded-xl h-11 px-6 shadow-lg shadow-[#2FA8CC]/20"
             >
               <Save className="h-4 w-4 mr-2" />
               {editId ? 'Update Test' : 'Publish Test'}
@@ -270,17 +272,20 @@ function FacultyTestBuilderForm() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Left Side: Test configurations */}
-        <div className="lg:col-span-1 space-y-6">
-          <h2 className="text-lg font-bold text-white tracking-tight">Test Configurations</h2>
+        <div className="lg:col-span-1 space-y-6 animate-in slide-in-from-left duration-300">
+          <h2 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+            <Settings className="h-5 w-5 text-[#2FA8CC]" />
+            Test Configurations
+          </h2>
           
-          <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 backdrop-blur-xl shadow-xl space-y-5">
+          <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 backdrop-blur-md shadow-xl space-y-5">
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Test Title</label>
               <input 
                 required 
                 value={title}
                 onChange={e => setTitle(e.target.value)}
-                placeholder="e.g. Mid-Term Physics Exam"
+                placeholder="e.g. Advanced System Architecture"
                 className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
               />
             </div>
@@ -291,7 +296,7 @@ function FacultyTestBuilderForm() {
                 required 
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-                placeholder="Details about syllabus covered..."
+                placeholder="Details about standard parameters, target course, or scoring rubrics..."
                 className="w-full min-h-[100px] bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
               />
             </div>
@@ -319,13 +324,13 @@ function FacultyTestBuilderForm() {
 
             <div className="flex items-center justify-between p-4 bg-white/[0.01] border border-white/5 rounded-2xl">
               <div className="space-y-0.5">
-                <label className="text-xs font-bold text-white block">Manual Release</label>
-                <span className="text-[10px] text-slate-500 block leading-tight">Hide scores until review</span>
+                <label className="text-xs font-bold text-white block">Manual Review Required</label>
+                <span className="text-[10px] text-slate-500 block leading-tight">Hide grades until admin validation</span>
               </div>
               <Switch 
                 checked={isManualRelease}
                 onCheckedChange={setIsManualRelease}
-                className="data-[state=checked]:bg-[#FF6B00]"
+                className="data-[state=checked]:bg-[#2FA8CC]"
               />
             </div>
 
@@ -334,7 +339,7 @@ function FacultyTestBuilderForm() {
               <input 
                 value={postTestMessage}
                 onChange={e => setPostTestMessage(e.target.value)}
-                placeholder="e.g. Well done! Results will be visible soon."
+                placeholder="e.g. Assessment successfully logged to the administrative desk."
                 className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
               />
             </div>
@@ -379,21 +384,24 @@ function FacultyTestBuilderForm() {
         {/* Right Side: Question List Builder */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-bold text-white tracking-tight">Question Catalog ({questions.length})</h2>
+            <h2 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+              <ListPlus className="h-5 w-5 text-[#2FA8CC]" />
+              Question Catalog ({questions.length})
+            </h2>
           </div>
 
           {questions.length === 0 ? (
-            <div className="text-center py-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl">
+            <div className="text-center py-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-md">
               <AlertCircle className="h-10 w-10 text-slate-600 mx-auto mb-3" />
               <p className="text-slate-400 text-sm font-bold uppercase tracking-wider">Empty Draft</p>
-              <p className="text-slate-500 text-xs mt-1">Add items using the Question Types toolbox on the left side.</p>
+              <p className="text-slate-500 text-xs mt-1">Configure individual questions using the sidebar toolbox.</p>
             </div>
           ) : (
             <div className="space-y-6">
               {questions.map((q, index) => (
                 <div 
                   key={q.id} 
-                  className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-6 backdrop-blur-xl hover:border-white/10 transition-colors shadow-xl relative overflow-hidden group"
+                  className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-6 backdrop-blur-md hover:border-[#2FA8CC]/30 transition-all shadow-xl relative overflow-hidden group"
                 >
                   <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-3">
@@ -426,7 +434,7 @@ function FacultyTestBuilderForm() {
 
                   <div className="space-y-4">
                     <textarea 
-                      placeholder="Enter question text here..."
+                      placeholder="Enter question prompt..."
                       className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all resize-y min-h-[70px]"
                       value={q.text}
                       onChange={(e) => updateQuestion(q.id, { text: e.target.value })}
@@ -481,15 +489,15 @@ function FacultyTestBuilderForm() {
   );
 }
 
-export default function CreateTestFaculty() {
+export default function CreateTestAdmin() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center p-20 bg-[#050B14] min-h-screen text-slate-200 space-y-4">
-        <Loader2 className="h-8 w-8 text-[#FF6B00] animate-spin" />
-        <p className="text-slate-500 text-xs font-bold uppercase tracking-widest font-mono">Baking Faculty Desk...</p>
+      <div className="flex flex-col items-center justify-center p-20 bg-slate-950 min-h-screen text-slate-200 space-y-4">
+        <Loader2 className="h-8 w-8 text-[#2FA8CC] animate-spin" />
+        <p className="text-slate-500 text-xs font-bold uppercase tracking-widest font-mono">Baking Dashboard...</p>
       </div>
     }>
-      <FacultyTestBuilderForm />
+      <AdminTestBuilderForm />
     </Suspense>
   );
 }

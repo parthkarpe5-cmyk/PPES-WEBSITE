@@ -61,7 +61,7 @@ export default function StudentDashboard() {
     
     fetchTestsData();
   }, []);
-  const [student, setStudent] = useState(getStoredUserData())
+  const [student, setStudent] = useState<any>(getStoredUserData())
   const [purchasedCourses, setPurchasedCourses] = useState<any[]>([])
   const [loadingCourses, setLoadingCourses] = useState(true)
 
@@ -115,7 +115,7 @@ export default function StudentDashboard() {
   const displayUsn = student?.usn || student?.id || 'USN unavailable'
 
   return (
-    <div className="p-6 lg:p-8 space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-700 bg-slate-950 min-h-screen">
+    <div className="p-6 lg:p-8 space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-700 bg-background min-h-screen text-foreground transition-colors duration-300">
       
       {/* 1. Welcome Section */}
       <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-white/5">

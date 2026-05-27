@@ -10,6 +10,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { ChevronRight } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function AdminLayout({
   children,
@@ -19,11 +20,11 @@ export default function AdminLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-[#050810] text-slate-200 overflow-hidden relative">
-        <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6 border-b border-slate-200/5 bg-[#050810]/60 backdrop-blur-xl sticky top-0 z-50">
+      <SidebarInset className="bg-background text-foreground transition-colors duration-300 overflow-hidden relative">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6 border-b border-border/40 bg-background/60 backdrop-blur-xl sticky top-0 z-50">
           <div className="flex items-center gap-2">
-            <SidebarTrigger className="-ml-1 text-sky h-8 w-8 hover:bg-slate-200/10" />
-            <Separator orientation="vertical" className="mr-2 h-4 bg-slate-200/10" />
+            <SidebarTrigger className="-ml-1 text-sky h-8 w-8 hover:bg-slate-200/40 dark:hover:bg-slate-200/10" />
+            <Separator orientation="vertical" className="mr-2 h-4 bg-border/40" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
@@ -32,20 +33,21 @@ export default function AdminLayout({
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block">
-                   <ChevronRight className="size-3 text-slate-200/20" />
+                   <ChevronRight className="size-3 text-slate-400/40 dark:text-slate-200/20" />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="text-slate-200 font-semibold">Dashboard</BreadcrumbPage>
+                  <BreadcrumbPage className="text-slate-800 dark:text-slate-200 font-semibold">Dashboard</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
 
           <div className="flex items-center gap-4">
-             <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky/10 border border-sky/20 text-sky text-[10px] font-bold uppercase tracking-widest">
-                <span className="w-2 h-2 rounded-full bg-sky animate-pulse" />
-                System Live
-             </div>
+            <ThemeToggle />
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky/10 border border-sky/20 text-sky text-[10px] font-bold uppercase tracking-widest">
+              <span className="w-2 h-2 rounded-full bg-sky animate-pulse" />
+              System Live
+            </div>
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-6 p-6 overflow-y-auto">

@@ -10,15 +10,13 @@ import {
   Plus, 
   HelpCircle, 
   Loader2,
-  ChevronRight,
-  TrendingUp,
   Edit3
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
-export default function FacultyTestsDashboard() {
+export default function AdminTestsDashboard() {
   const router = useRouter();
   const [tests, setTests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,29 +66,30 @@ export default function FacultyTestsDashboard() {
   };
 
   return (
-    <div className="p-6 lg:p-8 space-y-10 bg-[#050B14] min-h-screen text-slate-200 animate-in fade-in duration-500">
+    <div className="p-6 lg:p-8 space-y-10 bg-slate-950 min-h-screen text-slate-200 animate-in fade-in duration-500">
       
       {/* 1. Header Banner */}
       <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-white/5">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-4">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
-              Faculty Portal
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2FA8CC] animate-pulse" />
+              Assessments Manager Live
             </span>
             <div>
               <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-2 font-display">
-                Assessments & <span className="text-[#2FA8CC]">Tests</span>
+                Tests & <span className="text-[#2FA8CC]">Assessments</span>
               </h1>
               <p className="text-slate-400 text-sm max-w-lg">
-                Create and manage structured assessments. Design MCQ, multiple-select, descriptive, or coding challenges.
+                Administrative desk to build structural exams, review academic standards, and manage student assessments.
               </p>
             </div>
           </div>
           <button 
-            onClick={() => router.push('/faculty/tests/create')}
-            className="h-12 px-6 bg-[#FF6B00] hover:bg-[#FF6B00]/80 text-white font-bold uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-[#FF6B00]/20 flex items-center gap-2 active:scale-95 shrink-0"
+            onClick={() => router.push('/admin/tests/create')}
+            className="group flex items-center gap-2 bg-[#2FA8CC] hover:bg-[#2FA8CC]/80 text-white font-bold h-14 px-8 rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#2FA8CC]/20 shrink-0"
           >
-            <Plus className="h-5 w-5" />
+            <Plus className="h-5 w-5 group-hover:rotate-90 transition-transform" />
             Create New Test
           </button>
         </div>
@@ -107,28 +106,28 @@ export default function FacultyTestsDashboard() {
         {loading ? (
           <div className="flex flex-col items-center justify-center p-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl space-y-4">
             <Loader2 className="h-8 w-8 text-[#2FA8CC] animate-spin" />
-            <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Loading Assessments...</p>
+            <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Syncing Assessments...</p>
           </div>
         ) : tests.length === 0 ? (
           <div className="text-center py-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl max-w-2xl mx-auto">
             <HelpCircle className="h-12 w-12 text-slate-600 mx-auto mb-4" />
-            <p className="text-slate-300 font-bold text-lg">No Tests Created Yet</p>
-            <p className="text-slate-500 text-xs mt-1">Get started by creating your first automated or manual-graded assessment.</p>
+            <p className="text-slate-300 font-bold text-lg">No Tests Configured</p>
+            <p className="text-slate-500 text-xs mt-1">Get started by building your first structured examination.</p>
             <Button 
-              onClick={() => router.push('/faculty/tests/create')}
+              onClick={() => router.push('/admin/tests/create')}
               className="mt-6 bg-[#2FA8CC] hover:bg-[#2FA8CC]/80 text-white rounded-xl"
             >
               Add First Test
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tests.map((test) => {
               const totalPoints = test.questions?.reduce((acc: number, q: any) => acc + (q.points || 0), 0) || 0;
               return (
                 <div 
                   key={test._id} 
-                  className="bg-white/[0.02] border border-white/5 rounded-[2rem] p-6 backdrop-blur-xl hover:border-white/10 transition-all duration-300 shadow-xl relative overflow-hidden group flex flex-col justify-between"
+                  className="bg-white/[0.02] border border-white/5 rounded-[2rem] p-6 hover:border-[#2FA8CC]/20 hover:bg-white/[0.04] transition-all duration-300 flex flex-col justify-between group shadow-lg relative overflow-hidden"
                 >
                   <div className="space-y-4">
                     <div className="flex justify-between items-start">
@@ -172,9 +171,9 @@ export default function FacultyTestsDashboard() {
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                       Release: {test.isManualRelease ? 'Manual Review' : 'Auto Release'}
                     </span>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 shrink-0">
                       <button 
-                        onClick={() => router.push(`/faculty/tests/create?edit=${test._id}`)}
+                        onClick={() => router.push(`/admin/tests/create?edit=${test._id}`)}
                         className="p-2 bg-white/5 hover:bg-[#2FA8CC]/10 text-slate-300 hover:text-[#2FA8CC] border border-white/5 rounded-xl transition-all"
                       >
                         <Edit3 className="h-4 w-4" />
@@ -189,7 +188,7 @@ export default function FacultyTestsDashboard() {
                   </div>
 
                   {/* Saffron side glow */}
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#2FA8CC] opacity-0 group-hover:opacity-100 transition-opacity" />
                   {/* Subtle hover background highlight */}
                   <div className="absolute -right-4 -bottom-4 h-32 w-32 bg-[#2FA8CC]/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>

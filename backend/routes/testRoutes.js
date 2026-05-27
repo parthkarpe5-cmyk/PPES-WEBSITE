@@ -9,6 +9,7 @@ router.post('/', testController.createTest);
 router.get('/', testController.getTests);
 router.get('/attempts/me', testController.getMyAttempts);
 router.get('/:id', testController.getTestById);
+router.put('/:id', testController.updateTest);
 router.post('/:id/attempt', testController.submitAttempt);
 
 module.exports = router;

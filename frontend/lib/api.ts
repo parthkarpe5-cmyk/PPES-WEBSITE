@@ -79,6 +79,7 @@ export const setStoredUserData = (user: {
   usn?: string;
   image?: string;
   grade?: string;
+  unlockedCourses?: string[];
 }) => {
   if (typeof window !== 'undefined') {
     Cookies.set('user-data', JSON.stringify(user), {
@@ -109,6 +110,7 @@ export const getStoredUserData = () => {
       usn?: string;
       image?: string;
       grade?: string;
+      unlockedCourses?: string[];
     };
 
     return {

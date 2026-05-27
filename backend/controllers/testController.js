@@ -39,19 +39,18 @@ exports.getTests = async (req, res) => {
     }
 };
 
-// Get test by ID (without answers for students)
+// Get test by ID (without answers for students unless includeAnswers=true is specified)
 exports.getTestById = async (req, res) => {
     try {
         const test = await Test.findById(req.params.id);
         if (!test) return res.status(404).json({ error: 'Test not found' });
 
-        // If requested by a student, we probably shouldn't send correctAnswers.
-        // For simplicity, we'll strip correct answers. 
-        // A teacher endpoint might be needed later to fetch the test with answers.
         const testObj = test.toObject();
-        testObj.questions.forEach(q => {
-            delete q.correctAnswer;
-        });
+        if (req.query.includeAnswers !== 'true') {
+            testObj.questions.forEach(q => {
+                delete q.correctAnswer;
+            });
+        }
 
         res.status(200).json(testObj);
     } catch (error) {
@@ -130,6 +129,35 @@ exports.getMyAttempts = async (req, res) => {
         const attempts = await TestAttempt.find({ studentId }).populate('testId', 'title durationMinutes');
         res.status(200).json(attempts);
     } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// Update an existing test
+exports.updateTest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, description, durationMinutes, passingScore, postTestMessage, isManualRelease, questions } = req.body;
+
+        const updatedTest = await Test.findByIdAndUpdate(
+            id,
+            {
+                title,
+                description,
+                durationMinutes,
+                passingScore,
+                postTestMessage,
+                isManualRelease,
+                questions
+            },
+            { new: true }
+        );
+
+        if (!updatedTest) return res.status(404).json({ error: 'Test not found' });
+
+        res.status(200).json({ message: 'Test updated successfully', test: updatedTest });
+    } catch (error) {
+        console.error('Error updating test:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
