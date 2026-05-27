@@ -6,6 +6,23 @@ export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   console.log(`[Proxy] Path: ${pathname}`);
 
+  // 0. Redirect known stale/alias paths before any auth check
+  if (pathname === '/admin/dashboard' || pathname.startsWith('/admin/dashboard/')) {
+    return NextResponse.redirect(new URL('/admin', req.url));
+  }
+  if (pathname.startsWith('/dashboard/admin')) {
+    const subPath = pathname.replace('/dashboard/admin', '');
+    return NextResponse.redirect(new URL(`/admin${subPath}`, req.url));
+  }
+  if (pathname.startsWith('/dashboard/faculty')) {
+    const subPath = pathname.replace('/dashboard/faculty', '');
+    return NextResponse.redirect(new URL(`/faculty${subPath}`, req.url));
+  }
+  if (pathname.startsWith('/dashboard/student')) {
+    const subPath = pathname.replace('/dashboard/student', '');
+    return NextResponse.redirect(new URL(`/student${subPath}`, req.url));
+  }
+
   // 1. Define Protected Routes
   const protectedPaths = ['/student', '/admin', '/faculty', '/live'];
   const isProtected = protectedPaths.some(path => pathname.startsWith(path));
@@ -60,6 +77,7 @@ export const config = {
     '/admin/:path*', 
     '/faculty/:path*', 
     '/live/:path*',
-    '/login/:path*'
+    '/login/:path*',
+    '/dashboard/:path*',
   ],
 };
