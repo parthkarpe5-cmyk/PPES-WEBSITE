@@ -11,13 +11,16 @@ export default function LoginForm({ role, idPlaceholder }: { role: string, idPla
   const [error, setError] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const router = useRouter();
+  
+  // Directly compute token presence to handle BFCache/Router cache restores
+  const isAuth = typeof window !== 'undefined' ? !!Cookies.get("token") : false;
 
   useEffect(() => {
-    if (Cookies.get("token")) {
+    if (isAuth) {
       const dashboard = role === "admin" ? "/admin" : role === "faculty" ? "/faculty" : "/student";
       router.replace(dashboard);
     }
-  }, [role, router]);
+  }, [isAuth, role, router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,6 +42,15 @@ export default function LoginForm({ role, idPlaceholder }: { role: string, idPla
       setLoading(false);
     }
   };
+
+  if (isAuth) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center p-12 text-center animate-in fade-in duration-500">
+        <Loader2 className="animate-spin text-sky mb-4 mx-auto" size={48} />
+        <p className="text-sky font-bold uppercase tracking-widest text-xs">Redirecting to Portal...</p>
+      </div>
+    );
+  }
 
   if (emailSent) {
     return (

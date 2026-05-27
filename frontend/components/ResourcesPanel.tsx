@@ -68,7 +68,7 @@ export const ResourcesPanel = ({
   };
 
   const handleDelete = (resourceId: string) => {
-    setResources(prev => prev.filter(r => r.id !== resourceId));
+    setResources((prev: Resource[]) => prev.filter((r: Resource) => r.id !== resourceId));
     if (call) {
       call.sendCustomEvent({
         type: 'resource-deleted',

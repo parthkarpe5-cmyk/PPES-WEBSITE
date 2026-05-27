@@ -55,28 +55,9 @@ export default function StudentCoursesCatalog() {
     }
   };
 
-  // Simulate payment / direct enrollment for ease of local testing
-  const handlePurchase = async (courseId: string) => {
-    setBuyingId(courseId);
-    try {
-      const res = await fetch(`${BACKEND_URL}/courses/purchase`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-user-id': student?.id || student?.userId || ''
-        },
-        body: JSON.stringify({ courseId })
-      });
-
-      if (res.ok) {
-        // Reload data to reflect purchase instantly
-        await fetchProfileAndCourses();
-      }
-    } catch (err) {
-      console.error('Error enrolling in course:', err);
-    } finally {
-      setBuyingId(null);
-    }
+  const handlePurchase = (courseId: string, price: number) => {
+    // Redirect to the payment gateway with the amount and courseId
+    window.location.href = `/test-payment?amount=${price}&courseId=${courseId}`;
   };
 
   const isCourseUnlocked = (courseId: string) => {
@@ -239,7 +220,7 @@ export default function StudentCoursesCatalog() {
                         </Link>
                       ) : (
                         <button 
-                          onClick={() => handlePurchase(course._id)}
+                          onClick={() => handlePurchase(course._id, course.price)}
                           disabled={buyingId === course._id}
                           className="w-full h-11 bg-[#2FA8CC] hover:bg-[#2FA8CC]/90 disabled:opacity-50 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-[#2FA8CC]/10 flex items-center justify-center gap-1.5"
                         >

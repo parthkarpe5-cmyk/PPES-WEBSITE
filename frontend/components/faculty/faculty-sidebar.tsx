@@ -64,7 +64,7 @@ const data = {
     },
     {
       title: "Tests",
-      url: "/teacher/tests/create",
+      url: "/faculty/tests",
       icon: FileText,
     },
     {

@@ -21,6 +21,16 @@ export default function SetupPasswordPage() {
       setMessage({ type: "error", text: res.error || "Failed to send OTP" });
     }
   };
+  const handleComplete = async (formData: FormData) => {
+    setLoading(true);
+    const res = await completeSetupAction(formData);
+    setLoading(false);
+    if (res && 'success' in res && res.success) {
+      router.push('/login/student');
+    } else {
+      setMessage({ type: "error", text: res?.error || "Activation failed" });
+    }
+  };
 
   return (
     <div className="min-h-screen w-full bg-surface flex items-center justify-center p-6 relative">
@@ -62,7 +72,7 @@ export default function SetupPasswordPage() {
             </button>
           </div>
         ) : (
-          <form action={completeSetupAction} className="w-full flex flex-col gap-6">
+          <form action={handleComplete} className="w-full flex flex-col gap-6">
              <input type="hidden" name="email" value={email} />
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-deepBlue/40 uppercase tracking-widest ml-1">OTP Code</label>

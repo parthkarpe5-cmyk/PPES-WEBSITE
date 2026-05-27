@@ -32,21 +32,30 @@ export const getAuthHeaders = (): Record<string, string> => {
 
   // 1. Try to get user data from cookies (set by login server action)
   const userDataCookie = Cookies.get('user-data');
+  // 2. Get the signed JWT token (for the upgraded auth middleware)
+  const jwtToken = Cookies.get('token');
+
+  const headers: Record<string, string> = {};
+
+  // Always include the JWT if present — backend middleware verifies this
+  if (jwtToken) {
+    headers['Authorization'] = `Bearer ${jwtToken}`;
+  }
+
   if (userDataCookie) {
     try {
       const user = JSON.parse(userDataCookie);
       if (user && user.id) {
-        return {
-          'x-user-id': user.id,
-          'x-user-role': user.role || 'student'
-        };
+        headers['x-user-id'] = user.id;
+        headers['x-user-role'] = user.role || 'student';
+        return headers;
       }
     } catch (e) {
       console.error('[API] Error parsing user-data cookie:', e);
     }
   }
 
-  // 2. Fallback to browser storage only when it contains an explicit session
+  // Fallback to browser storage only when it contains an explicit session
   const userId =
     localStorage.getItem('userId') ||
     sessionStorage.getItem('userId') ||
@@ -57,18 +66,11 @@ export const getAuthHeaders = (): Record<string, string> => {
     sessionStorage.getItem('userRole') ||
     'student';
 
-  if (!userId) {
-    return {
-      'x-user-id': '',
-      'x-user-role': userRole
-    };
-  }
-
-  return {
-    'x-user-id': userId,
-    'x-user-role': userRole
-  };
+  headers['x-user-id'] = userId;
+  headers['x-user-role'] = userRole;
+  return headers;
 };
+
 
 export const setStoredUserData = (user: {
   id: string;
