@@ -35,9 +35,11 @@ interface Doubt {
 
 interface Subject {
   _id: string;
-  name: string;
-  code: string;
-  description: string;
+  subject_name: string;
+  subject_id: string;
+  name?: string;
+  code?: string;
+  description?: string;
   facultyIds: string[];
 }
 
@@ -97,7 +99,7 @@ export default function StudentDoubtsDashboard() {
     try {
       // Check if there's already an open doubt for this subject and teacher
       const existingDoubt = doubts.find(d => 
-        d.subject_id === selectedSubject?.name && 
+        d.subject_id === (selectedSubject?.subject_name || selectedSubject?.name) && 
         d.status === 'open'
       );
 
@@ -106,8 +108,8 @@ export default function StudentDoubtsDashboard() {
       } else {
         // Create a new doubt session
         const newDoubt = await createDoubt({
-          title: `Chat about ${selectedSubject?.name}`,
-          subject_id: selectedSubject?.name || 'General',
+          title: `Chat about ${selectedSubject?.subject_name || selectedSubject?.name}`,
+          subject_id: selectedSubject?.subject_name || selectedSubject?.name || 'General',
           teacher_id: teacher.userId,
           initial_message: { text: "Hello, I have a doubt regarding this subject." }
         });
@@ -266,8 +268,8 @@ export default function StudentDoubtsDashboard() {
                   <div className="w-16 h-16 rounded-2xl bg-sky/10 flex items-center justify-center text-sky mb-4 group-hover:scale-110 transition-transform">
                     <BookOpen size={32} />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{subject.name}</h3>
-                  <p className="text-slate-500 text-sm">{subject.description}</p>
+                  <h3 className="text-xl font-bold text-white mb-2">{subject.subject_name || subject.name}</h3>
+                  <p className="text-slate-500 text-sm">{subject.description || 'General Discussion'}</p>
                 </div>
               ))}
             </motion.div>
@@ -284,7 +286,7 @@ export default function StudentDoubtsDashboard() {
               <div className="col-span-full mb-4 flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-bold text-white">Select Faculty</h2>
-                  <p className="text-slate-400">Talking about <span className="text-sky font-bold">{selectedSubject?.name}</span></p>
+                  <p className="text-slate-400">Talking about <span className="text-sky font-bold">{selectedSubject?.subject_name || selectedSubject?.name}</span></p>
                 </div>
                 <button 
                   onClick={() => setStep('select_subject')}

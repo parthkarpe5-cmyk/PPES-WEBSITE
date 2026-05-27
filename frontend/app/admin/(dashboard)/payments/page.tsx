@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { CreditCard, Download, Search, CheckCircle2, XCircle } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { getAuthHeaders } from '@/lib/api';
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000/api';
+const BACKEND_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/v1';
 
 export default function AdminPaymentsPage() {
   const [payments, setPayments] = useState<any[]>([]);
@@ -18,7 +19,10 @@ export default function AdminPaymentsPage() {
 
   const fetchPayments = async () => {
     try {
-      const res = await fetch(`${BACKEND_URL}/payments`);
+      const headers = getAuthHeaders();
+      const res = await fetch(`${BACKEND_URL}/payments`, {
+        headers: headers as any
+      });
       const data = await res.json();
       setPayments(Array.isArray(data) ? data : []);
     } catch (err) {
