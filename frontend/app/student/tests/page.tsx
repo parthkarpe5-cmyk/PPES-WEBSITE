@@ -82,7 +82,7 @@ export default function StudentTestsPage() {
       <div className="mx-auto max-w-6xl space-y-10">
         
         {/* 1. Header Section */}
-        <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-white/5">
+        <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-border">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="space-y-4">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
@@ -90,10 +90,10 @@ export default function StudentTestsPage() {
                 Student Desk Assessments
               </span>
               <div>
-                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-2 font-display">
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-2 font-display">
                   Academic <span className="text-[#2FA8CC]">Tests</span>
                 </h1>
-                <p className="max-w-xl text-slate-300 text-sm leading-relaxed">
+                <p className="max-w-xl text-muted-foreground text-sm leading-relaxed">
                   Evaluate your learnings, tackle challenging quizzes, and track detailed grading and performance evaluations right here.
                 </p>
               </div>
@@ -101,7 +101,7 @@ export default function StudentTestsPage() {
             
             <button 
               onClick={fetchTestData}
-              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-[#2FA8CC]/30 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-widest transition-all active:scale-95 cursor-pointer"
+              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-card border border-border hover:border-[#2FA8CC]/30 hover:bg-white/10 text-foreground font-bold text-xs uppercase tracking-widest transition-all active:scale-95 cursor-pointer"
             >
               <RotateCcw className="h-4 w-4" />
               Sync Desk

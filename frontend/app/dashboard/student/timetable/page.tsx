@@ -28,7 +28,7 @@ export default async function StudentTimetable({ searchParams }: { searchParams:
       <div className="mx-auto max-w-5xl space-y-10">
         
         {/* 1. Page Header Section */}
-        <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-white/5">
+        <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-border">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-4">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
@@ -36,23 +36,23 @@ export default async function StudentTimetable({ searchParams }: { searchParams:
                 Active Class Scheduler
               </span>
               <div>
-                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-2 font-display">
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-2 font-display">
                   Weekly <span className="text-[#2FA8CC]">Planner</span>
                 </h1>
-                <p className="max-w-md text-slate-300 text-sm leading-relaxed">
+                <p className="max-w-md text-muted-foreground text-sm leading-relaxed">
                   Stay updated with your daily academic class timetable, scheduled live lectures, and upcoming subject sessions.
                 </p>
               </div>
             </div>
 
             {/* Class Segment Filter */}
-            <div className="flex bg-white/5 backdrop-blur-md p-1.5 rounded-2xl border border-white/10 shadow-sm shrink-0">
+            <div className="flex bg-card backdrop-blur-md p-1.5 rounded-2xl border border-border shadow-sm shrink-0">
                <a 
                  href="?class=09" 
                  className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
                    selectedClass === '09' 
                      ? 'bg-[#2FA8CC] text-white shadow-lg shadow-[#2FA8CC]/20' 
-                     : 'text-slate-300 hover:text-white'
+                     : 'text-muted-foreground hover:text-white'
                  }`}
                >
                  Std 9
@@ -62,7 +62,7 @@ export default async function StudentTimetable({ searchParams }: { searchParams:
                  className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
                    selectedClass === '10' 
                      ? 'bg-[#2FA8CC] text-white shadow-lg shadow-[#2FA8CC]/20' 
-                     : 'text-slate-300 hover:text-white'
+                     : 'text-muted-foreground hover:text-white'
                  }`}
                >
                  Std 10

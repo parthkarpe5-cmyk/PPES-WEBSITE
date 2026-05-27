@@ -16,7 +16,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 shrink-0" />
+      <div className="w-9 h-9 rounded-xl bg-card border border-border shrink-0" />
     )
   }
 
@@ -26,7 +26,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative w-9 h-9 rounded-xl overflow-hidden bg-white/5 dark:bg-white/[0.03] border border-black/5 dark:border-white/5 text-slate-700 dark:text-slate-200 hover:text-sky dark:hover:text-sky flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+      className="relative w-9 h-9 rounded-xl overflow-hidden bg-card  border border-black/5  text-slate-700 dark:text-slate-200 hover:text-sky dark:hover:text-sky flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
       aria-label="Toggle visual theme"
     >
       <AnimatePresence mode="wait" initial={false}>

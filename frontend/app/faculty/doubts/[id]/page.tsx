@@ -146,8 +146,8 @@ export default function FacultyChatPage() {
       <div className="h-screen bg-[#0A0F1C] flex flex-col items-center justify-center p-6 text-center">
         <div className="bg-red-500/10 p-8 rounded-[2.5rem] border border-red-500/20 max-w-sm">
            <Info className="text-red-500 mx-auto mb-4" size={48} />
-           <h3 className="text-xl font-bold text-white mb-2 text-center">Unauthorized</h3>
-           <p className="text-slate-400 mb-6 text-center">This doubt is not assigned to you or has been removed.</p>
+           <h3 className="text-xl font-bold text-foreground mb-2 text-center">Unauthorized</h3>
+           <p className="text-muted-foreground mb-6 text-center">This doubt is not assigned to you or has been removed.</p>
            <button onClick={() => router.push('/faculty/doubts')} className="w-full bg-saffron text-white py-3 rounded-xl font-bold shadow-lg shadow-saffron/20">Go Back</button>
         </div>
       </div>
@@ -157,11 +157,11 @@ export default function FacultyChatPage() {
   return (
     <div className="h-screen bg-[#050810] flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="bg-[#0A0F1C]/80 backdrop-blur-xl border-b border-white/5 p-4 flex items-center justify-between z-10">
+      <header className="bg-[#0A0F1C]/80 backdrop-blur-xl border-b border-border p-4 flex items-center justify-between z-10">
         <div className="flex items-center gap-4">
           <button 
             onClick={() => router.push('/faculty/doubts')}
-            className="p-2 hover:bg-white/5 rounded-full text-slate-400 transition-colors"
+            className="p-2 hover:bg-white/5 rounded-full text-muted-foreground transition-colors"
           >
             <ChevronLeft size={24} />
           </button>
@@ -171,7 +171,7 @@ export default function FacultyChatPage() {
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <h1 className="text-white font-bold text-base leading-none">{doubt.title}</h1>
+                <h1 className="text-foreground font-bold text-base leading-none">{doubt.title}</h1>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-saffron text-[10px] uppercase tracking-widest font-black">{doubt.subject_id}</span>
@@ -203,7 +203,7 @@ export default function FacultyChatPage() {
             <div key={msg._id} className="flex flex-col">
               {showDate && (
                 <div className="flex justify-center my-8">
-                  <span className="bg-white/5 backdrop-blur-xl text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full border border-white/5 shadow-2xl">
+                  <span className="bg-card backdrop-blur-xl text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full border border-border shadow-2xl">
                     {new Date(msg.created_at).toLocaleDateString([], { month: 'long', day: 'numeric' })}
                   </span>
                 </div>
@@ -219,7 +219,7 @@ export default function FacultyChatPage() {
                     p-5 rounded-[2rem] shadow-2xl
                     ${isMe 
                       ? 'bg-saffron text-white rounded-tr-none shadow-saffron/20' 
-                      : 'bg-[#0F172A]/80 backdrop-blur-xl text-white border border-white/10 rounded-tl-none'}
+                      : 'bg-[#0F172A]/80 backdrop-blur-xl text-white border border-border rounded-tl-none'}
                   `}>
                     {!isMe && (
                       <div className="flex items-center gap-2 mb-2">
@@ -238,7 +238,7 @@ export default function FacultyChatPage() {
                           setSelectedImage(`http://localhost:5000${msg.image_url}`);
                           setZoomScale(1);
                         }}
-                        className="mb-3 rounded-[1.25rem] overflow-hidden border border-white/10 shadow-lg group-hover:scale-[1.02] transition-transform cursor-pointer"
+                        className="mb-3 rounded-[1.25rem] overflow-hidden border border-border shadow-lg group-hover:scale-[1.02] transition-transform cursor-pointer"
                       >
                         <img 
                           src={`http://localhost:5000${msg.image_url}`} 
@@ -266,7 +266,7 @@ export default function FacultyChatPage() {
       </div>
 
       {/* Input Area */}
-      <footer className="bg-[#0A0F1C] border-t border-white/5 p-6 md:p-8">
+      <footer className="bg-[#0A0F1C] border-t border-border p-6 md:p-8">
         <div className="max-w-4xl mx-auto relative">
           <AnimatePresence>
             {imagePreview && (
@@ -274,7 +274,7 @@ export default function FacultyChatPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="absolute bottom-full mb-6 left-0 bg-[#0F172A] backdrop-blur-2xl p-3 rounded-[2rem] border border-white/10 shadow-2xl"
+                className="absolute bottom-full mb-6 left-0 bg-[#0F172A] backdrop-blur-2xl p-3 rounded-[2rem] border border-border shadow-2xl"
               >
                 <div className="relative">
                   <img src={imagePreview} alt="Preview" className="h-40 w-auto rounded-[1.5rem] object-cover" />
@@ -289,8 +289,8 @@ export default function FacultyChatPage() {
             )}
           </AnimatePresence>
 
-          <form onSubmit={handleSendMessage} className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-[2.5rem] p-2 pl-6 pr-2 focus-within:border-saffron/50 focus-within:bg-white/[0.08] transition-all shadow-2xl">
-            <label className="cursor-pointer p-3 text-slate-400 hover:text-saffron transition-colors">
+          <form onSubmit={handleSendMessage} className="flex items-center gap-4 bg-card border border-border rounded-[2.5rem] p-2 pl-6 pr-2 focus-within:border-saffron/50 focus-within:bg-white/[0.08] transition-all shadow-2xl">
+            <label className="cursor-pointer p-3 text-muted-foreground hover:text-saffron transition-colors">
               <ImageIcon size={24} />
               <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
             </label>
@@ -299,7 +299,7 @@ export default function FacultyChatPage() {
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               placeholder="Respond to student..."
-              className="flex-1 bg-transparent border-none focus:ring-0 text-white text-base py-4 resize-none max-h-32 scrollbar-hide"
+              className="flex-1 bg-transparent border-none focus:ring-0 text-foreground text-base py-4 resize-none max-h-32 scrollbar-hide"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -337,8 +337,8 @@ export default function FacultyChatPage() {
                   {doubt.subject_id[0]}
                 </div>
                 <div>
-                  <p className="text-white font-bold text-sm">{doubt.title}</p>
-                  <p className="text-slate-400 text-[10px] uppercase tracking-widest font-bold">Faculty Review Mode</p>
+                  <p className="text-foreground font-bold text-sm">{doubt.title}</p>
+                  <p className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">Faculty Review Mode</p>
                 </div>
               </div>
               <button 
@@ -368,21 +368,21 @@ export default function FacultyChatPage() {
             </div>
 
             {/* Bottom Controls */}
-            <div className="absolute bottom-10 flex items-center gap-2 bg-black/40 backdrop-blur-2xl p-2 rounded-[2rem] border border-white/10 z-[110]">
+            <div className="absolute bottom-10 flex items-center gap-2 bg-black/40 backdrop-blur-2xl p-2 rounded-[2rem] border border-border z-[110]">
               <button 
                 onClick={(e) => { e.stopPropagation(); setZoomScale(prev => Math.max(0.5, prev - 0.25)); }}
-                className="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded-full text-white transition-all"
+                className="w-10 h-10 flex items-center justify-center bg-card hover:bg-white/10 rounded-full text-foreground transition-all"
               >
                 -
               </button>
-              <div className="px-4 py-2 bg-white/5 rounded-full min-w-[80px] text-center">
-                <span className="text-white text-[10px] font-black uppercase tracking-widest">
+              <div className="px-4 py-2 bg-card rounded-full min-w-[80px] text-center">
+                <span className="text-foreground text-[10px] font-black uppercase tracking-widest">
                   {Math.round(zoomScale * 100)}%
                 </span>
               </div>
               <button 
                 onClick={(e) => { e.stopPropagation(); setZoomScale(prev => Math.min(5, Math.max(0.5, prev + 0.25))); }}
-                className="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded-full text-white transition-all"
+                className="w-10 h-10 flex items-center justify-center bg-card hover:bg-white/10 rounded-full text-foreground transition-all"
               >
                 +
               </button>

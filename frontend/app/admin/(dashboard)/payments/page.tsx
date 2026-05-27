@@ -89,11 +89,11 @@ export default function AdminPaymentsPage() {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3 font-display">
+          <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-3 font-display">
             <CreditCard className="text-[#2FA8CC] h-8 w-8" />
             Payments Hub
           </h1>
-          <p className="text-slate-400 text-sm mt-1">Monitor course transactions and generate invoice copies.</p>
+          <p className="text-muted-foreground text-sm mt-1">Monitor course transactions and generate invoice copies.</p>
         </div>
       </div>
 
@@ -106,13 +106,13 @@ export default function AdminPaymentsPage() {
             placeholder="Search by student, course, or transaction ID..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-12 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#2FA8CC]/50 focus:bg-white/10 transition-all"
+            className="w-full h-12 bg-card border border-border rounded-2xl pl-12 pr-4 text-foreground placeholder:text-slate-500 focus:outline-none focus:border-[#2FA8CC]/50 focus:bg-white/10 transition-all"
           />
         </div>
         <div className="bg-[#2FA8CC]/10 border border-[#2FA8CC]/20 rounded-2xl p-4 flex items-center justify-between">
             <div>
                 <p className="text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest">Total Revenue</p>
-                <h3 className="text-2xl font-black text-white mt-1">
+                <h3 className="text-2xl font-black text-foreground mt-1">
                     ₹{payments.reduce((acc, curr) => acc + (curr.amount || 0), 0).toLocaleString()}
                 </h3>
             </div>
@@ -123,7 +123,7 @@ export default function AdminPaymentsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden backdrop-blur-xl relative">
+      <div className="bg-card border border-border rounded-3xl overflow-hidden backdrop-blur-xl relative">
         <div className="overflow-x-auto custom-scrollbar">
           {loading ? (
             <div className="flex justify-center p-12">
@@ -132,11 +132,11 @@ export default function AdminPaymentsPage() {
           ) : filteredPayments.length === 0 ? (
             <div className="text-center py-16">
               <CreditCard className="h-12 w-12 text-slate-600 mx-auto mb-4 opacity-50" />
-              <p className="text-slate-400 font-bold text-lg">No transactions found</p>
+              <p className="text-muted-foreground font-bold text-lg">No transactions found</p>
             </div>
           ) : (
             <table className="w-full text-left">
-              <thead className="bg-black/20 border-b border-white/5">
+              <thead className="bg-black/20 border-b border-border">
                 <tr>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Date</th>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Student</th>
@@ -150,18 +150,18 @@ export default function AdminPaymentsPage() {
                 {filteredPayments.map((p) => (
                   <tr key={p._id} className="hover:bg-white/[0.02] transition-colors group">
                     <td className="px-6 py-4">
-                      <span className="text-xs text-slate-300 block">{new Date(p.createdAt).toLocaleDateString()}</span>
+                      <span className="text-xs text-muted-foreground block">{new Date(p.createdAt).toLocaleDateString()}</span>
                       <span className="text-[10px] text-slate-500">{new Date(p.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-sm font-bold text-white block">{p.studentDetails?.name || 'Unknown'}</span>
+                      <span className="text-sm font-bold text-foreground block">{p.studentDetails?.name || 'Unknown'}</span>
                       <span className="text-[10px] text-[#2FA8CC] uppercase tracking-wider font-bold">{p.studentDetails?.usn || p.studentId}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-sm text-slate-300 block">{p.courseId?.course_name || 'N/A'}</span>
+                      <span className="text-sm text-muted-foreground block">{p.courseId?.course_name || 'N/A'}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-sm font-black text-white">₹{p.amount}</span>
+                      <span className="text-sm font-black text-foreground">₹{p.amount}</span>
                     </td>
                     <td className="px-6 py-4">
                       {p.status === 'success' ? (
@@ -177,7 +177,7 @@ export default function AdminPaymentsPage() {
                     <td className="px-6 py-4 text-right">
                       <button 
                         onClick={() => downloadInvoice(p)}
-                        className="h-8 px-3 rounded-lg bg-white/5 hover:bg-[#2FA8CC]/20 text-slate-300 hover:text-[#2FA8CC] border border-white/10 hover:border-[#2FA8CC]/50 transition-all flex items-center gap-2 text-xs font-bold ml-auto"
+                        className="h-8 px-3 rounded-lg bg-card hover:bg-[#2FA8CC]/20 text-muted-foreground hover:text-[#2FA8CC] border border-border hover:border-[#2FA8CC]/50 transition-all flex items-center gap-2 text-xs font-bold ml-auto"
                       >
                         <Download className="h-3.5 w-3.5" />
                         Invoice

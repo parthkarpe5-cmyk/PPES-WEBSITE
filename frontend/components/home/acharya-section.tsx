@@ -39,7 +39,7 @@ function HighlightCard({ item, index }: { item: (typeof highlights)[0]; index: n
     <div
       ref={ref}
       style={{ transitionDelay: `${index * 120}ms` }}
-      className={`group relative rounded-3xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm transition-all duration-700 hover:border-gold/40 hover:bg-white/10 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gold/10 ${visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+      className={`group relative rounded-3xl border border-border bg-card p-8 text-center backdrop-blur-sm transition-all duration-700 hover:border-gold/40 hover:bg-white/10 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gold/10 ${visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
     >
       {/* Gold shimmer border on hover */}
       <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -49,7 +49,7 @@ function HighlightCard({ item, index }: { item: (typeof highlights)[0]; index: n
       <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gold/15 ring-1 ring-gold/20 transition-transform duration-300 group-hover:scale-110">
         <item.icon className="h-7 w-7 text-gold" />
       </div>
-      <h3 className="relative mt-6 text-lg font-bold text-white font-display">
+      <h3 className="relative mt-6 text-lg font-bold text-foreground font-display">
         {item.title}
       </h3>
       <div className="mx-auto mt-3 h-px w-8 bg-gold/30 rounded-full transition-all group-hover:w-16 group-hover:bg-gold/60" />
@@ -97,7 +97,7 @@ export function AcharyaSection() {
         >
           <span className="section-label text-gold">Faculty</span>
           <h2
-            className="mt-3 text-balance text-4xl font-bold tracking-tight text-white md:text-5xl font-display"
+            className="mt-3 text-balance text-4xl font-bold tracking-tight text-foreground md:text-5xl font-display"
           >
             Acharya Mandal{" "}
             <span className="shimmer-text">— The Mentor Circle</span>

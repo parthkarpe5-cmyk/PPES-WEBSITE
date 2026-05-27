@@ -18,7 +18,7 @@ const LiveSessionPage = () => {
 
   if (!isLoaded || isCallLoading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-slate-900">
+      <div className="flex h-screen w-full items-center justify-center bg-card">
         <Loader2 className="animate-spin text-primary" size={48} />
       </div>
     );
@@ -28,7 +28,7 @@ const LiveSessionPage = () => {
     <div className="flex h-screen w-full flex-col items-center justify-center bg-[#050810] text-white p-6 relative overflow-hidden">
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-sky/20 rounded-full blur-[120px]" />
       
-      <div className="relative z-10 text-center max-w-md w-full p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-2xl">
+      <div className="relative z-10 text-center max-w-md w-full p-10 rounded-[2.5rem] bg-card border border-border backdrop-blur-2xl shadow-2xl">
         <div className="w-16 h-16 bg-sky/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-sky/20">
           <Loader2 className="text-sky" size={32} />
         </div>
@@ -47,9 +47,9 @@ const LiveSessionPage = () => {
   );
 
   if (!call) return (
-    <div className="flex h-screen w-full items-center justify-center bg-slate-900 text-white flex-col gap-4">
+    <div className="flex h-screen w-full items-center justify-center bg-card text-foreground flex-col gap-4">
        <p className="text-2xl font-bold">Classroom Not Found</p>
-       <p className="text-slate-400">The session ID "{id}" is invalid or the meeting has ended.</p>
+       <p className="text-muted-foreground">The session ID "{id}" is invalid or the meeting has ended.</p>
     </div>
   );
 

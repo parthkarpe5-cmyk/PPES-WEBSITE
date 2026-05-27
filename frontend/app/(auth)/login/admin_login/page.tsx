@@ -20,10 +20,10 @@ export default async function AdminLoginPage() {
       {/* Reddish/Indigo Glow for Admin to signify high priority */}
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-900/10 dark:bg-indigo-900/30 rounded-full blur-[120px] animate-pulse-slow" />
       
-      <div className="relative z-10 w-full max-w-[440px] bg-white dark:bg-[#090d16]/80 backdrop-blur-2xl border border-slate-200 dark:border-white/10 p-10 rounded-[2.5rem] shadow-2xl transition-all duration-300">
+      <div className="relative z-10 w-full max-w-[440px] bg-white dark:bg-[#090d16]/80 backdrop-blur-2xl border border-slate-200  p-10 rounded-[2.5rem] shadow-2xl transition-all duration-300">
         <div className="flex justify-center mb-6">
-          <div className="h-12 w-12 bg-slate-800 dark:bg-slate-900 rounded-xl flex items-center justify-center border border-slate-200 dark:border-white/20">
-             <span className="text-white font-bold text-2xl">A</span>
+          <div className="h-12 w-12 bg-slate-800 dark:bg-slate-900 rounded-xl flex items-center justify-center border border-slate-200 ">
+             <span className="text-foreground font-bold text-2xl">A</span>
           </div>
         </div>
 

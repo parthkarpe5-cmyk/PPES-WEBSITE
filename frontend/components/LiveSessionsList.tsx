@@ -62,13 +62,13 @@ export const LiveSessionsList = () => {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="text-center p-12 bg-white/[0.03] rounded-[2.5rem] border border-white/5 backdrop-blur-sm"
+        className="text-center p-12 bg-card rounded-[2.5rem] border border-border backdrop-blur-sm"
       >
-        <div className="h-16 w-16 rounded-full bg-slate-900 flex items-center justify-center mx-auto mb-6 border border-white/5">
+        <div className="h-16 w-16 rounded-full bg-card flex items-center justify-center mx-auto mb-6 border border-border">
           <VideoOff className="h-8 w-8 text-slate-500" />
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">No active sessions</h3>
-        <p className="text-slate-400 text-sm max-w-xs mx-auto">There are no live classes happening right now. Check your schedule for upcoming sessions.</p>
+        <h3 className="text-xl font-bold text-foreground mb-2">No active sessions</h3>
+        <p className="text-muted-foreground text-sm max-w-xs mx-auto">There are no live classes happening right now. Check your schedule for upcoming sessions.</p>
       </motion.div>
     );
   }
@@ -88,11 +88,11 @@ export const LiveSessionsList = () => {
             {/* Border gradient effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-sky/40 via-saffron/40 to-sky/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
-            <div className="relative bg-[#121826] rounded-[2rem] p-6 md:p-8 backdrop-blur-xl border border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="relative bg-[#121826] rounded-[2rem] p-6 md:p-8 backdrop-blur-xl border border-border flex flex-col md:flex-row md:items-center justify-between gap-8">
               <div className="flex items-start md:items-center gap-6">
                 <div className="relative shrink-0">
                   <div className="h-16 w-16 rounded-2xl bg-sky flex items-center justify-center shadow-[0_0_25px_rgba(47,168,204,0.4)] group-hover:scale-110 transition-transform duration-500">
-                    <Play className="h-8 w-8 text-white fill-current translate-x-0.5" />
+                    <Play className="h-8 w-8 text-foreground fill-current translate-x-0.5" />
                   </div>
                   <div className="absolute -top-2 -right-2 h-6 w-6 bg-[#FF6B00] rounded-full border-4 border-[#121826] animate-pulse" />
                 </div>
@@ -112,10 +112,10 @@ export const LiveSessionsList = () => {
                     <div className="h-1 w-1 rounded-full bg-slate-700" />
                     <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Public Session</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-white group-hover:text-sky transition-colors tracking-tight font-display">
+                  <h3 className="text-2xl font-bold text-foreground group-hover:text-sky transition-colors tracking-tight font-display">
                     {session.title}
                   </h3>
-                  <p className="text-slate-400 text-sm max-w-md leading-relaxed">
+                  <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
                     Join Dr. Karpe and your classmates for an engaging live lesson on advanced topics.
                   </p>
                 </div>

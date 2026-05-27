@@ -25,7 +25,7 @@ const RoleCard = ({
       {/* Dynamic border gradient */}
       <div className="relative overflow-hidden rounded-[1.25rem] p-px bg-gradient-to-b from-slate-200 to-transparent dark:from-white/20 dark:to-transparent shadow-2xl transition-all duration-500 hover:scale-[1.02] active:scale-95">
         {/* Theme Adaptive Card Background */}
-        <div className="relative h-full rounded-[1.25rem] p-8 flex flex-col items-center text-center backdrop-blur-xl border border-sky/10 dark:border-white/5 bg-white/85 dark:bg-white/[0.02] hover:bg-white/95 dark:hover:bg-white/[0.05] dark:hover:border-sky/30 transition-all duration-500">
+        <div className="relative h-full rounded-[1.25rem] p-8 flex flex-col items-center text-center backdrop-blur-xl border border-sky/10  bg-white/85  hover:bg-white/95 dark:hover:bg-white/[0.05] dark:hover:border-sky/30 transition-all duration-500">
           
           {/* Icon Container */}
           <div className="relative mb-6">
@@ -72,7 +72,7 @@ export default function RoleSelectionPage() {
       {/* Dynamic Background Elements */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-sky/10 dark:bg-sky/5 blur-[120px] rounded-full animate-pulse-slow" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-saffron/10 dark:bg-saffron/5 blur-[120px] rounded-full animate-pulse-slow" style={{ animationDelay: "1s" }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-white/40 dark:bg-white/5 blur-[100px] rounded-full" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-white/40  blur-[100px] rounded-full" />
 
       {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] dark:opacity-[0.015] pointer-events-none" />
@@ -81,11 +81,11 @@ export default function RoleSelectionPage() {
       <div className="relative z-10 w-full max-w-6xl flex flex-col items-center">
         {/* Header Section */}
         <header className="text-center mb-16 animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 dark:bg-white/5 border border-sky/10 text-sky text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60  border border-sky/10 text-sky text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-sky animate-pulse" />
             Educational Gateway
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold font-display text-slate-900 dark:text-white mb-4 tracking-tighter">
+          <h1 className="text-5xl md:text-7xl font-bold font-display text-foreground mb-4 tracking-tighter">
             Prarambha <span className="text-sky underline decoration-sky/20 underline-offset-8">Path</span>
           </h1>
           <p className="text-slate-600 dark:text-slate-400 text-lg md:text-xl max-w-lg mx-auto font-medium">

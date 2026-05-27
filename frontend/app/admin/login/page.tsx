@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-sky to-deep-blue text-white shadow-2xl animate-float">
             <School className="h-8 w-8" />
           </div>
-          <h2 className="mt-8 text-4xl font-bold tracking-tight text-white font-display">
+          <h2 className="mt-8 text-4xl font-bold tracking-tight text-foreground font-display">
             Admin Portal
           </h2>
           <p className="mt-2 text-sky/80 font-medium font-display uppercase tracking-widest text-xs">
@@ -57,10 +57,10 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        <Card className="border-white/10 shadow-2xl bg-white/5 backdrop-blur-xl">
+        <Card className="border-border shadow-2xl bg-card backdrop-blur-xl">
           <form onSubmit={handleLogin}>
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-semibold text-white">Sign In</CardTitle>
+              <CardTitle className="text-2xl font-semibold text-foreground">Sign In</CardTitle>
               <CardDescription className="text-white/60">
                 Use <span className="text-sky font-medium">admin@ppes.com</span> to log in
               </CardDescription>
@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="admin@ppes.com" 
-                    className="h-12 pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/20 focus:border-sky/50 focus:ring-sky/20 transition-all" 
+                    className="h-12 pl-10 bg-card border-border text-foreground placeholder:text-white/20 focus:border-sky/50 focus:ring-sky/20 transition-all" 
                   />
                 </div>
               </div>
@@ -96,7 +96,7 @@ export default function AdminLoginPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-12 pl-10 bg-white/5 border-white/10 text-white focus:border-sky/50 focus:ring-sky/20 transition-all" 
+                    className="h-12 pl-10 bg-card border-border text-foreground focus:border-sky/50 focus:ring-sky/20 transition-all" 
                   />
                 </div>
               </div>

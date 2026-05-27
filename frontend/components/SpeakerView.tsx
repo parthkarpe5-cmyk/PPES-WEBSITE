@@ -32,7 +32,7 @@ export const SpeakerView = ({ participants, layout }: SpeakerViewProps) => {
     )}>
       {/* Main Speaker View (70-80%) */}
       <div className={cn(
-        "flex-1 relative rounded-2xl md:rounded-3xl overflow-hidden bg-slate-900 shadow-2xl border border-white/5 group",
+        "flex-1 relative rounded-2xl md:rounded-3xl overflow-hidden bg-card shadow-2xl border border-border group",
         "transition-all duration-500 ease-in-out"
       )}>
         <ParticipantView 
@@ -41,17 +41,17 @@ export const SpeakerView = ({ participants, layout }: SpeakerViewProps) => {
         />
         
         {/* Overlay for Main Speaker Info */}
-        <div className="absolute bottom-3 left-3 md:bottom-6 md:left-6 z-10 flex items-center gap-2 md:gap-3 px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl bg-black/40 backdrop-blur-md border border-white/10">
+        <div className="absolute bottom-3 left-3 md:bottom-6 md:left-6 z-10 flex items-center gap-2 md:gap-3 px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl bg-black/40 backdrop-blur-md border border-border">
           <div className={cn(
             "w-2 h-2 md:w-2.5 md:h-2.5 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]",
             mainParticipant.isSpeaking ? "bg-green-500 animate-pulse" : "bg-slate-400"
           )} />
           <div className="flex flex-col">
-            <span className="text-[10px] md:text-xs font-bold text-white tracking-wide">
+            <span className="text-[10px] md:text-xs font-bold text-foreground tracking-wide">
               {mainParticipant.name || mainParticipant.userId}
               {mainParticipant.isLocalParticipant && " (You)"}
             </span>
-            <span className="text-[8px] md:text-[10px] text-slate-400 font-medium uppercase tracking-widest">Active Speaker</span>
+            <span className="text-[8px] md:text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Active Speaker</span>
           </div>
           {!!mainParticipant.pin && (
             <Pin size={12} className="text-sky ml-1 md:ml-2 fill-sky md:w-[14px]" />
@@ -60,7 +60,7 @@ export const SpeakerView = ({ participants, layout }: SpeakerViewProps) => {
 
         {/* Action buttons on hover */}
         <div className="absolute top-4 right-4 md:top-6 md:right-6 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
-          <button className="p-1.5 md:p-2 rounded-lg md:rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-white hover:bg-white/10">
+          <button className="p-1.5 md:p-2 rounded-lg md:rounded-xl bg-black/40 backdrop-blur-md border border-border text-foreground hover:bg-white/10">
             <Maximize2 size={16} className="md:w-[18px]" />
           </button>
         </div>
@@ -83,7 +83,7 @@ export const SpeakerView = ({ participants, layout }: SpeakerViewProps) => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className={cn(
-                "relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-white/5 group flex-shrink-0 cursor-pointer hover:ring-2 hover:ring-sky/50 transition-all",
+                "relative aspect-video rounded-2xl overflow-hidden bg-card border border-border group flex-shrink-0 cursor-pointer hover:ring-2 hover:ring-sky/50 transition-all",
                 layout === 'speaker-bottom' ? "h-full" : "w-full"
               )}
               onClick={async () => {
@@ -99,12 +99,12 @@ export const SpeakerView = ({ participants, layout }: SpeakerViewProps) => {
                 className="w-full h-full"
               />
               
-              <div className="absolute bottom-2 left-2 right-2 z-10 flex items-center gap-2 px-2 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute bottom-2 left-2 right-2 z-10 flex items-center gap-2 px-2 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-border opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className={cn(
                   "w-1.5 h-1.5 rounded-full",
                   participant.isSpeaking ? "bg-green-500 animate-pulse" : "bg-slate-400"
                 )} />
-                <span className="text-[10px] font-medium text-white truncate">
+                <span className="text-[10px] font-medium text-foreground truncate">
                   {participant.name || participant.userId}
                 </span>
               </div>
@@ -114,7 +114,7 @@ export const SpeakerView = ({ participants, layout }: SpeakerViewProps) => {
 
         {otherParticipants.length === 0 && (
           <div className={cn(
-            "flex items-center justify-center border border-dashed border-white/10 rounded-2xl text-slate-500 text-xs",
+            "flex items-center justify-center border border-dashed border-border rounded-2xl text-slate-500 text-xs",
             layout === 'speaker-bottom' ? "w-48 h-full" : "w-full h-32"
           )}>
             No others

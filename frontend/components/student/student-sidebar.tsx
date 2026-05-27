@@ -164,7 +164,7 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                   size="lg"
                   className="w-full hover:bg-white/5 transition-colors rounded-xl p-2"
                 >
-                  <Avatar className="h-8 w-8 border border-white/10">
+                  <Avatar className="h-8 w-8 border border-border">
                     <AvatarImage src={getMediaUrl(user?.image) || ''} alt={user?.name || 'Student'} />
                     <AvatarFallback className="bg-[#2FA8CC] text-white">
                       {(user?.name || 'Student')
@@ -183,7 +183,7 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-56 bg-[#0A101F]/90 backdrop-blur-xl border-white/10 text-white rounded-xl"
+                className="w-56  backdrop-blur-xl border-border text-foreground rounded-xl"
                 side="top"
                 align="end"
                 sideOffset={12}

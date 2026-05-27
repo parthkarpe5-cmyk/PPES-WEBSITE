@@ -188,26 +188,26 @@ function ReviewPageInner() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#050B14]">
         <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
-        <p className="text-white font-bold">Test not found</p>
+        <p className="text-foreground font-bold">Test not found</p>
         <button onClick={() => router.push('/faculty/tests')} className="mt-4 text-[#2FA8CC] text-sm underline">← Back to Tests</button>
       </div>
     );
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-8 bg-[#050B14] min-h-screen text-slate-200 animate-in fade-in duration-500">
+    <div className="p-6 lg:p-8 space-y-8 bg-[#050B14] min-h-screen text-foreground animate-in fade-in duration-500">
 
       {/* Header */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-6 md:p-8 shadow-2xl border border-white/5">
+      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-6 md:p-8 shadow-2xl border border-border">
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF6B00]/10 text-[#FF6B00] text-[10px] font-bold uppercase tracking-widest border border-[#FF6B00]/20">
               Manual Grading
             </span>
-            <h1 className="text-3xl font-black tracking-tight text-white mt-2">
+            <h1 className="text-3xl font-black tracking-tight text-foreground mt-2">
               Review <span className="text-[#2FA8CC]">Submissions</span>
             </h1>
-            <p className="text-slate-400 text-xs mt-1 max-w-xl">{test.title}</p>
+            <p className="text-muted-foreground text-xs mt-1 max-w-xl">{test.title}</p>
           </div>
           <div className="flex items-center gap-6">
             <div className="text-center">
@@ -221,7 +221,7 @@ function ReviewPageInner() {
             <Button
               onClick={() => router.push('/faculty/tests')}
               variant="outline"
-              className="border-white/10 hover:bg-white/5 text-slate-300 rounded-xl h-11"
+              className="border-border hover:bg-white/5 text-muted-foreground rounded-xl h-11"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back
@@ -233,11 +233,11 @@ function ReviewPageInner() {
 
       {/* Manual Questions Reference */}
       {getManualQuestions().length > 0 && (
-        <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 space-y-3">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Questions Requiring Manual Grading</h3>
+        <div className="bg-card border border-border rounded-3xl p-6 space-y-3">
+          <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Questions Requiring Manual Grading</h3>
           <div className="space-y-2">
             {getManualQuestions().map((q, idx) => (
-              <div key={q._id} className="flex items-start gap-3 p-3 bg-white/[0.02] rounded-2xl border border-white/5">
+              <div key={q._id} className="flex items-start gap-3 p-3 bg-card rounded-2xl border border-border">
                 <div className={`h-8 w-8 rounded-xl flex items-center justify-center shrink-0 ${q.type === 'CODING' ? 'bg-purple-500/10 text-purple-400' : 'bg-blue-500/10 text-blue-400'}`}>
                   {q.type === 'CODING' ? <Code className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
                 </div>
@@ -248,7 +248,7 @@ function ReviewPageInner() {
                     </Badge>
                     <span className="text-[10px] text-[#FF6B00] font-bold">Max: {q.points} pts</span>
                   </div>
-                  <p className="text-sm text-slate-300 line-clamp-2">{q.text}</p>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{q.text}</p>
                 </div>
               </div>
             ))}
@@ -258,9 +258,9 @@ function ReviewPageInner() {
 
       {/* No submissions state */}
       {attempts.length === 0 && (
-        <div className="text-center py-24 bg-white/[0.02] border border-white/5 rounded-3xl">
+        <div className="text-center py-24 bg-card border border-border rounded-3xl">
           <BookOpen className="h-12 w-12 text-slate-600 mx-auto mb-4" />
-          <p className="text-slate-300 font-bold text-lg">No Submissions Yet</p>
+          <p className="text-muted-foreground font-bold text-lg">No Submissions Yet</p>
           <p className="text-slate-500 text-xs mt-1">Students haven't submitted this test yet.</p>
         </div>
       )}
@@ -268,7 +268,7 @@ function ReviewPageInner() {
       {/* Pending Review Attempts */}
       {pendingAttempts.length > 0 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+          <h2 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-[#FF6B00] animate-pulse" />
             Pending Review
             <span className="px-2 py-0.5 rounded-lg bg-[#FF6B00]/10 text-[#FF6B00] text-xs font-bold">{pendingAttempts.length}</span>
@@ -280,7 +280,7 @@ function ReviewPageInner() {
             const manualQs = getManualQuestions();
 
             return (
-              <div key={attempt._id} className="bg-white/[0.02] border border-[#FF6B00]/20 rounded-[2rem] overflow-hidden shadow-xl">
+              <div key={attempt._id} className="bg-card border border-[#FF6B00]/20 rounded-[2rem] overflow-hidden shadow-xl">
 
                 {/* Attempt Header — click to expand */}
                 <button
@@ -292,29 +292,29 @@ function ReviewPageInner() {
                       <User className="h-5 w-5 text-[#FF6B00]" />
                     </div>
                     <div>
-                      <p className="text-white font-bold">{attempt.student.name}</p>
+                      <p className="text-foreground font-bold">{attempt.student.name}</p>
                       <p className="text-slate-500 text-xs font-mono">{attempt.student.usn}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
                     <div className="text-right hidden sm:block">
                       <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Auto Score</p>
-                      <p className="text-white font-bold text-sm">{attempt.score} / {attempt.maxScore} pts</p>
+                      <p className="text-foreground font-bold text-sm">{attempt.score} / {attempt.maxScore} pts</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge variant="outline" className="bg-[#FF6B00]/10 text-[#FF6B00] border-[#FF6B00]/30 text-[9px] font-bold">
                         Pending Review
                       </Badge>
                       {isExpanded
-                        ? <ChevronUp className="h-4 w-4 text-slate-400" />
-                        : <ChevronDown className="h-4 w-4 text-slate-400" />}
+                        ? <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                        : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
                     </div>
                   </div>
                 </button>
 
                 {/* Expanded grading panel */}
                 {isExpanded && (
-                  <div className="border-t border-white/5 p-6 space-y-6">
+                  <div className="border-t border-border p-6 space-y-6">
 
                     {/* Show MCQ/Multi-select answers (read-only context) */}
                     {test.questions
@@ -328,7 +328,7 @@ function ReviewPageInner() {
                             JSON.stringify([...(Array.isArray(q.correctAnswer) ? q.correctAnswer : [])].sort());
 
                         return (
-                          <div key={q._id} className="p-4 bg-white/[0.01] rounded-2xl border border-white/5 space-y-2">
+                          <div key={q._id} className="p-4 bg-white/[0.01] rounded-2xl border border-border space-y-2">
                             <div className="flex items-center gap-2">
                               <Badge variant="outline" className="bg-[#2FA8CC]/10 text-[#2FA8CC] border-[#2FA8CC]/20 text-[9px] font-bold">{q.type}</Badge>
                               <span className="text-[10px] text-slate-500 font-bold">{q.points} pts — auto-graded</span>
@@ -336,7 +336,7 @@ function ReviewPageInner() {
                                 ? <CheckCircle2 className="h-4 w-4 text-green-400 ml-auto" />
                                 : <AlertCircle className="h-4 w-4 text-red-400 ml-auto" />}
                             </div>
-                            <p className="text-sm text-slate-300">{q.text}</p>
+                            <p className="text-sm text-muted-foreground">{q.text}</p>
                             <div className="flex flex-wrap gap-2 mt-1">
                               {(q.options || []).map((opt, i) => {
                                 const isStuAns = q.type === 'MCQ' ? studentVal === opt : Array.isArray(studentVal) && studentVal.includes(opt);
@@ -345,7 +345,7 @@ function ReviewPageInner() {
                                   <span key={i} className={`text-xs px-3 py-1 rounded-lg font-medium border ${
                                     isCorrectOpt ? 'border-green-500/40 bg-green-500/10 text-green-300' :
                                     isStuAns ? 'border-red-500/40 bg-red-500/10 text-red-300' :
-                                    'border-white/5 bg-white/[0.02] text-slate-400'
+                                    'border-border bg-card text-muted-foreground'
                                   }`}>{opt}</span>
                                 );
                               })}
@@ -368,12 +368,12 @@ function ReviewPageInner() {
                             <span className="text-[10px] text-[#FF6B00] font-bold ml-auto">Max: {q.points} pts</span>
                           </div>
 
-                          <p className="text-sm text-white font-medium">{q.text}</p>
+                          <p className="text-sm text-foreground font-medium">{q.text}</p>
 
                           {/* Student's answer */}
                           <div className="space-y-1">
                             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Student's Answer</p>
-                            <div className={`p-4 rounded-xl border border-white/5 bg-black/30 min-h-[80px] ${q.type === 'CODING' ? 'font-mono text-xs text-green-300' : 'text-sm text-slate-300'}`}>
+                            <div className={`p-4 rounded-xl border border-border bg-black/30 min-h-[80px] ${q.type === 'CODING' ? 'font-mono text-xs text-green-300' : 'text-sm text-muted-foreground'}`}>
                               {answer?.value
                                 ? String(answer.value)
                                 : <span className="text-slate-600 italic">No answer submitted.</span>}
@@ -383,7 +383,7 @@ function ReviewPageInner() {
                           {/* Mark input */}
                           <div className="flex items-center gap-4">
                             <div className="space-y-1 flex-1">
-                              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                                 Awarded Marks (0 – {q.points})
                               </label>
                               <input
@@ -394,7 +394,7 @@ function ReviewPageInner() {
                                 value={currentMark}
                                 onChange={e => setMark(attempt._id, q._id, e.target.value)}
                                 placeholder={`0 – ${q.points}`}
-                                className="w-full h-12 bg-white/5 border border-[#FF6B00]/30 focus:border-[#FF6B00] rounded-xl px-4 text-sm text-white font-bold outline-none transition-all"
+                                className="w-full h-12 bg-card border border-[#FF6B00]/30 focus:border-[#FF6B00] rounded-xl px-4 text-sm text-foreground font-bold outline-none transition-all"
                               />
                             </div>
                             {/* Quick mark buttons */}
@@ -408,7 +408,7 @@ function ReviewPageInner() {
                                     className={`px-3 h-12 rounded-xl text-xs font-black border transition-all ${
                                       currentMark === String(v)
                                         ? 'bg-[#FF6B00] border-[#FF6B00] text-white'
-                                        : 'bg-white/5 border-white/10 text-slate-400 hover:border-[#FF6B00]/40 hover:text-white'
+                                        : 'bg-card border-border text-muted-foreground hover:border-[#FF6B00]/40 hover:text-white'
                                     }`}
                                   >
                                     {v}
@@ -447,7 +447,7 @@ function ReviewPageInner() {
       {/* Completed Attempts */}
       {completedAttempts.length > 0 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+          <h2 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
             <CheckCircle2 className="h-5 w-5 text-green-400" />
             Graded
             <span className="px-2 py-0.5 rounded-lg bg-green-500/10 text-green-400 text-xs font-bold">{completedAttempts.length}</span>
@@ -457,16 +457,16 @@ function ReviewPageInner() {
             {completedAttempts.map(attempt => {
               const pct = attempt.maxScore > 0 ? Math.round((attempt.score / attempt.maxScore) * 100) : 0;
               return (
-                <div key={attempt._id} className="bg-white/[0.02] border border-white/5 rounded-[2rem] p-5 flex items-center gap-4 hover:border-white/10 transition-all group relative overflow-hidden">
+                <div key={attempt._id} className="bg-card border border-border rounded-[2rem] p-5 flex items-center gap-4 hover:border-white/10 transition-all group relative overflow-hidden">
                   <div className="h-11 w-11 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center shrink-0">
                     <User className="h-5 w-5 text-green-400" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-white font-bold truncate">{attempt.student.name}</p>
+                    <p className="text-foreground font-bold truncate">{attempt.student.name}</p>
                     <p className="text-slate-500 text-xs font-mono">{attempt.student.usn}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-white font-black text-lg">{attempt.score}<span className="text-slate-500 text-sm font-normal">/{attempt.maxScore}</span></p>
+                    <p className="text-foreground font-black text-lg">{attempt.score}<span className="text-slate-500 text-sm font-normal">/{attempt.maxScore}</span></p>
                     <p className={`text-xs font-bold ${pct >= 60 ? 'text-green-400' : 'text-red-400'}`}>{pct}%</p>
                   </div>
                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity" />

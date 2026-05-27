@@ -134,17 +134,17 @@ export default function StudentDoubtsDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0F1C] text-slate-200 p-6 md:p-10">
+    <div className="min-h-screen bg-[#0A0F1C] text-foreground p-6 md:p-10">
       <div className="max-w-6xl mx-auto">
         
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
-            <h1 className="text-4xl font-bold text-white tracking-tight flex items-center gap-3">
+            <h1 className="text-4xl font-bold text-foreground tracking-tight flex items-center gap-3">
               <MessageCircle className="text-sky" size={36} />
               Doubts Dashboard
             </h1>
-            <p className="text-slate-400 mt-2">Connect with faculty and clear your concepts instantly.</p>
+            <p className="text-muted-foreground mt-2">Connect with faculty and clear your concepts instantly.</p>
           </div>
           
           {step === 'dashboard' && (
@@ -160,7 +160,7 @@ export default function StudentDoubtsDashboard() {
           {step !== 'dashboard' && (
             <button 
               onClick={() => setStep('dashboard')}
-              className="text-slate-400 hover:text-white font-medium flex items-center gap-2 transition-colors"
+              className="text-muted-foreground hover:text-white font-medium flex items-center gap-2 transition-colors"
             >
               ← Back to Dashboard
             </button>
@@ -183,25 +183,25 @@ export default function StudentDoubtsDashboard() {
                   <input 
                     type="text" 
                     placeholder="Search your doubts..."
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-sky/50 transition-all"
+                    className="w-full bg-card border border-border rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-sky/50 transition-all"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <button className="bg-white/5 border border-white/10 p-4 rounded-2xl hover:bg-white/10 transition-colors">
-                  <Filter className="text-slate-400" size={20} />
+                <button className="bg-card border border-border p-4 rounded-2xl hover:bg-white/10 transition-colors">
+                  <Filter className="text-muted-foreground" size={20} />
                 </button>
               </div>
 
               {/* Doubt List */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {doubts.length === 0 ? (
-                  <div className="col-span-full py-20 text-center border-2 border-dashed border-white/5 rounded-[2.5rem]">
-                    <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6">
+                  <div className="col-span-full py-20 text-center border-2 border-dashed border-border rounded-[2.5rem]">
+                    <div className="h-20 w-20 rounded-full bg-card flex items-center justify-center mx-auto mb-6">
                       <MessageSquare className="text-slate-500" size={40} />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">No active doubts</h3>
-                    <p className="text-slate-400 max-w-sm mx-auto">Start a new conversation with a teacher to clear your confusion.</p>
+                    <h3 className="text-xl font-bold text-foreground mb-2">No active doubts</h3>
+                    <p className="text-muted-foreground max-w-sm mx-auto">Start a new conversation with a teacher to clear your confusion.</p>
                   </div>
                 ) : (
                   doubts
@@ -213,7 +213,7 @@ export default function StudentDoubtsDashboard() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
                       onClick={() => router.push(`/student/doubts/${doubt._id}`)}
-                      className="group bg-white/5 border border-white/10 hover:bg-white/[0.08] p-6 rounded-[2rem] cursor-pointer transition-all hover:-translate-y-1"
+                      className="group bg-card border border-border hover:bg-white/[0.08] p-6 rounded-[2rem] cursor-pointer transition-all hover:-translate-y-1"
                     >
                       <div className="flex justify-between items-start mb-4">
                         <div className="relative">
@@ -229,7 +229,7 @@ export default function StudentDoubtsDashboard() {
                           <span className="text-[10px] font-bold uppercase tracking-widest">Chat Open</span>
                         </div>
                       </div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-sky transition-colors line-clamp-1 mb-2">
+                      <h3 className="text-lg font-bold text-foreground group-hover:text-sky transition-colors line-clamp-1 mb-2">
                         {doubt.title}
                         {doubt.has_unread && <span className="ml-2 inline-block w-2 h-2 bg-sky rounded-full" />}
                       </h3>
@@ -256,19 +256,19 @@ export default function StudentDoubtsDashboard() {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
             >
               <div className="col-span-full mb-4">
-                <h2 className="text-2xl font-bold text-white">Select a Subject</h2>
-                <p className="text-slate-400">Choose the topic you need help with.</p>
+                <h2 className="text-2xl font-bold text-foreground">Select a Subject</h2>
+                <p className="text-muted-foreground">Choose the topic you need help with.</p>
               </div>
               {subjects.map((subject) => (
                 <div 
                   key={subject._id}
                   onClick={() => handleSelectSubject(subject)}
-                  className="group bg-white/5 border border-white/10 hover:border-sky/50 p-8 rounded-[2.5rem] cursor-pointer transition-all hover:bg-sky/5 text-center flex flex-col items-center"
+                  className="group bg-card border border-border hover:border-sky/50 p-8 rounded-[2.5rem] cursor-pointer transition-all hover:bg-sky/5 text-center flex flex-col items-center"
                 >
                   <div className="w-16 h-16 rounded-2xl bg-sky/10 flex items-center justify-center text-sky mb-4 group-hover:scale-110 transition-transform">
                     <BookOpen size={32} />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{subject.subject_name || subject.name}</h3>
+                  <h3 className="text-xl font-bold text-foreground mb-2">{subject.subject_name || subject.name}</h3>
                   <p className="text-slate-500 text-sm">{subject.description || 'General Discussion'}</p>
                 </div>
               ))}
@@ -285,8 +285,8 @@ export default function StudentDoubtsDashboard() {
             >
               <div className="col-span-full mb-4 flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold text-white">Select Faculty</h2>
-                  <p className="text-slate-400">Talking about <span className="text-sky font-bold">{selectedSubject?.subject_name || selectedSubject?.name}</span></p>
+                  <h2 className="text-2xl font-bold text-foreground">Select Faculty</h2>
+                  <p className="text-muted-foreground">Talking about <span className="text-sky font-bold">{selectedSubject?.subject_name || selectedSubject?.name}</span></p>
                 </div>
                 <button 
                   onClick={() => setStep('select_subject')}
@@ -302,13 +302,13 @@ export default function StudentDoubtsDashboard() {
                 <div 
                   key={teacher.userId}
                   onClick={() => handleSelectTeacher(teacher)}
-                  className="group flex items-center gap-6 bg-white/5 border border-white/10 hover:border-sky/50 p-6 rounded-[2.5rem] cursor-pointer transition-all hover:bg-sky/5"
+                  className="group flex items-center gap-6 bg-card border border-border hover:border-sky/50 p-6 rounded-[2.5rem] cursor-pointer transition-all hover:bg-sky/5"
                 >
                   <div className="w-16 h-16 rounded-2xl bg-saffron/10 flex items-center justify-center text-saffron group-hover:rotate-6 transition-transform">
                     <User size={32} />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white">{teacher.name}</h3>
+                    <h3 className="text-xl font-bold text-foreground">{teacher.name}</h3>
                     <p className="text-slate-500 text-sm uppercase tracking-widest font-bold">Expert Faculty</p>
                   </div>
                   <ChevronRight className="text-slate-700 group-hover:text-sky transition-colors" />

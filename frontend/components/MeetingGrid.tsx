@@ -40,7 +40,7 @@ export const MeetingGrid = ({ participants }: MeetingGridProps) => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: 'spring', damping: 20, stiffness: 200 }}
-              className="relative aspect-video rounded-2xl md:rounded-3xl overflow-hidden bg-slate-900 shadow-2xl border border-white/5 group"
+              className="relative aspect-video rounded-2xl md:rounded-3xl overflow-hidden bg-card shadow-2xl border border-border group"
             >
               <ParticipantView 
                 participant={participant} 
@@ -49,12 +49,12 @@ export const MeetingGrid = ({ participants }: MeetingGridProps) => {
               />
               
               {/* Overlay for Name/Status */}
-              <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4 z-10 flex items-center gap-1.5 md:gap-2 px-2 py-1 md:px-3 md:py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4 z-10 flex items-center gap-1.5 md:gap-2 px-2 py-1 md:px-3 md:py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-border opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className={cn(
                   "w-1.5 h-1.5 md:w-2 md:h-2 rounded-full",
                   participant.isSpeaking ? "bg-green-500 animate-pulse" : "bg-slate-400"
                 )} />
-                <span className="text-[10px] md:text-xs font-medium text-white">
+                <span className="text-[10px] md:text-xs font-medium text-foreground">
                   {participant.name || participant.userId} ({participant.userId})
                   {participant.isLocalParticipant && " (You)"}
                 </span>
@@ -65,7 +65,7 @@ export const MeetingGrid = ({ participants }: MeetingGridProps) => {
       </div>
 
       {participants.length > 12 && (
-        <div className="mt-8 px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl text-white/60 text-sm font-medium">
+        <div className="mt-8 px-6 py-3 rounded-full bg-card border border-border backdrop-blur-xl text-white/60 text-sm font-medium">
           + {participants.length - 12} more participants
         </div>
       )}

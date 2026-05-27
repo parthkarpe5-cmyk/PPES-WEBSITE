@@ -109,14 +109,14 @@ export default async function FacultyDashboard() {
                                   <p className="text-sm font-black text-foreground mb-3 mt-0.5 uppercase tracking-tight leading-tight">{classItem.subject}</p>
                                   <form action={updateTopicAction} className="flex flex-col gap-2 border-t border-border/40 pt-2">
                                     <input type="hidden" name="sessionId" value={classItem._id.toString()} />
-                                    <input name="topic" defaultValue={classItem.topic} placeholder="Topic..." className="w-full text-xs bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-lg px-2.5 py-1.5 text-foreground outline-none focus:border-sky" />
+                                    <input name="topic" defaultValue={classItem.topic} placeholder="Topic..." className="w-full text-xs bg-white/50  border border-slate-200  rounded-lg px-2.5 py-1.5 text-foreground outline-none focus:border-sky" />
                                     <button type="submit" className="text-[9px] font-bold text-sky hover:text-sky/80 text-right cursor-pointer">Save</button>
                                   </form>
                                 </div>
                               </td>
                             );
                           }
-                          return <td key={sIdx} className="p-4 border-r border-border text-center opacity-10 font-bold text-[10px] text-slate-400 italic">--</td>;
+                          return <td key={sIdx} className="p-4 border-r border-border text-center opacity-10 font-bold text-[10px] text-muted-foreground italic">--</td>;
                         })}
                       </tr>
                     );

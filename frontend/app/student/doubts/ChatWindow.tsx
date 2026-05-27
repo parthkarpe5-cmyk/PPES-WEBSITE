@@ -129,8 +129,8 @@ export default function StudentChatPage() {
       <div className="h-screen bg-[#0A0F1C] flex flex-col items-center justify-center p-6 text-center">
         <div className="bg-red-500/10 p-6 rounded-[2rem] border border-red-500/20 max-w-sm">
            <Info className="text-red-500 mx-auto mb-4" size={48} />
-           <h3 className="text-xl font-bold text-white mb-2">Access Denied</h3>
-           <p className="text-slate-400 mb-6">You don't have permission to view this conversation or it doesn't exist.</p>
+           <h3 className="text-xl font-bold text-foreground mb-2">Access Denied</h3>
+           <p className="text-muted-foreground mb-6">You don't have permission to view this conversation or it doesn't exist.</p>
            <button onClick={() => router.push('/student/doubts')} className="w-full bg-sky text-white py-3 rounded-xl font-bold">Go Back</button>
         </div>
       </div>
@@ -140,11 +140,11 @@ export default function StudentChatPage() {
   return (
     <div className="h-screen bg-[#050810] flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="bg-[#0A0F1C]/80 backdrop-blur-xl border-b border-white/5 p-4 flex items-center justify-between z-10">
+      <header className="bg-[#0A0F1C]/80 backdrop-blur-xl border-b border-border p-4 flex items-center justify-between z-10">
         <div className="flex items-center gap-4">
           <button 
             onClick={() => router.push('/student/doubts')}
-            className="p-2 hover:bg-white/5 rounded-full text-slate-400 transition-colors"
+            className="p-2 hover:bg-white/5 rounded-full text-muted-foreground transition-colors"
           >
             <ChevronLeft size={24} />
           </button>
@@ -153,7 +153,7 @@ export default function StudentChatPage() {
               {doubt.subject_id[0]}
             </div>
             <div>
-              <h1 className="text-white font-bold text-sm leading-none">{doubt.title}</h1>
+              <h1 className="text-foreground font-bold text-sm leading-none">{doubt.title}</h1>
               <p className="text-sky text-[10px] uppercase tracking-widest font-bold mt-1">{doubt.subject_id}</p>
             </div>
           </div>
@@ -181,7 +181,7 @@ export default function StudentChatPage() {
             <div key={msg._id} className="flex flex-col">
               {showDate && (
                 <div className="flex justify-center my-6">
-                  <span className="bg-white/5 backdrop-blur-md text-slate-500 text-[10px] font-bold px-3 py-1 rounded-full border border-white/5">
+                  <span className="bg-card backdrop-blur-md text-slate-500 text-[10px] font-bold px-3 py-1 rounded-full border border-border">
                     {new Date(msg.created_at).toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' })}
                   </span>
                 </div>
@@ -197,7 +197,7 @@ export default function StudentChatPage() {
                     p-4 rounded-[1.5rem] shadow-lg
                     ${isMe 
                       ? 'bg-sky text-white rounded-tr-none' 
-                      : 'bg-white/10 backdrop-blur-md text-white border border-white/10 rounded-tl-none'}
+                      : 'bg-white/10 backdrop-blur-md text-white border border-border rounded-tl-none'}
                   `}>
                     {!isMe && (
                       <p className="text-[10px] font-black uppercase tracking-widest text-sky mb-1">
@@ -206,7 +206,7 @@ export default function StudentChatPage() {
                     )}
                     
                     {msg.image_url && (
-                      <div className="mb-2 rounded-xl overflow-hidden border border-white/10">
+                      <div className="mb-2 rounded-xl overflow-hidden border border-border">
                         <img 
                           src={`http://localhost:5000${msg.image_url}`} 
                           alt="Attachment" 
@@ -219,7 +219,7 @@ export default function StudentChatPage() {
                     
                     <div className={`flex items-center justify-end gap-1 mt-1 text-[9px] ${isMe ? 'text-white/70' : 'text-slate-500'}`}>
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      {isMe && <CheckCheck size={12} className="text-white" />}
+                      {isMe && <CheckCheck size={12} className="text-foreground" />}
                     </div>
                   </div>
                 </div>
@@ -231,7 +231,7 @@ export default function StudentChatPage() {
       </div>
 
       {/* Input Area */}
-      <footer className="bg-[#0A0F1C] border-t border-white/5 p-4 pb-8">
+      <footer className="bg-[#0A0F1C] border-t border-border p-4 pb-8">
         <div className="max-w-4xl mx-auto relative">
           <AnimatePresence>
             {imagePreview && (
@@ -239,7 +239,7 @@ export default function StudentChatPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                className="absolute bottom-full mb-4 left-0 bg-white/10 backdrop-blur-xl p-2 rounded-2xl border border-white/20 shadow-2xl"
+                className="absolute bottom-full mb-4 left-0 bg-white/10 backdrop-blur-xl p-2 rounded-2xl border border-border shadow-2xl"
               >
                 <div className="relative">
                   <img src={imagePreview} alt="Preview" className="h-32 rounded-xl" />
@@ -254,8 +254,8 @@ export default function StudentChatPage() {
             )}
           </AnimatePresence>
 
-          <form onSubmit={handleSendMessage} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-[2rem] p-2 pl-4 pr-2 focus-within:border-sky/50 transition-all shadow-inner">
-            <label className="cursor-pointer p-2 text-slate-400 hover:text-sky transition-colors">
+          <form onSubmit={handleSendMessage} className="flex items-center gap-3 bg-card border border-border rounded-[2rem] p-2 pl-4 pr-2 focus-within:border-sky/50 transition-all shadow-inner">
+            <label className="cursor-pointer p-2 text-muted-foreground hover:text-sky transition-colors">
               <ImageIcon size={22} />
               <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
             </label>
@@ -264,7 +264,7 @@ export default function StudentChatPage() {
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 bg-transparent border-none focus:ring-0 text-white text-sm py-3"
+              className="flex-1 bg-transparent border-none focus:ring-0 text-foreground text-sm py-3"
             />
             <button 
               type="submit"

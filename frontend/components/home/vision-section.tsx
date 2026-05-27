@@ -135,7 +135,7 @@ export function VisionSection() {
           className={`mt-12 relative overflow-hidden rounded-3xl bg-gradient-to-r from-navy via-deep-blue to-sky p-10 text-center transition-all duration-700 md:p-14 ${bannerVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
         >
           {/* Orbs */}
-          <div className="absolute -top-12 -left-12 h-40 w-40 rounded-full bg-white/5 blur-2xl" />
+          <div className="absolute -top-12 -left-12 h-40 w-40 rounded-full bg-card blur-2xl" />
           <div className="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-gold/10 blur-2xl" />
           {/* Dot overlay */}
           <div

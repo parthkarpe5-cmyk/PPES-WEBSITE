@@ -37,7 +37,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent transition-all group-hover:bg-black/20 z-10" />
                 {/* Category badge */}
-                <span className="absolute right-3 top-3 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+                <span className="absolute right-3 top-3 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-foreground backdrop-blur-sm">
                     {categoryLabels[item.category]}
                 </span>
             </div>
@@ -107,7 +107,7 @@ export default function GalleryPage() {
                     <span className="text-xs font-semibold uppercase tracking-widest text-gold">
                         Gallery
                     </span>
-                    <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl">
+                    <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
                         Moments That Define Us
                     </h1>
                     <p className="mx-auto mt-4 max-w-2xl text-pretty leading-relaxed text-white/65">

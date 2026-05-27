@@ -174,7 +174,7 @@ export default function CreateDoubtPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded-lg transition"
+                className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-foreground font-bold py-2 px-4 rounded-lg transition"
               >
                 {loading ? 'Creating...' : 'Create Doubt'}
               </button>

@@ -113,7 +113,7 @@ export function ProfileEditor() {
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-4 py-10 text-white">
-        <div className="mx-auto flex max-w-4xl items-center justify-center rounded-3xl border border-white/10 bg-white/5 p-12 shadow-2xl backdrop-blur-xl">
+        <div className="mx-auto flex max-w-4xl items-center justify-center rounded-3xl border border-border bg-card p-12 shadow-2xl backdrop-blur-xl">
           <p className="text-sm text-white/70">Loading profile...</p>
         </div>
       </div>
@@ -123,7 +123,7 @@ export function ProfileEditor() {
   if (!profile) {
     return (
       <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-4 py-10 text-white">
-        <div className="mx-auto max-w-4xl rounded-3xl border border-white/10 bg-white/5 p-12 shadow-2xl backdrop-blur-xl">
+        <div className="mx-auto max-w-4xl rounded-3xl border border-border bg-card p-12 shadow-2xl backdrop-blur-xl">
           <p className="text-sm text-red-300">{error || 'Profile not found'}</p>
           <Link href={homeHref} className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#2FA8CC] hover:text-white">
             <ArrowLeft className="h-4 w-4" />
@@ -143,8 +143,8 @@ export function ProfileEditor() {
         </Link>
 
         <div className="grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
-          <Card className="border-white/10 bg-white/5 text-white shadow-2xl backdrop-blur-xl">
-            <CardHeader className="space-y-3 border-b border-white/10">
+          <Card className="border-border bg-card text-foreground shadow-2xl backdrop-blur-xl">
+            <CardHeader className="space-y-3 border-b border-border">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-2xl">Profile</CardTitle>
                 <span className="rounded-full border border-[#2FA8CC]/30 bg-[#2FA8CC]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#2FA8CC]">
@@ -157,8 +157,8 @@ export function ProfileEditor() {
             </CardHeader>
 
             <CardContent className="space-y-6 pt-6">
-              <div className="flex items-center gap-4 rounded-3xl border border-white/10 bg-black/20 p-4">
-                <Avatar className="h-20 w-20 border border-white/10 bg-[#1F4E79]">
+              <div className="flex items-center gap-4 rounded-3xl border border-border bg-black/20 p-4">
+                <Avatar className="h-20 w-20 border border-border bg-[#1F4E79]">
                   <AvatarImage src={avatarPreview || ''} alt={profile.name} />
                   <AvatarFallback className="bg-[#2FA8CC]/20 text-xl text-white">
                     <UserCircle2 className="h-8 w-8" />
@@ -174,21 +174,21 @@ export function ProfileEditor() {
               <div className="grid gap-4 text-sm text-white/75">
                 <div>
                   <p className="text-xs uppercase tracking-widest text-white/40">User ID</p>
-                  <p className="mt-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 font-medium">{profile.userId}</p>
+                  <p className="mt-1 rounded-2xl border border-border bg-card px-4 py-3 font-medium">{profile.userId}</p>
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-widest text-white/40">USN</p>
-                  <p className="mt-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 font-medium">{profile.usn || 'Not set'}</p>
+                  <p className="mt-1 rounded-2xl border border-border bg-card px-4 py-3 font-medium">{profile.usn || 'Not set'}</p>
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-widest text-white/40">Status</p>
-                  <p className="mt-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 font-medium">{profile.status || 'active'}</p>
+                  <p className="mt-1 rounded-2xl border border-border bg-card px-4 py-3 font-medium">{profile.status || 'active'}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-white/10 bg-white text-slate-900 shadow-2xl">
+          <Card className="border-border bg-white text-slate-900 shadow-2xl">
             <CardHeader className="border-b border-slate-100">
               <CardTitle className="text-2xl">Edit details</CardTitle>
               <CardDescription>

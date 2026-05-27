@@ -74,7 +74,7 @@ export default function AttendancePage() {
     <div className="space-y-8 animate-fade-in pb-12">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-black text-white tracking-tighter flex items-center gap-4">
+          <h1 className="text-4xl font-black text-foreground tracking-tighter flex items-center gap-4">
             <div className="p-3 rounded-2xl bg-sky/10 border border-sky/20">
               <Activity className="text-sky" size={32} />
             </div>
@@ -86,7 +86,7 @@ export default function AttendancePage() {
         <div className="flex items-center gap-3">
           <button 
             onClick={fetchAttendance}
-            className="p-3 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white transition-all active:scale-95"
+            className="p-3 rounded-xl bg-card border border-border text-white/60 hover:bg-white/10 hover:text-white transition-all active:scale-95"
           >
             <RefreshCw size={20} className={loading ? "animate-spin" : ""} />
           </button>
@@ -104,11 +104,11 @@ export default function AttendancePage() {
            { label: "Total Sessions", value: summaries.reduce((acc, curr) => acc + curr.sessionCount, 0), icon: History, color: "text-amber-500", bg: "bg-amber-500/10" },
            { label: "Avg. Duration", value: summaries.length ? formatDuration(summaries.reduce((acc, curr) => acc + curr.totalDurationMs, 0) / summaries.length) : "0m", icon: Clock, color: "text-purple-500", bg: "bg-purple-500/10" }
          ].map((stat, i) => (
-           <div key={i} className="p-6 rounded-[2rem] bg-white/5 border border-white/5 relative overflow-hidden group hover:bg-white/10 transition-all">
+           <div key={i} className="p-6 rounded-[2rem] bg-card border border-border relative overflow-hidden group hover:bg-white/10 transition-all">
              <div className="relative z-10">
                <p className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-4">{stat.label}</p>
                <div className="flex items-end justify-between">
-                 <p className="text-3xl font-black text-white">{stat.value}</p>
+                 <p className="text-3xl font-black text-foreground">{stat.value}</p>
                  <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color}`}>
                    <stat.icon size={20} />
                  </div>
@@ -118,8 +118,8 @@ export default function AttendancePage() {
          ))}
       </div>
 
-      <div className="rounded-[2.5rem] bg-black/40 border border-white/5 overflow-hidden backdrop-blur-2xl shadow-2xl">
-        <div className="p-8 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white/[0.01]">
+      <div className="rounded-[2.5rem] bg-black/40 border border-border overflow-hidden backdrop-blur-2xl shadow-2xl">
+        <div className="p-8 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white/[0.01]">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={20} />
             <input 
@@ -127,11 +127,11 @@ export default function AttendancePage() {
               placeholder="Search student or class ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-sky/50 transition-all font-medium"
+              className="w-full bg-card border border-border rounded-2xl py-4 pl-12 pr-4 text-foreground placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-sky/50 transition-all font-medium"
             />
           </div>
           <div className="flex items-center gap-2">
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:text-white text-xs font-bold uppercase tracking-widest transition-all">
+            <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border text-white/60 hover:text-white text-xs font-bold uppercase tracking-widest transition-all">
               <Filter size={14} />
               Filter by Class
             </button>
@@ -141,7 +141,7 @@ export default function AttendancePage() {
         <div className="overflow-x-auto">
           <Table>
             <TableHeader className="bg-black/40">
-              <TableRow className="border-white/5 hover:bg-transparent">
+              <TableRow className="border-border hover:bg-transparent">
                 <TableHead className="text-white/20 font-bold uppercase tracking-widest text-[10px] p-6">Participant</TableHead>
                 <TableHead className="text-white/20 font-bold uppercase tracking-widest text-[10px] p-6">Class ID</TableHead>
                 <TableHead className="text-white/20 font-bold uppercase tracking-widest text-[10px] p-6">Session Count</TableHead>
@@ -155,7 +155,7 @@ export default function AttendancePage() {
                 [...Array(5)].map((_, i) => (
                   <TableRow key={i} className="animate-pulse">
                     <TableCell colSpan={6} className="p-8">
-                      <div className="h-12 bg-white/5 rounded-xl w-full" />
+                      <div className="h-12 bg-card rounded-xl w-full" />
                     </TableCell>
                   </TableRow>
                 ))
@@ -168,10 +168,10 @@ export default function AttendancePage() {
                 </TableRow>
               ) : (
                 filteredRecords.map((record) => (
-                  <TableRow key={`${record._id.userId}-${record._id.classId}`} className="group hover:bg-sky/5 transition-colors border-white/5">
+                  <TableRow key={`${record._id.userId}-${record._id.classId}`} className="group hover:bg-sky/5 transition-colors border-border">
                     <TableCell className="p-6">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center justify-center text-white/40 font-black relative overflow-hidden group-hover:border-sky/30 transition-all">
+                        <div className="w-12 h-12 rounded-2xl bg-card border border-border flex items-center justify-center text-white/40 font-black relative overflow-hidden group-hover:border-sky/30 transition-all">
                           {record.userName.charAt(0)}
                           <div className="absolute inset-0 bg-sky/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
@@ -182,14 +182,14 @@ export default function AttendancePage() {
                       </div>
                     </TableCell>
                     <TableCell className="p-6">
-                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 w-fit">
+                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-card border border-border w-fit">
                         <Video size={12} className="text-sky" />
                         <span className="text-xs font-bold text-white/60 tracking-tight">{record._id.classId}</span>
                       </div>
                     </TableCell>
                     <TableCell className="p-6">
                       <div className="flex flex-col gap-1">
-                        <span className="text-sm font-black text-white">{record.sessionCount}</span>
+                        <span className="text-sm font-black text-foreground">{record.sessionCount}</span>
                         <span className="text-[9px] text-white/20 font-bold uppercase">Entries</span>
                       </div>
                     </TableCell>
@@ -206,7 +206,7 @@ export default function AttendancePage() {
                            <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Active Now</span>
                          </div>
                        ) : (
-                         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 w-fit">
+                         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-card border border-border w-fit">
                            <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Offline</span>
                          </div>
                        )}

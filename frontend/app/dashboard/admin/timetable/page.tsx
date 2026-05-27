@@ -154,7 +154,7 @@ export default function AdminTimetablePage() {
                                 </td>
                               );
                             }
-                            return <td key={sIdx} className="p-4 border-r border-border text-center opacity-10 font-bold text-[10px] text-slate-400 italic group-hover:opacity-30">--</td>;
+                            return <td key={sIdx} className="p-4 border-r border-border text-center opacity-10 font-bold text-[10px] text-muted-foreground italic group-hover:opacity-30">--</td>;
                           })}
                         </tr>
                       ))}
@@ -168,7 +168,7 @@ export default function AdminTimetablePage() {
 
         {/* Floating Slot Manager Panel */}
         <motion.div drag dragMomentum={false} className="fixed bottom-10 right-10 z-50 cursor-grab active:cursor-grabbing">
-          <div className="bg-white dark:bg-[#090d16]/90 backdrop-blur-xl p-6 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-none border border-slate-200 dark:border-white/10 w-[340px]">
+          <div className="bg-white dark:bg-[#090d16]/90 backdrop-blur-xl p-6 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-none border border-slate-200  w-[340px]">
             <h3 className="text-sm font-black text-foreground tracking-widest uppercase mb-6 flex justify-between items-center border-b border-border/40 pb-3">
               <span className="flex items-center gap-2"><GripVertical className="size-4 text-sky" /> Slot Manager</span>
               <span className="text-[9px] bg-sky/10 text-sky px-2 py-0.5 rounded-full font-bold uppercase">DRAG</span>
@@ -179,21 +179,21 @@ export default function AdminTimetablePage() {
               </div>
             )}
             <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
-               <select name="facultyName" required className="w-full h-12 bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-xl px-4 text-xs font-bold text-foreground outline-none focus:border-sky">
+               <select name="facultyName" required className="w-full h-12 bg-white/50  border border-slate-200  rounded-xl px-4 text-xs font-bold text-foreground outline-none focus:border-sky">
                   <option value="" className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">Select Faculty</option>
                   {faculty.map((f:any) => <option key={f._id} value={f.name} className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">{f.name}</option>)}
                </select>
                <div className="grid grid-cols-2 gap-2">
-                 <input name="date" type="date" required className="h-12 bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-xl px-3 text-[10px] text-foreground outline-none focus:border-sky" />
-                 <select name="slotIndex" className="h-12 bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-xl px-3 text-[10px] font-bold text-foreground outline-none focus:border-sky">
+                 <input name="date" type="date" required className="h-12 bg-white/50  border border-slate-200  rounded-xl px-3 text-[10px] text-foreground outline-none focus:border-sky" />
+                 <select name="slotIndex" className="h-12 bg-white/50  border border-slate-200  rounded-xl px-3 text-[10px] font-bold text-foreground outline-none focus:border-sky">
                     {TIME_SLOTS.map((t, i) => <option key={i} value={i} className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">{t}</option>)}
                  </select>
                </div>
                <div className="grid grid-cols-2 gap-2">
-                 <select name="studentClass" className="h-12 bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-xl px-3 text-[10px] font-black text-sky outline-none focus:border-sky"><option value="10" className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">Std 10</option><option value="09" className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">Std 09</option></select>
-                 <select name="duration" className="h-12 bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-xl px-3 text-[10px] font-black text-saffron outline-none focus:border-sky"><option value="1" className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">1 Hr</option><option value="2" className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">2 Hr Merge</option></select>
+                 <select name="studentClass" className="h-12 bg-white/50  border border-slate-200  rounded-xl px-3 text-[10px] font-black text-sky outline-none focus:border-sky"><option value="10" className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">Std 10</option><option value="09" className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">Std 09</option></select>
+                 <select name="duration" className="h-12 bg-white/50  border border-slate-200  rounded-xl px-3 text-[10px] font-black text-saffron outline-none focus:border-sky"><option value="1" className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">1 Hr</option><option value="2" className="text-slate-900 dark:text-slate-200 dark:bg-slate-950">2 Hr Merge</option></select>
                </div>
-               <input name="subject" placeholder="Subject Name" required className="h-12 bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-xl px-4 text-xs font-bold text-foreground outline-none focus:border-sky" />
+               <input name="subject" placeholder="Subject Name" required className="h-12 bg-white/50  border border-slate-200  rounded-xl px-4 text-xs font-bold text-foreground outline-none focus:border-sky" />
                <button type="submit" disabled={loading} className="w-full h-14 bg-sky hover:bg-[#1F4E79] dark:hover:bg-sky/90 text-white font-black rounded-2xl shadow-xl transition-all active:scale-95 text-xs tracking-widest uppercase cursor-pointer">
                   {loading ? "Saving..." : "Update Grid"}
                </button>

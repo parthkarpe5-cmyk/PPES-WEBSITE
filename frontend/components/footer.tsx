@@ -47,7 +47,7 @@ const quickLinks = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-navy text-white">
+    <footer className="relative overflow-hidden bg-navy text-foreground">
       {/* Subtle top border glow */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky/50 to-transparent" />
 
@@ -169,7 +169,7 @@ export function Footer() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 rounded-xl bg-white/5 px-4 py-3 transition-all duration-200 hover:bg-white/10 hover:translate-x-1"
+                  className="group flex items-center gap-3 rounded-xl bg-card px-4 py-3 transition-all duration-200 hover:bg-white/10 hover:translate-x-1"
                 >
                   <span className="text-white/50 transition-colors group-hover:text-white">
                     {s.icon}

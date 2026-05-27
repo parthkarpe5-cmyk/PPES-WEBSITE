@@ -18,17 +18,17 @@ import {
 import { getAuthHeaders } from "@/lib/api";
 
 const StatCard = ({ title, value, subValue, icon: Icon }: any) => (
-  <div className="relative group overflow-hidden rounded-[1.25rem] p-px bg-slate-200/5 border border-slate-200/10 hover:border-sky/30 transition-all duration-500 shadow-2xl">
-    <div className="glass-card relative h-full rounded-[1.25rem] p-6 flex flex-col bg-slate-200/[0.03] backdrop-blur-3xl group-hover:bg-slate-200/[0.07] transition-all">
+  <div className="relative group overflow-hidden rounded-[1.25rem] p-px bg-card border border-border hover:border-sky/30 transition-all duration-500 shadow-2xl">
+    <div className="glass-card relative h-full rounded-[1.25rem] p-6 flex flex-col bg-card backdrop-blur-3xl group-hover:bg-slate-200/[0.07] transition-all">
       <div className="flex items-center justify-between mb-4">
         <div className="p-3 rounded-xl bg-sky/10 text-sky shadow-lg">
           <Icon size={24} strokeWidth={1.5} />
         </div>
       </div>
       <div>
-        <p className="text-slate-400 text-xs font-bold uppercase tracking-[0.1em] mb-1">{title}</p>
+        <p className="text-muted-foreground text-xs font-bold uppercase tracking-[0.1em] mb-1">{title}</p>
         <div className="flex items-baseline gap-2">
-          <h3 className="text-3xl font-black text-slate-200">{value}</h3>
+          <h3 className="text-3xl font-black text-foreground">{value}</h3>
           <span className="text-gold text-xs font-bold">{subValue}</span>
         </div>
       </div>
@@ -40,13 +40,13 @@ const StatCard = ({ title, value, subValue, icon: Icon }: any) => (
 );
 
 const QuickAction = ({ title, icon: Icon, onClick }: any) => (
-  <button onClick={onClick} className="group relative flex items-center gap-4 bg-slate-200/[0.03] border border-slate-200/5 hover:border-sky/20 p-4 rounded-2xl transition-all hover:bg-slate-200/[0.08] active:scale-95 text-left w-full h-full overflow-hidden cursor-pointer">
+  <button onClick={onClick} className="group relative flex items-center gap-4 bg-card border border-border hover:border-sky/20 p-4 rounded-2xl transition-all hover:bg-slate-200/[0.08] active:scale-95 text-left w-full h-full overflow-hidden cursor-pointer">
     <div className="p-4 rounded-xl bg-sky/10 text-sky group-hover:scale-110 transition-transform">
       <Icon size={24} />
     </div>
     <div className="flex-1">
-      <h4 className="text-slate-200 font-bold text-sm tracking-tight">{title}</h4>
-      <p className="text-slate-400 text-[10px] font-medium uppercase tracking-[0.05em]">Quick Configuration</p>
+      <h4 className="text-foreground font-bold text-sm tracking-tight">{title}</h4>
+      <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-[0.05em]">Quick Configuration</p>
     </div>
     <ArrowUpRight size={18} className="text-slate-500 group-hover:text-sky transition-colors" />
     
@@ -182,14 +182,14 @@ export default function AdminDashboard() {
       {/* Title Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-           <h2 className="text-4xl font-black text-slate-200 tracking-tighter">
+           <h2 className="text-4xl font-black text-foreground tracking-tighter">
              Dashboard <span className="text-sky/60 font-medium">Overview</span>
            </h2>
-           <p className="text-slate-400 text-sm font-medium mt-1">Status Report for Terminal PPES_PRIMARY_01</p>
+           <p className="text-muted-foreground text-sm font-medium mt-1">Status Report for Terminal PPES_PRIMARY_01</p>
         </div>
         
         <div className="flex items-center gap-3">
-           <button onClick={fetchAdminData} className="px-5 py-2.5 rounded-xl bg-slate-200/5 border border-slate-200/10 text-slate-200 text-xs font-bold uppercase tracking-widest hover:bg-slate-200/10 transition-all active:scale-95 cursor-pointer">
+           <button onClick={fetchAdminData} className="px-5 py-2.5 rounded-xl bg-card border border-border text-foreground text-xs font-bold uppercase tracking-widest hover:bg-slate-200/10 transition-all active:scale-95 cursor-pointer">
              Refresh Data
            </button>
            <button className="px-5 py-2.5 rounded-xl bg-sky text-slate-250 text-xs font-black uppercase tracking-widest hover:bg-[#1F4E79] shadow-lg shadow-sky/20 transition-all active:scale-95 cursor-pointer">
@@ -207,14 +207,14 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Activity Section */}
-        <div className="lg:col-span-2 group relative overflow-hidden rounded-[2rem] p-px bg-slate-200/5 border border-slate-200/10">
-          <div className="glass-card relative h-full rounded-[2rem] p-8 flex flex-col bg-slate-200/[0.03] backdrop-blur-3xl">
+        <div className="lg:col-span-2 group relative overflow-hidden rounded-[2rem] p-px bg-card border border-border">
+          <div className="glass-card relative h-full rounded-[2rem] p-8 flex flex-col bg-card backdrop-blur-3xl">
              <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
                    <div className="p-2.5 rounded-lg bg-sky/20 text-sky">
                       <Clock size={20} />
                    </div>
-                   <h3 className="text-xl font-bold text-slate-200 tracking-tight">Recent Activity Log</h3>
+                   <h3 className="text-xl font-bold text-foreground tracking-tight">Recent Activity Log</h3>
                 </div>
              </div>
              
@@ -231,15 +231,15 @@ export default function AdminDashboard() {
                             {act.type === 'registration' ? <UserPlus size={18} /> : <CalendarPlus size={18} />}
                          </div>
                          {i !== activities.length - 1 && (
-                           <div className="absolute top-10 left-1/2 -translate-x-1/2 w-px h-6 bg-slate-200/5" />
+                           <div className="absolute top-10 left-1/2 -translate-x-1/2 w-px h-6 bg-card" />
                          )}
                       </div>
                       <div className="flex-1">
                          <div className="flex items-center justify-between">
-                            <p className="text-sm text-slate-200 font-bold">{act.user}</p>
-                            <span className="text-[10px] text-slate-400 font-bold uppercase">{act.time}</span>
+                            <p className="text-sm text-foreground font-bold">{act.user}</p>
+                            <span className="text-[10px] text-muted-foreground font-bold uppercase">{act.time}</span>
                          </div>
-                         <p className="text-xs text-slate-400">{act.content}</p>
+                         <p className="text-xs text-muted-foreground">{act.content}</p>
                       </div>
                     </div>
                   ))
@@ -250,9 +250,9 @@ export default function AdminDashboard() {
 
         {/* Quick Actions Section */}
         <div className="flex flex-col gap-6">
-          <div className="relative overflow-hidden rounded-[2rem] p-px bg-slate-200/5 border border-slate-200/10 h-full">
-            <div className="glass-card relative h-full rounded-[2rem] p-8 flex flex-col bg-slate-200/[0.03] backdrop-blur-3xl">
-               <h3 className="text-xl font-bold text-slate-200 mb-6 tracking-tight flex items-center gap-2">
+          <div className="relative overflow-hidden rounded-[2rem] p-px bg-card border border-border h-full">
+            <div className="glass-card relative h-full rounded-[2rem] p-8 flex flex-col bg-card backdrop-blur-3xl">
+               <h3 className="text-xl font-bold text-foreground mb-6 tracking-tight flex items-center gap-2">
                   <PlusCircle size={20} className="text-sky" />
                   Quick Actions
                </h3>
@@ -265,7 +265,7 @@ export default function AdminDashboard() {
                      <h4 className="text-gold font-black text-xs uppercase tracking-widest mb-1 flex items-center gap-2">
                         <TrendingUp size={14} /> Revenue Report
                      </h4>
-                     <p className="text-slate-400 text-[10px] leading-relaxed">System has successfully processed all transactions today with 100% gateway integrity.</p>
+                     <p className="text-muted-foreground text-[10px] leading-relaxed">System has successfully processed all transactions today with 100% gateway integrity.</p>
                      <div className="absolute -right-2 -bottom-2 text-gold/10 scale-150 rotate-[-15deg] group-hover:rotate-0 transition-transform duration-700 pointer-events-none">
                         <DollarSign size={48} />
                      </div>

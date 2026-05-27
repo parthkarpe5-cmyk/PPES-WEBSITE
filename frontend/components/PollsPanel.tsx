@@ -87,7 +87,7 @@ export const PollsPanel = ({
 
   return (
     <div className="flex flex-col h-full bg-[#0D121F]/95 backdrop-blur-3xl text-white">
-      <div className="p-6 border-b border-white/5 flex items-center justify-between">
+      <div className="p-6 border-b border-border flex items-center justify-between">
         <h3 className="font-bold text-lg flex items-center gap-3">
           <div className="p-2 rounded-xl bg-saffron/10 text-saffron">
             <BarChart2 size={18} />
@@ -119,7 +119,7 @@ export const PollsPanel = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white/5 rounded-2xl p-4 border border-white/10 space-y-4"
+              className="bg-card rounded-2xl p-4 border border-border space-y-4"
             >
               <div>
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 block">Question</label>
@@ -127,7 +127,7 @@ export const PollsPanel = ({
                   value={newQuestion}
                   onChange={(e) => setNewQuestion(e.target.value)}
                   placeholder="What is your question?"
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky/50 transition-colors"
+                  className="w-full bg-black/20 border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky/50 transition-colors"
                 />
               </div>
 
@@ -143,7 +143,7 @@ export const PollsPanel = ({
                         setNewOptions(next);
                       }}
                       placeholder={`Option ${index + 1}`}
-                      className="flex-1 bg-black/20 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-sky/50 transition-colors"
+                      className="flex-1 bg-black/20 border border-border rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-sky/50 transition-colors"
                     />
                     {newOptions.length > 2 && (
                       <button onClick={() => removeOption(index)} className="text-slate-500 hover:text-red-400 p-2">
@@ -161,7 +161,7 @@ export const PollsPanel = ({
               </div>
 
               <div className="flex gap-2 pt-2">
-                <Button variant="ghost" onClick={() => setIsCreating(false)} className="flex-1 text-slate-400 hover:text-white hover:bg-white/5">Cancel</Button>
+                <Button variant="ghost" onClick={() => setIsCreating(false)} className="flex-1 text-muted-foreground hover:text-white hover:bg-white/5">Cancel</Button>
                 <Button onClick={createPoll} className="flex-1 bg-sky hover:bg-sky/80">Launch Poll</Button>
               </div>
             </motion.div>
@@ -178,7 +178,7 @@ export const PollsPanel = ({
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white/5 rounded-2xl p-5 border border-white/10 mb-4"
+                className="bg-card rounded-2xl p-5 border border-border mb-4"
               >
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full uppercase tracking-widest">Active</span>
@@ -196,8 +196,8 @@ export const PollsPanel = ({
                         key={idx}
                         className={cn(
                           "relative group cursor-pointer p-3 rounded-xl border transition-all",
-                          hasVoted ? "cursor-default" : "hover:bg-white/5 border-white/5 hover:border-sky/20",
-                          isMyVote ? "bg-sky/10 border-sky/30" : "bg-black/20 border-white/5"
+                          hasVoted ? "cursor-default" : "hover:bg-white/5 border-border hover:border-sky/20",
+                          isMyVote ? "bg-sky/10 border-sky/30" : "bg-black/20 border-border"
                         )}
                         onClick={() => handleVote(poll.id, idx)}
                       >
@@ -211,7 +211,7 @@ export const PollsPanel = ({
                           </div>
                           <span className="text-slate-500 font-bold">{percentage}%</span>
                         </div>
-                        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden relative z-10">
+                        <div className="h-1.5 w-full bg-card rounded-full overflow-hidden relative z-10">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${percentage}%` }}

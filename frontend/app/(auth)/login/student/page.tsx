@@ -22,7 +22,7 @@ export default async function StudentLoginPage() {
       <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-saffron/5 dark:bg-saffron/10 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Main Container Card */}
-      <div className="relative z-10 w-full max-w-[520px] bg-white dark:bg-[#090d16]/80 backdrop-blur-xl border border-slate-100 dark:border-white/5 rounded-[3rem] p-12 md:p-16 shadow-[0_50px_100px_-20px_rgba(31,78,121,0.15)] dark:shadow-none flex flex-col items-center transition-all duration-300">
+      <div className="relative z-10 w-full max-w-[520px] bg-white dark:bg-[#090d16]/80 backdrop-blur-xl border border-slate-100  rounded-[3rem] p-12 md:p-16 shadow-[0_50px_100px_-20px_rgba(31,78,121,0.15)] dark:shadow-none flex flex-col items-center transition-all duration-300">
         
         {/* Scholar Cap - Large and Gold */}
         <div className="absolute -top-12 bg-prestige w-24 h-24 rounded-[2rem] flex items-center justify-center text-5xl shadow-2xl border-[8px] border-[#E8F6FA] dark:border-[#050810] text-white transition-all duration-300">

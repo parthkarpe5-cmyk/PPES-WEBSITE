@@ -59,7 +59,7 @@ const MeetingSetup = ({
 
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0A101F] text-white p-4 md:p-6 overflow-hidden relative">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-background text-foreground p-4 md:p-6 overflow-hidden relative">
       {/* Decorative background elements */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-sky/5 blur-[120px] rounded-full" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-saffron/5 blur-[120px] rounded-full" />
@@ -78,7 +78,7 @@ const MeetingSetup = ({
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display tracking-tight mb-3">
             Ready to <span className="text-sky">Join?</span>
           </h1>
-          <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto px-4 md:px-0">
+          <p className="text-muted-foreground text-sm md:text-base max-w-md mx-auto px-4 md:px-0">
             Configure your audio and video settings before entering the interactive classroom.
           </p>
         </div>
@@ -87,14 +87,14 @@ const MeetingSetup = ({
           {/* Left Side: Video Preview */}
           <div className="relative group w-full order-2 lg:order-1">
             <div className="absolute -inset-1 bg-gradient-to-r from-sky to-deep-blue rounded-[1.5rem] md:rounded-[2rem] blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative glass-card rounded-[1.5rem] md:rounded-[2rem] overflow-hidden bg-slate-900 border-white/5 aspect-video flex items-center justify-center shadow-2xl">
+            <div className="relative glass-card rounded-[1.5rem] md:rounded-[2rem] overflow-hidden bg-card border-border aspect-video flex items-center justify-center shadow-2xl">
               {activeMode === 'video' ? (
                 <div className="w-full h-full scale-105">
                   <VideoPreview />
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-4 text-slate-500">
-                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-card flex items-center justify-center border border-border">
                     {activeMode === 'voice' ? <Mic size={32} className="md:w-10 md:h-10" /> : <MessageSquare size={32} className="md:w-10 md:h-10" />}
                   </div>
                   <p className="font-medium text-sm md:text-base">{activeMode === 'voice' ? 'Camera is Off' : 'Audio & Video are Off'}</p>
@@ -102,7 +102,7 @@ const MeetingSetup = ({
               )}
               
               {/* Overlay for hardware status */}
-              <div className="absolute bottom-3 left-3 right-3 md:bottom-4 md:left-4 md:right-4 flex justify-between items-center px-3 py-2 md:px-4 md:py-3 rounded-xl md:rounded-2xl bg-black/40 backdrop-blur-md border border-white/10">
+              <div className="absolute bottom-3 left-3 right-3 md:bottom-4 md:left-4 md:right-4 flex justify-between items-center px-3 py-2 md:px-4 md:py-3 rounded-xl md:rounded-2xl bg-black/40 backdrop-blur-md border border-border">
                 <div className="flex items-center gap-2 md:gap-4">
                    <div className={cn("h-1.5 w-1.5 md:h-2 md:w-2 rounded-full", activeMode === 'video' ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "bg-red-500")} />
                    <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-white/80">
@@ -119,7 +119,7 @@ const MeetingSetup = ({
           {/* Right Side: Options & Join */}
           <div className="flex flex-col justify-between gap-6 order-1 lg:order-2">
             <div className="space-y-4">
-              <h3 className="text-base md:text-lg font-bold text-white ml-1">Choose your entry mode:</h3>
+              <h3 className="text-base md:text-lg font-bold text-foreground ml-1">Choose your entry mode:</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-3">
                 {[
                   { id: 'video', label: 'Video Call', icon: Video, desc: 'Full experience' },
@@ -133,17 +133,17 @@ const MeetingSetup = ({
                       "flex items-center lg:items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl border transition-all duration-300 text-left group",
                       activeMode === mode.id 
                         ? "bg-sky/10 border-sky/40 shadow-[0_0_20px_rgba(47,168,204,0.1)]" 
-                        : "bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/10"
+                        : "bg-card border-border hover:bg-white/10 hover:border-white/10"
                     )}
                   >
                     <div className={cn(
                       "w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center transition-all shrink-0",
-                      activeMode === mode.id ? "bg-sky text-white shadow-lg shadow-sky/20" : "bg-white/5 text-slate-400 group-hover:text-white"
+                      activeMode === mode.id ? "bg-sky text-white shadow-lg shadow-sky/20" : "bg-card text-muted-foreground group-hover:text-white"
                     )}>
                       <mode.icon size={20} className="md:w-6 md:h-6" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-bold text-xs md:text-sm text-white">{mode.label}</div>
+                      <div className="font-bold text-xs md:text-sm text-foreground">{mode.label}</div>
                       <div className="text-[9px] md:text-[10px] text-slate-500 font-medium uppercase tracking-tight line-clamp-1">{mode.desc}</div>
                     </div>
                     {activeMode === mode.id && (

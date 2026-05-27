@@ -172,10 +172,10 @@ const FacultyManagementPage = () => {
             <ShieldCheck size={12} />
             Administrative Control
           </motion.div>
-          <h1 className="text-4xl font-bold tracking-tight text-white">
+          <h1 className="text-4xl font-bold tracking-tight text-foreground">
             Faculty <span className="text-sky">Directory</span>
           </h1>
-          <p className="text-slate-400 mt-2">Manage your academic team and access controls.</p>
+          <p className="text-muted-foreground mt-2">Manage your academic team and access controls.</p>
         </div>
 
         <Dialog open={isDialogOpen} onOpenChange={(open) => {
@@ -191,13 +191,13 @@ const FacultyManagementPage = () => {
               Add New Faculty
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-[#0D121F] border-white/5 text-white max-w-2xl rounded-[2.5rem] p-0 overflow-hidden">
+          <DialogContent className="bg-[#0D121F] border-border text-white max-w-2xl rounded-[2.5rem] p-0 overflow-hidden">
             <div className="p-8 md:p-12">
               <DialogHeader className="mb-8">
                 <DialogTitle className="text-3xl font-bold tracking-tight">
                   {editingFaculty ? "Edit" : "Register"} <span className="text-sky">Faculty</span>
                 </DialogTitle>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {editingFaculty ? "Update existing account details." : "Credentials will be sent automatically via email."}
                 </p>
               </DialogHeader>
@@ -211,7 +211,7 @@ const FacultyManagementPage = () => {
                       <Input 
                         placeholder="Dr. John Doe"
                         required
-                        className="pl-12 h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-sky/50 focus:border-sky transition-all"
+                        className="pl-12 h-14 bg-card border-border rounded-2xl focus:ring-sky/50 focus:border-sky transition-all"
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                       />
@@ -225,7 +225,7 @@ const FacultyManagementPage = () => {
                         type="email"
                         placeholder="john@ppes.edu"
                         required
-                        className="pl-12 h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-sky/50 focus:border-sky transition-all"
+                        className="pl-12 h-14 bg-card border-border rounded-2xl focus:ring-sky/50 focus:border-sky transition-all"
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                       />
@@ -241,7 +241,7 @@ const FacultyManagementPage = () => {
                       <Input 
                         placeholder="FAC-2024-001"
                         required
-                        className="pl-12 h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-sky/50 focus:border-sky transition-all"
+                        className="pl-12 h-14 bg-card border-border rounded-2xl focus:ring-sky/50 focus:border-sky transition-all"
                         value={formData.userId}
                         onChange={(e) => setFormData({...formData, userId: e.target.value})}
                       />
@@ -252,7 +252,7 @@ const FacultyManagementPage = () => {
                       <Label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Default Password</Label>
                       <Input 
                         placeholder="Default: password123"
-                        className="h-14 bg-white/5 border-white/10 rounded-2xl focus:ring-sky/50 focus:border-sky transition-all"
+                        className="h-14 bg-card border-border rounded-2xl focus:ring-sky/50 focus:border-sky transition-all"
                         value={formData.password}
                         onChange={(e) => setFormData({...formData, password: e.target.value})}
                       />
@@ -274,19 +274,19 @@ const FacultyManagementPage = () => {
       </div>
 
       {/* Table Section */}
-      <div className="glass-card rounded-[2.5rem] border-white/5 overflow-hidden shadow-2xl">
-        <div className="p-6 md:p-8 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="glass-card rounded-[2.5rem] border-border overflow-hidden shadow-2xl">
+        <div className="p-6 md:p-8 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
             <Input 
               placeholder="Search by name, email, or ID..."
-              className="pl-12 h-12 bg-white/5 border-white/10 rounded-xl focus:ring-sky/50"
+              className="pl-12 h-12 bg-card border-border rounded-xl focus:ring-sky/50"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <div className="flex gap-3">
-             <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center">
+             <div className="px-4 py-2 rounded-xl bg-card border border-border text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center">
                Total: {faculty.length}
              </div>
           </div>
@@ -295,7 +295,7 @@ const FacultyManagementPage = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-white/5 border-b border-white/5">
+              <tr className="bg-card border-b border-border">
                 <th className="px-8 py-5 text-xs font-bold uppercase tracking-widest text-slate-500">Faculty Member</th>
                 <th className="px-8 py-5 text-xs font-bold uppercase tracking-widest text-slate-500">Faculty ID</th>
                 <th className="px-8 py-5 text-xs font-bold uppercase tracking-widest text-slate-500">Status</th>
@@ -314,10 +314,10 @@ const FacultyManagementPage = () => {
                 ) : filteredFaculty.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="px-8 py-20 text-center">
-                      <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4 border border-white/10 text-slate-600">
+                      <div className="w-16 h-16 rounded-full bg-card flex items-center justify-center mx-auto mb-4 border border-border text-slate-600">
                         <Search size={32} />
                       </div>
-                      <p className="text-slate-400 font-bold text-lg">No Faculty Found</p>
+                      <p className="text-muted-foreground font-bold text-lg">No Faculty Found</p>
                       <p className="text-slate-600 text-sm">Try adjusting your search or add a new member.</p>
                     </td>
                   </tr>
@@ -336,13 +336,13 @@ const FacultyManagementPage = () => {
                             {f.name.charAt(0)}
                           </div>
                           <div>
-                            <div className="font-bold text-white text-base">{f.name}</div>
+                            <div className="font-bold text-foreground text-base">{f.name}</div>
                             <div className="text-xs text-slate-500 font-medium">{f.email}</div>
                           </div>
                         </div>
                       </td>
                       <td className="px-8 py-6">
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-mono text-sky/80">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-card border border-border text-xs font-mono text-sky/80">
                           {f.userId}
                         </div>
                       </td>

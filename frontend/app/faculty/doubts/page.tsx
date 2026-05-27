@@ -76,21 +76,21 @@ export default function FacultyDoubtsDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0F1C] text-slate-200 p-6 md:p-10">
+    <div className="min-h-screen bg-[#0A0F1C] text-foreground p-6 md:p-10">
       <div className="max-w-6xl mx-auto">
         
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
-            <h1 className="text-4xl font-bold text-white tracking-tight flex items-center gap-3">
+            <h1 className="text-4xl font-bold text-foreground tracking-tight flex items-center gap-3">
               <MessageCircle className="text-saffron" size={36} />
               Faculty Portal: Doubts
             </h1>
-            <p className="text-slate-400 mt-2">Manage and respond to student inquiries assigned to you.</p>
+            <p className="text-muted-foreground mt-2">Manage and respond to student inquiries assigned to you.</p>
           </div>
           
           <div className="flex flex-wrap gap-4">
-            <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
+            <div className="flex bg-card p-1 rounded-2xl border border-border">
               {['all', 'Class 9', 'Class 10'].map((grade) => (
                 <button
                   key={grade}
@@ -115,7 +115,7 @@ export default function FacultyDoubtsDashboard() {
             <input 
               type="text" 
               placeholder="Search by student ID or subject..."
-              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-saffron/50 transition-all"
+              className="w-full bg-card border border-border rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-saffron/50 transition-all"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -124,12 +124,12 @@ export default function FacultyDoubtsDashboard() {
           {/* Doubt List */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredDoubts.length === 0 ? (
-              <div className="col-span-full py-20 text-center border-2 border-dashed border-white/5 rounded-[2.5rem]">
-                <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6">
+              <div className="col-span-full py-20 text-center border-2 border-dashed border-border rounded-[2.5rem]">
+                <div className="h-20 w-20 rounded-full bg-card flex items-center justify-center mx-auto mb-6">
                   <User className="text-slate-500" size={40} />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">No assigned doubts found</h3>
-                <p className="text-slate-400 max-w-sm mx-auto">Either you are all caught up or no doubts have been assigned to you yet.</p>
+                <h3 className="text-xl font-bold text-foreground mb-2">No assigned doubts found</h3>
+                <p className="text-muted-foreground max-w-sm mx-auto">Either you are all caught up or no doubts have been assigned to you yet.</p>
               </div>
             ) : (
               filteredDoubts.map((doubt, index) => (
@@ -139,7 +139,7 @@ export default function FacultyDoubtsDashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                   onClick={() => router.push(`/faculty/doubts/${doubt._id}`)}
-                  className="group bg-white/5 border border-white/10 hover:bg-white/[0.08] hover:border-saffron/30 p-6 rounded-[2rem] cursor-pointer transition-all"
+                  className="group bg-card border border-border hover:bg-white/[0.08] hover:border-saffron/30 p-6 rounded-[2rem] cursor-pointer transition-all"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-3">
@@ -152,10 +152,10 @@ export default function FacultyDoubtsDashboard() {
                         )}
                       </div>
                       <div>
-                        <div className="px-2 py-0.5 bg-white/5 rounded-md border border-white/10 inline-block mb-1">
+                        <div className="px-2 py-0.5 bg-card rounded-md border border-border inline-block mb-1">
                           <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{doubt.subject_id}</span>
                         </div>
-                        <h3 className="text-base font-bold text-white group-hover:text-saffron transition-colors">
+                        <h3 className="text-base font-bold text-foreground group-hover:text-saffron transition-colors">
                           {doubt.student_name}
                         </h3>
                         <div className="flex items-center gap-2">
@@ -176,7 +176,7 @@ export default function FacultyDoubtsDashboard() {
                       </div>
                   </div>
                   
-                  <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 mt-6 pt-4 border-t border-white/5">
+                  <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 mt-6 pt-4 border-t border-border">
                     <span className="flex items-center gap-1">
                       <User size={12} />
                       STUDENT: {doubt.student_id}

@@ -69,11 +69,11 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-sky/10 border border-sky/20 mb-6">
             <GraduationCap size={32} className="text-sky" />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Welcome Back</h1>
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">Welcome Back</h1>
           <p className="text-slate-600 dark:text-slate-400 mt-2">Sign in to your PPES Learning account</p>
         </div>
 
-        <div className="bg-white dark:bg-[#090d16]/80 backdrop-blur-xl border border-slate-200 dark:border-white/5 rounded-[2rem] p-8 shadow-2xl dark:shadow-none transition-all duration-300">
+        <div className="bg-white dark:bg-[#090d16]/80 backdrop-blur-xl border border-slate-200  rounded-[2rem] p-8 shadow-2xl dark:shadow-none transition-all duration-300">
           <form onSubmit={handleLogin} className="space-y-5">
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
@@ -87,7 +87,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@university.edu"
-                  className="w-full bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-2xl py-4 pl-12 pr-4 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
+                  className="w-full bg-white/50  border border-slate-200  rounded-2xl py-4 pl-12 pr-4 text-sm text-foreground focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
                 />
               </div>
             </div>
@@ -104,14 +104,14 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-2xl py-4 pl-12 pr-4 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
+                  className="w-full bg-white/50  border border-slate-200  rounded-2xl py-4 pl-12 pr-4 text-sm text-foreground focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
                 />
               </div>
             </div>
 
             <div className="flex items-center justify-between px-1">
               <label className="flex items-center gap-2 cursor-pointer group">
-                <div className="w-4 h-4 rounded border border-slate-200 dark:border-white/10 bg-white/5 dark:bg-white/[0.02] group-hover:border-sky/50 transition-colors flex items-center justify-center">
+                <div className="w-4 h-4 rounded border border-slate-200  bg-card  group-hover:border-sky/50 transition-colors flex items-center justify-center">
                    <div className="w-2 h-2 rounded-sm bg-sky scale-0 group-hover:scale-100 transition-transform" />
                 </div>
                 <span className="text-xs text-slate-500 dark:text-slate-400">Remember me</span>
@@ -138,7 +138,7 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-slate-100 dark:border-white/5 text-center">
+          <div className="mt-8 pt-8 border-t border-slate-100  text-center">
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Don't have an account? <button className="text-sky font-bold hover:underline">Contact Faculty</button>
             </p>

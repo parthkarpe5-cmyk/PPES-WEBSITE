@@ -223,7 +223,7 @@ function FacultyTestBuilderForm() {
 
   if (fetchingTest) {
     return (
-      <div className="flex flex-col items-center justify-center p-20 bg-[#050B14] min-h-screen text-slate-200 space-y-4">
+      <div className="flex flex-col items-center justify-center p-20 bg-[#050B14] min-h-screen text-foreground space-y-4">
         <Loader2 className="h-8 w-8 text-[#FF6B00] animate-spin" />
         <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Loading Test Schema...</p>
       </div>
@@ -231,25 +231,25 @@ function FacultyTestBuilderForm() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-10 bg-[#050B14] min-h-screen text-slate-200 animate-in fade-in duration-500">
+    <div className="p-6 lg:p-8 space-y-10 bg-[#050B14] min-h-screen text-foreground animate-in fade-in duration-500">
       
       {/* Header Banner */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-6 md:p-8 shadow-2xl border border-white/5">
+      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-6 md:p-8 shadow-2xl border border-border">
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
               Curriculum Management
             </span>
-            <h1 className="text-3xl font-black tracking-tight text-white mt-2 font-display">
+            <h1 className="text-3xl font-black tracking-tight text-foreground mt-2 font-display">
               {editId ? 'Edit' : 'Create'} <span className="text-[#2FA8CC]">Assessment</span>
             </h1>
-            <p className="text-slate-400 text-xs mt-1">Total points in draft: <span className="text-[#FF6B00] font-bold">{totalPoints}</span></p>
+            <p className="text-muted-foreground text-xs mt-1">Total points in draft: <span className="text-[#FF6B00] font-bold">{totalPoints}</span></p>
           </div>
           <div className="flex gap-3">
             <Button 
               onClick={() => router.push('/faculty/tests')}
               variant="outline" 
-              className="border-white/10 hover:bg-white/5 text-slate-300 rounded-xl h-11"
+              className="border-border hover:bg-white/5 text-muted-foreground rounded-xl h-11"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back
@@ -271,55 +271,55 @@ function FacultyTestBuilderForm() {
         
         {/* Left Side: Test configurations */}
         <div className="lg:col-span-1 space-y-6">
-          <h2 className="text-lg font-bold text-white tracking-tight">Test Configurations</h2>
+          <h2 className="text-lg font-bold text-foreground tracking-tight">Test Configurations</h2>
           
-          <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 backdrop-blur-xl shadow-xl space-y-5">
+          <div className="bg-card border border-border rounded-3xl p-6 backdrop-blur-xl shadow-xl space-y-5">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Test Title</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Test Title</label>
               <input 
                 required 
                 value={title}
                 onChange={e => setTitle(e.target.value)}
                 placeholder="e.g. Mid-Term Physics Exam"
-                className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                className="w-full h-12 bg-card border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Description</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Description</label>
               <textarea 
                 required 
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 placeholder="Details about syllabus covered..."
-                className="w-full min-h-[100px] bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                className="w-full min-h-[100px] bg-card border border-border rounded-xl p-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Duration (Min)</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Duration (Min)</label>
                 <input 
                   type="number"
                   value={duration}
                   onChange={e => setDuration(e.target.value)}
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                  className="w-full h-12 bg-card border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
                 />
               </div>
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Passing Mark (%)</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Passing Mark (%)</label>
                 <input 
                   type="number"
                   value={passingScore}
                   onChange={e => setPassingScore(e.target.value)}
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                  className="w-full h-12 bg-card border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-white/[0.01] border border-white/5 rounded-2xl">
+            <div className="flex items-center justify-between p-4 bg-white/[0.01] border border-border rounded-2xl">
               <div className="space-y-0.5">
-                <label className="text-xs font-bold text-white block">Manual Release</label>
+                <label className="text-xs font-bold text-foreground block">Manual Release</label>
                 <span className="text-[10px] text-slate-500 block leading-tight">Hide scores until review</span>
               </div>
               <Switch 
@@ -330,44 +330,44 @@ function FacultyTestBuilderForm() {
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Post-Test Message</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Post-Test Message</label>
               <input 
                 value={postTestMessage}
                 onChange={e => setPostTestMessage(e.target.value)}
                 placeholder="e.g. Well done! Results will be visible soon."
-                className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                className="w-full h-12 bg-card border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
               />
             </div>
           </div>
 
           {/* Quick tools menu for questions */}
           <div className="bg-[#2FA8CC]/5 rounded-2xl p-6 border border-[#2FA8CC]/10 space-y-4">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Question Types</h4>
+            <h4 className="text-xs font-bold text-foreground uppercase tracking-wider">Question Types</h4>
             <div className="grid grid-cols-2 gap-2">
               <Button 
                 onClick={() => addQuestion('MCQ')}
-                className="bg-white/5 border border-white/5 text-slate-200 hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
+                className="bg-card border border-border text-foreground hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
               >
                 <Layout className="h-4 w-4 text-[#2FA8CC]" />
                 + MCQ
               </Button>
               <Button 
                 onClick={() => addQuestion('MULTIPLE_SELECT')}
-                className="bg-white/5 border border-white/5 text-slate-200 hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
+                className="bg-card border border-border text-foreground hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
               >
                 <CheckSquare className="h-4 w-4 text-[#2FA8CC]" />
                 + Multi-Sel
               </Button>
               <Button 
                 onClick={() => addQuestion('DESCRIPTIVE')}
-                className="bg-white/5 border border-white/5 text-slate-200 hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
+                className="bg-card border border-border text-foreground hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
               >
                 <Type className="h-4 w-4 text-[#2FA8CC]" />
                 + Descr
               </Button>
               <Button 
                 onClick={() => addQuestion('CODING')}
-                className="bg-white/5 border border-white/5 text-slate-200 hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
+                className="bg-card border border-border text-foreground hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
               >
                 <Code className="h-4 w-4 text-[#2FA8CC]" />
                 + Coding
@@ -379,13 +379,13 @@ function FacultyTestBuilderForm() {
         {/* Right Side: Question List Builder */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-bold text-white tracking-tight">Question Catalog ({questions.length})</h2>
+            <h2 className="text-lg font-bold text-foreground tracking-tight">Question Catalog ({questions.length})</h2>
           </div>
 
           {questions.length === 0 ? (
-            <div className="text-center py-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl">
+            <div className="text-center py-20 bg-card border border-border rounded-3xl backdrop-blur-xl">
               <AlertCircle className="h-10 w-10 text-slate-600 mx-auto mb-3" />
-              <p className="text-slate-400 text-sm font-bold uppercase tracking-wider">Empty Draft</p>
+              <p className="text-muted-foreground text-sm font-bold uppercase tracking-wider">Empty Draft</p>
               <p className="text-slate-500 text-xs mt-1">Add items using the Question Types toolbox on the left side.</p>
             </div>
           ) : (
@@ -393,7 +393,7 @@ function FacultyTestBuilderForm() {
               {questions.map((q, index) => (
                 <div 
                   key={q.id} 
-                  className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-6 backdrop-blur-xl hover:border-white/10 transition-colors shadow-xl relative overflow-hidden group"
+                  className="bg-card border border-border rounded-[2.5rem] p-6 backdrop-blur-xl hover:border-white/10 transition-colors shadow-xl relative overflow-hidden group"
                 >
                   <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-3">
@@ -406,11 +406,11 @@ function FacultyTestBuilderForm() {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center border border-white/10 bg-white/5 rounded-xl px-2 h-9">
+                      <div className="flex items-center border border-border bg-card rounded-xl px-2 h-9">
                         <span className="text-[9px] font-black text-[#2FA8CC]/70 mr-1.5 uppercase tracking-wider">Pts:</span>
                         <input 
                           type="number" 
-                          className="w-8 h-6 bg-transparent outline-none text-center font-bold text-xs text-white"
+                          className="w-8 h-6 bg-transparent outline-none text-center font-bold text-xs text-foreground"
                           value={q.points}
                           onChange={(e) => updateQuestion(q.id, { points: parseInt(e.target.value) || 0 })}
                         />
@@ -427,7 +427,7 @@ function FacultyTestBuilderForm() {
                   <div className="space-y-4">
                     <textarea 
                       placeholder="Enter question text here..."
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all resize-y min-h-[70px]"
+                      className="w-full bg-card border border-border rounded-2xl p-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all resize-y min-h-[70px]"
                       value={q.text}
                       onChange={(e) => updateQuestion(q.id, { text: e.target.value })}
                     />
@@ -446,7 +446,7 @@ function FacultyTestBuilderForm() {
                               className={`flex items-center gap-3 p-3 rounded-2xl border transition-all duration-300 ${
                                 isCorrect 
                                   ? 'border-[#FF6B00] bg-[#FF6B00]/10 shadow-[0_0_15px_rgba(255,107,0,0.15)]' 
-                                  : 'border-white/5 bg-white/[0.01] hover:border-white/10'
+                                  : 'border-border bg-white/[0.01] hover:border-white/10'
                               }`}
                             >
                               <input 
@@ -460,7 +460,7 @@ function FacultyTestBuilderForm() {
                                 placeholder={`Option ${i+1}`}
                                 value={opt}
                                 onChange={(e) => updateOption(q.id, i, e.target.value)}
-                                className="bg-transparent border-none outline-none text-xs text-white placeholder-slate-500 w-full focus:ring-0"
+                                className="bg-transparent border-none outline-none text-xs text-foreground placeholder-slate-500 w-full focus:ring-0"
                               />
                             </div>
                           );
@@ -484,7 +484,7 @@ function FacultyTestBuilderForm() {
 export default function CreateTestFaculty() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center p-20 bg-[#050B14] min-h-screen text-slate-200 space-y-4">
+      <div className="flex flex-col items-center justify-center p-20 bg-[#050B14] min-h-screen text-foreground space-y-4">
         <Loader2 className="h-8 w-8 text-[#FF6B00] animate-spin" />
         <p className="text-slate-500 text-xs font-bold uppercase tracking-widest font-mono">Baking Faculty Desk...</p>
       </div>

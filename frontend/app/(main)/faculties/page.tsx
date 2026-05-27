@@ -234,7 +234,7 @@ export default function FacultiesPage() {
                     <span className="text-xs font-semibold uppercase tracking-widest text-gold font-display">
                         Our Team
                     </span>
-                    <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-white md:text-5xl font-display">
+                    <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-5xl font-display">
                         Acharya Mandal
                     </h1>
                     <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/80">

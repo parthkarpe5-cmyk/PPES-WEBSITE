@@ -46,8 +46,8 @@ export default function SetupPasswordPage() {
       <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-sky/5 dark:bg-sky/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-saffron/5 dark:bg-saffron/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[450px] bg-white dark:bg-[#090d16]/80 backdrop-blur-xl border border-slate-100 dark:border-white/5 rounded-[3rem] p-10 md:p-14 shadow-2xl border-t-8 border-t-sky flex flex-col items-center transition-all duration-300">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 text-center">Account Setup</h1>
+      <div className="relative z-10 w-full max-w-[450px] bg-white dark:bg-[#090d16]/80 backdrop-blur-xl border border-slate-100  rounded-[3rem] p-10 md:p-14 shadow-2xl border-t-8 border-t-sky flex flex-col items-center transition-all duration-300">
+        <h1 className="text-3xl font-bold text-foreground mb-2 text-center">Account Setup</h1>
         <p className="text-slate-500 dark:text-slate-400 text-sm text-center mb-8 italic">Verification required for first-time login</p>
 
         {message.text && (
@@ -69,7 +69,7 @@ export default function SetupPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your college email" 
-                className="w-full h-14 bg-white/50 dark:bg-white/[0.02] border-2 border-slate-200 dark:border-white/5 rounded-2xl px-5 text-slate-900 dark:text-white focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none transition-all focus:ring-2 focus:ring-[#2FA8CC]/20" 
+                className="w-full h-14 bg-white/50  border-2 border-slate-200  rounded-2xl px-5 text-foreground focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none transition-all focus:ring-2 focus:ring-[#2FA8CC]/20" 
               />
             </div>
             <button 
@@ -90,7 +90,7 @@ export default function SetupPasswordPage() {
                 required 
                 type="text" 
                 placeholder="6-digit code" 
-                className="w-full h-14 bg-white/50 dark:bg-white/[0.02] border-2 border-slate-200 dark:border-white/5 rounded-2xl px-5 text-slate-900 dark:text-white text-center text-2xl tracking-[0.5em] focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none focus:ring-2 focus:ring-[#2FA8CC]/20" 
+                className="w-full h-14 bg-white/50  border-2 border-slate-200  rounded-2xl px-5 text-foreground text-center text-2xl tracking-[0.5em] focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none focus:ring-2 focus:ring-[#2FA8CC]/20" 
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -100,7 +100,7 @@ export default function SetupPasswordPage() {
                 required 
                 type="password" 
                 placeholder="••••••••" 
-                className="w-full h-14 bg-white/50 dark:bg-white/[0.02] border-2 border-slate-200 dark:border-white/5 rounded-2xl px-5 text-slate-900 dark:text-white focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none focus:ring-2 focus:ring-[#2FA8CC]/20" 
+                className="w-full h-14 bg-white/50  border-2 border-slate-200  rounded-2xl px-5 text-foreground focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none focus:ring-2 focus:ring-[#2FA8CC]/20" 
               />
             </div>
             <button 

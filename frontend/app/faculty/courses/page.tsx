@@ -121,19 +121,19 @@ export default function FacultyCoursesPortal() {
   };
 
   return (
-    <div className="p-6 lg:p-8 space-y-10 bg-[#050B14] min-h-screen text-slate-200 animate-in fade-in duration-500">
+    <div className="p-6 lg:p-8 space-y-10 bg-[#050B14] min-h-screen text-foreground animate-in fade-in duration-500">
       
       {/* 1. Header */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-white/5">
+      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-border">
         <div className="relative z-10 space-y-4">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
             Faculty Dashboard
           </span>
           <div>
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-2 font-display">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-2 font-display">
               My Assigned <span className="text-[#2FA8CC]">Courses</span>
             </h1>
-            <p className="text-slate-400 text-sm max-w-lg">
+            <p className="text-muted-foreground text-sm max-w-lg">
               Manage study guides, upload lecture slideshows, and link textbooks to your assigned subjects.
             </p>
           </div>
@@ -143,20 +143,20 @@ export default function FacultyCoursesPortal() {
 
       {/* 2. Main Content Grid */}
       <div className="space-y-6">
-        <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+        <h2 className="text-xl font-bold text-foreground tracking-tight flex items-center gap-2">
           Your Allocated Curriculum
-          <span className="px-2 py-0.5 rounded-lg bg-white/5 text-xs text-slate-400 font-bold">{courses.length}</span>
+          <span className="px-2 py-0.5 rounded-lg bg-card text-xs text-muted-foreground font-bold">{courses.length}</span>
         </h2>
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center p-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl space-y-4">
+          <div className="flex flex-col items-center justify-center p-20 bg-card border border-border rounded-3xl backdrop-blur-xl space-y-4">
             <Loader2 className="h-8 w-8 text-[#2FA8CC] animate-spin" />
             <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Loading Desk...</p>
           </div>
         ) : courses.length === 0 ? (
-          <div className="text-center py-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl max-w-2xl mx-auto">
+          <div className="text-center py-20 bg-card border border-border rounded-3xl backdrop-blur-xl max-w-2xl mx-auto">
             <HelpCircle className="h-12 w-12 text-slate-600 mx-auto mb-4" />
-            <p className="text-slate-300 font-bold text-lg">No Subjects Assigned</p>
+            <p className="text-muted-foreground font-bold text-lg">No Subjects Assigned</p>
             <p className="text-slate-500 text-xs mt-1">You are currently not allocated to any subjects. Please contact administration for curriculum mapping.</p>
           </div>
         ) : (
@@ -164,15 +164,15 @@ export default function FacultyCoursesPortal() {
             {courses.map((course) => (
               <div 
                 key={course._id} 
-                className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-6 md:p-8 backdrop-blur-xl hover:border-white/10 transition-colors shadow-xl relative overflow-hidden"
+                className="bg-card border border-border rounded-[2.5rem] p-6 md:p-8 backdrop-blur-xl hover:border-white/10 transition-colors shadow-xl relative overflow-hidden"
               >
                 {/* Course Header Banner */}
                 <div className="flex justify-between items-start mb-6">
                   <div>
-                    <span className="px-2.5 py-0.5 rounded-lg bg-white/5 text-slate-500 text-[9px] font-black uppercase tracking-wider border border-white/5">
+                    <span className="px-2.5 py-0.5 rounded-lg bg-card text-slate-500 text-[9px] font-black uppercase tracking-wider border border-border">
                       {course.course_id}
                     </span>
-                    <h3 className="text-2xl font-black text-white mt-1.5">{course.course_name}</h3>
+                    <h3 className="text-2xl font-black text-foreground mt-1.5">{course.course_name}</h3>
                   </div>
                 </div>
 
@@ -181,15 +181,15 @@ export default function FacultyCoursesPortal() {
                   {course.subjects.map((sub: any) => (
                     <div 
                       key={sub._id} 
-                      className="p-5 bg-white/[0.01] border border-white/5 hover:border-[#2FA8CC]/20 rounded-2xl transition-all duration-300 relative group/sub"
+                      className="p-5 bg-white/[0.01] border border-border hover:border-[#2FA8CC]/20 rounded-2xl transition-all duration-300 relative group/sub"
                     >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4 mb-4">
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 bg-[#2FA8CC]/10 text-[#2FA8CC] border border-[#2FA8CC]/20 rounded-xl flex items-center justify-center">
                             <BookOpen className="h-5 w-5" />
                           </div>
                           <div>
-                            <h4 className="text-base font-bold text-white leading-none">{sub.subject_name}</h4>
+                            <h4 className="text-base font-bold text-foreground leading-none">{sub.subject_name}</h4>
                             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-1 inline-block">{sub.subject_id}</span>
                           </div>
                         </div>
@@ -210,12 +210,12 @@ export default function FacultyCoursesPortal() {
                           {sub.materials.map((mat: any) => (
                             <div 
                               key={mat._id} 
-                              className="p-4 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 rounded-xl flex items-center justify-between group/mat"
+                              className="p-4 bg-white/[0.01] hover:bg-white/[0.02] border border-border rounded-xl flex items-center justify-between group/mat"
                             >
                               <div className="flex items-center gap-3 min-w-0">
                                 <FileText className="h-5 w-5 text-red-400 shrink-0" />
                                 <div className="min-w-0">
-                                  <span className="text-xs font-bold text-white block truncate">{mat.title}</span>
+                                  <span className="text-xs font-bold text-foreground block truncate">{mat.title}</span>
                                   <a 
                                     href={`http://localhost:5000${mat.url}`} 
                                     target="_blank" 
@@ -250,37 +250,37 @@ export default function FacultyCoursesPortal() {
       {/* --- MODAL: UPLOAD FILE --- */}
       {showUploadModal && activeSubjectId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-slate-900 border border-white/10 w-full max-w-md rounded-3xl shadow-2xl p-6 md:p-8 space-y-6 relative animate-in zoom-in-95 duration-300">
+          <div className="bg-card border border-border w-full max-w-md rounded-3xl shadow-2xl p-6 md:p-8 space-y-6 relative animate-in zoom-in-95 duration-300">
             <button 
               onClick={() => setShowUploadModal(false)}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
+              className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-white rounded-lg hover:bg-white/5 transition-colors"
             >
               <X className="h-5 w-5" />
             </button>
 
             <div>
-              <h3 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
+              <h3 className="text-2xl font-black text-foreground tracking-tight flex items-center gap-2">
                 <UploadCloud className="text-[#2FA8CC]" />
                 Publish Study Guide
               </h3>
-              <p className="text-slate-400 text-xs mt-1">Upload educational PDFs or resource slides for this subject.</p>
+              <p className="text-muted-foreground text-xs mt-1">Upload educational PDFs or resource slides for this subject.</p>
             </div>
 
             <form onSubmit={handleUploadSubmit} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Material Title</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Material Title</label>
                 <input 
                   required 
                   value={materialTitle}
                   onChange={e => setMaterialTitle(e.target.value)}
                   placeholder="e.g. Chapter 3: Electromagnetic induction"
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                  className="w-full h-12 bg-card border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Upload File (PDF or Image)</label>
-                <div className="relative border-2 border-dashed border-white/10 hover:border-[#2FA8CC]/40 rounded-xl p-6 text-center cursor-pointer hover:bg-white/[0.01] transition-all group">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Upload File (PDF or Image)</label>
+                <div className="relative border-2 border-dashed border-border hover:border-[#2FA8CC]/40 rounded-xl p-6 text-center cursor-pointer hover:bg-white/[0.01] transition-all group">
                   <input 
                     required 
                     type="file" 
@@ -290,10 +290,10 @@ export default function FacultyCoursesPortal() {
                   />
                   <UploadCloud className="h-10 w-10 text-slate-500 mx-auto mb-2 group-hover:text-[#2FA8CC] transition-colors" />
                   {file ? (
-                    <span className="text-xs font-bold text-white truncate max-w-full block">{file.name}</span>
+                    <span className="text-xs font-bold text-foreground truncate max-w-full block">{file.name}</span>
                   ) : (
                     <>
-                      <span className="text-xs font-bold text-slate-300 block">Select PDF or Image</span>
+                      <span className="text-xs font-bold text-muted-foreground block">Select PDF or Image</span>
                       <span className="text-[9px] text-slate-500 uppercase tracking-wider block mt-1">Supports up to 10MB</span>
                     </>
                   )}
@@ -318,7 +318,7 @@ export default function FacultyCoursesPortal() {
                 <button 
                   type="button"
                   onClick={() => setShowUploadModal(false)}
-                  className="px-6 h-12 border border-white/10 hover:bg-white/5 text-slate-300 font-bold rounded-xl transition-all"
+                  className="px-6 h-12 border border-border hover:bg-white/5 text-muted-foreground font-bold rounded-xl transition-all"
                 >
                   Cancel
                 </button>

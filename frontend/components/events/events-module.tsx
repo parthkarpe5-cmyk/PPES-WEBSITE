@@ -275,17 +275,17 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
   })
 
   return (
-    <div className="min-h-screen bg-[#0A0F1C] text-slate-200 p-6 md:p-10 font-sans transition-all selection:bg-sky/30">
+    <div className="min-h-screen bg-[#0A0F1C] text-foreground p-6 md:p-10 font-sans transition-all selection:bg-sky/30">
       <div className="max-w-6xl mx-auto">
         
         {/* --- HEADER (Identical to Doubts Layout) --- */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
-            <h1 className="text-4xl font-bold text-white tracking-tight flex items-center gap-3">
+            <h1 className="text-4xl font-bold text-foreground tracking-tight flex items-center gap-3">
               <Calendar className="text-sky" size={36} />
               Events Dashboard
             </h1>
-            <p className="text-slate-400 mt-2">Join interactive, expert-led workshops and structured special courses.</p>
+            <p className="text-muted-foreground mt-2">Join interactive, expert-led workshops and structured special courses.</p>
           </div>
 
           {/* Portal Switcher - ONLY show if logged in user is Admin */}
@@ -310,7 +310,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
               ) : (
                 <button 
                   onClick={() => setView("student")}
-                  className="text-slate-400 hover:text-white font-medium flex items-center gap-2 transition-colors"
+                  className="text-muted-foreground hover:text-white font-medium flex items-center gap-2 transition-colors"
                 >
                   ← Back to Dashboard
                 </button>
@@ -332,14 +332,14 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                 <input 
                   type="text" 
                   placeholder="Search your events..."
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-sky/50 transition-all text-slate-200 placeholder:text-slate-500"
+                  className="w-full bg-card border border-border rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-sky/50 transition-all text-foreground placeholder:text-slate-500"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
 
               {/* TABS WITH PREMIUM SLIDING PILL BACKGROUND */}
-              <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-2xl relative">
+              <div className="flex gap-2 p-1 bg-card border border-border rounded-2xl relative">
                 {["all", "Workshop", "Special Class"].map((tab) => {
                   const isActive = activeTab === tab
                   return (
@@ -347,7 +347,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                       key={tab}
                       onClick={() => setActiveTab(tab as any)}
                       className={`px-5 py-3 rounded-xl text-xs font-bold transition-colors duration-300 whitespace-nowrap relative z-10 ${
-                        isActive ? "text-white" : "text-slate-400 hover:text-slate-200"
+                        isActive ? "text-white" : "text-muted-foreground hover:text-slate-200"
                       }`}
                     >
                       {/* Sliding visual background */}
@@ -374,13 +374,13 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="col-span-full py-20 text-center border-2 border-dashed border-white/5 rounded-[2.5rem]"
+                    className="col-span-full py-20 text-center border-2 border-dashed border-border rounded-[2.5rem]"
                   >
-                    <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6">
+                    <div className="h-20 w-20 rounded-full bg-card flex items-center justify-center mx-auto mb-6">
                       <AlertCircle className="text-slate-500" size={40} />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">No active events found</h3>
-                    <p className="text-slate-400 max-w-sm mx-auto">Try typing a different keyword or checking other filter categories.</p>
+                    <h3 className="text-xl font-bold text-foreground mb-2">No active events found</h3>
+                    <p className="text-muted-foreground max-w-sm mx-auto">Try typing a different keyword or checking other filter categories.</p>
                   </motion.div>
                 ) : (
                   filteredEvents.map((event) => (
@@ -396,7 +396,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                         damping: 32,
                         layout: { duration: 0.35, type: "spring", stiffness: 350, damping: 30 }
                       }}
-                      className="group bg-white/5 border border-white/10 hover:bg-white/[0.08] p-6 rounded-[2rem] cursor-pointer transition-colors duration-300 flex flex-col justify-between"
+                      className="group bg-card border border-border hover:bg-white/[0.08] p-6 rounded-[2rem] cursor-pointer transition-colors duration-300 flex flex-col justify-between"
                     >
                       <div>
                         {/* Top Pill Badges */}
@@ -424,28 +424,28 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                           </div>
 
                           <div className="flex items-center gap-1.5 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
-                            <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5">{event.mode}</span>
+                            <span className="px-2 py-0.5 rounded bg-card border border-border">{event.mode}</span>
                           </div>
                         </div>
 
                         {/* Title & Leader */}
-                        <h3 className="text-xl font-bold text-white group-hover:text-sky transition-colors line-clamp-1 mb-1">
+                        <h3 className="text-xl font-bold text-foreground group-hover:text-sky transition-colors line-clamp-1 mb-1">
                           {event.title}
                         </h3>
-                        <p className="text-xs text-slate-400 mb-4 flex items-center gap-1.5">
+                        <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5">
                           <BookOpen size={13} className="text-sky" />
-                          Led by: <span className="text-slate-300 font-semibold">{event.type === 'Workshop' ? event.speaker : event.mentor}</span>
+                          Led by: <span className="text-muted-foreground font-semibold">{event.type === 'Workshop' ? event.speaker : event.mentor}</span>
                         </p>
 
                         {/* Description */}
-                        <p className="text-sm leading-relaxed text-slate-400 mb-6 line-clamp-3">
+                        <p className="text-sm leading-relaxed text-muted-foreground mb-6 line-clamp-3">
                           {event.description}
                         </p>
                       </div>
 
                       {/* Metadata Footer */}
-                      <div className="pt-4 border-t border-white/5 space-y-3">
-                        <div className="grid grid-cols-2 gap-2 text-slate-400 text-xs">
+                      <div className="pt-4 border-t border-border space-y-3">
+                        <div className="grid grid-cols-2 gap-2 text-muted-foreground text-xs">
                           <span className="flex items-center gap-1.5">
                             <Calendar size={13} className="text-sky" />
                             {event.date} • {event.time}
@@ -455,7 +455,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                             {event.duration}
                           </span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-slate-400 text-xs">
+                        <div className="flex items-center gap-1.5 text-muted-foreground text-xs">
                           {event.mode === 'Online' ? <Video size={13} className="text-sky" /> : <MapPin size={13} className="text-saffron" />}
                           <span className="truncate">{event.platformOrLocation}</span>
                         </div>
@@ -477,7 +477,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                                 e.stopPropagation();
                                 handleDeleteClick(event._id || event.id);
                               }}
-                              className="h-11 w-11 rounded-xl bg-white/5 hover:bg-red-500/10 text-slate-300 hover:text-red-500 border border-white/5 transition-all flex items-center justify-center"
+                              className="h-11 w-11 rounded-xl bg-card hover:bg-red-500/10 text-muted-foreground hover:text-red-500 border border-border transition-all flex items-center justify-center"
                             >
                               <Trash2 size={14} />
                             </button>
@@ -500,15 +500,15 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden"
+              className="bg-card border border-border rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden"
             >
               <div className="flex items-center gap-3 mb-8">
                 <div className="p-3 bg-sky/10 rounded-2xl text-sky">
                   <ShieldAlert className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-white">{editingEvent ? "Modify Event" : "Create New Event"}</h2>
-                  <p className="text-slate-400 text-sm">
+                  <h2 className="text-2xl font-bold text-foreground">{editingEvent ? "Modify Event" : "Create New Event"}</h2>
+                  <p className="text-muted-foreground text-sm">
                     {editingEvent ? "Update the details of your live event session." : "Publish masterclasses, special workshops, and expert keynotes live."}
                   </p>
                 </div>
@@ -525,7 +525,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                       className={`flex-1 flex items-center justify-center gap-2 py-4 border rounded-2xl cursor-pointer transition-all duration-300 ${
                         eventType === "Workshop" 
                           ? "border-sky bg-sky/10 text-white font-bold" 
-                          : "border-white/10 text-slate-400 hover:bg-white/5"
+                          : "border-border text-muted-foreground hover:bg-white/5"
                       }`}
                     >
                       <Tag className="w-4 h-4" />
@@ -537,7 +537,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                       className={`flex-1 flex items-center justify-center gap-2 py-4 border rounded-2xl cursor-pointer transition-all duration-300 ${
                         eventType === "Special Class" 
                           ? "border-saffron bg-saffron/10 text-white font-bold" 
-                          : "border-white/10 text-slate-400 hover:bg-white/5"
+                          : "border-border text-muted-foreground hover:bg-white/5"
                       }`}
                     >
                       <Sparkles className="w-4 h-4" />
@@ -548,13 +548,13 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="col-span-full">
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Event Title *</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Event Title *</label>
                     <input 
                       required 
                       type="text" 
                       placeholder="e.g. Masterclass in Quantum Theory"
                       value={formData.title}
-                      className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200" 
+                      className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground" 
                       onChange={e => setFormData({...formData, title: e.target.value})} 
                     />
                   </div>
@@ -563,32 +563,32 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                   {eventType === "Workshop" && (
                     <>
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Topic / Subject</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Topic / Subject</label>
                         <input 
                           type="text" 
                           placeholder="e.g. Mathematics, Career, Dev"
                           value={formData.topic}
-                          className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200" 
+                          className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground" 
                           onChange={e => setFormData({...formData, topic: e.target.value})} 
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Speaker Name</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Speaker Name</label>
                         <input 
                           type="text" 
                           placeholder="e.g. Dr. Homi Bhabha"
                           value={formData.speaker}
-                          className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200" 
+                          className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground" 
                           onChange={e => setFormData({...formData, speaker: e.target.value})} 
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Pricing (Free or Amount)</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Pricing (Free or Amount)</label>
                         <input 
                           type="text" 
                           placeholder="e.g. Free, ₹499" 
                           value={formData.price}
-                          className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200" 
+                          className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground" 
                           onChange={e => setFormData({...formData, price: e.target.value})} 
                         />
                       </div>
@@ -599,9 +599,9 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                   {eventType === "Special Class" && (
                     <>
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Category Type</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Category Type</label>
                         <select 
-                          className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200 cursor-pointer"
+                          className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground cursor-pointer"
                           value={formData.category}
                           onChange={e => setFormData({...formData, category: e.target.value})}
                         >
@@ -612,22 +612,22 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Mentor Name</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Mentor Name</label>
                         <input 
                           type="text" 
                           placeholder="e.g. Senior Faculty Member"
                           value={formData.mentor}
-                          className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200" 
+                          className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground" 
                           onChange={e => setFormData({...formData, mentor: e.target.value})} 
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Limit Seats</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Limit Seats</label>
                         <input 
                           type="number" 
                           placeholder="e.g. 50" 
                           value={formData.limitSeats}
-                          className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200" 
+                          className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground" 
                           onChange={e => setFormData({...formData, limitSeats: e.target.value})} 
                         />
                       </div>
@@ -636,9 +636,9 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
 
                   {/* SHARED FIELDS */}
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Mode of Delivery</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Mode of Delivery</label>
                     <select 
-                      className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200 cursor-pointer"
+                      className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground cursor-pointer"
                       value={formData.mode}
                       onChange={e => setFormData({...formData, mode: e.target.value})}
                     >
@@ -647,54 +647,54 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Platform / Location *</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Platform / Location *</label>
                     <input 
                       required 
                       type="text" 
                       placeholder="e.g. Zoom Meeting / Classroom Hall C" 
                       value={formData.platformOrLocation}
-                      className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200" 
+                      className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground" 
                       onChange={e => setFormData({...formData, platformOrLocation: e.target.value})} 
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Scheduled Date *</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Scheduled Date *</label>
                     <input 
                       required 
                       type="date" 
                       value={formData.date}
                       min={editingEvent ? undefined : todayStr}
-                      className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200 cursor-pointer" 
+                      className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground cursor-pointer" 
                       onChange={e => setFormData({...formData, date: e.target.value})} 
                       style={{ colorScheme: 'dark' }}
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Time & Duration</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Time & Duration</label>
                     <div className="flex gap-2">
                       <input 
                         required 
                         type="time" 
                         value={formData.time}
-                        className="w-1/2 bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200 cursor-pointer" 
+                        className="w-1/2 bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground cursor-pointer" 
                         onChange={e => setFormData({...formData, time: e.target.value})} 
                       />
                       <input 
                         type="text" 
                         placeholder="e.g. 2 Hours" 
                         value={formData.duration}
-                        className="w-1/2 bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-slate-200" 
+                        className="w-1/2 bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm transition-all outline-none text-foreground" 
                         onChange={e => setFormData({...formData, duration: e.target.value})} 
                       />
                     </div>
                   </div>
                   <div className="col-span-full">
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Brief Summary Description *</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Brief Summary Description *</label>
                     <textarea 
                       required 
                       placeholder="Give a brief summary outlining the key focus, goals, and prerequisites of this event session."
                       value={formData.description}
-                      className="w-full bg-white/[0.03] border border-white/10 focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm h-32 outline-none resize-none text-slate-200" 
+                      className="w-full bg-card border border-border focus:border-sky/50 rounded-2xl py-3.5 px-4 text-sm h-32 outline-none resize-none text-foreground" 
                       onChange={e => setFormData({...formData, description: e.target.value})}
                     ></textarea>
                   </div>
@@ -711,14 +711,14 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
       {/* --- CUSTOM CONFIRMATION MODAL (No Alert system) --- */}
       {showDeleteConfirm && eventToDelete && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-[#0f172a] border border-white/10 w-full max-w-sm rounded-3xl p-6 shadow-2xl space-y-6 text-center relative animate-in zoom-in-95 duration-300">
+          <div className="bg-card border border-border w-full max-w-sm rounded-3xl p-6 shadow-2xl space-y-6 text-center relative animate-in zoom-in-95 duration-300">
             <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
               <AlertTriangle className="h-8 w-8" />
             </div>
 
             <div className="space-y-2">
-              <h4 className="text-lg font-bold text-white uppercase tracking-tight font-sans">Confirm Deletion</h4>
-              <p className="text-slate-400 text-xs leading-relaxed font-sans">
+              <h4 className="text-lg font-bold text-foreground uppercase tracking-tight font-sans">Confirm Deletion</h4>
+              <p className="text-muted-foreground text-xs leading-relaxed font-sans">
                 Are you absolutely sure you want to delete this event? This action is permanent and will completely remove this session catalog entry.
               </p>
             </div>
@@ -735,7 +735,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                   setShowDeleteConfirm(false);
                   setEventToDelete(null);
                 }}
-                className="px-6 h-12 border border-white/10 hover:bg-white/5 text-slate-300 font-bold rounded-xl transition-all text-xs uppercase tracking-wider font-sans"
+                className="px-6 h-12 border border-border hover:bg-white/5 text-muted-foreground font-bold rounded-xl transition-all text-xs uppercase tracking-wider font-sans"
               >
                 Cancel
               </button>

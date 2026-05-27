@@ -51,7 +51,7 @@ export function HeroSection() {
           style={{ transitionDelay: "180ms" }}
         >
           <div className="absolute inset-0 rounded-full bg-sky/25 blur-2xl scale-[1.6]" />
-          <div className="relative flex h-[100px] w-[100px] items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-2xl backdrop-blur-sm ring-1 ring-gold/15 animate-float">
+          <div className="relative flex h-[100px] w-[100px] items-center justify-center rounded-full border border-border bg-card shadow-2xl backdrop-blur-sm ring-1 ring-gold/15 animate-float">
             <Image src="/logo.jpeg" alt="P.P.E.S. Logo" width={88} height={88} className="rounded-full" priority />
           </div>
         </div>
@@ -94,7 +94,7 @@ export function HeroSection() {
         >
           <Link
             href="#about"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/6 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-white/12"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/6 px-6 py-3 text-sm font-semibold text-foreground backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-white/12"
           >
             Our Story
           </Link>
@@ -116,7 +116,7 @@ export function HeroSection() {
         <div className="mx-auto grid max-w-4xl grid-cols-2 divide-x divide-white/8 sm:grid-cols-4">
           {stats.map((s) => (
             <div key={s.label} className="flex flex-col items-center py-5 px-4">
-              <span className="font-display text-xl font-bold text-white sm:text-2xl">{s.value}</span>
+              <span className="font-display text-xl font-bold text-foreground sm:text-2xl">{s.value}</span>
               <span className="mt-0.5 text-[11px] font-medium uppercase tracking-wider text-white/35">{s.label}</span>
             </div>
           ))}

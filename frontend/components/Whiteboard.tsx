@@ -231,7 +231,7 @@ export const Whiteboard = ({ call }: { call?: any }) => {
     <div className="relative size-full bg-white rounded-2xl md:rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col group/board">
       {/* Tool Palette */}
       <div className="absolute top-6 left-6 flex flex-col gap-2 z-10 scale-90 md:scale-100 origin-top-left transition-transform duration-300">
-        <div className="bg-slate-900/90 backdrop-blur-xl border border-white/10 p-2 rounded-2xl flex flex-col gap-2 shadow-2xl">
+        <div className="bg-slate-900/90 backdrop-blur-xl border border-border p-2 rounded-2xl flex flex-col gap-2 shadow-2xl">
           <ToolButton 
             active={tool === 'pencil'} 
             onClick={() => setTool('pencil')} 
@@ -246,13 +246,13 @@ export const Whiteboard = ({ call }: { call?: any }) => {
           <div className="h-px bg-white/10 mx-1" />
           <button 
             onClick={handleClear}
-            className="h-10 w-10 flex items-center justify-center rounded-xl hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-all"
+            className="h-10 w-10 flex items-center justify-center rounded-xl hover:bg-red-500/10 text-muted-foreground hover:text-red-500 transition-all"
           >
             <Trash2 size={18} />
           </button>
         </div>
 
-        <div className="bg-slate-900/90 backdrop-blur-xl border border-white/10 p-2 rounded-2xl flex flex-col gap-3 shadow-2xl">
+        <div className="bg-slate-900/90 backdrop-blur-xl border border-border p-2 rounded-2xl flex flex-col gap-3 shadow-2xl">
           {['#0ea5e9', '#f59e0b', '#ef4444', '#10b981', '#6366f1', '#000000'].map((c) => (
             <button
               key={c}
@@ -311,12 +311,12 @@ export const Whiteboard = ({ call }: { call?: any }) => {
       {/* Bottom Status */}
       <div className="px-8 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50 backdrop-blur-sm">
         <div className="flex items-center gap-4">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Live Whiteboard
           </span>
           <div className="h-3 w-px bg-slate-200" />
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
             {tool === 'pencil' ? `Brush: ${lineWidth}px` : 'Eraser Mode'}
           </span>
         </div>
@@ -336,7 +336,7 @@ const ToolButton = ({ active, onClick, icon: Icon, color }: any) => (
     onClick={onClick}
     className={cn(
       "h-10 w-10 flex items-center justify-center rounded-xl transition-all relative",
-      active ? "bg-sky text-white shadow-lg shadow-sky/20" : "text-slate-400 hover:bg-white/5 hover:text-white"
+      active ? "bg-sky text-white shadow-lg shadow-sky/20" : "text-muted-foreground hover:bg-white/5 hover:text-white"
     )}
   >
     <Icon size={18} />

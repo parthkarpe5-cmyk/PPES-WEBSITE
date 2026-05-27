@@ -20,11 +20,11 @@ export default function FacultyLayout({
           
           <div className="flex-1 max-w-md hidden md:block">
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400 dark:text-white/40" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground dark:text-white/40" />
               <Input
                 type="search"
                 placeholder="Search students, courses..."
-                className="pl-9 bg-slate-200/40 dark:bg-white/5 border-border/40 text-foreground rounded-xl focus:ring-[#2FA8CC] transition-all focus:bg-slate-200/60 dark:focus:bg-white/10"
+                className="pl-9 bg-slate-200/40  border-border/40 text-foreground rounded-xl focus:ring-[#2FA8CC] transition-all focus:bg-slate-200/60 dark:focus:bg-white/10"
               />
             </div>
           </div>

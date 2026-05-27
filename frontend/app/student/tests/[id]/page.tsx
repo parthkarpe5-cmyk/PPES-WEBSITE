@@ -141,13 +141,13 @@ export default function TakeTest() {
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300 pb-24 p-6 lg:p-10 animate-in fade-in duration-500">
       {/* Test Header Card */}
-      <div className="max-w-4xl mx-auto bg-white/5 backdrop-blur-md border border-white/5 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+      <div className="max-w-4xl mx-auto bg-card backdrop-blur-md border border-border rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
         <div className="space-y-1.5">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
             Assessment Session
           </span>
-          <h1 className="text-2xl font-black text-white font-display leading-tight">{test.title}</h1>
-          <div className="flex items-center gap-4 text-xs text-slate-400 font-bold uppercase tracking-wider">
+          <h1 className="text-2xl font-black text-foreground font-display leading-tight">{test.title}</h1>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground font-bold uppercase tracking-wider">
             <span>Question {currentIdx + 1} of {test.questions.length}</span>
             <span>•</span>
             <span className="text-[#2FA8CC]">{Math.round(progress)}% Complete</span>
@@ -168,19 +168,19 @@ export default function TakeTest() {
       
       {/* Progress Line */}
       <div className="max-w-4xl mx-auto mb-8">
-        <Progress value={progress} className="h-2 bg-white/5" />
+        <Progress value={progress} className="h-2 bg-card" />
       </div>
 
       <main className="max-w-4xl mx-auto space-y-8">
-        <Card className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] shadow-2xl backdrop-blur-xl overflow-hidden relative group">
-          <CardHeader className="pb-8 border-b border-white/5 bg-white/[0.02] p-8 md:p-10">
+        <Card className="bg-card border border-border rounded-[2.5rem] shadow-2xl backdrop-blur-xl overflow-hidden relative group">
+          <CardHeader className="pb-8 border-b border-border bg-card p-8 md:p-10">
             <div className="flex justify-between items-center mb-4">
               <span className="bg-[#2FA8CC]/10 border border-[#2FA8CC]/20 text-[#2FA8CC] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                 {currentQ.type.replace('_', ' ')}
               </span>
               <span className="text-xs font-bold text-[#2FA8CC]/70 uppercase tracking-widest">{currentQ.points} Points</span>
             </div>
-            <CardTitle className="text-xl md:text-2xl font-bold leading-relaxed text-white font-display">
+            <CardTitle className="text-xl md:text-2xl font-bold leading-relaxed text-foreground font-display">
               {currentQ.text}
             </CardTitle>
           </CardHeader>
@@ -197,14 +197,14 @@ export default function TakeTest() {
                   const isSelected = answers[currentQ._id] === opt;
                   return (
                     <div key={i} className="flex items-center space-x-3 group cursor-pointer">
-                      <RadioGroupItem value={opt} id={`opt-${i}`} className="border-white/20 text-[#2FA8CC] focus:ring-[#2FA8CC] bg-transparent" />
+                      <RadioGroupItem value={opt} id={`opt-${i}`} className="border-border text-[#2FA8CC] focus:ring-[#2FA8CC] bg-transparent" />
                       <Label 
                         htmlFor={`opt-${i}`} 
                         className={cn(
                           "text-base font-semibold cursor-pointer w-full p-4 rounded-2xl border transition-all duration-300",
                           isSelected 
                             ? "border-[#FF6B00] bg-[#FF6B00]/10 shadow-[0_0_15px_rgba(255,107,0,0.15)] text-white" 
-                            : "border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02] hover:bg-slate-100 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/10 text-slate-700 dark:text-slate-300"
+                            : "border-slate-200  bg-slate-50  hover:bg-slate-100 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/10 text-slate-700 dark:text-slate-300"
                         )}
                       >
                         {opt}
@@ -238,7 +238,7 @@ export default function TakeTest() {
                         id={`opt-${i}`} 
                         checked={isChecked} 
                         onCheckedChange={(checked) => handleCheckboxChange(!!checked)}
-                        className="border-white/20 text-[#2FA8CC] focus:ring-[#2FA8CC] bg-transparent data-[state=checked]:bg-[#2FA8CC] data-[state=checked]:border-[#2FA8CC]"
+                        className="border-border text-[#2FA8CC] focus:ring-[#2FA8CC] bg-transparent data-[state=checked]:bg-[#2FA8CC] data-[state=checked]:border-[#2FA8CC]"
                       />
                       <Label 
                         htmlFor={`opt-${i}`} 
@@ -246,7 +246,7 @@ export default function TakeTest() {
                           "text-base font-semibold cursor-pointer w-full p-4 rounded-2xl border transition-all duration-300",
                           isChecked 
                             ? "border-[#FF6B00] bg-[#FF6B00]/10 shadow-[0_0_15px_rgba(255,107,0,0.15)] text-white" 
-                            : "border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02] hover:bg-slate-100 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/10 text-slate-700 dark:text-slate-300"
+                            : "border-slate-200  bg-slate-50  hover:bg-slate-100 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/10 text-slate-700 dark:text-slate-300"
                         )}
                       >
                         {opt}
@@ -262,7 +262,7 @@ export default function TakeTest() {
               <div className="space-y-4">
                 <Textarea 
                   placeholder="Type your detailed answer here..."
-                  className="min-h-[250px] text-base leading-relaxed p-6 bg-slate-50 dark:bg-white/[0.02] border-slate-200 dark:border-white/10 focus:border-[#2FA8CC] focus:ring-1 focus:ring-[#2FA8CC] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-white/20 rounded-2xl focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="min-h-[250px] text-base leading-relaxed p-6 bg-slate-50  border-slate-200  focus:border-[#2FA8CC] focus:ring-1 focus:ring-[#2FA8CC] text-foreground placeholder-slate-400 dark:placeholder-white/20 rounded-2xl focus-visible:ring-0 focus-visible:ring-offset-0"
                   value={answers[currentQ._id] || ''}
                   onChange={(e) => setAnswers({...answers, [currentQ._id]: e.target.value})}
                 />
@@ -276,14 +276,14 @@ export default function TakeTest() {
             {/* CODING Type */}
             {currentQ.type === 'CODING' && (
               <div className="space-y-4">
-                <div className="bg-slate-50 dark:bg-[#050B14] rounded-2xl border border-slate-200 dark:border-white/5 overflow-hidden font-mono text-sm shadow-2xl">
-                  <div className="bg-slate-100 dark:bg-white/[0.02] px-5 py-3 border-b border-slate-200 dark:border-white/5 flex items-center justify-between text-xs text-slate-500 dark:text-white/40 font-bold uppercase tracking-widest">
+                <div className="bg-slate-50 dark:bg-[#050B14] rounded-2xl border border-slate-200  overflow-hidden font-mono text-sm shadow-2xl">
+                  <div className="bg-slate-100  px-5 py-3 border-b border-slate-200  flex items-center justify-between text-xs text-slate-500 dark:text-white/40 font-bold uppercase tracking-widest">
                     <span>solution.py</span>
                     <span className="text-[#2FA8CC]">Python 3</span>
                   </div>
                   <textarea 
                     placeholder="# Write your programming code solution here..."
-                    className="w-full min-h-[300px] p-6 bg-transparent text-slate-900 dark:text-white font-mono placeholder-slate-400 dark:placeholder-white/20 border-none outline-none focus:ring-0 resize-y"
+                    className="w-full min-h-[300px] p-6 bg-transparent text-foreground font-mono placeholder-slate-400 dark:placeholder-white/20 border-none outline-none focus:ring-0 resize-y"
                     value={answers[currentQ._id] || ''}
                     onChange={(e) => setAnswers({...answers, [currentQ._id]: e.target.value})}
                   />
@@ -305,7 +305,7 @@ export default function TakeTest() {
             variant="ghost" 
             disabled={currentIdx === 0}
             onClick={() => setCurrentIdx(currentIdx - 1)}
-            className="h-12 px-6 font-bold text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+            className="h-12 px-6 font-bold text-muted-foreground hover:text-white hover:bg-white/5 rounded-xl transition-all"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Previous

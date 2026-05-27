@@ -104,7 +104,7 @@ function TimelineItem({ milestone, index }: { milestone: (typeof milestones)[0];
         <div
           className={`flex h-12 w-12 items-center justify-center rounded-full ${milestone.color} shadow-xl ${milestone.glow} ring-4 ring-white z-10`}
         >
-          <milestone.icon className="h-5 w-5 text-white" />
+          <milestone.icon className="h-5 w-5 text-foreground" />
         </div>
         {index < milestones.length - 1 && (
           <div className="hidden md:block w-0.5 bg-gradient-to-b from-sky/40 to-border flex-1 mt-2" style={{ height: "80px" }} />

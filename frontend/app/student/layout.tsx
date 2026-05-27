@@ -30,11 +30,11 @@ export default function StudentLayout({
           
           <div className="flex-1 max-w-sm hidden sm:block">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 dark:text-white/30" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground dark:text-white/30" />
               <Input
                 type="search"
                 placeholder="Search lessons, tests..."
-                className="pl-9 bg-slate-200/40 dark:bg-white/[0.03] border-border/40 text-foreground rounded-full h-9 text-xs focus:ring-[#2FA8CC] transition-all focus:bg-slate-200/60 dark:focus:bg-white/[0.07]"
+                className="pl-9 bg-slate-200/40  border-border/40 text-foreground rounded-full h-9 text-xs focus:ring-[#2FA8CC] transition-all focus:bg-slate-200/60 dark:focus:bg-white/[0.07]"
               />
             </div>
           </div>

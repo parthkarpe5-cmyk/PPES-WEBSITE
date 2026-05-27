@@ -34,7 +34,7 @@ export function Navbar() {
       className={cn(
         "sticky top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-white/10 bg-navy/90 backdrop-blur-xl shadow-lg shadow-black/20"
+          ? "border-b border-border bg-navy/90 backdrop-blur-xl shadow-lg shadow-black/20"
           : "bg-navy/80 backdrop-blur-md"
       )}
     >
@@ -51,7 +51,7 @@ export function Navbar() {
             />
           </div>
           <div className="flex flex-col leading-none">
-            <span className="text-base font-bold tracking-tight text-white font-display">P.P.E.S.</span>
+            <span className="text-base font-bold tracking-tight text-foreground font-display">P.P.E.S.</span>
             <span className="text-[10px] text-white/35 font-medium tracking-wider">Since 2024</span>
           </div>
         </Link>
@@ -107,7 +107,7 @@ export function Navbar() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "border-t border-white/10 bg-navy/95 backdrop-blur-xl md:hidden overflow-hidden transition-all duration-300",
+          "border-t border-border bg-navy/95 backdrop-blur-xl md:hidden overflow-hidden transition-all duration-300",
           mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         )}
       >

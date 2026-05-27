@@ -58,7 +58,7 @@ export default function UsersPage() {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-           <h2 className="text-4xl font-black text-white tracking-tighter">
+           <h2 className="text-4xl font-black text-foreground tracking-tighter">
              User <span className="text-sky/60 font-medium">Management</span>
            </h2>
            <p className="text-white/40 text-sm font-medium mt-1">
@@ -69,7 +69,7 @@ export default function UsersPage() {
         <div className="flex items-center gap-3">
            <button 
              onClick={fetchUsers}
-             className="p-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all active:scale-95"
+             className="p-3 rounded-xl bg-card border border-border text-foreground hover:bg-white/10 transition-all active:scale-95"
            >
              <RefreshCw size={18} className={loading ? "animate-spin" : ""} />
            </button>
@@ -90,22 +90,22 @@ export default function UsersPage() {
             placeholder="Search by ID or name..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
+            className="w-full bg-card border border-border rounded-2xl py-4 pl-12 pr-4 text-sm text-foreground focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
           />
         </div>
-        <button className="flex items-center justify-center gap-3 bg-white/[0.03] border border-white/10 rounded-2xl py-4 px-6 text-sm font-bold text-white hover:bg-white/[0.08] transition-all">
+        <button className="flex items-center justify-center gap-3 bg-card border border-border rounded-2xl py-4 px-6 text-sm font-bold text-foreground hover:bg-white/[0.08] transition-all">
           <Filter size={18} className="text-sky" />
           More Filters
         </button>
       </div>
 
       {/* Users Table */}
-      <div className="relative overflow-hidden rounded-[2rem] p-px bg-white/5 border border-white/5">
+      <div className="relative overflow-hidden rounded-[2rem] p-px bg-card border border-border">
         <div className="glass-card relative h-full rounded-[2rem] overflow-hidden bg-[#050810]/40 backdrop-blur-3xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-white/5 bg-black/40">
+                <tr className="border-b border-border bg-black/40">
                   <th className="p-6 text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">User Profile</th>
                   <th className="p-6 text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">User ID</th>
                   <th className="p-6 text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Password</th>
@@ -120,7 +120,7 @@ export default function UsersPage() {
                   [...Array(5)].map((_, i) => (
                     <tr key={`user-skeleton-${i}`} className="animate-pulse">
                       <td colSpan={6} className="p-8">
-                        <div className="h-12 bg-white/5 rounded-xl w-full" />
+                        <div className="h-12 bg-card rounded-xl w-full" />
                       </td>
                     </tr>
                   ))
@@ -133,7 +133,7 @@ export default function UsersPage() {
                   </tr>
                 ) : (
                   filteredUsers.map((user) => (
-                    <tr key={user.userId} className="group hover:bg-sky/5 transition-colors border-white/5">
+                    <tr key={user.userId} className="group hover:bg-sky/5 transition-colors border-border">
                       <td className="p-6">
                         <div className="flex items-center gap-4">
                           <div className="relative">
@@ -143,14 +143,14 @@ export default function UsersPage() {
                             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-4 border-[#0D121F] rounded-full" />
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-white tracking-tight">{user.name || "Anonymous"}</p>
+                            <p className="text-sm font-bold text-foreground tracking-tight">{user.name || "Anonymous"}</p>
                             <p className="text-[10px] text-white/40 font-medium tracking-wide">Standard Account</p>
                           </div>
                         </div>
                       </td>
                       <td className="p-6">
                         <div className="flex flex-col gap-1">
-                          <code className="text-[11px] font-mono bg-white/5 px-2 py-1 rounded text-sky/80 border border-white/5 w-fit">
+                          <code className="text-[11px] font-mono bg-card px-2 py-1 rounded text-sky/80 border border-border w-fit">
                             ID: {user.userId}
                           </code>
                           {user.usn && (
@@ -207,15 +207,15 @@ export default function UsersPage() {
           </div>
           
           {/* Pagination Footer */}
-          <div className="p-6 border-t border-white/5 flex items-center justify-between">
+          <div className="p-6 border-t border-border flex items-center justify-between">
             <p className="text-xs text-white/30 font-medium">
               Showing <span className="text-white/60">{filteredUsers.length}</span> of <span className="text-white/60">{users.length}</span> results
             </p>
             <div className="flex gap-2">
-               <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-all disabled:opacity-30 disabled:pointer-events-none" disabled>
+               <button className="px-4 py-2 rounded-xl bg-card border border-border text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-all disabled:opacity-30 disabled:pointer-events-none" disabled>
                  Previous
                </button>
-               <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-all disabled:opacity-30 disabled:pointer-events-none" disabled>
+               <button className="px-4 py-2 rounded-xl bg-card border border-border text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-all disabled:opacity-30 disabled:pointer-events-none" disabled>
                  Next
                </button>
             </div>

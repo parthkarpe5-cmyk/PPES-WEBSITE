@@ -155,17 +155,17 @@ export default function StudentDashboard() {
     <div className="p-6 lg:p-8 space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-700 bg-background min-h-screen text-foreground transition-colors duration-300">
       
       {/* 1. Welcome Section */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-white/5">
+      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-border">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="space-y-4">
-            <Badge variant="outline" className="bg-white/10 text-[#2FA8CC] border-white/10 px-3 py-1 text-[10px] uppercase font-bold tracking-widest">
+            <Badge variant="outline" className="bg-white/10 text-[#2FA8CC] border-border px-3 py-1 text-[10px] uppercase font-bold tracking-widest">
               {displayGrade}
             </Badge>
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-2 font-display">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-2 font-display">
                 Welcome, <span className="text-[#2FA8CC] inline-block animate-shimmer bg-gradient-to-r from-[#2FA8CC] via-white to-[#2FA8CC] bg-[length:200%_auto] bg-clip-text text-transparent">{displayName}</span>
               </h1>
-              <p className="text-slate-300 text-lg max-w-md italic">
+              <p className="text-muted-foreground text-lg max-w-md italic">
                 "The beautiful thing about learning is that no one can take it away from you."
               </p>
               <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.24em] text-white/50">
@@ -175,14 +175,14 @@ export default function StudentDashboard() {
           </div>
           
           <div className="flex gap-4">
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl text-center min-w-[120px] group hover:border-[#2FA8CC]/40 transition-all cursor-default">
+            <div className="bg-card backdrop-blur-xl border border-border p-6 rounded-2xl text-center min-w-[120px] group hover:border-[#2FA8CC]/40 transition-all cursor-default">
               <ClipboardList className="h-6 w-6 text-[#2FA8CC] mx-auto mb-2 group-hover:scale-125 transition-transform" />
-              <div className="text-2xl font-bold text-white">{attempts.length}</div>
+              <div className="text-2xl font-bold text-foreground">{attempts.length}</div>
               <div className="text-[10px] font-bold text-[#2FA8CC] uppercase tracking-wider">Tests Done</div>
             </div>
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl text-center min-w-[120px] group hover:border-[#2FA8CC]/40 transition-all cursor-default">
+            <div className="bg-card backdrop-blur-xl border border-border p-6 rounded-2xl text-center min-w-[120px] group hover:border-[#2FA8CC]/40 transition-all cursor-default">
               <BookOpen className="h-6 w-6 text-[#FF6B00] mx-auto mb-2 group-hover:scale-125 transition-transform" />
-              <div className="text-2xl font-bold text-white">{purchasedCourses.length}</div>
+              <div className="text-2xl font-bold text-foreground">{purchasedCourses.length}</div>
               <div className="text-[10px] font-bold text-[#2FA8CC] uppercase tracking-wider">My Courses</div>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function StudentDashboard() {
           {/* 2. Live Classes */}
           <section>
             <div className="flex items-center justify-between mb-6 px-1">
-              <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+              <h2 className="text-2xl font-bold text-foreground tracking-tight flex items-center gap-3">
                 Live Classes
                 <span className="flex h-2 w-2 rounded-full bg-[#FF6B00] animate-pulse" />
               </h2>
@@ -231,14 +231,14 @@ export default function StudentDashboard() {
           {/* 3. Test Module Integration */}
           <section className="space-y-6">
             <div className="flex items-center justify-between px-1">
-              <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+              <h2 className="text-2xl font-bold text-foreground tracking-tight flex items-center gap-3">
                 Assessments & Tests
                 <ClipboardList className="h-5 w-5 text-[#2FA8CC]" />
               </h2>
             </div>
 
             <Tabs defaultValue="available" className="w-full" onValueChange={setActiveTestTab}>
-              <TabsList className="bg-white/5 border border-white/10 p-1 mb-6">
+              <TabsList className="bg-card border border-border p-1 mb-6">
                 <TabsTrigger value="available" className="data-[state=active]:bg-[#2FA8CC] data-[state=active]:text-white">
                   Available Tests
                 </TabsTrigger>
@@ -250,13 +250,13 @@ export default function StudentDashboard() {
               <TabsContent value="available" className="mt-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {loading ? (
-                    <div className="text-white text-sm">Loading tests...</div>
+                    <div className="text-foreground text-sm">Loading tests...</div>
                   ) : tests.length === 0 ? (
-                    <div className="text-white text-sm">No tests available at the moment.</div>
+                    <div className="text-foreground text-sm">No tests available at the moment.</div>
                   ) : tests.map((test) => {
                     const isCompleted = attempts.some(att => att.testId?._id === test._id)
                     return (
-                      <Card key={test._id} className="bg-white/[0.03] border-white/5 hover:border-[#2FA8CC]/30 transition-all overflow-hidden group">
+                      <Card key={test._id} className="bg-card border-border hover:border-[#2FA8CC]/30 transition-all overflow-hidden group">
                         <div className="h-1 bg-[#2FA8CC]/20 group-hover:bg-[#2FA8CC] transition-all" />
                         <CardHeader>
                           <div className="flex justify-between items-start mb-2">
@@ -265,7 +265,7 @@ export default function StudentDashboard() {
                             </Badge>
                             {isCompleted && <CheckCircle2 className="h-5 w-5 text-saffron" />}
                           </div>
-                          <CardTitle className="text-lg font-bold text-white">{test.title}</CardTitle>
+                          <CardTitle className="text-lg font-bold text-foreground">{test.title}</CardTitle>
                           <CardDescription className="text-sky/70 text-xs line-clamp-2">{test.description}</CardDescription>
                         </CardHeader>
                         <CardFooter className="flex justify-between items-center pt-2">
@@ -290,9 +290,9 @@ export default function StudentDashboard() {
               </TabsContent>
 
               <TabsContent value="history" className="mt-0">
-                <div className="bg-white/[0.02] rounded-2xl border border-white/5 overflow-hidden">
+                <div className="bg-card rounded-2xl border border-border overflow-hidden">
                   <table className="w-full text-left">
-                    <thead className="bg-white/5 border-b border-white/5">
+                    <thead className="bg-card border-b border-border">
                       <tr>
                         <th className="px-6 py-4 text-[10px] font-bold text-deep-blue/60 uppercase tracking-widest">Test</th>
                         <th className="px-6 py-4 text-[10px] font-bold text-deep-blue/60 uppercase tracking-widest">Score</th>
@@ -307,7 +307,7 @@ export default function StudentDashboard() {
                       ) : attempts.map((attempt, index) => (
                         <tr key={index} className="hover:bg-white/[0.02] transition-colors">
                           <td className="px-6 py-4">
-                            <span className="text-sm font-bold text-white block">{attempt.testId?.title || 'Unknown Test'}</span>
+                            <span className="text-sm font-bold text-foreground block">{attempt.testId?.title || 'Unknown Test'}</span>
                             <span className="text-[10px] text-deep-blue/60">{new Date(attempt.createdAt).toLocaleString()}</span>
                           </td>
                           <td className="px-6 py-4">
@@ -332,7 +332,7 @@ export default function StudentDashboard() {
           {/* 4. My Courses */}
           <section>
             <div className="flex items-center justify-between mb-6 px-1">
-              <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+              <h2 className="text-2xl font-bold text-foreground tracking-tight flex items-center gap-2">
                 <BookOpen className="h-6 w-6 text-[#2FA8CC]" />
                 Purchased Courses
               </h2>
@@ -345,7 +345,7 @@ export default function StudentDashboard() {
               </Button>
             </div>
             
-            <div className="bg-white/[0.02] rounded-3xl border border-white/5 overflow-hidden">
+            <div className="bg-card rounded-3xl border border-border overflow-hidden">
               {loadingCourses ? (
                 <div className="flex justify-center p-12">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2FA8CC]"></div>
@@ -353,13 +353,13 @@ export default function StudentDashboard() {
               ) : purchasedCourses.length === 0 ? (
                 <div className="text-center py-16">
                   <BookOpen className="h-12 w-12 text-slate-600 mx-auto mb-4 opacity-50" />
-                  <p className="text-slate-400 font-bold text-lg mb-2">No Courses Enrolled</p>
+                  <p className="text-muted-foreground font-bold text-lg mb-2">No Courses Enrolled</p>
                   <p className="text-slate-500 text-xs mb-6 max-w-sm mx-auto">
                     You haven't purchased any courses yet. Browse our catalog to start learning.
                   </p>
                   <Button 
                     onClick={() => router.push('/student/courses')}
-                    className="bg-white/10 hover:bg-white/20 text-white font-bold"
+                    className="bg-white/10 hover:bg-white/20 text-foreground font-bold"
                   >
                     View Catalog
                   </Button>
@@ -367,7 +367,7 @@ export default function StudentDashboard() {
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
-                    <thead className="bg-black/20 border-b border-white/5">
+                    <thead className="bg-black/20 border-b border-border">
                       <tr>
                         <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Course Name</th>
                         <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Subjects</th>
@@ -384,13 +384,13 @@ export default function StudentDashboard() {
                                 <BookOpen className="h-4 w-4 text-[#2FA8CC]" />
                               </div>
                               <div>
-                                <span className="text-sm font-bold text-white block group-hover:text-[#2FA8CC] transition-colors">{course.course_name}</span>
+                                <span className="text-sm font-bold text-foreground block group-hover:text-[#2FA8CC] transition-colors">{course.course_name}</span>
                                 <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">{course.course_id}</span>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-5">
-                            <Badge className="bg-white/5 text-slate-300 border-white/10 font-bold">
+                            <Badge className="bg-card text-muted-foreground border-border font-bold">
                               {course.subjects?.length || 0} Modules
                             </Badge>
                           </td>
@@ -402,7 +402,7 @@ export default function StudentDashboard() {
                           <td className="px-6 py-5 text-right">
                             <Button 
                               onClick={() => router.push(`/student/courses`)}
-                              className="bg-white/5 hover:bg-[#2FA8CC] text-white border border-white/10 hover:border-[#2FA8CC] transition-all h-9 text-xs font-bold"
+                              className="bg-card hover:bg-[#2FA8CC] text-white border border-border hover:border-[#2FA8CC] transition-all h-9 text-xs font-bold"
                             >
                               Study Hub <ChevronRight className="ml-1 h-3 w-3" />
                             </Button>
@@ -424,7 +424,7 @@ export default function StudentDashboard() {
           {/* 5. Events Section */}
           <section>
             <div className="flex items-center justify-between mb-6 px-1">
-              <h2 className="text-xl font-bold text-white">Upcoming Events</h2>
+              <h2 className="text-xl font-bold text-foreground">Upcoming Events</h2>
               <Button 
                 onClick={() => router.push('/student/events')}
                 variant="link" 
@@ -438,9 +438,9 @@ export default function StudentDashboard() {
               {loadingEvents ? (
                 <div className="text-slate-500 text-xs p-4">Loading events...</div>
               ) : events.length === 0 ? (
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 text-center">
+                <div className="bg-card border border-border rounded-2xl p-6 text-center">
                   <Calendar className="h-8 w-8 text-slate-600 mx-auto mb-2 opacity-50" />
-                  <p className="text-slate-400 font-bold text-xs mb-1">No Upcoming Events</p>
+                  <p className="text-muted-foreground font-bold text-xs mb-1">No Upcoming Events</p>
                   <p className="text-slate-500 text-[10px] max-w-[200px] mx-auto">
                     Check back later for workshops or special classes.
                   </p>
@@ -452,19 +452,19 @@ export default function StudentDashboard() {
                     <div 
                       key={event._id} 
                       onClick={() => router.push('/student/events')}
-                      className="flex gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all group cursor-pointer"
+                      className="flex gap-4 p-4 rounded-2xl bg-card border border-border hover:bg-white/[0.04] transition-all group cursor-pointer"
                     >
-                      <div className="flex-shrink-0 h-12 w-12 rounded-xl bg-gradient-to-br from-white/5 to-transparent border border-white/5 flex flex-col items-center justify-center text-center">
+                      <div className="flex-shrink-0 h-12 w-12 rounded-xl bg-gradient-to-br from-white/5 to-transparent border border-border flex flex-col items-center justify-center text-center">
                         <span className="text-[10px] font-bold text-[#2FA8CC] uppercase mb-px leading-none">{month}</span>
-                        <span className="text-lg font-bold text-white leading-none">{day}</span>
+                        <span className="text-lg font-bold text-foreground leading-none">{day}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h5 className="font-bold text-white group-hover:text-[#2FA8CC] transition-colors truncate">{event.title}</h5>
+                        <h5 className="font-bold text-foreground group-hover:text-[#2FA8CC] transition-colors truncate">{event.title}</h5>
                         <div className="flex items-center gap-3 mt-1">
                           <span className="text-[10px] font-bold text-deep-blue/60 flex items-center gap-1">
                             <Clock className="h-3 w-3" /> {formatEventTime(event.time)}
                           </span>
-                          <Badge className="bg-white/5 hover:bg-white/5 text-[9px] text-[#2FA8CC] border-white/10 uppercase py-0 px-1.5 h-4">{event.type}</Badge>
+                          <Badge className="bg-card hover:bg-white/5 text-[9px] text-[#2FA8CC] border-border uppercase py-0 px-1.5 h-4">{event.type}</Badge>
                         </div>
                       </div>
                     </div>
@@ -477,12 +477,12 @@ export default function StudentDashboard() {
           {/* 6. Achievements */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white tracking-tight">Achievements</h2>
+              <h2 className="text-xl font-bold text-foreground tracking-tight">Achievements</h2>
               <Trophy className="h-5 w-5 text-[#FFD700]" />
             </div>
-            <Card className="bg-white/[0.02] border-white/5 rounded-[2rem] p-6 text-center">
+            <Card className="bg-card border-border rounded-[2rem] p-6 text-center">
               <Trophy className="h-10 w-10 text-slate-600 mx-auto mb-3 opacity-50" />
-              <p className="text-slate-300 font-bold text-sm mb-1">No Achievements Unlocked Yet</p>
+              <p className="text-muted-foreground font-bold text-sm mb-1">No Achievements Unlocked Yet</p>
               <p className="text-slate-500 text-xs max-w-[240px] mx-auto leading-relaxed">
                 Complete courses and score 100% on assessments to unlock exclusive badges!
               </p>
@@ -490,12 +490,12 @@ export default function StudentDashboard() {
           </section>
 
           {/* Quick Support */}
-          <section onClick={() => router.push('/student/doubts')} className="bg-white/5 border border-white/5 p-6 rounded-2xl flex items-center gap-4 group cursor-pointer hover:bg-white/10 transition-all">
+          <section onClick={() => router.push('/student/doubts')} className="bg-card border border-border p-6 rounded-2xl flex items-center gap-4 group cursor-pointer hover:bg-white/10 transition-all">
             <div className="h-10 w-10 bg-[#2FA8CC]/20 rounded-xl flex items-center justify-center text-[#2FA8CC]">
               <MessageCircle className="h-5 w-5" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-white">Ask your Mentor</h4>
+              <h4 className="text-sm font-bold text-foreground">Ask your Mentor</h4>
               <p className="text-[10px] text-deep-blue/60 font-bold uppercase">Average response: 15m</p>
             </div>
           </section>

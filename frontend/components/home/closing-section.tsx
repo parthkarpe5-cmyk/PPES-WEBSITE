@@ -114,7 +114,7 @@ export function ClosingSection() {
               className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-saffron to-orange-600 px-8 py-5 font-semibold text-white shadow-xl shadow-saffron/30 transition-all duration-300 hover:shadow-saffron/50 hover:scale-[1.02] sm:w-auto sm:min-w-[220px]"
             >
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 group-hover:bg-white/25 transition-colors">
-                <UserPlus className="h-5 w-5 text-white" />
+                <UserPlus className="h-5 w-5 text-foreground" />
               </div>
               <div className="text-left">
                 <p className="text-sm font-bold leading-none">Join Us</p>
@@ -170,12 +170,12 @@ export function ClosingSection() {
           />
           {/* Orbs */}
           <div className="absolute -top-12 -left-12 h-40 w-40 rounded-full bg-gold/15 blur-2xl" />
-          <div className="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-white/5 blur-2xl" />
+          <div className="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-card blur-2xl" />
 
           <div className="relative">
             <Quote className="mx-auto h-10 w-10 text-gold" />
             <blockquote
-              className="mx-auto mt-6 max-w-3xl text-2xl font-bold leading-relaxed text-white md:text-4xl font-display"
+              className="mx-auto mt-6 max-w-3xl text-2xl font-bold leading-relaxed text-foreground md:text-4xl font-display"
             >
               &ldquo;Education must shape character before careers.&rdquo;
             </blockquote>
@@ -194,7 +194,7 @@ export function ClosingSection() {
                   rel="noopener noreferrer"
                   aria-label={s.label}
                   title={s.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-300 hover:bg-white/25 hover:scale-110"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-foreground transition-all duration-300 hover:bg-white/25 hover:scale-110"
                 >
                   {s.icon}
                 </a>

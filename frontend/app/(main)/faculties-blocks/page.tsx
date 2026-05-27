@@ -78,7 +78,7 @@ export default function FacultiesBlocksPage() {
                     <span className="text-xs font-semibold uppercase tracking-widest text-[#FF6B00]">
                         Creative Side
                     </span>
-                    <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-white md:text-5xl">
+                    <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground md:text-5xl">
                         Beyond the Classroom
                     </h1>
                     <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/80">

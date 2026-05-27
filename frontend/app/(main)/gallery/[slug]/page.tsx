@@ -35,7 +35,7 @@ function Lightbox({
             {/* Close */}
             <button
                 onClick={onClose}
-                className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+                className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-foreground transition-colors hover:bg-white/20"
                 aria-label="Close lightbox"
             >
                 <X className="h-6 w-6" />
@@ -45,7 +45,7 @@ function Lightbox({
             {images.length > 1 && (
                 <button
                     onClick={onPrev}
-                    className="absolute left-4 z-10 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+                    className="absolute left-4 z-10 rounded-full bg-white/10 p-3 text-foreground transition-colors hover:bg-white/20"
                     aria-label="Previous image"
                 >
                     <ChevronLeft className="h-6 w-6" />
@@ -64,7 +64,7 @@ function Lightbox({
             {images.length > 1 && (
                 <button
                     onClick={onNext}
-                    className="absolute right-4 z-10 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+                    className="absolute right-4 z-10 rounded-full bg-white/10 p-3 text-foreground transition-colors hover:bg-white/20"
                     aria-label="Next image"
                 >
                     <ChevronRight className="h-6 w-6" />
@@ -72,7 +72,7 @@ function Lightbox({
             )}
 
             {/* Counter */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm">
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-sm text-foreground backdrop-blur-sm">
                 {currentIndex + 1} / {images.length}
             </div>
         </div>
@@ -146,12 +146,12 @@ export default function GalleryDetailPage() {
                 <div className="relative mx-auto w-full max-w-7xl px-6 pb-10">
                     <Link
                         href="/gallery"
-                        className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/25"
+                        className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-foreground backdrop-blur-sm transition-colors hover:bg-white/25"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         Back to Gallery
                     </Link>
-                    <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl font-display">
+                    <h1 className="text-3xl font-bold text-foreground md:text-4xl lg:text-5xl font-display">
                         {item.title}
                     </h1>
                     <div className="mt-3 flex flex-wrap gap-4 text-sm text-white/75">
@@ -196,10 +196,10 @@ export default function GalleryDetailPage() {
                                     <Image src={img.src} alt={img.alt} fill className="object-cover object-center transition-transform duration-500 group-hover:scale-110" />
                                     <div className="absolute inset-0 flex items-center justify-center bg-transparent transition-all group-hover:bg-black/30">
                                         <div className="scale-0 rounded-full bg-white/20 p-3 backdrop-blur-sm transition-transform group-hover:scale-100">
-                                            <Play className="h-6 w-6 text-white" />
+                                            <Play className="h-6 w-6 text-foreground" />
                                         </div>
                                     </div>
-                                    <span className="absolute bottom-2 left-2 right-2 rounded-lg bg-black/40 px-3 py-1.5 text-xs text-white backdrop-blur-sm opacity-0 transition-opacity group-hover:opacity-100">
+                                    <span className="absolute bottom-2 left-2 right-2 rounded-lg bg-black/40 px-3 py-1.5 text-xs text-foreground backdrop-blur-sm opacity-0 transition-opacity group-hover:opacity-100">
                                         {img.alt}
                                     </span>
                                 </button>

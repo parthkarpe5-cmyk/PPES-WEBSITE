@@ -46,19 +46,19 @@ export default async function FacultyDashboard() {
           <h1 className="text-3xl font-bold font-display tracking-tight bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
             Welcome back, Prof. {session.name}
           </h1>
-          <p className="text-slate-400 mt-1">Here is your teaching schedule for today.</p>
+          <p className="text-muted-foreground mt-1">Here is your teaching schedule for today.</p>
         </div>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-5 backdrop-blur-md hover:border-[#2FA8CC]/30 transition-all duration-300 w-full">
+        <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 backdrop-blur-md hover:border-[#2FA8CC]/30 transition-all duration-300 w-full">
           <div className="flex justify-between items-start">
             <div className="space-y-1">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Hours Taught</span>
-              <div className="text-2xl font-bold text-white">420h</div>
+              <div className="text-2xl font-bold text-foreground">420h</div>
             </div>
-            <div className="p-2 rounded-lg bg-white/5 group-hover:bg-[#2FA8CC]/10 transition-colors">
+            <div className="p-2 rounded-lg bg-card group-hover:bg-[#2FA8CC]/10 transition-colors">
               <Clock className="h-5 w-5 text-[#2FA8CC]" />
             </div>
           </div>
@@ -75,7 +75,7 @@ export default async function FacultyDashboard() {
         <div className="lg:col-span-8 space-y-6">
           <section>
             <div className="flex items-center justify-between mb-4 px-1">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                 Today's Classes
                 {todaySessions.length > 0 && (
                   <Badge variant="outline" className="bg-[#FF6B00]/10 text-[#FF6B00] border-[#FF6B00]/30 animate-pulse text-[10px] uppercase font-bold px-2 py-0">Active</Badge>
@@ -89,19 +89,19 @@ export default async function FacultyDashboard() {
             <div className="space-y-4">
               {todaySessions.length > 0 ? (
                 todaySessions.map((cls: any, j: number) => (
-                  <div key={j} className="group relative bg-white/[0.03] hover:bg-white/[0.05] border border-white/5 rounded-2xl p-5 transition-all duration-300 backdrop-blur-sm overflow-hidden">
+                  <div key={j} className="group relative bg-card hover:bg-white/[0.05] border border-border rounded-2xl p-5 transition-all duration-300 backdrop-blur-sm overflow-hidden">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
                       <div className="flex gap-4">
                         <div className="h-12 w-12 rounded-xl flex items-center justify-center bg-[#2FA8CC]/20 text-[#2FA8CC]">
                           <Video className="h-6 w-6" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-white group-hover:text-[#2FA8CC] transition-colors">{cls.subject}</h3>
+                          <h3 className="font-bold text-foreground group-hover:text-[#2FA8CC] transition-colors">{cls.subject}</h3>
                           <div className="flex items-center gap-3 mt-1">
-                             <span className="text-slate-400 text-xs flex items-center gap-1">
+                             <span className="text-muted-foreground text-xs flex items-center gap-1">
                               <Clock className="h-3 w-3" /> {cls.startTime}
                             </span>
-                            <span className="text-slate-500 text-xs flex items-center gap-1 border-l border-white/10 pl-3 uppercase">
+                            <span className="text-slate-500 text-xs flex items-center gap-1 border-l border-border pl-3 uppercase">
                               Std {cls.studentClass}
                             </span>
                           </div>
@@ -118,7 +118,7 @@ export default async function FacultyDashboard() {
                               </Button>
                            </Link>
                         ) : (
-                          <Button disabled className="bg-white/5 text-slate-500 rounded-xl px-6 h-9 text-xs font-bold border border-white/5">
+                          <Button disabled className="bg-card text-slate-500 rounded-xl px-6 h-9 text-xs font-bold border border-border">
                             Pending
                           </Button>
                         )}
@@ -127,7 +127,7 @@ export default async function FacultyDashboard() {
                   </div>
                 ))
               ) : (
-                <div className="p-10 border-2 border-dashed border-white/5 rounded-[2rem] text-center">
+                <div className="p-10 border-2 border-dashed border-border rounded-[2rem] text-center">
                   <p className="text-slate-500 italic text-sm font-medium">No classes scheduled for today.</p>
                 </div>
               )}
@@ -139,20 +139,20 @@ export default async function FacultyDashboard() {
         <div className="lg:col-span-4 space-y-6">
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-white">Pending Doubts</h2>
+              <h2 className="text-lg font-bold text-foreground">Pending Doubts</h2>
               <Badge className="bg-red-500/10 text-red-400 border-red-500/20 text-[10px] font-bold">NEW</Badge>
             </div>
-            <Card className="bg-white/5 border-white/5 backdrop-blur-md rounded-2xl p-4 space-y-4">
+            <Card className="bg-card border-border backdrop-blur-md rounded-2xl p-4 space-y-4">
               {[
                 { user: "Aryan S.", text: "Can you explain the derivative of tan(x) again?", time: "2 min ago", course: "Math III" },
                 { user: "Rahul M.", text: "Assignment extension request.", time: "1h ago", course: "Gen. Science" },
               ].map((doubt, l) => (
-                <div key={l} className={`pb-4 ${l !== 1 ? 'border-b border-white/5' : ''}`}>
+                <div key={l} className={`pb-4 ${l !== 1 ? 'border-b border-border' : ''}`}>
                   <div className="flex justify-between items-start mb-1">
-                    <span className="text-xs font-bold text-white">{doubt.user}</span>
+                    <span className="text-xs font-bold text-foreground">{doubt.user}</span>
                     <span className="text-[10px] text-slate-500 font-medium">{doubt.time}</span>
                   </div>
-                  <p className="text-xs text-slate-400 line-clamp-1">{doubt.text}</p>
+                  <p className="text-xs text-muted-foreground line-clamp-1">{doubt.text}</p>
                   <div className="flex items-center justify-between mt-2">
                     <span className="text-[10px] text-[#2FA8CC] font-bold">{doubt.course}</span>
                     <Button variant="ghost" size="sm" className="h-6 text-[10px] text-[#2FA8CC] hover:bg-[#2FA8CC]/10 px-2 rounded-lg">Reply</Button>
@@ -160,7 +160,7 @@ export default async function FacultyDashboard() {
                 </div>
               ))}
               <Link href="/faculty/doubts" className="w-full">
-                <Button variant="outline" className="w-full border-white/10 hover:bg-white/5 text-slate-300 text-xs font-bold rounded-xl h-9">
+                <Button variant="outline" className="w-full border-border hover:bg-white/5 text-muted-foreground text-xs font-bold rounded-xl h-9">
                   View All Doubts
                 </Button>
               </Link>

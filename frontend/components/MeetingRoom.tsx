@@ -397,7 +397,7 @@ const MeetingRoom = () => {
             <div className="absolute inset-0 bg-sky/20 blur-xl rounded-full animate-pulse" />
           </div>
           <div className="text-center">
-            <p className="text-white font-bold tracking-[0.2em] uppercase text-[10px] mb-2">Establishing Connection</p>
+            <p className="text-foreground font-bold tracking-[0.2em] uppercase text-[10px] mb-2">Establishing Connection</p>
             <p className="text-slate-500 text-xs font-medium">Securing your classroom link...</p>
           </div>
         </div>
@@ -418,13 +418,13 @@ const MeetingRoom = () => {
           'lg:mr-[340px] xl:mr-[400px]': showParticipants || showChat || showPolls || showResources,
           'mr-0': !showParticipants && !showChat && !showPolls && !showResources
         })}>
-          <div className="relative size-full rounded-2xl md:rounded-[2.5rem] overflow-hidden border border-white/5 bg-black/40 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+          <div className="relative size-full rounded-2xl md:rounded-[2.5rem] overflow-hidden border border-border bg-black/40 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
             {layout === 'grid' ? (
               <MeetingGrid participants={participants} />
             ) : layout === 'classroom' ? (
               <div className="flex flex-col lg:flex-row h-full w-full">
                 {/* Main Content Area: Screen Share or Whiteboard */}
-                <div className="flex-1 h-full min-h-[300px] p-1.5 lg:p-4 overflow-hidden relative text-white">
+                <div className="flex-1 h-full min-h-[300px] p-1.5 lg:p-4 overflow-hidden relative text-foreground">
                   {isSharingScreen ? (
                     <div className="w-full h-full rounded-2xl md:rounded-[2.5rem] overflow-hidden bg-[#050810] border-2 border-sky/30 relative shadow-[0_0_50px_rgba(47,168,204,0.2)]">
                       {screenShareParticipant ? (
@@ -444,14 +444,14 @@ const MeetingRoom = () => {
                         <motion.div
                           initial={{ y: -20, opacity: 0 }}
                           animate={{ y: 0, opacity: 1 }}
-                          className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-white/10 backdrop-blur-2xl border border-white/20 shadow-2xl z-30"
+                          className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-white/10 backdrop-blur-2xl border border-border shadow-2xl z-30"
                         >
                           <div className="flex items-center gap-2">
                             <div className="relative flex h-2 w-2">
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky opacity-75"></span>
                               <span className="relative inline-flex rounded-full h-2 w-2 bg-sky"></span>
                             </div>
-                            <span className="text-[11px] font-bold text-white uppercase tracking-wider">You are presenting</span>
+                            <span className="text-[11px] font-bold text-foreground uppercase tracking-wider">You are presenting</span>
                           </div>
                           <div className="h-4 w-px bg-white/20" />
                           <button
@@ -473,7 +473,7 @@ const MeetingRoom = () => {
                   )}
 
                   {/* Mobile Floating Teacher View */}
-                  <div className="absolute bottom-24 right-4 w-32 aspect-video lg:hidden z-40 rounded-xl overflow-hidden border border-white/20 shadow-2xl bg-slate-900">
+                  <div className="absolute bottom-24 right-4 w-32 aspect-video lg:hidden z-40 rounded-xl overflow-hidden border border-border shadow-2xl bg-card">
                     {teacherParticipant && (
                       <ParticipantView
                         key={`pip-${teacherParticipant.sessionId}`}
@@ -485,9 +485,9 @@ const MeetingRoom = () => {
                 </div>
 
                 {/* Fixed Classroom Sidebar (Hidden on Mobile, use Control Bar to open right sidebar instead) */}
-                <div className="hidden lg:flex w-[300px] xl:w-[360px] flex-col bg-[#0D121F]/80 backdrop-blur-3xl border-l border-white/5 relative overflow-hidden">
+                <div className="hidden lg:flex w-[300px] xl:w-[360px] flex-col bg-[#0D121F]/80 backdrop-blur-3xl border-l border-border relative overflow-hidden">
                   {/* Teacher/Host View */}
-                  <div className="aspect-video w-full relative bg-slate-900 border-b border-white/10 group">
+                  <div className="aspect-video w-full relative bg-card border-b border-border group">
                     {teacherParticipant ? (
                       <>
                         <ParticipantView
@@ -496,7 +496,7 @@ const MeetingRoom = () => {
                           className="w-full h-full"
                         />
                         <div className="absolute top-3 left-3 flex flex-col gap-2">
-                          <div className="px-2 py-1 rounded-lg bg-red-500 text-[8px] font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-xl border border-white/10">
+                          <div className="px-2 py-1 rounded-lg bg-red-500 text-[8px] font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-xl border border-border">
                             <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
                             On Air
                           </div>
@@ -515,7 +515,7 @@ const MeetingRoom = () => {
 
                   {/* Sidebar Chat Area */}
                   <div className="flex-1 overflow-hidden flex flex-col">
-                    <div className="px-5 py-4 border-b border-white/5 flex items-center justify-between bg-black/20 shrink-0">
+                    <div className="px-5 py-4 border-b border-border flex items-center justify-between bg-black/20 shrink-0">
                       <span className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-sky" />
                         Live Classroom Chat
@@ -535,7 +535,7 @@ const MeetingRoom = () => {
                         </Channel>
                       ) : chatError ? (
                         <div className="h-full flex flex-col items-center justify-center p-8 text-center bg-[#0D121F] gap-3">
-                          <p className="text-slate-400 text-xs">Chat failed to connect.</p>
+                          <p className="text-muted-foreground text-xs">Chat failed to connect.</p>
                           <button
                             onClick={initChatChannel}
                             className="text-[10px] font-bold text-sky hover:text-white uppercase tracking-widest px-3 py-1.5 rounded-lg bg-sky/10 hover:bg-sky/20 border border-sky/20 transition-colors"
@@ -564,7 +564,7 @@ const MeetingRoom = () => {
 
             {/* Layout Indicator Overlay */}
             <div className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-3 z-20">
-              <div className="flex items-center gap-2 px-2 py-1 md:px-3 md:py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-white/60">
+              <div className="flex items-center gap-2 px-2 py-1 md:px-3 md:py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-border text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-white/60">
                 <LayoutList size={12} className="text-sky md:w-[14px]" />
                 <span className="hidden xs:inline">{layout} View</span>
               </div>
@@ -590,7 +590,7 @@ const MeetingRoom = () => {
                     className="absolute bottom-20 flex flex-col items-center gap-1"
                     style={{ left: `${r.x}%` }}
                   >
-                    <div className="bg-white/10 backdrop-blur-md border border-white/20 px-2 py-0.5 rounded-full text-[8px] font-bold text-white/80 whitespace-nowrap">
+                    <div className="bg-white/10 backdrop-blur-md border border-border px-2 py-0.5 rounded-full text-[8px] font-bold text-white/80 whitespace-nowrap">
                       {r.senderName}
                     </div>
                     <div className="text-4xl drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
@@ -616,16 +616,16 @@ const MeetingRoom = () => {
                 "inset-0 p-2 md:p-0 md:inset-auto md:right-6 md:top-6 md:bottom-24 md:w-[320px] xl:w-[380px]"
               )}
             >
-              <div className="h-full bg-[#0D121F]/95 backdrop-blur-3xl border border-white/10 rounded-2xl md:rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl">
+              <div className="h-full bg-[#0D121F]/95 backdrop-blur-3xl border border-border rounded-2xl md:rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl">
                 {showParticipants && (
                   <div className="flex flex-col h-full">
-                    <div className="p-4 md:p-6 border-b border-white/5 flex items-center justify-between">
+                    <div className="p-4 md:p-6 border-b border-border flex items-center justify-between">
                       <h3 className="font-bold text-base md:text-lg flex items-center gap-2 md:gap-3">
                         <div className="p-1.5 md:p-2 rounded-lg md:rounded-xl bg-sky/10 text-sky">
                           <Users size={16} className="md:w-[18px]" />
                         </div>
                         Participants
-                        <span className="text-[10px] md:text-xs text-slate-500 bg-white/5 px-2 py-0.5 rounded-full ml-1">
+                        <span className="text-[10px] md:text-xs text-slate-500 bg-card px-2 py-0.5 rounded-full ml-1">
                           {participants.length}
                         </span>
                       </h3>
@@ -635,15 +635,15 @@ const MeetingRoom = () => {
                     </div>
                     <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-2">
                       {participants.map((p) => (
-                        <div key={p.sessionId} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 group hover:bg-white/10 transition-all">
+                        <div key={p.sessionId} className="flex items-center justify-between p-3 rounded-xl bg-card border border-border group hover:bg-white/10 transition-all">
                           <div className="flex items-center gap-3">
                             <div className="relative">
-                              <div className="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-bold text-sky">
+                              <div className="w-10 h-10 rounded-full bg-slate-800 border border-border flex items-center justify-center text-xs font-bold text-sky">
                                 {p.name?.charAt(0) || 'U'}
                               </div>
                               {raisedHands.includes(p.userId) && (
                                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 border border-[#0D121F] rounded-full flex items-center justify-center animate-bounce shadow-lg">
-                                  <Hand size={10} className="text-white" />
+                                  <Hand size={10} className="text-foreground" />
                                 </div>
                               )}
                               {p.isSpeaking && <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-[#0D121F] rounded-full animate-pulse" />}
@@ -686,7 +686,7 @@ const MeetingRoom = () => {
                         </div>
                         Class Chat
                       </h3>
-                      <button onClick={() => setShowChat(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
+                      <button onClick={() => setShowChat(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-muted-foreground">
                         <X size={18} className="md:w-[20px]" />
                       </button>
                     </div>
@@ -701,7 +701,7 @@ const MeetingRoom = () => {
                         </Channel>
                       ) : chatError ? (
                         <div className="flex-1 flex flex-col items-center justify-center p-8 gap-3">
-                          <p className="text-slate-400 text-xs">Chat failed to connect.</p>
+                          <p className="text-muted-foreground text-xs">Chat failed to connect.</p>
                           <button
                             onClick={initChatChannel}
                             className="text-[10px] font-bold text-sky hover:underline uppercase tracking-widest"
@@ -749,7 +749,7 @@ const MeetingRoom = () => {
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="flex items-center gap-1 md:gap-3 px-2 py-2 md:px-6 md:py-4 rounded-2xl md:rounded-[3rem] bg-[#0D121F]/90 backdrop-blur-3xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.6)] ring-1 ring-white/5 overflow-x-auto no-scrollbar"
+          className="flex items-center gap-1 md:gap-3 px-2 py-2 md:px-6 md:py-4 rounded-2xl md:rounded-[3rem] bg-[#0D121F]/90 backdrop-blur-3xl border border-border shadow-[0_10px_40px_rgba(0,0,0,0.6)] ring-1 ring-white/5 overflow-x-auto no-scrollbar"
         >
           {/* Main Controls */}
           <div className="flex items-center gap-1.5 md:gap-3">
@@ -772,44 +772,44 @@ const MeetingRoom = () => {
             <div className="md:hidden">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 transition-all active:scale-95">
-                    <Settings size={20} className="text-slate-400" />
+                  <button className="h-10 w-10 flex items-center justify-center rounded-xl bg-card hover:bg-white/10 transition-all active:scale-95">
+                    <Settings size={20} className="text-muted-foreground" />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="border-white/10 bg-[#0D121F]/95 backdrop-blur-xl text-white rounded-2xl p-2 min-w-[200px] shadow-2xl mb-4 mr-4">
+                <DropdownMenuContent className="border-border bg-[#0D121F]/95 backdrop-blur-xl text-white rounded-2xl p-2 min-w-[200px] shadow-2xl mb-4 mr-4">
                   <div className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Classroom Tools</div>
 
                   <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={toggleHandRaise}>
-                    <Hand size={18} className={cn("mr-3", isHandRaised ? "text-sky" : "text-slate-400")} />
+                    <Hand size={18} className={cn("mr-3", isHandRaised ? "text-sky" : "text-muted-foreground")} />
                     <span className="text-sm">Raise Hand</span>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={toggleScreenShare}>
-                    <MonitorUp size={18} className={cn("mr-3", isSharingScreen ? "text-sky" : "text-slate-400")} />
+                    <MonitorUp size={18} className={cn("mr-3", isSharingScreen ? "text-sky" : "text-muted-foreground")} />
                     <span className="text-sm">Share Screen</span>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setShowParticipants(true)}>
-                    <Users size={18} className="mr-3 text-slate-400" />
+                    <Users size={18} className="mr-3 text-muted-foreground" />
                     <span className="text-sm">Participants</span>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setShowChat(true)}>
-                    <MessageSquare size={18} className="mr-3 text-slate-400" />
+                    <MessageSquare size={18} className="mr-3 text-muted-foreground" />
                     <span className="text-sm">Class Chat</span>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setShowPolls(true)}>
-                    <BarChart2 size={18} className="mr-3 text-slate-400" />
+                    <BarChart2 size={18} className="mr-3 text-muted-foreground" />
                     <span className="text-sm">Live Polls</span>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem className="focus:bg-white/5 rounded-xl py-3" onClick={() => setShowResources(true)}>
-                    <FileText size={18} className="mr-3 text-slate-400" />
+                    <FileText size={18} className="mr-3 text-muted-foreground" />
                     <span className="text-sm">Session Files</span>
                   </DropdownMenuItem>
 
-                  <div className="h-px bg-white/5 my-2" />
+                  <div className="h-px bg-card my-2" />
 
                   <div className="grid grid-cols-4 gap-1 p-1">
                     {['👏', '❤️', '🎉', '🔥'].map((emoji) => (
@@ -853,12 +853,12 @@ const MeetingRoom = () => {
           <div className="hidden md:flex items-center gap-1.5 md:gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-white/5 hover:bg-white/10 transition-all active:scale-95 group relative">
-                  <LayoutList size={18} className="text-slate-400 group-hover:text-white md:w-[20px]" />
+                <button className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-card hover:bg-white/10 transition-all active:scale-95 group relative">
+                  <LayoutList size={18} className="text-muted-foreground group-hover:text-white md:w-[20px]" />
                   <div className="absolute -top-1 -right-1 w-1.5 h-1.5 md:w-2 md:h-2 bg-sky rounded-full scale-0 group-hover:scale-100 transition-transform" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="border-white/10 bg-[#0D121F]/95 backdrop-blur-xl text-white rounded-xl md:rounded-[1.5rem] p-1.5 md:p-2 min-w-[160px] md:min-w-[180px] shadow-2xl mb-4">
+              <DropdownMenuContent className="border-border bg-[#0D121F]/95 backdrop-blur-xl text-white rounded-xl md:rounded-[1.5rem] p-1.5 md:p-2 min-w-[160px] md:min-w-[180px] shadow-2xl mb-4">
                 <div className="px-3 py-2 text-[8px] md:text-[10px] font-bold text-slate-500 uppercase tracking-widest">Display Layout</div>
                 {['Classroom', 'Grid', 'Speaker-Left', 'Speaker-Right', 'Speaker-Bottom'].map((item, index) => (
                   <DropdownMenuItem
@@ -923,11 +923,11 @@ const MeetingRoom = () => {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-white/5 hover:bg-white/10 transition-all active:scale-95 group relative">
-                  <Smile size={18} className="text-slate-400 group-hover:text-white" />
+                <button className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-card hover:bg-white/10 transition-all active:scale-95 group relative">
+                  <Smile size={18} className="text-muted-foreground group-hover:text-white" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="border-white/10 bg-[#0D121F]/95 backdrop-blur-xl text-white rounded-xl p-2 min-w-[120px] shadow-2xl mb-4 flex flex-wrap gap-1 justify-center max-w-[200px]">
+              <DropdownMenuContent className="border-border bg-[#0D121F]/95 backdrop-blur-xl text-white rounded-xl p-2 min-w-[120px] shadow-2xl mb-4 flex flex-wrap gap-1 justify-center max-w-[200px]">
                 {['👏', '❤️', '🎉', '😂', '🔥', '👍', '🤔', '👋'].map((emoji) => (
                   <button
                     key={emoji}
@@ -942,9 +942,9 @@ const MeetingRoom = () => {
 
             <button
               onClick={copyMeetingLink}
-              className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-white/5 hover:bg-white/10 transition-all active:scale-95 group relative"
+              className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-card hover:bg-white/10 transition-all active:scale-95 group relative"
             >
-              {isCopied ? <Check size={18} className="text-emerald-400" /> : <Copy size={18} className="text-slate-400 group-hover:text-white" />}
+              {isCopied ? <Check size={18} className="text-emerald-400" /> : <Copy size={18} className="text-muted-foreground group-hover:text-white" />}
               {isCopied && <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded">Copied!</div>}
             </button>
           </div>
@@ -956,8 +956,8 @@ const MeetingRoom = () => {
             onClick={endCall}
             className="h-10 px-3 md:h-12 md:px-6 flex items-center gap-2 md:gap-3 rounded-xl md:rounded-2xl bg-red-500 hover:bg-red-600 transition-all active:scale-95 shadow-lg shadow-red-500/20 group"
           >
-            <PhoneOff size={16} className="text-white md:w-[18px]" />
-            <span className="text-xs md:text-sm font-bold text-white hidden xs:inline">Leave</span>
+            <PhoneOff size={16} className="text-foreground md:w-[18px]" />
+            <span className="text-xs md:text-sm font-bold text-foreground hidden xs:inline">Leave</span>
           </button>
         </motion.div>
       </div>
@@ -983,7 +983,7 @@ const ControlButton = ({ active, onClick, icon: Icon, label, variant }: any) => 
         "h-10 w-12 md:h-12 md:w-14 flex items-center justify-center rounded-xl md:rounded-2xl transition-all active:scale-95 relative",
         variant === 'danger'
           ? "bg-red-500/10 text-red-500 hover:bg-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
-          : "bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white"
+          : "bg-card text-muted-foreground hover:bg-white/10 hover:text-white"
       )}
     >
       <Icon size={18} strokeWidth={2} className="md:w-[20px]" />
@@ -1001,7 +1001,7 @@ const FeatureButton = ({ active, onClick, icon: Icon, label }: any) => (
       onClick={onClick}
       className={cn("h-10 w-10 md:h-12 md:w-12 flex items-center justify-center rounded-xl md:rounded-2xl transition-all active:scale-95 relative", {
         'bg-sky text-white shadow-lg shadow-sky/25': active,
-        'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white': !active
+        'bg-card text-muted-foreground hover:bg-white/10 hover:text-white': !active
       })}
     >
       <Icon size={18} className="md:w-[20px]" />

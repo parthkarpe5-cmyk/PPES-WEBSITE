@@ -316,19 +316,19 @@ export default function BulkTestImportPage() {
   const totalPoints = questions.reduce((acc, q) => acc + q.points, 0);
 
   return (
-    <div className="p-6 lg:p-8 space-y-10 bg-[#050B14] min-h-screen text-slate-200 animate-in fade-in duration-500">
+    <div className="p-6 lg:p-8 space-y-10 bg-[#050B14] min-h-screen text-foreground animate-in fade-in duration-500">
       
       {/* Header Banner */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-6 md:p-8 shadow-2xl border border-white/5">
+      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-6 md:p-8 shadow-2xl border border-border">
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
               Curriculum Management
             </span>
-            <h1 className="text-3xl font-black tracking-tight text-white mt-2 font-display">
+            <h1 className="text-3xl font-black tracking-tight text-foreground mt-2 font-display">
               Bulk Import <span className="text-[#2FA8CC]">Assessments</span>
             </h1>
-            <p className="text-slate-400 text-xs mt-1">
+            <p className="text-muted-foreground text-xs mt-1">
               {viewState === 'upload' 
                 ? 'Upload CSV, TXT, or Word Documents to generate assessments automatically.'
                 : `Previewing draft with ${questions.length} questions (Total points: ${totalPoints})`}
@@ -342,7 +342,7 @@ export default function BulkTestImportPage() {
                 router.push('/faculty/tests');
               }}
               variant="outline" 
-              className="border-white/10 hover:bg-white/5 text-slate-300 rounded-xl h-11"
+              className="border-border hover:bg-white/5 text-muted-foreground rounded-xl h-11"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Cancel
@@ -373,7 +373,7 @@ export default function BulkTestImportPage() {
           
           {/* File Upload Zone */}
           <div className="lg:col-span-2 space-y-6">
-            <h2 className="text-lg font-bold text-white tracking-tight">Upload Assessment File</h2>
+            <h2 className="text-lg font-bold text-foreground tracking-tight">Upload Assessment File</h2>
             
             <form 
               onDragEnter={handleDrag} 
@@ -397,7 +397,7 @@ export default function BulkTestImportPage() {
                 className={`flex flex-col items-center justify-center p-12 rounded-[2.5rem] border-2 border-dashed transition-all duration-300 cursor-pointer min-h-[300px] relative overflow-hidden group ${
                   dragActive 
                     ? 'border-[#FF6B00] bg-[#FF6B00]/5 shadow-[0_0_30px_rgba(255,107,0,0.1)]' 
-                    : 'border-white/10 bg-white/[0.02] hover:border-[#2FA8CC]/40 hover:bg-white/[0.04]'
+                    : 'border-border bg-card hover:border-[#2FA8CC]/40 hover:bg-white/[0.04]'
                 }`}
               >
                 {parsing ? (
@@ -412,10 +412,10 @@ export default function BulkTestImportPage() {
                       <Upload className="h-8 w-8" />
                     </div>
                     <div>
-                      <p className="text-white font-bold text-lg">Drag & Drop your file here</p>
-                      <p className="text-slate-400 text-xs mt-1">or click to browse from folders</p>
+                      <p className="text-foreground font-bold text-lg">Drag & Drop your file here</p>
+                      <p className="text-muted-foreground text-xs mt-1">or click to browse from folders</p>
                     </div>
-                    <Badge variant="outline" className="bg-white/5 border-white/10 text-slate-400 text-[10px] px-3 py-1 font-bold">
+                    <Badge variant="outline" className="bg-card border-border text-muted-foreground text-[10px] px-3 py-1 font-bold">
                       Supports: CSV, TXT, DOCX (Max 5MB)
                     </Badge>
                   </div>
@@ -430,13 +430,13 @@ export default function BulkTestImportPage() {
           {/* Guidelines & Templates Panel */}
           <div className="lg:col-span-1 space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-bold text-white tracking-tight">Format Guidelines</h2>
+              <h2 className="text-lg font-bold text-foreground tracking-tight">Format Guidelines</h2>
             </div>
 
-            <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 backdrop-blur-xl shadow-xl space-y-6">
+            <div className="bg-card border border-border rounded-3xl p-6 backdrop-blur-xl shadow-xl space-y-6">
               
               {/* Tab Selector */}
-              <div className="grid grid-cols-3 gap-1 bg-white/5 p-1 rounded-xl">
+              <div className="grid grid-cols-3 gap-1 bg-card p-1 rounded-xl">
                 {(['csv', 'txt', 'docx'] as const).map((tab) => (
                   <button
                     key={tab}
@@ -444,7 +444,7 @@ export default function BulkTestImportPage() {
                     className={`py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
                       templateTab === tab 
                         ? 'bg-[#2FA8CC] text-white shadow-md' 
-                        : 'text-slate-400 hover:text-white'
+                        : 'text-muted-foreground hover:text-white'
                     }`}
                   >
                     {tab}
@@ -455,9 +455,9 @@ export default function BulkTestImportPage() {
               {/* Guidelines Body */}
               <div className="space-y-4 min-h-[220px]">
                 {templateTab === 'csv' && (
-                  <div className="space-y-3 text-xs leading-relaxed text-slate-400">
+                  <div className="space-y-3 text-xs leading-relaxed text-muted-foreground">
                     <p>Format your CSV with the following exact columns:</p>
-                    <code className="block bg-black/40 p-3 rounded-lg text-slate-300 font-mono text-[10px] whitespace-nowrap overflow-x-auto border border-white/5">
+                    <code className="block bg-black/40 p-3 rounded-lg text-muted-foreground font-mono text-[10px] whitespace-nowrap overflow-x-auto border border-border">
                       Type,Question Text,Points,Option A,Option B,Option C,Option D,Correct Answer
                     </code>
                     <ul className="list-disc pl-4 space-y-1.5">
@@ -469,9 +469,9 @@ export default function BulkTestImportPage() {
                 )}
 
                 {templateTab === 'txt' && (
-                  <div className="space-y-3 text-xs leading-relaxed text-slate-400">
+                  <div className="space-y-3 text-xs leading-relaxed text-muted-foreground">
                     <p>TXT files should block questions separated by blank lines:</p>
-                    <pre className="block bg-black/40 p-3 rounded-lg text-slate-300 font-mono text-[10px] overflow-x-auto max-h-[160px] border border-white/5">
+                    <pre className="block bg-black/40 p-3 rounded-lg text-muted-foreground font-mono text-[10px] overflow-x-auto max-h-[160px] border border-border">
 {`Question 1
 Type: MCQ
 Points: 5
@@ -491,7 +491,7 @@ Correct Answer: Paris`}
                 )}
 
                 {templateTab === 'docx' && (
-                  <div className="space-y-3 text-xs leading-relaxed text-slate-400">
+                  <div className="space-y-3 text-xs leading-relaxed text-muted-foreground">
                     <p>DOCX format follows the exact same paragraph structures as the TXT format. Make sure questions are cleanly separated by a blank line.</p>
                     <p>The parser will extract all text paragraphs in Word and parse them block-by-block.</p>
                   </div>
@@ -499,11 +499,11 @@ Correct Answer: Paris`}
               </div>
 
               {/* Template Download Buttons */}
-              <div className="border-t border-white/5 pt-4">
+              <div className="border-t border-border pt-4">
                 <a 
                   href={`/templates/template.${templateTab}`} 
                   download={`template.${templateTab}`}
-                  className="w-full h-11 bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-white/10 flex items-center justify-center gap-2 active:scale-95"
+                  className="w-full h-11 bg-card hover:bg-white/10 text-foreground font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-border flex items-center justify-center gap-2 active:scale-95"
                 >
                   <Download className="h-4 w-4 text-[#FF6B00]" />
                   Download {templateTab.toUpperCase()} Template
@@ -519,56 +519,56 @@ Correct Answer: Paris`}
           
           {/* Left Column: Metadata & Summary Configs */}
           <div className="lg:col-span-1 space-y-6">
-            <h2 className="text-lg font-bold text-white tracking-tight">Test Details</h2>
+            <h2 className="text-lg font-bold text-foreground tracking-tight">Test Details</h2>
             
-            <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 backdrop-blur-xl shadow-xl space-y-5">
+            <div className="bg-card border border-border rounded-3xl p-6 backdrop-blur-xl shadow-xl space-y-5">
               
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Test Title</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Test Title</label>
                 <input 
                   required 
                   value={title}
                   onChange={e => setTitle(e.target.value)}
                   placeholder="e.g. Mid-Term Assessment"
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                  className="w-full h-12 bg-card border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Description</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Description</label>
                 <textarea 
                   required 
                   value={description}
                   onChange={e => setDescription(e.target.value)}
                   placeholder="Assessment instructions..."
-                  className="w-full min-h-[100px] bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                  className="w-full min-h-[100px] bg-card border border-border rounded-xl p-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Duration (Min)</label>
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Duration (Min)</label>
                   <input 
                     type="number"
                     value={duration}
                     onChange={e => setDuration(e.target.value)}
-                    className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                    className="w-full h-12 bg-card border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Passing Mark (%)</label>
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Passing Mark (%)</label>
                   <input 
                     type="number"
                     value={passingScore}
                     onChange={e => setPassingScore(e.target.value)}
-                    className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                    className="w-full h-12 bg-card border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-white/[0.01] border border-white/5 rounded-2xl">
+              <div className="flex items-center justify-between p-4 bg-white/[0.01] border border-border rounded-2xl">
                 <div className="space-y-0.5">
-                  <label className="text-xs font-bold text-white block">Manual Release</label>
+                  <label className="text-xs font-bold text-foreground block">Manual Release</label>
                   <span className="text-[10px] text-slate-500 block leading-tight">Hide scores until review</span>
                 </div>
                 <Switch 
@@ -579,12 +579,12 @@ Correct Answer: Paris`}
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Post-Test Message</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Post-Test Message</label>
                 <input 
                   value={postTestMessage}
                   onChange={e => setPostTestMessage(e.target.value)}
                   placeholder="e.g. Well done! Results will follow soon."
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all"
+                  className="w-full h-12 bg-card border border-border rounded-xl px-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all"
                 />
               </div>
             </div>
@@ -605,7 +605,7 @@ Correct Answer: Paris`}
                   <h4 className="text-sm font-bold uppercase tracking-wider">
                     {totalErrors > 0 ? 'Validation Blocks' : 'All Clear'}
                   </h4>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-muted-foreground mt-0.5">
                     {totalErrors > 0 
                       ? `There are ${totalErrors} active formatting issues. Correct them to enable publishing.`
                       : 'No issues found! The draft is valid and ready to publish.'}
@@ -616,29 +616,29 @@ Correct Answer: Paris`}
 
             {/* Add Custom Question Toolbar */}
             <div className="bg-[#2FA8CC]/5 rounded-2xl p-6 border border-[#2FA8CC]/10 space-y-4">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Add More Questions</h4>
+              <h4 className="text-xs font-bold text-foreground uppercase tracking-wider">Add More Questions</h4>
               <div className="grid grid-cols-2 gap-2">
                 <Button 
                   onClick={() => addQuestion('MCQ')}
-                  className="bg-white/5 border border-white/5 text-slate-200 hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
+                  className="bg-card border border-border text-foreground hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
                 >
                   + MCQ
                 </Button>
                 <Button 
                   onClick={() => addQuestion('MULTIPLE_SELECT')}
-                  className="bg-white/5 border border-white/5 text-slate-200 hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
+                  className="bg-card border border-border text-foreground hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
                 >
                   + Multi-Sel
                 </Button>
                 <Button 
                   onClick={() => addQuestion('DESCRIPTIVE')}
-                  className="bg-white/5 border border-white/5 text-slate-200 hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
+                  className="bg-card border border-border text-foreground hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
                 >
                   + Descr
                 </Button>
                 <Button 
                   onClick={() => addQuestion('CODING')}
-                  className="bg-white/5 border border-white/5 text-slate-200 hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
+                  className="bg-card border border-border text-foreground hover:bg-[#2FA8CC]/10 hover:border-[#2FA8CC]/30 rounded-xl text-xs flex gap-2 h-10 font-bold"
                 >
                   + Coding
                 </Button>
@@ -650,7 +650,7 @@ Correct Answer: Paris`}
           {/* Right Column: Questions Preview and Interactive Edit Cards */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-bold text-white tracking-tight">Question Catalog ({questions.length})</h2>
+              <h2 className="text-lg font-bold text-foreground tracking-tight">Question Catalog ({questions.length})</h2>
               <button 
                 onClick={() => {
                   if(confirm("Are you sure you want to reset? You will lose this draft.")) {
@@ -673,10 +673,10 @@ Correct Answer: Paris`}
                 return (
                   <div 
                     key={q.id} 
-                    className={`bg-white/[0.02] border rounded-[2.5rem] p-6 backdrop-blur-xl shadow-xl relative overflow-hidden group transition-all duration-300 ${
+                    className={`bg-card border rounded-[2.5rem] p-6 backdrop-blur-xl shadow-xl relative overflow-hidden group transition-all duration-300 ${
                       errors.length > 0 
                         ? 'border-red-500/20 hover:border-red-500/40' 
-                        : 'border-white/5 hover:border-[#2FA8CC]/20'
+                        : 'border-border hover:border-[#2FA8CC]/20'
                     }`}
                   >
                     
@@ -720,7 +720,7 @@ Correct Answer: Paris`}
                               correctAnswer: newType === 'MULTIPLE_SELECT' ? [] : ''
                             });
                           }}
-                          className="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#2FA8CC] transition-all font-bold uppercase tracking-wider"
+                          className="bg-card border border-border rounded-xl px-3 py-1.5 text-xs text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all font-bold uppercase tracking-wider"
                         >
                           <option value="MCQ" className="bg-[#050B14]">MCQ</option>
                           <option value="MULTIPLE_SELECT" className="bg-[#050B14]">Multi-Select</option>
@@ -730,11 +730,11 @@ Correct Answer: Paris`}
                       </div>
 
                       <div className="flex items-center gap-3">
-                        <div className="flex items-center border border-white/10 bg-white/5 rounded-xl px-2 h-9">
+                        <div className="flex items-center border border-border bg-card rounded-xl px-2 h-9">
                           <span className="text-[9px] font-black text-[#2FA8CC]/70 mr-1.5 uppercase tracking-wider">Pts:</span>
                           <input 
                             type="number" 
-                            className="w-8 h-6 bg-transparent outline-none text-center font-bold text-xs text-white"
+                            className="w-8 h-6 bg-transparent outline-none text-center font-bold text-xs text-foreground"
                             value={q.points}
                             onChange={(e) => updateQuestion(q.id, { points: parseInt(e.target.value, 10) || 0 })}
                           />
@@ -752,7 +752,7 @@ Correct Answer: Paris`}
                     <div className="space-y-4">
                       <textarea 
                         placeholder="Type question content here..."
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm text-white focus:outline-none focus:border-[#2FA8CC] transition-all resize-y min-h-[70px]"
+                        className="w-full bg-card border border-border rounded-2xl p-4 text-sm text-foreground focus:outline-none focus:border-[#2FA8CC] transition-all resize-y min-h-[70px]"
                         value={q.text}
                         onChange={(e) => updateQuestion(q.id, { text: e.target.value })}
                       />
@@ -771,7 +771,7 @@ Correct Answer: Paris`}
                                 className={`flex items-center gap-3 p-3 rounded-2xl border transition-all duration-300 ${
                                   isCorrect 
                                     ? 'border-[#FF6B00] bg-[#FF6B00]/10 shadow-[0_0_15px_rgba(255,107,0,0.15)]' 
-                                    : 'border-white/5 bg-white/[0.01] hover:border-white/10'
+                                    : 'border-border bg-white/[0.01] hover:border-white/10'
                                 }`}
                               >
                                 <input 
@@ -786,7 +786,7 @@ Correct Answer: Paris`}
                                   placeholder={`Option ${['A', 'B', 'C', 'D'][oIdx]}`}
                                   value={opt}
                                   onChange={(e) => updateOption(q.id, oIdx, e.target.value)}
-                                  className="bg-transparent border-none outline-none text-xs text-white placeholder-slate-500 w-full focus:ring-0"
+                                  className="bg-transparent border-none outline-none text-xs text-foreground placeholder-slate-500 w-full focus:ring-0"
                                 />
                               </div>
                             );
@@ -800,7 +800,7 @@ Correct Answer: Paris`}
                           <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Reference Model Answer (Optional)</label>
                           <textarea 
                             placeholder="Provide reference guidelines or code solution here..."
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-xs text-slate-300 focus:outline-none focus:border-[#2FA8CC] transition-all resize-y min-h-[60px]"
+                            className="w-full bg-card border border-border rounded-2xl p-4 text-xs text-muted-foreground focus:outline-none focus:border-[#2FA8CC] transition-all resize-y min-h-[60px]"
                             value={typeof q.correctAnswer === 'string' ? q.correctAnswer : ''}
                             onChange={(e) => updateQuestion(q.id, { correctAnswer: e.target.value })}
                           />

@@ -22,7 +22,7 @@ export default async function FacultyLoginPage() {
       <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-saffron/5 dark:bg-saffron/10 rounded-full blur-[120px] pointer-events-none" />
 
       {/* The Container Card */}
-      <div className="w-full max-w-[480px] bg-white dark:bg-[#090d16]/80 backdrop-blur-xl border border-slate-100 dark:border-white/5 rounded-[3rem] p-12 shadow-2xl border-t-8 border-t-[#2FA8CC] dark:border-t-[#2FA8CC] flex flex-col items-center transition-all duration-300">
+      <div className="w-full max-w-[480px] bg-white dark:bg-[#090d16]/80 backdrop-blur-xl border border-slate-100  rounded-[3rem] p-12 shadow-2xl border-t-8 border-t-[#2FA8CC] dark:border-t-[#2FA8CC] flex flex-col items-center transition-all duration-300">
         
         {/* Scholar Icon */}
         <div className="w-20 h-20 bg-[#1F4E79] dark:bg-sky/20 rounded-2xl flex items-center justify-center text-4xl text-white mb-6 shadow-xl">

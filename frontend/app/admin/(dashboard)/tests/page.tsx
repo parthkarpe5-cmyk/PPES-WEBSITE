@@ -66,10 +66,10 @@ export default function AdminTestsDashboard() {
   };
 
   return (
-    <div className="p-6 lg:p-8 space-y-10 bg-slate-950 min-h-screen text-slate-200 animate-in fade-in duration-500">
+    <div className="p-6 lg:p-8 space-y-10 bg-background min-h-screen text-foreground animate-in fade-in duration-500">
       
       {/* 1. Header Banner */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-white/5">
+      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F4E79] to-[#0A101F] p-8 md:p-12 shadow-2xl border border-border">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-4">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2FA8CC]/10 text-[#2FA8CC] text-[10px] font-bold uppercase tracking-widest border border-[#2FA8CC]/20">
@@ -77,10 +77,10 @@ export default function AdminTestsDashboard() {
               Assessments Manager Live
             </span>
             <div>
-              <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-2 font-display">
+              <h1 className="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-2 font-display">
                 Tests & <span className="text-[#2FA8CC]">Assessments</span>
               </h1>
-              <p className="text-slate-400 text-sm max-w-lg">
+              <p className="text-muted-foreground text-sm max-w-lg">
                 Administrative desk to build structural exams, review academic standards, and manage student assessments.
               </p>
             </div>
@@ -98,20 +98,20 @@ export default function AdminTestsDashboard() {
 
       {/* 2. Main content */}
       <div className="space-y-6">
-        <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+        <h2 className="text-xl font-bold text-foreground tracking-tight flex items-center gap-2">
           Published Assessments
-          <span className="px-2 py-0.5 rounded-lg bg-white/5 text-xs text-slate-400 font-bold">{tests.length}</span>
+          <span className="px-2 py-0.5 rounded-lg bg-card text-xs text-muted-foreground font-bold">{tests.length}</span>
         </h2>
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center p-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl space-y-4">
+          <div className="flex flex-col items-center justify-center p-20 bg-card border border-border rounded-3xl backdrop-blur-xl space-y-4">
             <Loader2 className="h-8 w-8 text-[#2FA8CC] animate-spin" />
             <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Syncing Assessments...</p>
           </div>
         ) : tests.length === 0 ? (
-          <div className="text-center py-20 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl max-w-2xl mx-auto">
+          <div className="text-center py-20 bg-card border border-border rounded-3xl backdrop-blur-xl max-w-2xl mx-auto">
             <HelpCircle className="h-12 w-12 text-slate-600 mx-auto mb-4" />
-            <p className="text-slate-300 font-bold text-lg">No Tests Configured</p>
+            <p className="text-muted-foreground font-bold text-lg">No Tests Configured</p>
             <p className="text-slate-500 text-xs mt-1">Get started by building your first structured examination.</p>
             <Button 
               onClick={() => router.push('/admin/tests/create')}
@@ -127,7 +127,7 @@ export default function AdminTestsDashboard() {
               return (
                 <div 
                   key={test._id} 
-                  className="bg-white/[0.02] border border-white/5 rounded-[2rem] p-6 hover:border-[#2FA8CC]/20 hover:bg-white/[0.04] transition-all duration-300 flex flex-col justify-between group shadow-lg relative overflow-hidden"
+                  className="bg-card border border-border rounded-[2rem] p-6 hover:border-[#2FA8CC]/20 hover:bg-white/[0.04] transition-all duration-300 flex flex-col justify-between group shadow-lg relative overflow-hidden"
                 >
                   <div className="space-y-4">
                     <div className="flex justify-between items-start">
@@ -145,42 +145,42 @@ export default function AdminTestsDashboard() {
                     </div>
 
                     <div>
-                      <h3 className="text-xl font-bold text-white group-hover:text-[#2FA8CC] transition-colors">{test.title}</h3>
-                      <p className="text-slate-400 text-xs mt-1 line-clamp-2 leading-relaxed">{test.description}</p>
+                      <h3 className="text-xl font-bold text-foreground group-hover:text-[#2FA8CC] transition-colors">{test.title}</h3>
+                      <p className="text-muted-foreground text-xs mt-1 line-clamp-2 leading-relaxed">{test.description}</p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
+                    <div className="grid grid-cols-2 gap-4 border-t border-border pt-4">
                       <div className="flex items-center gap-2">
                         <Clock className="h-4 w-4 text-slate-500" />
                         <div>
                           <span className="text-[10px] text-slate-500 block uppercase font-bold">Duration</span>
-                          <span className="text-xs font-bold text-white">{test.durationMinutes} Mins</span>
+                          <span className="text-xs font-bold text-foreground">{test.durationMinutes} Mins</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         <Award className="h-4 w-4 text-slate-500" />
                         <div>
                           <span className="text-[10px] text-slate-500 block uppercase font-bold">Passing Mark</span>
-                          <span className="text-xs font-bold text-white">{test.passingScore}%</span>
+                          <span className="text-xs font-bold text-foreground">{test.passingScore}%</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between border-t border-white/5 mt-6 pt-4">
+                  <div className="flex items-center justify-between border-t border-border mt-6 pt-4">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                       Release: {test.isManualRelease ? 'Manual Review' : 'Auto Release'}
                     </span>
                     <div className="flex gap-2 shrink-0">
                       <button 
                         onClick={() => router.push(`/admin/tests/create?edit=${test._id}`)}
-                        className="p-2 bg-white/5 hover:bg-[#2FA8CC]/10 text-slate-300 hover:text-[#2FA8CC] border border-white/5 rounded-xl transition-all"
+                        className="p-2 bg-card hover:bg-[#2FA8CC]/10 text-muted-foreground hover:text-[#2FA8CC] border border-border rounded-xl transition-all"
                       >
                         <Edit3 className="h-4 w-4" />
                       </button>
                       <button 
                         onClick={() => handleDeleteTest(test._id)}
-                        className="p-2 bg-white/5 hover:bg-red-500/10 text-slate-300 hover:text-red-400 border border-white/5 rounded-xl transition-all"
+                        className="p-2 bg-card hover:bg-red-500/10 text-muted-foreground hover:text-red-400 border border-border rounded-xl transition-all"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>

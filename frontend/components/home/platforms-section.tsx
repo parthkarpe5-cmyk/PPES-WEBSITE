@@ -77,7 +77,7 @@ function PlatformCard({ platform, index }: { platform: (typeof platforms)[0]; in
       <div
         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${platform.gradient} shadow-md transition-transform duration-300 group-hover:scale-110`}
       >
-        <platform.icon className="h-6 w-6 text-white" />
+        <platform.icon className="h-6 w-6 text-foreground" />
       </div>
       <div className="min-w-0">
         <h3 className="font-bold text-deep-blue transition-colors group-hover:text-saffron font-display">

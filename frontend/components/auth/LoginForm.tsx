@@ -58,9 +58,9 @@ export default function LoginForm({ role, idPlaceholder }: { role: string, idPla
         <div className="w-24 h-24 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6 border-2 border-emerald-500/20">
           <MailCheck size={48} className="text-emerald-500" />
         </div>
-        <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4 tracking-tight">Email Confirmed!</h2>
-        <p className="text-sky font-medium max-w-[280px]">We have sent your <span className="font-bold text-slate-900 dark:text-white">USN Information</span> to your registered email address.</p>
-        <div className="mt-8 flex items-center gap-2 text-slate-400 text-xs font-bold uppercase tracking-widest">
+        <h2 className="text-3xl font-black text-foreground mb-4 tracking-tight">Email Confirmed!</h2>
+        <p className="text-sky font-medium max-w-[280px]">We have sent your <span className="font-bold text-foreground">USN Information</span> to your registered email address.</p>
+        <div className="mt-8 flex items-center gap-2 text-muted-foreground text-xs font-bold uppercase tracking-widest">
            <Loader2 className="animate-spin" size={14} />
            Redirecting to Portal...
         </div>
@@ -74,7 +74,7 @@ export default function LoginForm({ role, idPlaceholder }: { role: string, idPla
         <div className="bg-saffron/10 text-saffron px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4 border border-saffron/20">
           • System Online •
         </div>
-        <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">Welcome Back</h2>
+        <h2 className="text-4xl font-bold text-foreground mb-2">Welcome Back</h2>
         <p className="text-sky font-medium italic">Scholar Portal Authentication</p>
       </div>
 
@@ -94,7 +94,7 @@ export default function LoginForm({ role, idPlaceholder }: { role: string, idPla
             type="text" 
             required
             placeholder={`Enter your ${idPlaceholder}`}
-            className="w-full h-16 bg-white/50 dark:bg-white/[0.02] border-2 border-slate-200 dark:border-white/5 rounded-[1.25rem] px-6 text-slate-900 dark:text-white focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none transition-all shadow-sm text-lg focus:ring-2 focus:ring-[#2FA8CC]/20"
+            className="w-full h-16 bg-white/50  border-2 border-slate-200  rounded-[1.25rem] px-6 text-foreground focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none transition-all shadow-sm text-lg focus:ring-2 focus:ring-[#2FA8CC]/20"
           />
         </div>
 
@@ -106,7 +106,7 @@ export default function LoginForm({ role, idPlaceholder }: { role: string, idPla
             name="password"
             type="password" 
             placeholder="••••••••"
-            className="w-full h-16 bg-white/50 dark:bg-white/[0.02] border-2 border-slate-200 dark:border-white/5 rounded-[1.25rem] px-6 text-slate-900 dark:text-white focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none transition-all shadow-sm text-lg focus:ring-2 focus:ring-[#2FA8CC]/20"
+            className="w-full h-16 bg-white/50  border-2 border-slate-200  rounded-[1.25rem] px-6 text-foreground focus:border-[#2FA8CC] dark:focus:border-[#2FA8CC] outline-none transition-all shadow-sm text-lg focus:ring-2 focus:ring-[#2FA8CC]/20"
           />
         </div>
 

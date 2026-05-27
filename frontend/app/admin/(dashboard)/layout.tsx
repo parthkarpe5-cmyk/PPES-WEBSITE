@@ -36,7 +36,7 @@ export default function AdminLayout({
                    <ChevronRight className="size-3 text-slate-400/40 dark:text-slate-200/20" />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="text-slate-800 dark:text-slate-200 font-semibold">Dashboard</BreadcrumbPage>
+                  <BreadcrumbPage className="text-foreground font-semibold">Dashboard</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

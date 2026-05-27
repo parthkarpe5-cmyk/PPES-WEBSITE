@@ -81,7 +81,7 @@ export const ResourcesPanel = ({
 
   return (
     <div className="flex flex-col h-full bg-[#0D121F]/95 backdrop-blur-3xl text-white">
-      <div className="p-6 border-b border-white/5 flex items-center justify-between">
+      <div className="p-6 border-b border-border flex items-center justify-between">
         <h3 className="font-bold text-lg flex items-center gap-3">
           <div className="p-2 rounded-xl bg-sky/10 text-sky">
             <FileText size={18} />
@@ -112,7 +112,7 @@ export const ResourcesPanel = ({
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white/5 rounded-2xl p-4 border border-white/10 space-y-4"
+              className="bg-card rounded-2xl p-4 border border-border space-y-4"
             >
               <div className="flex gap-2 p-1 bg-black/20 rounded-lg">
                 <button 
@@ -128,13 +128,13 @@ export const ResourcesPanel = ({
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="Resource Title"
-                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky/50"
+                className="w-full bg-black/20 border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky/50"
               />
               <input
                 value={newUrl}
                 onChange={(e) => setNewUrl(e.target.value)}
                 placeholder={newType === 'file' ? "File URL" : "Web URL"}
-                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky/50"
+                className="w-full bg-black/20 border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky/50"
               />
               <div className="flex gap-2">
                 <Button variant="ghost" onClick={() => setIsAdding(false)} className="flex-1 text-xs">Cancel</Button>
@@ -154,7 +154,7 @@ export const ResourcesPanel = ({
                 layout
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="group bg-white/5 hover:bg-white/10 border border-white/5 hover:border-sky/20 rounded-2xl p-4 transition-all duration-300"
+                className="group bg-card hover:bg-white/10 border border-border hover:border-sky/20 rounded-2xl p-4 transition-all duration-300"
               >
                 <div className="flex items-start gap-4">
                   <div className={cn(
@@ -185,7 +185,7 @@ export const ResourcesPanel = ({
                   </div>
                 </div>
                 
-                <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
+                <div className="mt-3 pt-3 border-t border-border flex items-center justify-between">
                   <span className="text-[9px] font-medium text-slate-600 uppercase tracking-widest">{item.timestamp}</span>
                 </div>
               </motion.div>
