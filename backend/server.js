@@ -499,7 +499,8 @@ const formatProfileUser = (user) => ({
     image: user.image,
     status: user.status,
     grade: user.grade,
-    createdAt: user.createdAt
+    createdAt: user.createdAt,
+    unlockedCourses: user.unlockedCourses || []
 });
 
 app.get('/api/v1/profile/me', authMiddleware, async (req, res) => {
