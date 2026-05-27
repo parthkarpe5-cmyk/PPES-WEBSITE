@@ -460,7 +460,7 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                           <span className="truncate">{event.platformOrLocation}</span>
                         </div>
 
-                        {isAdmin ? (
+                        {isAdmin && (
                           <div className="flex gap-2 mt-2">
                             <button 
                               onClick={(e) => {
@@ -482,10 +482,6 @@ export function EventsModule({ isAdmin = false }: { isAdmin?: boolean }) {
                               <Trash2 size={14} />
                             </button>
                           </div>
-                        ) : (
-                          <button className="w-full mt-2 bg-white/5 border border-white/10 group-hover:bg-sky group-hover:text-white group-hover:border-sky py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300">
-                            {event.type === 'Workshop' ? 'Register Now' : 'Reserve Seat'}
-                          </button>
                         )}
                       </div>
                     </motion.div>
