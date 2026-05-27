@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { cn } from '@/lib/utils'
+import { getAuthHeaders } from '@/lib/api'
 
 export default function TakeTest() {
   const router = useRouter()
@@ -34,7 +35,10 @@ export default function TakeTest() {
   useEffect(() => {
     const fetchTest = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/tests/${id}`);
+        const headers = getAuthHeaders();
+        const res = await fetch(`http://localhost:5000/api/tests/${id}`, {
+          headers: headers as any
+        });
         if (!res.ok) {
           toast.error("Test not found")
           router.push('/student')
@@ -98,9 +102,13 @@ export default function TakeTest() {
         value
       }));
 
+      const headers = getAuthHeaders();
       const res = await fetch(`http://localhost:5000/api/tests/${id}/attempt`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...headers
+        } as any,
         body: JSON.stringify({ answers: formattedAnswers })
       });
 
@@ -124,14 +132,14 @@ export default function TakeTest() {
     }
   }
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#050B14] text-white font-bold uppercase tracking-wider">Loading Assessment...</div>
-  if (!test || !test.questions || test.questions.length === 0) return <div className="min-h-screen flex items-center justify-center bg-[#050B14] text-white font-bold uppercase tracking-wider">Invalid test format.</div>
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-background text-foreground font-bold uppercase tracking-wider">Loading Assessment...</div>
+  if (!test || !test.questions || test.questions.length === 0) return <div className="min-h-screen flex items-center justify-center bg-background text-foreground font-bold uppercase tracking-wider">Invalid test format.</div>
 
   const currentQ = test.questions[currentIdx]
   const progress = ((currentIdx + 1) / test.questions.length) * 100
 
   return (
-    <div className="min-h-screen bg-[#050B14] text-slate-200 pb-24 p-6 lg:p-10 animate-in fade-in duration-500">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300 pb-24 p-6 lg:p-10 animate-in fade-in duration-500">
       {/* Test Header Card */}
       <div className="max-w-4xl mx-auto bg-white/5 backdrop-blur-md border border-white/5 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
         <div className="space-y-1.5">
@@ -196,7 +204,7 @@ export default function TakeTest() {
                           "text-base font-semibold cursor-pointer w-full p-4 rounded-2xl border transition-all duration-300",
                           isSelected 
                             ? "border-[#FF6B00] bg-[#FF6B00]/10 shadow-[0_0_15px_rgba(255,107,0,0.15)] text-white" 
-                            : "border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-slate-300"
+                            : "border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02] hover:bg-slate-100 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/10 text-slate-700 dark:text-slate-300"
                         )}
                       >
                         {opt}
@@ -238,7 +246,7 @@ export default function TakeTest() {
                           "text-base font-semibold cursor-pointer w-full p-4 rounded-2xl border transition-all duration-300",
                           isChecked 
                             ? "border-[#FF6B00] bg-[#FF6B00]/10 shadow-[0_0_15px_rgba(255,107,0,0.15)] text-white" 
-                            : "border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-slate-300"
+                            : "border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02] hover:bg-slate-100 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/10 text-slate-700 dark:text-slate-300"
                         )}
                       >
                         {opt}
@@ -254,7 +262,7 @@ export default function TakeTest() {
               <div className="space-y-4">
                 <Textarea 
                   placeholder="Type your detailed answer here..."
-                  className="min-h-[250px] text-base leading-relaxed p-6 bg-white/[0.02] border-white/10 focus:border-[#2FA8CC] focus:ring-1 focus:ring-[#2FA8CC] text-white placeholder-white/20 rounded-2xl focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="min-h-[250px] text-base leading-relaxed p-6 bg-slate-50 dark:bg-white/[0.02] border-slate-200 dark:border-white/10 focus:border-[#2FA8CC] focus:ring-1 focus:ring-[#2FA8CC] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-white/20 rounded-2xl focus-visible:ring-0 focus-visible:ring-offset-0"
                   value={answers[currentQ._id] || ''}
                   onChange={(e) => setAnswers({...answers, [currentQ._id]: e.target.value})}
                 />
@@ -268,14 +276,14 @@ export default function TakeTest() {
             {/* CODING Type */}
             {currentQ.type === 'CODING' && (
               <div className="space-y-4">
-                <div className="bg-[#050B14] rounded-2xl border border-white/5 overflow-hidden font-mono text-sm shadow-2xl">
-                  <div className="bg-white/[0.02] px-5 py-3 border-b border-white/5 flex items-center justify-between text-xs text-white/40 font-bold uppercase tracking-widest">
+                <div className="bg-slate-50 dark:bg-[#050B14] rounded-2xl border border-slate-200 dark:border-white/5 overflow-hidden font-mono text-sm shadow-2xl">
+                  <div className="bg-slate-100 dark:bg-white/[0.02] px-5 py-3 border-b border-slate-200 dark:border-white/5 flex items-center justify-between text-xs text-slate-500 dark:text-white/40 font-bold uppercase tracking-widest">
                     <span>solution.py</span>
                     <span className="text-[#2FA8CC]">Python 3</span>
                   </div>
                   <textarea 
                     placeholder="# Write your programming code solution here..."
-                    className="w-full min-h-[300px] p-6 bg-transparent text-white font-mono placeholder-white/20 border-none outline-none focus:ring-0 resize-y"
+                    className="w-full min-h-[300px] p-6 bg-transparent text-slate-900 dark:text-white font-mono placeholder-slate-400 dark:placeholder-white/20 border-none outline-none focus:ring-0 resize-y"
                     value={answers[currentQ._id] || ''}
                     onChange={(e) => setAnswers({...answers, [currentQ._id]: e.target.value})}
                   />
