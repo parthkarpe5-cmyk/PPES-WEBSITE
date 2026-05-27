@@ -1,10 +1,10 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
   const { pathname } = req.nextUrl;
-  console.log(`[Middleware] Path: ${pathname}`);
+  console.log(`[Proxy] Path: ${pathname}`);
 
   // 1. Define Protected Routes
   const protectedPaths = ['/student', '/admin', '/faculty', '/live'];

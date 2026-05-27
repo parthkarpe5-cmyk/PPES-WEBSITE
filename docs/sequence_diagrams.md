@@ -30,7 +30,7 @@ sequenceDiagram
     else Valid credentials
         alt First login (student, isEmailSent=false)
             Express->>Express: sendUSNMail(email, name, usn)
-            Express->>Express: user.isEmailSent = true; user.save()
+            Express->>Express: Set user.isEmailSent = true and save User
         end
         Express-->>NextJS: 200 {user:{id,name,role,usn}}
         NextJS->>NextJS: sign JWT {userId, role, name} (24h)
@@ -202,7 +202,7 @@ sequenceDiagram
     Browser->>Express: POST /api/v1/messages {doubt_id, text} + JWT
     Express->>Express: Verify sender is student OR assigned teacher of this doubt
     Express->>MongoDB: Message.create({doubt_id, sender_id, text})
-    Express->>MongoDB: doubt.updated_at = now; doubt.save()
+    Express->>MongoDB: Update doubt.updated_at and save Doubt
     Express-->>Browser: {message: savedMessage}
 ```
 
