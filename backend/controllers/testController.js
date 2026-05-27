@@ -1,5 +1,9 @@
 const Test = require('../models/Test');
 const TestAttempt = require('../models/TestAttempt');
+const fs = require('fs');
+const path = require('path');
+const mammoth = require('mammoth');
+const { parseCSV, parseTXT, validateAndResolveQuestion } = require('../utils/testParser');
 
 // Create a new test
 exports.createTest = async (req, res) => {
@@ -158,6 +162,196 @@ exports.updateTest = async (req, res) => {
         res.status(200).json({ message: 'Test updated successfully', test: updatedTest });
     } catch (error) {
         console.error('Error updating test:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// Delete an existing test and its attempts
+exports.deleteTest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedTest = await Test.findByIdAndDelete(id);
+        if (!deletedTest) return res.status(404).json({ error: 'Test not found' });
+
+        // Delete all associated attempts
+        await TestAttempt.deleteMany({ testId: id });
+
+        res.status(200).json({ message: 'Test deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting test:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// Import questions from CSV, TXT, or DOCX
+exports.importTest = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        const filePath = req.file.path;
+        const ext = path.extname(req.file.originalname).toLowerCase();
+        let rawText = '';
+        let parsedQuestions = [];
+
+        if (ext === '.csv') {
+            rawText = fs.readFileSync(filePath, 'utf8');
+            parsedQuestions = parseCSV(rawText);
+        } else if (ext === '.txt') {
+            rawText = fs.readFileSync(filePath, 'utf8');
+            parsedQuestions = parseTXT(rawText);
+        } else if (ext === '.docx') {
+            const result = await mammoth.extractRawText({ path: filePath });
+            rawText = result.value;
+            parsedQuestions = parseTXT(rawText);
+        } else {
+            if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+            return res.status(400).json({ error: 'Unsupported file extension. Only CSV, TXT, and DOCX are allowed.' });
+        }
+
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
+
+        // Validate and resolve each question
+        const validatedQuestions = parsedQuestions.map((q, idx) => validateAndResolveQuestion(q, idx));
+
+        // Extract a fallback title from the filename
+        const baseName = path.basename(req.file.originalname, ext);
+        const title = baseName.replace(/[-_]/g, ' ')
+                              .replace(/\b\w/g, c => c.toUpperCase()) + ' (Imported)';
+
+        res.status(200).json({
+            success: true,
+            title,
+            description: `Imported from ${req.file.originalname} on ${new Date().toLocaleDateString()}`,
+            questions: validatedQuestions
+        });
+    } catch (error) {
+        console.error('Error during test import:', error);
+        if (req.file && req.file.path && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+        res.status(500).json({ error: 'Internal server error during parsing.' });
+    }
+};
+
+// Get all attempts for a specific test (faculty review dashboard)
+exports.getTestAttempts = async (req, res) => {
+    try {
+        const { id: testId } = req.params;
+
+        // Verify the test exists
+        const test = await Test.findById(testId);
+        if (!test) return res.status(404).json({ error: 'Test not found' });
+
+        const attempts = await TestAttempt.find({ testId })
+            .sort({ createdAt: -1 })
+            .lean();
+
+        // Populate student name/usn from User collection (best-effort)
+        const User = require('../models/User');
+        const populatedAttempts = await Promise.all(
+            attempts.map(async (attempt) => {
+                const student = await User.findById(attempt.studentId)
+                    .select('name usn userId')
+                    .lean()
+                    .catch(() => null);
+                return {
+                    ...attempt,
+                    student: student || { name: 'Unknown Student', usn: '—', userId: '—' }
+                };
+            })
+        );
+
+        res.status(200).json({ test, attempts: populatedAttempts });
+    } catch (error) {
+        console.error('Error fetching test attempts:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// Grade a specific attempt (faculty submits manual marks per question)
+exports.gradeAttempt = async (req, res) => {
+    try {
+        const { attemptId } = req.params;
+        // manualMarks: [{ questionId, mark }]
+        const { manualMarks, gradedBy } = req.body;
+
+        if (!Array.isArray(manualMarks) || manualMarks.length === 0) {
+            return res.status(400).json({ error: 'manualMarks array is required' });
+        }
+
+        const attempt = await TestAttempt.findById(attemptId);
+        if (!attempt) return res.status(404).json({ error: 'Attempt not found' });
+
+        // Fetch the associated test to get auto-graded scores & question max points
+        const test = await Test.findById(attempt.testId);
+        if (!test) return res.status(404).json({ error: 'Associated test not found' });
+
+        // Build a map of questionId -> manualMark from the request
+        const markMap = {};
+        for (const item of manualMarks) {
+            markMap[String(item.questionId)] = Number(item.mark);
+        }
+
+        // Apply manual marks to the attempt's answers
+        let autoScore = 0;
+        let manualScore = 0;
+
+        for (const answer of attempt.answers) {
+            const qId = String(answer.questionId);
+            const question = test.questions.id(answer.questionId);
+            if (!question) continue;
+
+            if (question.type === 'DESCRIPTIVE' || question.type === 'CODING') {
+                // Faculty-provided mark — clamp to [0, maxPoints]
+                if (markMap[qId] !== undefined) {
+                    const clamped = Math.min(Math.max(markMap[qId], 0), question.points);
+                    answer.manualMark = clamped;
+                    manualScore += clamped;
+                } else if (answer.manualMark !== null && answer.manualMark !== undefined) {
+                    // Keep existing mark if not updated
+                    manualScore += answer.manualMark;
+                }
+            } else {
+                // MCQ / MULTIPLE_SELECT — recalculate auto score
+                if (question.type === 'MCQ') {
+                    if (String(answer.value) === String(question.correctAnswer)) {
+                        autoScore += question.points;
+                    }
+                } else if (question.type === 'MULTIPLE_SELECT') {
+                    const subArr = Array.isArray(answer.value) ? [...answer.value].sort() : [];
+                    const corArr = Array.isArray(question.correctAnswer) ? [...question.correctAnswer].sort() : [];
+                    if (JSON.stringify(subArr) === JSON.stringify(corArr)) {
+                        autoScore += question.points;
+                    }
+                }
+            }
+        }
+
+        // Check if all manual questions have now been graded
+        const hasUngraded = attempt.answers.some((ans) => {
+            const q = test.questions.id(ans.questionId);
+            return q && (q.type === 'DESCRIPTIVE' || q.type === 'CODING') && ans.manualMark === null;
+        });
+
+        attempt.score = autoScore + manualScore;
+        attempt.status = hasUngraded ? 'pending_review' : 'completed';
+        attempt.gradedBy = gradedBy || 'faculty';
+        attempt.gradedAt = new Date();
+
+        await attempt.save();
+
+        res.status(200).json({
+            message: hasUngraded ? 'Partial grades saved.' : 'Attempt fully graded and marked as completed.',
+            score: attempt.score,
+            maxScore: attempt.maxScore,
+            status: attempt.status
+        });
+    } catch (error) {
+        console.error('Error grading attempt:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
