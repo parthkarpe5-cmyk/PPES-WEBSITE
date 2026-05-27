@@ -2,6 +2,12 @@ import { getFacultyTimetableByName, updateTopicAction } from "../../actions/time
 import { getSession } from "../../../lib/auth";
 import { getMondayOfCurrentWeek } from "../../../lib/utils";
 import { redirect } from "next/navigation";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { FacultySidebar } from "@/components/faculty/faculty-sidebar";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Separator } from "@/components/ui/separator";
+import { Bell, HelpCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const SLOTS = ["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"];
 
@@ -22,65 +28,105 @@ export default async function FacultyDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#E8F6FA] p-4 md:p-10 relative">
-      <header className="max-w-7xl mx-auto mb-12 flex justify-between items-center">
-        <div>
-          <h1 className="text-5xl font-black text-[#1F4E79] tracking-tighter uppercase">My Schedule</h1>
-          <p className="text-[#2FA8CC] font-bold italic mt-2">Professor: {session.name}</p>
-        </div>
-        <div className="bg-white px-8 py-3 rounded-2xl shadow-sm border border-sky/10 text-[10px] font-black text-[#FF6B00] uppercase tracking-widest animate-pulse">Sync Active</div>
-      </header>
+    <SidebarProvider>
+      <FacultySidebar />
+      <SidebarInset className="bg-background text-foreground transition-colors duration-300 overflow-hidden flex flex-col h-screen">
+        {/* Top Navbar */}
+        <header className="flex h-16 shrink-0 items-center gap-4 border-b border-border/40 px-6 backdrop-blur-md bg-transparent sticky top-0 z-10">
+          <SidebarTrigger className="-ml-1 text-slate-500 dark:text-white/60 hover:text-sky dark:hover:text-white" />
+          <div className="h-6 w-px bg-border/40 hidden sm:block" />
+          
+          <div className="flex-1 max-w-md hidden md:block">
+            <span className="text-xs font-bold text-sky uppercase tracking-widest">Faculty Management Terminal</span>
+          </div>
 
-      <main className="max-w-7xl mx-auto bg-white rounded-[3.5rem] shadow-2xl overflow-hidden border border-sky/10">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[1300px]">
-            <thead>
-              <tr className="bg-[#1F4E79] text-white text-[10px] font-black uppercase tracking-[0.2em]">
-                <th className="p-7 w-48 sticky left-0 bg-[#1F4E79] z-20 border-r border-white/10">Day & Date</th>
-                {SLOTS.map(t => <th key={t} className="p-4 text-center border-r border-white/10">{t}</th>)}
-              </tr>
-            </thead>
-            <tbody>
-              {[...Array(7)].map((_, i) => {
-                const dayDate = new Date(monday);
-                dayDate.setDate(monday.getDate() + i);
-                const dayISO = toLocalISO(dayDate);
+          <div className="ml-auto flex items-center gap-3">
+            <ThemeToggle />
+            <Button variant="ghost" size="icon" className="text-slate-500 dark:text-white/60 hover:text-sky dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-xl">
+              <Bell className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-slate-500 dark:text-white/60 hover:text-sky dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-xl">
+              <HelpCircle className="h-5 w-5" />
+            </Button>
+            <div className="h-8 w-px bg-border/40 mx-2" />
+            <div className="flex flex-col items-end mr-2 hidden sm:flex">
+              <span className="text-xs font-semibold text-foreground">{session.name}</span>
+              <span className="text-[10px] text-sky font-bold">FACULTY</span>
+            </div>
+          </div>
+        </header>
 
-                return (
-                  <tr key={i} className="border-b border-sky/5 hover:bg-surface/30 transition-colors">
-                    <td className="p-7 bg-[#F8FAFC] border-r border-sky/10 sticky left-0 z-10 shadow-sm text-[#1F4E79]">
-                      <p className="font-black text-sm uppercase">{dayDate.toLocaleDateString('en-US', { weekday: 'long' })}</p>
-                      <p className="text-[10px] font-mono font-bold text-[#2FA8CC]">{dayDate.toLocaleDateString('en-GB')}</p>
-                    </td>
-                    {SLOTS.map((_, sIdx) => {
-                      const classItem = mySessions.find((s: any) => toLocalISO(s.date) === dayISO && s.slotIndex === sIdx);
-                      const isMerged = mySessions.find((s: any) => toLocalISO(s.date) === dayISO && s.slotIndex === sIdx - 1 && s.duration === 2);
-                      if (isMerged) return null;
-                      if (classItem) {
-                        const isC10 = classItem.studentClass === '10';
-                        return (
-                          <td key={sIdx} colSpan={classItem.duration} className="p-2 border-r border-sky/10">
-                            <div className={`rounded-3xl p-5 border-2 shadow-sm transition-all hover:scale-[0.98] ${isC10 ? 'border-sky/20 bg-sky/5' : 'border-orange-200 bg-orange-50'}`}>
-                              <span className={`text-[9px] font-black uppercase ${isC10 ? 'text-sky' : 'text-orange-500'}`}>Std {classItem.studentClass}</span>
-                              <p className="text-sm font-black text-[#1F4E79] mb-4 uppercase tracking-tight leading-tight">{classItem.subject}</p>
-                              <form action={updateTopicAction} className="flex flex-col gap-2 border-t border-sky/5 pt-2">
-                                <input type="hidden" name="sessionId" value={classItem._id.toString()} />
-                                <input name="topic" defaultValue={classItem.topic} placeholder="Topic..." className="w-full text-[10px] border border-sky/10 rounded-xl px-2 py-1 outline-none text-deepBlue" />
-                                <button type="submit" className="text-[8px] font-black text-sky uppercase hover:text-[#1F4E79] text-right">Save</button>
-                              </form>
-                            </div>
-                          </td>
-                        );
-                      }
-                      return <td key={sIdx} className="p-4 border-r border-sky/10 text-center opacity-5 font-black text-[10px]">--</td>;
-                    })}
+        {/* Content Section */}
+        <div className="flex-1 overflow-y-auto p-6 pb-20 custom-scrollbar">
+          <header className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-4xl font-black text-foreground tracking-tighter">
+                My <span className="text-sky/60 font-medium">Schedule</span>
+              </h2>
+              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mt-1">Professor: {session.name}</p>
+            </div>
+            <div className="self-start sm:self-auto bg-emerald-500/10 border border-emerald-500/20 px-5 py-2 rounded-full text-[10px] font-black text-emerald-500 uppercase tracking-widest flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              Sync Active
+            </div>
+          </header>
+
+          <main className="bg-card border border-border/80 rounded-3xl shadow-sm overflow-hidden p-6">
+            <div className="overflow-x-auto rounded-2xl border border-border">
+              <table className="w-full text-left border-collapse min-w-[1200px]">
+                <thead>
+                  <tr className="bg-muted/30 border-b border-border">
+                    <th className="p-5 text-foreground font-black uppercase text-[10px] w-48 border-r border-border sticky left-0 bg-muted z-20">Day & Date</th>
+                    {SLOTS.map(t => <th key={t} className="p-4 text-center border-r border-border text-[10px] text-sky font-black bg-muted/20">{t}</th>)}
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {[...Array(7)].map((_, i) => {
+                    const dayDate = new Date(monday);
+                    dayDate.setDate(monday.getDate() + i);
+                    const dayISO = toLocalISO(dayDate);
+
+                    return (
+                      <tr key={i} className="border-b border-border/50 hover:bg-muted/10 transition-colors group">
+                        <td className="p-5 bg-card border-r border-border sticky left-0 z-10 shadow-sm text-foreground">
+                          <p className="font-black text-sm uppercase">{dayDate.toLocaleDateString('en-US', { weekday: 'long' })}</p>
+                          <p className="text-[10px] font-mono font-bold text-sky">{dayDate.toLocaleDateString('en-GB')}</p>
+                        </td>
+                        {SLOTS.map((_, sIdx) => {
+                          const classItem = mySessions.find((s: any) => toLocalISO(s.date) === dayISO && s.slotIndex === sIdx);
+                          const isMerged = mySessions.find((s: any) => toLocalISO(s.date) === dayISO && s.slotIndex === sIdx - 1 && s.duration === 2);
+                          if (isMerged) return null;
+                          if (classItem) {
+                            const isC10 = classItem.studentClass === '10';
+                            return (
+                              <td key={sIdx} colSpan={classItem.duration} className="p-2 border-r border-border">
+                                <div className={`rounded-2xl p-4 border transition-all hover:scale-98 ${
+                                  isC10 
+                                    ? 'bg-sky/10 dark:bg-sky/20 border-sky/20 text-sky' 
+                                    : 'bg-saffron/10 dark:bg-saffron/20 border-saffron/20 text-saffron'
+                                }`}>
+                                  <span className="text-[9px] font-black uppercase">Std {classItem.studentClass}</span>
+                                  <p className="text-sm font-black text-foreground mb-3 mt-0.5 uppercase tracking-tight leading-tight">{classItem.subject}</p>
+                                  <form action={updateTopicAction} className="flex flex-col gap-2 border-t border-border/40 pt-2">
+                                    <input type="hidden" name="sessionId" value={classItem._id.toString()} />
+                                    <input name="topic" defaultValue={classItem.topic} placeholder="Topic..." className="w-full text-xs bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-lg px-2.5 py-1.5 text-foreground outline-none focus:border-sky" />
+                                    <button type="submit" className="text-[9px] font-bold text-sky hover:text-sky/80 text-right cursor-pointer">Save</button>
+                                  </form>
+                                </div>
+                              </td>
+                            );
+                          }
+                          return <td key={sIdx} className="p-4 border-r border-border text-center opacity-10 font-bold text-[10px] text-slate-400 italic">--</td>;
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </main>
         </div>
-      </main>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
