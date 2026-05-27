@@ -7,6 +7,7 @@ import { Mail, Lock, Loader2, ArrowRight, ShieldCheck, GraduationCap } from 'luc
 import Cookies from 'js-cookie';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,7 +29,7 @@ export default function LoginPage() {
 
   if (isAuth) {
     return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#050810] p-4 text-center">
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 dark:bg-[#050810] p-4 text-center transition-colors duration-300">
         <Loader2 className="animate-spin text-sky mb-4 mx-auto" size={48} />
         <p className="text-sky font-bold uppercase tracking-widest text-xs">Redirecting to Portal...</p>
       </div>
@@ -40,7 +41,6 @@ export default function LoginPage() {
     setIsLoading(true);
     
     // MOCK LOGIN FOR DEMO
-    // In a real app, this would be an API call to /api/auth/login
     setTimeout(() => {
       Cookies.set('token', 'mock_token_for_demo', { expires: 7 });
       router.replace('/student');
@@ -49,7 +49,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#050810] p-4 relative overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#E8F6FA] dark:bg-[#050810] p-4 relative overflow-hidden transition-colors duration-300">
+      
+      {/* Theme Toggle Positioned Top Right */}
+      <div className="absolute top-6 right-6 z-50">
+        <ThemeToggle />
+      </div>
+
       {/* Decorative Background */}
       <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-sky/10 blur-[120px] rounded-full" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-saffron/5 blur-[120px] rounded-full" />
@@ -63,14 +69,14 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-sky/10 border border-sky/20 mb-6">
             <GraduationCap size={32} className="text-sky" />
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Welcome Back</h1>
-          <p className="text-slate-400 mt-2">Sign in to your PPES Learning account</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Welcome Back</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-2">Sign in to your PPES Learning account</p>
         </div>
 
-        <div className="glass-card bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 shadow-2xl">
+        <div className="bg-white dark:bg-[#090d16]/80 backdrop-blur-xl border border-slate-200 dark:border-white/5 rounded-[2rem] p-8 shadow-2xl dark:shadow-none transition-all duration-300">
           <form onSubmit={handleLogin} className="space-y-5">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Email Address</label>
+              <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-sky transition-colors">
                   <Mail size={18} />
@@ -81,13 +87,13 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@university.edu"
-                  className="w-full bg-black/20 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
+                  className="w-full bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-2xl py-4 pl-12 pr-4 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Password</label>
+              <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Password</label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-sky transition-colors">
                   <Lock size={18} />
@@ -98,25 +104,25 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-black/20 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
+                  className="w-full bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-2xl py-4 pl-12 pr-4 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky/50 focus:ring-1 focus:ring-sky/50 transition-all"
                 />
               </div>
             </div>
 
             <div className="flex items-center justify-between px-1">
               <label className="flex items-center gap-2 cursor-pointer group">
-                <div className="w-4 h-4 rounded border border-white/10 bg-white/5 group-hover:border-sky/50 transition-colors flex items-center justify-center">
+                <div className="w-4 h-4 rounded border border-slate-200 dark:border-white/10 bg-white/5 dark:bg-white/[0.02] group-hover:border-sky/50 transition-colors flex items-center justify-center">
                    <div className="w-2 h-2 rounded-sm bg-sky scale-0 group-hover:scale-100 transition-transform" />
                 </div>
-                <span className="text-xs text-slate-500">Remember me</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">Remember me</span>
               </label>
-              <button type="button" className="text-xs text-sky hover:text-white transition-colors">Forgot Password?</button>
+              <button type="button" className="text-xs text-sky hover:text-slate-900 dark:hover:text-white transition-colors">Forgot Password?</button>
             </div>
 
             <Button 
               type="submit" 
               disabled={isLoading}
-              className="w-full h-14 rounded-2xl bg-sky hover:bg-sky/90 text-white font-bold text-base shadow-lg shadow-sky/20 active:scale-95 transition-all group overflow-hidden relative"
+              className="w-full h-14 rounded-2xl bg-sky hover:bg-[#1F4E79] dark:hover:bg-sky/90 text-white font-bold text-base shadow-lg shadow-sky/20 active:scale-95 transition-all group overflow-hidden relative"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 {isLoading ? (
@@ -132,20 +138,20 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-white/5 text-center">
-            <p className="text-sm text-slate-500">
+          <div className="mt-8 pt-8 border-t border-slate-100 dark:border-white/5 text-center">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
               Don't have an account? <button className="text-sky font-bold hover:underline">Contact Faculty</button>
             </p>
           </div>
         </div>
 
         {/* Trust Indicators */}
-        <div className="mt-10 flex items-center justify-center gap-6 opacity-40">
+        <div className="mt-10 flex items-center justify-center gap-6 opacity-60 text-slate-600 dark:text-white">
            <div className="flex items-center gap-2">
              <ShieldCheck size={16} />
              <span className="text-[10px] font-bold uppercase tracking-widest">Secure AES-256</span>
            </div>
-           <div className="w-px h-4 bg-white/20" />
+           <div className="w-px h-4 bg-slate-200 dark:bg-white/20" />
            <div className="flex items-center gap-2">
              <GraduationCap size={16} />
              <span className="text-[10px] font-bold uppercase tracking-widest">PPES Education</span>

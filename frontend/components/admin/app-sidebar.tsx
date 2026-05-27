@@ -102,16 +102,16 @@ const data = {
       url: "/admin/payments",
       icon: CreditCard,
     },
-    {
-      title: "Analytics",
-      url: "/admin/analytics",
-      icon: BarChart3,
-    },
-    {
-      title: "Settings",
-      url: "/admin/settings",
-      icon: Settings,
-    },
+    // {
+    //   title: "Analytics",
+    //   url: "/admin/analytics",
+    //   icon: BarChart3,
+    // },
+    // {
+    //   title: "Settings",
+    //   url: "/admin/settings",
+    //   icon: Settings,
+    // },
   ],
 }
 
@@ -123,8 +123,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     router.push('/');
   };
   return (
-    <Sidebar collapsible="icon" className="border-r border-white/5 bg-[#0B0F1A] text-white" {...props}>
-      <SidebarHeader className="border-b border-white/5 pb-4">
+    <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground" {...props}>
+      <SidebarHeader className="border-b border-sidebar-border pb-4">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="hover:bg-white/5 transition-colors">
@@ -133,7 +133,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <School className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold text-lg font-display tracking-tight text-white">PPES</span>
+                  <span className="font-semibold text-lg font-display tracking-tight text-sidebar-foreground">PPES</span>
                   <span className="text-[10px] uppercase tracking-wider text-[#2FA8CC] font-bold">Admin Panel</span>
                 </div>
               </Link>
@@ -141,13 +141,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="bg-[#0B0F1A]">
+      <SidebarContent className="bg-sidebar">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-white/40 text-[10px] uppercase tracking-widest px-4 font-bold">Main Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sidebar-foreground/40 text-[10px] uppercase tracking-widest px-4 font-bold">Main Navigation</SidebarGroupLabel>
           <SidebarMenu className="px-2 gap-1">
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton tooltip={item.title} asChild className="text-white/60 hover:text-white hover:bg-white/5 transition-all rounded-xl">
+                <SidebarMenuButton tooltip={item.title} asChild className="text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-all rounded-xl">
                   <Link href={item.url}>
                     {item.icon && <item.icon className="size-5" />}
                     <span className="font-medium">{item.title}</span>
@@ -158,7 +158,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t border-white/5 p-4 bg-[#0B0F1A]">
+      <SidebarFooter className="border-t border-sidebar-border p-4 bg-sidebar">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>

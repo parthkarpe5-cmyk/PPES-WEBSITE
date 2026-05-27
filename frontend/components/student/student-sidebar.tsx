@@ -56,7 +56,7 @@ const data = {
     },
     {
       title: "Tests",
-      url: "/student",
+      url: "/student/tests",
       icon: FileText,
     },
     {
@@ -110,8 +110,8 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
   };
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-white/5 bg-[#1F4E79] text-white" {...props}>
-      <SidebarHeader className="border-b border-white/5 pb-4">
+    <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground" {...props}>
+      <SidebarHeader className="border-b border-sidebar-border pb-4">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="hover:bg-white/5 transition-colors">
@@ -120,7 +120,7 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                   <School className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold text-lg font-display tracking-tight text-white">PPES</span>
+                  <span className="font-semibold text-lg font-display tracking-tight text-sidebar-foreground">PPES</span>
                   <span className="text-[10px] uppercase tracking-wider text-[#2FA8CC] font-bold">Student Portal</span>
                 </div>
               </Link>
@@ -128,9 +128,9 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="bg-[#1F4E79]">
+      <SidebarContent className="bg-sidebar">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-white/30 text-[10px] uppercase tracking-widest px-4 font-bold">Learning</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sidebar-foreground/30 text-[10px] uppercase tracking-widest px-4 font-bold">Learning</SidebarGroupLabel>
           <SidebarMenu className="px-2 gap-1">
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
@@ -141,12 +141,12 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                   className={`
                     transition-all duration-300 rounded-xl px-3 py-2 h-11
                     ${pathname === item.url
-                      ? 'bg-white/10 text-white border-l-2 border-[#2FA8CC]'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'}
+                      ? 'bg-sidebar-accent text-sidebar-foreground border-l-2 border-[#2FA8CC]'
+                      : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'}
                   `}
                 >
                   <Link href={item.url} className="flex items-center gap-3">
-                    <item.icon className={`size-5 ${pathname === item.url ? 'text-white' : 'text-white/60'}`} />
+                    <item.icon className={`size-5 ${pathname === item.url ? 'text-sidebar-foreground' : 'text-sidebar-foreground/60'}`} />
                     <span className="font-medium text-sm">{item.title}</span>
                   </Link>
                 </SidebarMenuButton>
@@ -155,7 +155,7 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t border-white/5 p-4 bg-[#1F4E79]">
+      <SidebarFooter className="border-t border-sidebar-border p-4 bg-sidebar">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
@@ -176,10 +176,10 @@ export function StudentSidebar({ ...props }: React.ComponentProps<typeof Sidebar
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight ml-2">
-                    <span className="truncate font-semibold text-white">{user?.name || 'Student'}</span>
-                    <span className="truncate text-xs text-white/40">{user?.grade || 'Student Profile'}</span>
+                    <span className="truncate font-semibold text-sidebar-foreground">{user?.name || 'Student'}</span>
+                    <span className="truncate text-xs text-sidebar-foreground/40">{user?.grade || 'Student Profile'}</span>
                   </div>
-                  <ChevronRight className="ml-auto size-4 text-white/20" />
+                  <ChevronRight className="ml-auto size-4 text-sidebar-foreground/20" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
