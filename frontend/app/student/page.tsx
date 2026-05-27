@@ -24,7 +24,7 @@ import {
 } from "lucide-react"
 import { LiveSessionsList } from "@/components/LiveSessionsList"
 import { cn } from "@/lib/utils"
-import { getMyProfile, getStoredUserData } from '@/lib/api'
+import { getMyProfile, getStoredUserData, getAuthHeaders } from '@/lib/api'
 
 export default function StudentDashboard() {
   const router = useRouter()
@@ -33,14 +33,43 @@ export default function StudentDashboard() {
   // State for API data
   const [tests, setTests] = useState<any[]>([])
   const [attempts, setAttempts] = useState<any[]>([])
+  const [events, setEvents] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingEvents, setLoadingEvents] = useState(true)
+
+  // Helper: Format Event Date to Month and Day
+  const formatEventDate = (dateStr: string) => {
+    try {
+      const d = new Date(dateStr);
+      const month = d.toLocaleDateString('en-US', { month: 'short' }); // e.g. "Oct"
+      const day = d.getDate().toString().padStart(2, '0'); // e.g. "15"
+      return { month, day };
+    } catch {
+      return { month: 'Oct', day: '15' };
+    }
+  };
+
+  // Helper: Format Event Time
+  const formatEventTime = (timeStr: string) => {
+    try {
+      const [hour, min] = timeStr.split(':');
+      const h = parseInt(hour, 10);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const displayHour = h % 12 || 12;
+      return `${displayHour.toString().padStart(2, '0')}:${min} ${ampm}`;
+    } catch {
+      return timeStr;
+    }
+  };
 
   useEffect(() => {
-    const fetchTestsData = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const [testsRes, attemptsRes] = await Promise.all([
-          fetch('http://localhost:5000/api/tests'),
-          fetch('http://localhost:5000/api/tests/attempts/me')
+        const headers = getAuthHeaders();
+        const [testsRes, attemptsRes, eventsRes] = await Promise.all([
+          fetch('http://localhost:5000/api/tests', { headers: headers as any }),
+          fetch('http://localhost:5000/api/tests/attempts/me', { headers: headers as any }),
+          fetch('http://localhost:5000/api/events', { headers: headers as any })
         ]);
         
         if (testsRes.ok) {
@@ -52,14 +81,20 @@ export default function StudentDashboard() {
           const attemptsData = await attemptsRes.json();
           setAttempts(attemptsData);
         }
+
+        if (eventsRes.ok) {
+          const eventsData = await eventsRes.json();
+          setEvents(eventsData.slice(0, 3)); // show top 3 upcoming events
+        }
       } catch (error) {
-        console.error("Failed to fetch tests data:", error);
+        console.error("Failed to fetch dashboard data:", error);
       } finally {
         setLoading(false);
+        setLoadingEvents(false);
       }
     };
     
-    fetchTestsData();
+    fetchDashboardData();
   }, []);
   const [student, setStudent] = useState<any>(getStoredUserData())
   const [purchasedCourses, setPurchasedCourses] = useState<any[]>([])
@@ -94,7 +129,8 @@ export default function StudentDashboard() {
         return;
       }
       try {
-        const res = await fetch('http://localhost:5000/api/courses');
+        const headers = getAuthHeaders();
+        const res = await fetch('http://localhost:5000/api/courses', { headers: headers as any });
         const allCourses = await res.json();
         
         if (Array.isArray(allCourses)) {
@@ -139,14 +175,14 @@ export default function StudentDashboard() {
           
           <div className="flex gap-4">
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl text-center min-w-[120px] group hover:border-[#2FA8CC]/40 transition-all cursor-default">
-              <Trophy className="h-6 w-6 text-[#FFD700] mx-auto mb-2 group-hover:scale-125 transition-transform" />
-              <div className="text-2xl font-bold text-white">1,240</div>
-              <div className="text-[10px] font-bold text-[#2FA8CC] uppercase tracking-wider">XP Points</div>
+              <ClipboardList className="h-6 w-6 text-[#2FA8CC] mx-auto mb-2 group-hover:scale-125 transition-transform" />
+              <div className="text-2xl font-bold text-white">{attempts.length}</div>
+              <div className="text-[10px] font-bold text-[#2FA8CC] uppercase tracking-wider">Tests Done</div>
             </div>
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl text-center min-w-[120px] group hover:border-[#2FA8CC]/40 transition-all cursor-default">
-              <TrendingUp className="h-6 w-6 text-[#2FA8CC] mx-auto mb-2 group-hover:scale-125 transition-transform" />
-              <div className="text-2xl font-bold text-white">12</div>
-              <div className="text-[10px] font-bold text-[#2FA8CC] uppercase tracking-wider">Day Streak</div>
+              <BookOpen className="h-6 w-6 text-[#FF6B00] mx-auto mb-2 group-hover:scale-125 transition-transform" />
+              <div className="text-2xl font-bold text-white">{purchasedCourses.length}</div>
+              <div className="text-[10px] font-bold text-[#2FA8CC] uppercase tracking-wider">My Courses</div>
             </div>
           </div>
         </div>
@@ -386,28 +422,54 @@ export default function StudentDashboard() {
           
           {/* 5. Events Section */}
           <section>
-            <h2 className="text-xl font-bold text-white mb-6 px-1">Upcoming Events</h2>
+            <div className="flex items-center justify-between mb-6 px-1">
+              <h2 className="text-xl font-bold text-white">Upcoming Events</h2>
+              <Button 
+                onClick={() => router.push('/student/events')}
+                variant="link" 
+                className="text-[#2FA8CC] text-xs font-bold hover:no-underline font-display p-0 h-auto"
+              >
+                View All
+              </Button>
+            </div>
+            
             <div className="space-y-4">
-              {[
-                { date: "Oct 24", title: "NASA Webinar", type: "Special Class", time: "10:00 AM" },
-                { date: "Oct 26", title: "Algebra Contest", type: "Workshop", time: "05:00 PM" },
-              ].map((event, j) => (
-                <div key={j} className="flex gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all group cursor-pointer">
-                  <div className="flex-shrink-0 h-12 w-12 rounded-xl bg-gradient-to-br from-white/5 to-transparent border border-white/5 flex flex-col items-center justify-center text-center">
-                    <span className="text-[10px] font-bold text-[#2FA8CC] uppercase mb-px leading-none">{event.date.split(' ')[0]}</span>
-                    <span className="text-lg font-bold text-white leading-none">{event.date.split(' ')[1]}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h5 className="font-bold text-white group-hover:text-[#2FA8CC] transition-colors truncate">{event.title}</h5>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className="text-[10px] font-bold text-deep-blue/60 flex items-center gap-1">
-                        <Clock className="h-3 w-3" /> {event.time}
-                      </span>
-                      <Badge className="bg-white/5 hover:bg-white/5 text-[9px] text-[#2FA8CC] border-white/10 uppercase py-0 px-1.5 h-4">{event.type}</Badge>
-                    </div>
-                  </div>
+              {loadingEvents ? (
+                <div className="text-slate-500 text-xs p-4">Loading events...</div>
+              ) : events.length === 0 ? (
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 text-center">
+                  <Calendar className="h-8 w-8 text-slate-600 mx-auto mb-2 opacity-50" />
+                  <p className="text-slate-400 font-bold text-xs mb-1">No Upcoming Events</p>
+                  <p className="text-slate-500 text-[10px] max-w-[200px] mx-auto">
+                    Check back later for workshops or special classes.
+                  </p>
                 </div>
-              ))}
+              ) : (
+                events.map((event) => {
+                  const { month, day } = formatEventDate(event.date);
+                  return (
+                    <div 
+                      key={event._id} 
+                      onClick={() => router.push('/student/events')}
+                      className="flex gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all group cursor-pointer"
+                    >
+                      <div className="flex-shrink-0 h-12 w-12 rounded-xl bg-gradient-to-br from-white/5 to-transparent border border-white/5 flex flex-col items-center justify-center text-center">
+                        <span className="text-[10px] font-bold text-[#2FA8CC] uppercase mb-px leading-none">{month}</span>
+                        <span className="text-lg font-bold text-white leading-none">{day}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h5 className="font-bold text-white group-hover:text-[#2FA8CC] transition-colors truncate">{event.title}</h5>
+                        <div className="flex items-center gap-3 mt-1">
+                          <span className="text-[10px] font-bold text-deep-blue/60 flex items-center gap-1">
+                            <Clock className="h-3 w-3" /> {formatEventTime(event.time)}
+                          </span>
+                          <Badge className="bg-white/5 hover:bg-white/5 text-[9px] text-[#2FA8CC] border-white/10 uppercase py-0 px-1.5 h-4">{event.type}</Badge>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </section>
 
@@ -417,38 +479,17 @@ export default function StudentDashboard() {
               <h2 className="text-xl font-bold text-white tracking-tight">Achievements</h2>
               <Trophy className="h-5 w-5 text-[#FFD700]" />
             </div>
-            <Card className="bg-gradient-to-br from-[#FFD700]/10 via-[#FFD700]/5 to-transparent border-[#FFD700]/20 rounded-[2rem] p-6 backdrop-blur-xl group overflow-hidden">
-               <div className="grid grid-cols-2 gap-4 relative z-10 text-center">
-                 <div className="space-y-3 achievement-card transition-all duration-300">
-                    <div className="h-16 w-16 mx-auto rounded-full bg-gradient-to-b from-[#FFD700] to-[#B8860B] p-[2px] shadow-[0_0_15px_rgba(255,215,0,0.3)]">
-                      <div className="h-full w-full rounded-full bg-slate-900 flex items-center justify-center">
-                         <Sparkles className="h-8 w-8 text-[#FFD700]" />
-                      </div>
-                    </div>
-                    <span className="block text-[10px] font-bold text-white uppercase tracking-widest">Early Bird</span>
-                 </div>
-                 <div className="space-y-3 achievement-card transition-all duration-300 opacity-40 grayscale">
-                    <div className="h-16 w-16 mx-auto rounded-full bg-gradient-to-b from-slate-400 to-slate-600 p-[2px]">
-                      <div className="h-full w-full rounded-full bg-slate-900 flex items-center justify-center">
-                         <BookOpen className="h-8 w-8 text-sky/70" />
-                      </div>
-                    </div>
-                    <span className="block text-[10px] font-bold text-sky/70 uppercase tracking-widest">Course Master</span>
-                 </div>
-               </div>
-               <div className="mt-8 text-center space-y-4">
-                  <p className="text-xs text-[#FFD700] font-bold uppercase tracking-wider animate-pulse">80% to "Atomic Scholar" badge</p>
-                  <Button className="w-full bg-[#FFD700] hover:bg-[#FFD700]/90 text-slate-950 font-bold rounded-xl h-10 shadow-[0_4px_15px_rgba(255,215,0,0.3)]">
-                    All Achievements
-                  </Button>
-               </div>
-               {/* Shine effect */}
-               <div className="absolute top-0 -left-1/2 w-full h-full bg-white opacity-5 rotate-45 pointer-events-none group-hover:animate-ping" />
+            <Card className="bg-white/[0.02] border-white/5 rounded-[2rem] p-6 text-center">
+              <Trophy className="h-10 w-10 text-slate-600 mx-auto mb-3 opacity-50" />
+              <p className="text-slate-300 font-bold text-sm mb-1">No Achievements Unlocked Yet</p>
+              <p className="text-slate-500 text-xs max-w-[240px] mx-auto leading-relaxed">
+                Complete courses and score 100% on assessments to unlock exclusive badges!
+              </p>
             </Card>
           </section>
 
           {/* Quick Support */}
-          <section className="bg-white/5 border border-white/5 p-6 rounded-2xl flex items-center gap-4 group cursor-pointer hover:bg-white/10 transition-all">
+          <section onClick={() => router.push('/student/doubts')} className="bg-white/5 border border-white/5 p-6 rounded-2xl flex items-center gap-4 group cursor-pointer hover:bg-white/10 transition-all">
             <div className="h-10 w-10 bg-[#2FA8CC]/20 rounded-xl flex items-center justify-center text-[#2FA8CC]">
               <MessageCircle className="h-5 w-5" />
             </div>
