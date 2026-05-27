@@ -23,3 +23,13 @@ export async function acceptClassAction(id: string, message: string) {
     return { error: "Failed to accept" };
   }
 }
+export async function getFacultyWeeklyTimetable(facultyId: string) {
+  await connectDB();
+  
+  // Fetch all sessions for this specific teacher
+  const data = await TimetableSession.find({ 
+    facultyId: facultyId 
+  }).sort({ dayIndex: 1, slotIndex: 1 }).lean();
+
+  return JSON.parse(JSON.stringify(data));
+}
