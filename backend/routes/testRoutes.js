@@ -45,9 +45,12 @@ router.post('/import', upload.single('file'), testController.importTest);
 router.post('/', testController.createTest);
 router.get('/', testController.getTests);
 router.get('/attempts/me', testController.getMyAttempts);
+router.patch('/attempts/:attemptId/grade', testController.gradeAttempt);
 router.get('/:id', testController.getTestById);
+router.get('/:id/attempts', testController.getTestAttempts);
 router.put('/:id', testController.updateTest);
 router.post('/:id/attempt', testController.submitAttempt);
 router.delete('/:id', testController.deleteTest);
 
 module.exports = router;
+

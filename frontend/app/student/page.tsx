@@ -103,9 +103,9 @@ export default function StudentDashboard() {
   React.useEffect(() => {
     const refreshStudent = async () => {
       const stored = getStoredUserData()
-
-      if (stored?.id && !stored.grade) {
+      if (stored?.id) {
         try {
+          // Always fetch latest profile so unlockedCourses is up-to-date
           const latest = await getMyProfile()
           setStudent({ ...stored, ...latest })
           return
@@ -113,7 +113,6 @@ export default function StudentDashboard() {
           // Keep stored value if the profile endpoint is temporarily unavailable.
         }
       }
-
       setStudent(stored)
     }
 
@@ -124,7 +123,9 @@ export default function StudentDashboard() {
 
   React.useEffect(() => {
     const fetchPurchasedCourses = async () => {
-      if (!student?.unlockedCourses) {
+      const unlockedIds: string[] = (student?.unlockedCourses || []).map((id: any) => id.toString());
+      if (unlockedIds.length === 0) {
+        setPurchasedCourses([]);
         setLoadingCourses(false);
         return;
       }
@@ -132,9 +133,8 @@ export default function StudentDashboard() {
         const headers = getAuthHeaders();
         const res = await fetch('http://localhost:5000/api/courses', { headers: headers as any });
         const allCourses = await res.json();
-        
         if (Array.isArray(allCourses)) {
-          const unlocked = allCourses.filter(c => student.unlockedCourses.includes(c._id));
+          const unlocked = allCourses.filter(c => unlockedIds.includes(c._id.toString()));
           setPurchasedCourses(unlocked);
         }
       } catch (err) {
@@ -145,6 +145,7 @@ export default function StudentDashboard() {
     };
     fetchPurchasedCourses();
   }, [student?.unlockedCourses])
+
 
   const displayName = student?.name || 'Student'
   const displayGrade = student?.grade || 'Student Profile'

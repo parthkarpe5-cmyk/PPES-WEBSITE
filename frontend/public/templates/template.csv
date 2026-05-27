@@ -1,0 +1,5 @@
+Type,Question Text,Points,Option A,Option B,Option C,Option D,Correct Answer
+MCQ,What is the capital of France?,5,Paris,London,Berlin,Rome,Paris
+MULTIPLE_SELECT,Which of the following are prime numbers?,5,2,4,5,9,2|5
+DESCRIPTIVE,Explain photosynthesis in your own words.,10,,,,
+CODING,"Write a JavaScript function to reverse a string (e.g. reverseString(""hello"") -> ""olleh"").",15,,,,

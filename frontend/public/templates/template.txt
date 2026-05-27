@@ -1,0 +1,63 @@
+Question 1
+Type: MCQ
+Points: 5
+Text: What does CPU stand for?
+Options:
+- Central Processing Unit
+- Computer Processing Unit
+- Central Program Unit
+- Control Processing Unit
+Correct Answer: Central Processing Unit
+
+Question 2
+Type: MULTIPLE_SELECT
+Points: 5
+Text: Which of the following are programming languages?
+Options:
+- Python
+- HTML
+- Java
+- CSS
+Correct Answer: Python|Java
+
+Question 3
+Type: DESCRIPTIVE
+Points: 10
+Text: Explain the difference between RAM and ROM with examples.
+
+Question 4
+Type: CODING
+Points: 15
+Text: Write a JavaScript function that checks whether a given string is a palindrome.
+
+Question 5
+Type: MCQ
+Points: 5
+Text: Which data structure follows the FIFO principle?
+Options:
+- Stack
+- Queue
+- Tree
+- Graph
+Correct Answer: Queue
+
+Question 6
+Type: MULTIPLE_SELECT
+Points: 5
+Text: Which of the following are frontend technologies?
+Options:
+- Angular
+- MySQL
+- React
+- CSS
+Correct Answer: Angular|React|CSS
+
+Question 7
+Type: DESCRIPTIVE
+Points: 10
+Text: Describe the working of the Internet and explain the role of DNS.
+
+Question 8
+Type: CODING
+Points: 15
+Text: Write a Java program to find the largest element in an array.

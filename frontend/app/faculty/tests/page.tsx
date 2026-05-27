@@ -12,7 +12,8 @@ import {
   Loader2,
   ChevronRight,
   TrendingUp,
-  Edit3
+  Edit3,
+  Users
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -86,13 +87,22 @@ export default function FacultyTestsDashboard() {
               </p>
             </div>
           </div>
-          <button 
-            onClick={() => router.push('/faculty/tests/create')}
-            className="h-12 px-6 bg-[#FF6B00] hover:bg-[#FF6B00]/80 text-white font-bold uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-[#FF6B00]/20 flex items-center gap-2 active:scale-95 shrink-0"
-          >
-            <Plus className="h-5 w-5" />
-            Create New Test
-          </button>
+          <div className="flex gap-4 flex-wrap">
+            <button 
+              onClick={() => router.push('/faculty/tests/import')}
+              className="h-12 px-6 bg-[#2FA8CC] hover:bg-[#2FA8CC]/80 text-white font-bold uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-[#2FA8CC]/20 flex items-center gap-2 active:scale-95 shrink-0"
+            >
+              <FileText className="h-5 w-5" />
+              Bulk Import
+            </button>
+            <button 
+              onClick={() => router.push('/faculty/tests/create')}
+              className="h-12 px-6 bg-[#FF6B00] hover:bg-[#FF6B00]/80 text-white font-bold uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-[#FF6B00]/20 flex items-center gap-2 active:scale-95 shrink-0"
+            >
+              <Plus className="h-5 w-5" />
+              Create New Test
+            </button>
+          </div>
         </div>
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#2FA8CC]/5 blur-[120px] rounded-full" />
       </section>
@@ -168,23 +178,33 @@ export default function FacultyTestsDashboard() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between border-t border-white/5 mt-6 pt-4">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                      Release: {test.isManualRelease ? 'Manual Review' : 'Auto Release'}
-                    </span>
-                    <div className="flex gap-2">
-                      <button 
-                        onClick={() => router.push(`/faculty/tests/create?edit=${test._id}`)}
-                        className="p-2 bg-white/5 hover:bg-[#2FA8CC]/10 text-slate-300 hover:text-[#2FA8CC] border border-white/5 rounded-xl transition-all"
-                      >
-                        <Edit3 className="h-4 w-4" />
-                      </button>
-                      <button 
-                        onClick={() => handleDeleteTest(test._id)}
-                        className="p-2 bg-white/5 hover:bg-red-500/10 text-slate-300 hover:text-red-400 border border-white/5 rounded-xl transition-all"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                  <div className="flex flex-col gap-3 border-t border-white/5 mt-6 pt-4">
+                    {/* Review Submissions button — prominent for manual grading */}
+                    <button
+                      onClick={() => router.push(`/faculty/tests/${test._id}/review`)}
+                      className="w-full h-10 bg-[#FF6B00]/10 hover:bg-[#FF6B00]/20 text-[#FF6B00] border border-[#FF6B00]/20 hover:border-[#FF6B00]/40 rounded-xl transition-all flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider active:scale-95"
+                    >
+                      <Users className="h-4 w-4" />
+                      Review Submissions
+                    </button>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                        Release: {test.isManualRelease ? 'Manual Review' : 'Auto Release'}
+                      </span>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => router.push(`/faculty/tests/create?edit=${test._id}`)}
+                          className="p-2 bg-white/5 hover:bg-[#2FA8CC]/10 text-slate-300 hover:text-[#2FA8CC] border border-white/5 rounded-xl transition-all"
+                        >
+                          <Edit3 className="h-4 w-4" />
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteTest(test._id)}
+                          className="p-2 bg-white/5 hover:bg-red-500/10 text-slate-300 hover:text-red-400 border border-white/5 rounded-xl transition-all"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
 
