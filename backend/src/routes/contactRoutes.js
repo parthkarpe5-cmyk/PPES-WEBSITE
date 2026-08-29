@@ -1,17 +1,25 @@
 const express = require('express');
 const router = express.Router();
 
-// Prefer using the official Resend SDK. Keep this server-side only.
-let ResendClass = null;
-try {
-  const ResendImport = require('resend');
-  // Support both CommonJS and ESM default/name exports
-  ResendClass = ResendImport?.Resend || ResendImport?.default || ResendImport || null;
-} catch (e) {
-  console.warn('Resend SDK not installed. Please run `npm install resend` in backend.');
-}
+// Initialize Resend client asynchronously on first use
+let resendClient = null;
+let resendInitialized = false;
 
-const resendClient = ResendClass ? new ResendClass(process.env.RESEND_API_KEY) : null;
+async function initializeResend() {
+  if (resendInitialized) return;
+  
+  try {
+    // Use dynamic import to load the ESM module from CommonJS
+    const ResendImport = await import('resend');
+    // Get the default export (the Resend class)
+    const Resend = ResendImport.default;
+    resendClient = new Resend(process.env.RESEND_API_KEY);
+    resendInitialized = true;
+  } catch (e) {
+    console.error('Failed to initialize Resend:', e.message);
+    resendInitialized = true; // Set to true so we don't keep trying
+  }
+}
 
 router.post('/', async (req, res) => {
   const { name, email, phone, subject, message, createdAt } = req.body || {};
@@ -34,6 +42,11 @@ router.post('/', async (req, res) => {
       <p><strong>Submitted At:</strong> ${escapeHtml(submittedAt)}</p>
     </div>
   `;
+
+  // Initialize Resend if not already done
+  if (!resendInitialized) {
+    await initializeResend();
+  }
 
   if (!resendClient) {
     console.error('Resend client not configured');
