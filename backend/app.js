@@ -6,8 +6,29 @@ const fs = require('fs');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// CORS configuration - allow production frontend and local development
+const allowedOrigins = [
+  'https://www.prarambhapath.com',
+  'http://localhost:3000',
+  'http://localhost:3001'
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like curl, Postman, or direct server-to-server calls)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    return callback(new Error('CORS not allowed'));
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Serve uploaded files statically
