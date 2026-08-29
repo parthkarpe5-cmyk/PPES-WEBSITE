@@ -39,21 +39,45 @@ export function ContactForm() {
     setLoading(true)
     setError(null)
 
+    // First, save to Firestore (preserve existing behavior)
     try {
       await addDoc(collection(db, "contact_submissions"), {
         ...formData,
         createdAt: serverTimestamp(),
       })
+    } catch (err) {
+      console.error("Firebase Firestore Error (Contact):", err)
+      const errorMsg = (err as any)?.code === 'permission-denied'
+        ? "Access denied. Please check your Firestore security rules."
+        : "Something went wrong saving your message. Please try again or email us directly."
+      setError(errorMsg)
+      toast.error(errorMsg)
+      setLoading(false)
+      return
+    }
+
+    // Then, trigger backend email notification.
+    // In production (Vercel Services): Uses same domain via rewrites
+    // In local dev: Uses NEXT_PUBLIC_CONTACT_API_URL env var pointing to localhost:5000
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_CONTACT_API_URL || ''
+      const apiUrl = baseUrl ? `${baseUrl}/api/contact` : '/api/contact'
+      const resp = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, createdAt: new Date().toISOString() }),
+      })
+
+      const data = await resp.json().catch(() => ({}))
+      if (!resp.ok) {
+        throw new Error(data?.message || 'Failed to send notification email')
+      }
+
       setSubmitted(true)
       toast.success("Message sent successfully!")
     } catch (err) {
-      console.error("Firebase Firestore Error (Contact):", err)
-      
-      // Provide more specific feedback if it's a permissions issue
-      const errorMsg = (err as any)?.code === 'permission-denied' 
-        ? "Access denied. Please check your Firestore security rules."
-        : "Something went wrong. Please try again or email us directly."
-        
+      console.error('Contact email error:', err)
+      const errorMsg = (err as any)?.message || 'Failed to send notification email. Your message was saved.'
       setError(errorMsg)
       toast.error(errorMsg)
     } finally {
