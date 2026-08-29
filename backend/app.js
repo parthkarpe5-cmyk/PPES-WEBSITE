@@ -13,22 +13,23 @@ const allowedOrigins = [
   'http://localhost:3001'
 ];
 
-app.use(cors({
+const corsOptions = {
   origin: function(origin, callback) {
-    // Allow requests with no origin (like curl, Postman, or direct server-to-server calls)
     if (!origin) {
       return callback(null, true);
     }
-    
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    
     return callback(new Error('CORS not allowed'));
   },
-  credentials: true
-}));
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 app.use(express.json());
 
 // Serve uploaded files statically
