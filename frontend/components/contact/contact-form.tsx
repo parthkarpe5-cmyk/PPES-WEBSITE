@@ -1,5 +1,5 @@
 "use client"
-
+// Production contact form integration
 import { useState } from "react"
 import { Send, CheckCircle, Loader2, AlertCircle } from "lucide-react"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
