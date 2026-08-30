@@ -60,8 +60,7 @@ export function ContactForm() {
     // In production (Vercel Services): Uses same domain via rewrites
     // In local dev: Uses NEXT_PUBLIC_CONTACT_API_URL env var pointing to localhost:5000
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_CONTACT_API_URL || ''
-      const apiUrl = baseUrl ? `${baseUrl}/api/contact` : '/api/contact'
+      const apiUrl = "/api/contact"
       const resp = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -215,3 +214,4 @@ export function ContactForm() {
     </form>
   )
 }
+
