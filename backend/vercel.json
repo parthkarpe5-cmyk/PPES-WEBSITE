@@ -1,13 +1,17 @@
 {
   "version": 2,
   "buildCommand": "npm install",
-  "env": {
-    "NODE_ENV": "production"
-  },
   "functions": {
     "api/index.js": {
+      "runtime": "nodejs22.x",
       "maxDuration": 30,
       "memory": 1024
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.js"
+    }
+  ]
 }
